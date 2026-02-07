@@ -6,96 +6,347 @@
 <title>Bonus360 — Scopri tutti i bonus a cui hai diritto</title>
 <meta name="description" content="Scopri gratis quali bonus statali ti spettano. Zero registrazione, zero dati salvati.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
-:root{--cream:#FFF9F0;--peach:#FFE8D6;--peach-deep:#F4C4A0;--coral:#E8735A;--coral-soft:#F09E8C;--teal:#2B8A7E;--teal-light:#3AAFA9;--teal-pale:#E8F6F5;--blue-soft:#6C9BCF;--lavender:#B8A9D4;--lavender-pale:#F0ECF7;--gold:#E5A549;--gold-pale:#FFF3DC;--green:#5CB85C;--green-pale:#E8F5E8;--text:#2D3436;--text-soft:#555E60;--text-muted:#8E9BA0;--border:rgba(0,0,0,0.06);--shadow-sm:0 2px 8px rgba(0,0,0,0.04);--shadow-md:0 4px 24px rgba(0,0,0,0.06);--shadow-glow:0 4px 30px rgba(232,115,90,0.15);--radius:20px;--radius-sm:14px;--radius-xs:10px}
-*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:'Nunito',-apple-system,sans-serif;background:var(--cream);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-.bg-shapes{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}.bg-shapes .shape{position:absolute;border-radius:50%;opacity:.4}.bg-shapes .s1{width:600px;height:600px;top:-200px;right:-150px;background:radial-gradient(circle,var(--peach) 0%,transparent 70%);animation:f1 25s ease-in-out infinite}.bg-shapes .s2{width:500px;height:500px;bottom:-100px;left:-200px;background:radial-gradient(circle,var(--teal-pale) 0%,transparent 70%);animation:f2 30s ease-in-out infinite}.bg-shapes .s3{width:300px;height:300px;top:40%;left:60%;background:radial-gradient(circle,var(--lavender-pale) 0%,transparent 70%);animation:f3 20s ease-in-out infinite}@keyframes f1{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,40px)}}@keyframes f2{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,-30px)}}@keyframes f3{0%,100%{transform:translate(0,0)}50%{transform:translate(-20px,20px)}}
-header{position:sticky;top:0;z-index:100;background:rgba(255,253,251,.88);backdrop-filter:blur(20px) saturate(1.5);border-bottom:1px solid var(--border)}.header-inner{max-width:1000px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}.logo{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:800;color:var(--coral);display:flex;align-items:center;gap:8px}.logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--coral),var(--gold));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;box-shadow:0 2px 12px rgba(232,115,90,.25)}.header-tags{display:flex;gap:8px;align-items:center}.htag{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:.72rem;font-weight:700;letter-spacing:.3px;text-transform:uppercase}.htag.free{background:var(--green-pale);color:var(--green)}.htag.safe{background:var(--teal-pale);color:var(--teal)}
-.hero{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:60px 24px 40px;text-align:center}.hero-emoji{font-size:3.5rem;margin-bottom:16px;display:inline-block;animation:wave 2s ease-in-out infinite}@keyframes wave{0%,100%{transform:rotate(0)}25%{transform:rotate(10deg)}75%{transform:rotate(-5deg)}}.hero h1{font-family:'Fraunces',serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:800;line-height:1.2;margin-bottom:16px}.hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--coral),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero>p{font-size:1.1rem;color:var(--text-soft);max-width:560px;margin:0 auto 36px;line-height:1.65}
-.trust-strip{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;margin-bottom:36px}.trust-chip{display:flex;align-items:center;gap:8px;font-size:.88rem;font-weight:600;color:var(--text-soft)}.trust-chip .icon{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem}.trust-chip .icon.users{background:var(--peach)}.trust-chip .icon.shield{background:var(--teal-pale)}.trust-chip .icon.leaf{background:var(--green-pale)}.trust-chip .icon.eu{background:var(--lavender-pale)}.trust-chip .num{font-weight:800;color:var(--coral);font-variant-numeric:tabular-nums}
-.privacy-card{max-width:620px;margin:0 auto 44px;background:#fff;border:2px solid var(--teal-pale);border-radius:var(--radius);padding:22px 26px;display:flex;align-items:flex-start;gap:16px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}.privacy-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,var(--teal),var(--teal-light))}.privacy-card .pc-icon{width:44px;height:44px;border-radius:12px;background:var(--teal-pale);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}.privacy-card h3{font-size:.95rem;font-weight:800;color:var(--teal);margin-bottom:4px}.privacy-card p{font-size:.84rem;color:var(--text-soft);line-height:1.55}.privacy-card strong{color:var(--teal);font-weight:700}
-.cta-btn{display:inline-flex;align-items:center;gap:10px;padding:18px 36px;background:linear-gradient(135deg,var(--coral),#E06040);color:#fff;border:none;border-radius:60px;font-family:inherit;font-size:1.1rem;font-weight:700;cursor:pointer;box-shadow:var(--shadow-glow);transition:all .3s;text-decoration:none}.cta-btn:hover{transform:translateY(-3px);box-shadow:0 6px 36px rgba(232,115,90,.3)}
-.how-section{position:relative;z-index:1;max-width:800px;margin:0 auto;padding:0 24px 60px}.how-section h2{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:700;text-align:center;margin-bottom:32px}.how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}@media(max-width:650px){.how-steps{grid-template-columns:1fr}}.how-card{background:#fff;border-radius:var(--radius);padding:28px 22px;text-align:center;box-shadow:var(--shadow-sm);border:1px solid var(--border);transition:transform .3s,box-shadow .3s}.how-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}.how-card .hnum{width:48px;height:48px;margin:0 auto 14px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:1.3rem;font-weight:800;color:#fff}.how-card:nth-child(1) .hnum{background:linear-gradient(135deg,var(--coral-soft),var(--coral))}.how-card:nth-child(2) .hnum{background:linear-gradient(135deg,var(--gold),#D4943A)}.how-card:nth-child(3) .hnum{background:linear-gradient(135deg,var(--teal-light),var(--teal))}.how-card h3{font-size:1rem;font-weight:700;margin-bottom:6px}.how-card p{font-size:.85rem;color:var(--text-muted);line-height:1.5}
-/* Novita section */
-.novita-section{position:relative;z-index:1;max-width:800px;margin:0 auto;padding:0 24px 60px}.novita-section h2{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:700;text-align:center;margin-bottom:32px}.novita-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px}.novita-card{background:#fff;border-radius:var(--radius);padding:24px 20px;box-shadow:var(--shadow-sm);border:1px solid var(--border);transition:transform .3s,box-shadow .3s;position:relative}.novita-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}.novita-card h3{font-size:.98rem;font-weight:700;margin-bottom:8px;padding-right:70px}.novita-card p{font-size:.84rem;color:var(--text-soft);line-height:1.55}.novita-card .badge{position:absolute;top:14px;right:14px;font-size:.65rem;font-weight:800;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px}.novita-card .badge.nuovo{background:var(--coral);color:#fff}.novita-card .badge.modificato{background:var(--gold);color:#fff}
-.wizard{position:relative;z-index:1;max-width:640px;margin:0 auto;padding:0 24px 80px;display:none}.wizard.show{display:block}.progress-bar{display:flex;gap:6px;margin-bottom:32px}.progress-dot{flex:1;height:5px;background:var(--peach);border-radius:3px;transition:background .4s}.progress-dot.done{background:linear-gradient(90deg,var(--coral),var(--gold))}.step{display:none;background:#fff;border-radius:var(--radius);padding:36px 32px;box-shadow:var(--shadow-md);border:1px solid var(--border);animation:stepIn .4s ease}.step.active{display:block}@keyframes stepIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}.step-header{display:flex;align-items:center;gap:14px;margin-bottom:28px}.step-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem}.step-icon.s1{background:var(--peach)}.step-icon.s2{background:var(--lavender-pale)}.step-icon.s3{background:var(--gold-pale)}.step-icon.s4{background:var(--teal-pale)}.step-header h2{font-family:'Fraunces',serif;font-size:1.25rem;font-weight:700}.step-header .step-sub{font-size:.84rem;color:var(--text-muted);margin-top:2px}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:550px){.form-grid{grid-template-columns:1fr}}.form-group{display:flex;flex-direction:column;gap:6px}.form-group.full{grid-column:1/-1}label{font-size:.78rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}input,select{background:var(--cream);border:2px solid transparent;border-radius:var(--radius-xs);padding:14px 16px;color:var(--text);font-size:1rem;font-family:inherit;transition:border-color .2s,box-shadow .2s;outline:none;width:100%}input:focus,select:focus{border-color:var(--coral-soft);box-shadow:0 0 0 4px rgba(232,115,90,.1);background:#fff}input::placeholder{color:var(--text-muted)}select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238E9BA0' stroke-width='2' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
-.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--cream);border:2px solid transparent;border-radius:var(--radius-xs);cursor:pointer;transition:border-color .2s}.toggle-row:hover{border-color:var(--peach-deep)}.toggle-row span{font-size:.92rem;font-weight:600}.toggle{width:48px;height:26px;background:var(--peach);border-radius:13px;position:relative;transition:background .3s;flex-shrink:0}.toggle::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.1);transition:transform .3s}.toggle.on{background:var(--teal)}.toggle.on::after{transform:translateX(22px)}
-.nav-buttons{display:flex;gap:12px;margin-top:28px}.btn{flex:1;padding:16px 24px;border-radius:60px;font-family:inherit;font-size:1rem;font-weight:700;border:none;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:8px}.btn-primary{background:linear-gradient(135deg,var(--coral),#E06040);color:#fff;box-shadow:0 3px 16px rgba(232,115,90,.2)}.btn-primary:hover{transform:translateY(-2px);box-shadow:var(--shadow-glow)}.btn-secondary{background:var(--cream);color:var(--text-soft);border:2px solid var(--border)}.btn-secondary:hover{border-color:var(--coral-soft);color:var(--coral)}
-.isee-upload{border:2px dashed var(--peach-deep);border-radius:var(--radius);padding:28px;text-align:center;cursor:pointer;transition:all .3s;margin-bottom:12px;background:var(--cream)}.isee-upload:hover{border-color:var(--coral);background:rgba(232,115,90,.03)}.isee-upload .upload-icon{width:56px;height:56px;margin:0 auto 12px;border-radius:16px;background:var(--peach);display:flex;align-items:center;justify-content:center;font-size:1.5rem}.isee-upload h4{font-size:.95rem;font-weight:700;margin-bottom:4px}.isee-upload p{font-size:.8rem;color:var(--text-muted)}.isee-upload.uploaded{border-color:var(--teal);border-style:solid;background:var(--teal-pale)}.isee-upload.uploaded h4{color:var(--teal)}.isee-upload.drag-over{border-color:var(--coral);background:rgba(232,115,90,.08);transform:scale(1.02)}.isee-upload.isee-success{border-color:var(--green);border-style:solid;background:var(--green-pale)}.isee-upload.isee-success h4{color:var(--green)}.isee-upload.isee-error{border-color:var(--gold);border-style:solid;background:var(--gold-pale)}.isee-upload.isee-error h4{color:#B8860B}.or-divider{text-align:center;color:var(--text-muted);font-size:.82rem;font-weight:600;margin:14px 0;display:flex;align-items:center;gap:12px}.or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:var(--peach)}
-.loading-overlay{display:none;position:fixed;inset:0;background:rgba(255,249,240,.92);backdrop-filter:blur(12px);z-index:200;align-items:center;justify-content:center;flex-direction:column;gap:20px}.loading-overlay.show{display:flex}.loader{width:64px;height:64px;position:relative}.loader-ring{width:64px;height:64px;border:4px solid var(--peach);border-top-color:var(--coral);border-radius:50%;animation:spin .9s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.loader-emoji{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.5rem;animation:bounce .9s ease-in-out infinite}@keyframes bounce{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.15)}}.loading-overlay p{color:var(--text-soft);font-size:1.05rem;font-weight:600}.loading-overlay .substep{font-size:.85rem;color:var(--text-muted)}
-.results{display:none;position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 24px 80px;animation:stepIn .5s ease}.results.show{display:block}.results-hero{text-align:center;background:#fff;border-radius:var(--radius);padding:44px 32px;margin-bottom:32px;box-shadow:var(--shadow-md);border:1px solid var(--border);position:relative;overflow:hidden}.results-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--coral),var(--gold),var(--teal))}.results-hero .confetti{font-size:2.5rem;margin-bottom:12px;display:inline-block}.results-hero h2{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:700;margin-bottom:8px}.results-hero .saving{font-family:'Fraunces',serif;font-size:3.2rem;font-weight:800;background:linear-gradient(135deg,var(--coral),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:8px 0}.results-hero .subtitle{color:var(--text-soft);font-size:1rem}.results-hero .subtitle strong{color:var(--coral)}
-/* Results actions bar */
-.results-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}.action-btn{padding:10px 18px;border-radius:30px;background:var(--cream);border:2px solid var(--border);color:var(--text-soft);font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:6px}.action-btn:hover{border-color:var(--coral-soft);color:var(--coral);transform:translateY(-1px)}
-/* Share dropdown */
-.share-dropdown{display:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:8px;background:#fff;border-radius:var(--radius-xs);box-shadow:var(--shadow-md);border:1px solid var(--border);z-index:150;min-width:180px;padding:8px 0;text-align:left}.share-dropdown a,.share-dropdown button{display:block;width:100%;padding:10px 18px;font-family:inherit;font-size:.88rem;font-weight:600;color:var(--text);background:none;border:none;text-decoration:none;text-align:left;cursor:pointer;transition:background .2s}.share-dropdown a:hover,.share-dropdown button:hover{background:var(--cream)}
-/* ISEE warning */
-.isee-warning{padding:16px 20px;border-radius:var(--radius-xs);margin-bottom:20px;position:relative;padding-right:40px;font-size:.9rem;line-height:1.6;border-left:4px solid}.isee-warning.warn{background:var(--gold-pale);color:#8B6914;border-left-color:var(--gold)}.isee-warning.info{background:var(--teal-pale);color:var(--teal);border-left-color:var(--teal)}.isee-warning .close-warn{position:absolute;top:10px;right:12px;background:none;border:none;font-size:1.1rem;cursor:pointer;color:inherit;opacity:.6;padding:4px}.isee-warning .close-warn:hover{opacity:1}
-/* Simulator box */
-.simulator-box{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:24px 28px;margin-bottom:24px;box-shadow:var(--shadow-sm)}.simulator-box h3{font-size:1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;user-select:none}.simulator-box h3 .arrow{transition:transform .3s;display:inline-block}.simulator-box .sim-content{display:none;margin-top:18px;padding-top:16px;border-top:1px solid var(--border)}.simulator-box .sim-content.open{display:block}.simulator-box .sim-row{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;margin-bottom:12px}.simulator-box .sim-row input{max-width:220px;padding:12px 14px;font-size:.95rem}.simulator-box .sim-row .btn{flex:unset;padding:12px 24px;font-size:.9rem}.simulator-result{display:none;padding:14px 18px;background:var(--teal-pale);border-radius:var(--radius-xs);font-size:.9rem;color:var(--teal);line-height:1.6}
-/* Importo reale bar */
-.importo-reale-bar{display:flex;align-items:center;padding:12px 16px;margin-left:12px;background:var(--green-pale);border-radius:var(--radius-xs);margin-bottom:14px;border:1px solid rgba(92,184,92,.15)}.importo-reale-bar .il{font-size:.75rem;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:.5px}.importo-reale-bar .iv{margin-left:auto;font-family:'Fraunces',serif;font-size:1.1rem;font-weight:800;color:var(--green)}
-/* Document checklist */
-.doc-checklist{margin-top:12px}.doc-item{display:flex;align-items:center;gap:10px;padding:6px 0;cursor:pointer;font-size:.88rem;color:var(--text-soft);user-select:none;transition:color .2s}.doc-item .doc-check{width:18px;height:18px;border:2px solid var(--border);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;font-size:.7rem;color:transparent}.doc-item.checked .doc-check{background:var(--teal);border-color:var(--teal);color:#fff}.doc-item.checked .doc-label{text-decoration:line-through;color:var(--text-muted)}
-/* FAQ accordion */
-.faq-section{margin-top:14px}.faq-item{border-bottom:1px solid var(--border)}.faq-item:last-child{border-bottom:none}.faq-question{padding:10px 0;font-size:.88rem;font-weight:700;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none}.faq-question::after{content:'▾';font-size:.8rem;color:var(--text-muted);transition:transform .3s}.faq-item.open .faq-question::after{transform:rotate(180deg)}.faq-answer{display:none;padding:0 0 10px;font-size:.84rem;color:var(--text-soft);line-height:1.6}.faq-item.open .faq-answer{display:block}
-/* Coming soon */
-.coming-soon{margin-top:24px;padding:24px;background:#fff;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow-sm);text-align:center}.coming-soon h3{font-size:1rem;font-weight:700;margin-bottom:12px}.coming-soon .cs-pills{display:flex;gap:8px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}.coming-soon .cs-pill{padding:8px 16px;border-radius:30px;font-size:.82rem;font-weight:700;background:var(--cream);color:var(--text-muted);border:1px solid var(--border);cursor:default;opacity:.6}.coming-soon .notify-form{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;max-width:400px;margin:0 auto}.coming-soon .notify-form input{flex:1;min-width:200px;padding:12px 16px;font-size:.9rem}.coming-soon .notify-form .btn{flex:unset;padding:12px 24px;font-size:.9rem}
-.category-filter{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:24px}.filter-btn{padding:8px 16px;border-radius:30px;background:#fff;border:2px solid var(--border);color:var(--text-soft);font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s}.filter-btn:hover{border-color:var(--coral-soft);color:var(--coral)}.filter-btn.active{border-color:var(--coral);background:var(--coral);color:#fff}
-.bonus-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:14px;transition:all .3s;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}.bonus-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}.bonus-card .cat-stripe{position:absolute;top:0;left:0;width:4px;height:100%}.cat-famiglia{background:var(--coral)}.cat-casa{background:var(--gold)}.cat-salute{background:var(--lavender)}.cat-istruzione{background:var(--blue-soft)}.cat-spesa{background:var(--teal)}.cat-lavoro{background:var(--green)}.cat-sostegno{background:var(--coral-soft)}.cat-altro{background:var(--text-muted)}.bonus-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;padding-left:12px}.bonus-card h3{font-size:1.08rem;font-weight:700;line-height:1.3}.bonus-card .ente-tag{display:inline-block;font-size:.72rem;font-weight:700;color:var(--text-muted);background:var(--cream);padding:3px 10px;border-radius:20px;margin-top:5px}.compat-pill{display:flex;align-items:center;gap:5px;padding:6px 14px;border-radius:30px;font-size:.78rem;font-weight:700;white-space:nowrap;flex-shrink:0}.compat-high{background:var(--green-pale);color:var(--green)}.compat-med{background:var(--gold-pale);color:#B8860B}.compat-low{background:var(--peach);color:var(--coral)}.bonus-card .desc{font-size:.9rem;color:var(--text-soft);line-height:1.6;margin-bottom:14px;padding-left:12px}.importo-bar{display:flex;align-items:center;padding:12px 16px;margin-left:12px;background:var(--cream);border-radius:var(--radius-xs);margin-bottom:14px}.importo-bar .il{font-size:.75rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px}.importo-bar .iv{margin-left:auto;font-family:'Fraunces',serif;font-size:1.05rem;font-weight:700;color:var(--coral)}.expand-btn{background:none;border:none;color:var(--teal);font-family:inherit;font-size:.85rem;font-weight:700;cursor:pointer;padding:6px 0;margin-left:12px;transition:color .2s}.expand-btn:hover{color:var(--coral)}.bonus-details{display:none;margin-top:16px;padding-left:12px;border-top:1px solid var(--border);padding-top:16px}.bonus-details.open{display:block}.detail-section{margin-bottom:14px}.detail-section h4{font-size:.78rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}.detail-section ul{list-style:none}.detail-section li{padding:5px 0 5px 22px;position:relative;font-size:.88rem;color:var(--text-soft);line-height:1.5}.detail-section li::before{content:'';position:absolute;left:0;top:13px;width:8px;height:8px;border-radius:50%}.detail-section.req li::before{background:var(--peach)}.detail-section.how li::before{background:var(--teal-pale);border:2px solid var(--teal);width:6px;height:6px}.bonus-link{display:inline-flex;align-items:center;gap:6px;color:var(--teal);font-size:.88rem;font-weight:700;text-decoration:none;transition:color .2s}.bonus-link:hover{color:var(--coral)}.scadenza-tag{display:inline-flex;align-items:center;gap:4px;margin-left:16px;font-size:.8rem;color:var(--text-muted);background:var(--cream);padding:4px 10px;border-radius:20px}.restart-section{text-align:center;margin-top:40px;padding-top:28px;border-top:2px solid var(--peach)}.restart-section .privacy-note{display:inline-flex;align-items:center;gap:8px;background:var(--teal-pale);padding:10px 20px;border-radius:30px;font-size:.84rem;font-weight:600;color:var(--teal);margin-bottom:16px}
-.field-error{font-size:.78rem;color:var(--coral);margin-top:4px;display:none}.field-error.show{display:block}input.invalid,select.invalid{border-color:var(--coral)!important;box-shadow:0 0 0 3px rgba(232,115,90,.15)!important}
-footer{position:relative;z-index:1;background:#fff;border-top:1px solid var(--border);padding:40px 24px;text-align:center}.footer-badges{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:16px}.footer-badge{font-size:.78rem;font-weight:700;color:var(--text-muted);background:var(--cream);padding:6px 14px;border-radius:20px}footer .disclaimer{font-size:.75rem;color:var(--text-muted);line-height:1.7;max-width:600px;margin:0 auto}footer a{color:var(--teal);text-decoration:none;font-weight:700}footer a:hover{color:var(--coral)}
-/* Print styles */
-@media print{header,footer,.bg-shapes,.cta-btn,.action-btn,.results-actions,.nav-buttons,.expand-btn,.filter-btn,.category-filter,.restart-section,.share-dropdown,.simulator-box,.coming-soon{display:none!important}.results{padding:0!important}.results-hero{box-shadow:none!important;border:1px solid #ccc!important}.bonus-details{display:block!important}.bonus-card{break-inside:avoid;box-shadow:none!important;border:1px solid #ccc!important;page-break-inside:avoid}.doc-item .doc-check{border:2px solid #333!important;background:transparent!important;color:transparent!important}.doc-item.checked .doc-check{background:transparent!important;color:transparent!important}.doc-item.checked .doc-label{text-decoration:none!important;color:var(--text-soft)!important}.faq-item .faq-answer{display:block!important}.bonus-details.open,.bonus-details{display:block!important}body{background:#fff!important}}
+:root{--ink:#1B1B1F;--surface:#FFFFFF;--surface-alt:#F5F4F0;--primary:#1A3A5C;--primary-light:#2A5A8C;--accent:#C45A2C;--accent-soft:rgba(196,90,44,0.08);--teal:#2B8A7E;--teal-pale:#E8F6F5;--green:#3D8B37;--green-pale:#E8F5E8;--gold:#B8860B;--gold-pale:#FFF3DC;--lavender:#7B68AE;--lavender-pale:#F0ECF7;--blue-soft:#5B8DB8;--coral:#C45A2C;--coral-soft:rgba(196,90,44,0.12);--text-soft:#555E60;--text-muted:#8E9BA0;--border:rgba(0,0,0,0.08);--shadow-sm:0 1px 4px rgba(0,0,0,0.06);--shadow-md:0 2px 12px rgba(0,0,0,0.08);--radius:8px;--radius-sm:6px;--radius-xs:4px}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--surface);color:var(--ink);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;font-size:15px;line-height:1.6}
 
-/* ===== NEW: Skip link (a11y) ===== */
-.skip-link{position:absolute;top:-100%;left:16px;background:var(--coral);color:#fff;padding:12px 24px;border-radius:0 0 var(--radius-xs) var(--radius-xs);font-weight:700;font-size:.95rem;z-index:9999;text-decoration:none;transition:top .2s}.skip-link:focus{top:0}
+/* ===== RTL support ===== */
+html[dir="rtl"] body{direction:rtl;text-align:right}
+html[dir="rtl"] .header-inner{flex-direction:row-reverse}
+html[dir="rtl"] .header-tags{flex-direction:row-reverse}
+html[dir="rtl"] .step-header{flex-direction:row-reverse}
+html[dir="rtl"] .nav-buttons{flex-direction:row-reverse}
+html[dir="rtl"] .form-group{text-align:right}
+html[dir="rtl"] .bonus-card-top{flex-direction:row-reverse}
+html[dir="rtl"] .cat-stripe{left:auto;right:0}
+html[dir="rtl"] .bonus-card-top>div:first-child,html[dir="rtl"] .desc,html[dir="rtl"] .importo-bar,html[dir="rtl"] .importo-reale-bar,html[dir="rtl"] .expand-btn,html[dir="rtl"] .bonus-details{padding-left:0;padding-right:12px;margin-left:0;margin-right:0}
+html[dir="rtl"] .detail-section li{padding-left:0;padding-right:22px}
+html[dir="rtl"] .detail-section li::before{left:auto;right:0}
+html[dir="rtl"] .source-ref{border-left:none;border-right:3px solid var(--blue-soft)}
+html[dir="rtl"] .privacy-card::before{left:auto;right:0}
+html[dir="rtl"] select{background-position:left 16px center;padding-left:40px;padding-right:16px}
+html[dir="rtl"] .importo-bar .iv,html[dir="rtl"] .importo-reale-bar .iv{margin-left:0;margin-right:auto}
+html[dir="rtl"] .lang-dropdown{right:auto;left:0}
 
-/* ===== NEW: Focus-visible (a11y) ===== */
-*:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+/* ===== Top bar ===== */
+.topbar{background:var(--primary);color:#fff;font-size:.72rem;font-weight:600;letter-spacing:.3px;text-align:center;padding:8px 16px;line-height:1.4}
 
-/* ===== NEW: Language switcher ===== */
-.lang-switcher{position:relative;display:inline-flex;align-items:center}.lang-switcher-btn{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:.78rem;font-weight:700;background:var(--cream);border:2px solid var(--border);color:var(--text-soft);cursor:pointer;font-family:inherit;transition:border-color .2s}.lang-switcher-btn:hover{border-color:var(--coral-soft);color:var(--coral)}.lang-dropdown{display:none;position:absolute;top:100%;right:0;margin-top:6px;background:#fff;border-radius:var(--radius-xs);box-shadow:var(--shadow-md);border:1px solid var(--border);z-index:200;min-width:140px;padding:6px 0}.lang-dropdown.open{display:block}.lang-option{display:flex;align-items:center;gap:8px;width:100%;padding:8px 16px;font-family:inherit;font-size:.85rem;font-weight:600;color:var(--text);background:none;border:none;cursor:pointer;text-align:left;transition:background .2s}.lang-option:hover{background:var(--cream)}.lang-option.active{color:var(--coral);font-weight:800}
+/* ===== Header ===== */
+header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:56px}
+.header-inner{max-width:960px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:100%}
+.logo{font-family:'Instrument Serif',serif;font-size:1.4rem;font-weight:400;color:var(--primary);display:flex;align-items:center;gap:8px;text-decoration:none}
+.logo-mark{width:32px;height:32px;background:var(--primary);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Instrument Serif',serif;font-size:1rem;font-weight:400}
+.header-tags{display:flex;gap:8px;align-items:center}
+.htag{display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:var(--radius);font-size:.7rem;font-weight:600;letter-spacing:.3px;text-transform:uppercase}
+.htag.free{background:var(--green-pale);color:var(--green)}
+.htag.safe{background:var(--teal-pale);color:var(--teal)}
 
-/* ===== NEW: Impact callout in hero ===== */
-.impact-callout{max-width:520px;margin:0 auto 36px;padding:20px 28px;background:linear-gradient(135deg,rgba(232,115,90,.08),rgba(229,165,73,.08));border:2px solid var(--peach-deep);border-radius:var(--radius);display:flex;align-items:center;gap:20px;text-align:left}.impact-callout .impact-num{font-family:'Fraunces',serif;font-size:1.8rem;font-weight:800;background:linear-gradient(135deg,var(--coral),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap;flex-shrink:0}.impact-callout .impact-text{font-size:.9rem;color:var(--text-soft);line-height:1.5}.impact-callout .impact-text strong{color:var(--coral);font-weight:700}.impact-callout .impact-source{font-size:.72rem;color:var(--text-muted);margin-top:4px}@media(max-width:500px){.impact-callout{flex-direction:column;text-align:center}}
+/* ===== Language switcher — text buttons ===== */
+.lang-switcher{display:flex;gap:2px;align-items:center;margin-left:12px;background:var(--surface-alt);border-radius:var(--radius);padding:2px}
+.lang-btn{padding:4px 8px;border:none;background:none;font-family:inherit;font-size:.72rem;font-weight:600;color:var(--text-muted);cursor:pointer;border-radius:var(--radius-xs);transition:all .15s}
+.lang-btn:hover{color:var(--ink)}
+.lang-btn.active{background:var(--surface);color:var(--primary);box-shadow:var(--shadow-sm)}
 
-/* ===== NEW: Mini calculator widget ===== */
-.mini-calc{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 60px}.mini-calc-inner{background:#fff;border-radius:var(--radius);padding:32px 28px;box-shadow:var(--shadow-sm);border:1px solid var(--border);text-align:center}.mini-calc h2{font-family:'Fraunces',serif;font-size:1.3rem;font-weight:700;margin-bottom:24px}.mini-calc-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}.mini-calc-group{display:flex;flex-direction:column;gap:6px;min-width:180px;text-align:left}.mini-calc-group label{font-size:.78rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}.mini-calc-group select{background:var(--cream);border:2px solid transparent;border-radius:var(--radius-xs);padding:12px 14px;color:var(--text);font-size:.95rem;font-family:inherit;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238E9BA0' stroke-width='2' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;width:100%}.mini-calc-group select:focus{border-color:var(--coral-soft);box-shadow:0 0 0 4px rgba(232,115,90,.1);background-color:#fff}.mini-calc-result{padding:16px 20px;background:var(--teal-pale);border-radius:var(--radius-xs);margin-bottom:20px;display:none}.mini-calc-result.show{display:block}.mini-calc-result .mcr-amount{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:800;color:var(--teal)}.mini-calc-result .mcr-note{font-size:.82rem;color:var(--text-muted);margin-top:4px}
+/* ===== Hero ===== */
+.hero{max-width:960px;margin:0 auto;padding:56px 24px 40px;text-align:center}
+.hero-pretitle{font-size:.78rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px}
+.hero h1{font-family:'Instrument Serif',serif;font-size:clamp(1.8rem,4.5vw,2.8rem);font-weight:400;line-height:1.25;margin-bottom:16px;color:var(--ink)}
+.hero h1 em{font-style:italic;color:var(--primary)}
+.hero>p{font-size:1rem;color:var(--text-soft);max-width:540px;margin:0 auto 32px;line-height:1.7}
 
-/* ===== NEW: Testimonials section ===== */
-.testimonials-section{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 24px 60px}.testimonials-section h2{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:700;text-align:center;margin-bottom:32px}.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}@media(max-width:750px){.testimonials-grid{grid-template-columns:1fr;max-width:420px;margin:0 auto}}.testimonial-card{background:#fff;border-radius:var(--radius);padding:28px 24px;box-shadow:var(--shadow-sm);border:1px solid var(--border);position:relative;transition:transform .3s,box-shadow .3s}.testimonial-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}.testimonial-card .tq{font-size:2rem;color:var(--peach-deep);font-family:'Fraunces',serif;line-height:1;margin-bottom:8px}.testimonial-card .ttext{font-size:.9rem;color:var(--text-soft);line-height:1.65;font-style:italic;margin-bottom:16px}.testimonial-card .tauthor{font-size:.82rem;font-weight:700;color:var(--text)}.testimonial-card .trole{font-size:.78rem;color:var(--text-muted)}
+.trust-strip{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:28px}
+.trust-chip{display:flex;align-items:center;gap:6px;font-size:.82rem;font-weight:500;color:var(--text-soft)}
+.trust-chip .num{font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums}
 
-/* ===== NEW: Source references in bonus cards ===== */
-.source-ref{margin-top:14px;padding:14px 16px;background:var(--cream);border-radius:var(--radius-xs);border-left:3px solid var(--blue-soft)}.source-ref h4{font-size:.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}.source-ref .sr-row{display:flex;align-items:baseline;gap:8px;font-size:.82rem;color:var(--text-soft);padding:3px 0}.source-ref .sr-label{font-weight:700;color:var(--text-muted);white-space:nowrap}.source-ref a{color:var(--teal);font-weight:700;text-decoration:none}.source-ref a:hover{color:var(--coral)}.source-ref .sr-stato{display:inline-flex;align-items:center;gap:4px;padding:2px 10px;border-radius:20px;font-size:.72rem;font-weight:700;text-transform:uppercase}.source-ref .sr-stato.attivo{background:var(--green-pale);color:var(--green)}.source-ref .sr-stato.scaduto{background:var(--peach);color:var(--coral)}.source-ref .sr-stato.in_scadenza{background:var(--gold-pale);color:#B8860B}
+.privacy-card{max-width:580px;margin:0 auto 36px;background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius);padding:18px 22px;display:flex;align-items:flex-start;gap:14px;position:relative;overflow:hidden}
+.privacy-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--teal)}
+.privacy-card h3{font-size:.88rem;font-weight:700;color:var(--teal);margin-bottom:2px}
+.privacy-card p{font-size:.82rem;color:var(--text-soft);line-height:1.55}
+.privacy-card strong{color:var(--teal);font-weight:600}
 
-/* ===== NEW: WhatsApp share button in bonus cards ===== */
-.wa-share-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:30px;background:#25D366;color:#fff;border:none;font-family:inherit;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s;margin-left:8px;text-decoration:none}.wa-share-btn:hover{background:#1DA851;transform:translateY(-1px)}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius);font-family:inherit;font-size:1rem;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none}
+.cta-btn:hover{background:#A84A22;transform:translateY(-1px);box-shadow:var(--shadow-md)}
+
+/* ===== Impact callout ===== */
+.impact-callout{max-width:480px;margin:0 auto 32px;padding:16px 22px;background:var(--accent-soft);border:1px solid rgba(196,90,44,0.15);border-radius:var(--radius);display:flex;align-items:center;gap:16px;text-align:left}
+.impact-callout .impact-num{font-family:'Instrument Serif',serif;font-size:1.5rem;color:var(--accent);white-space:nowrap;flex-shrink:0}
+.impact-callout .impact-text{font-size:.85rem;color:var(--text-soft);line-height:1.5}
+.impact-callout .impact-text strong{color:var(--accent);font-weight:600}
+.impact-callout .impact-source{font-size:.7rem;color:var(--text-muted);margin-top:2px}
+@media(max-width:500px){.impact-callout{flex-direction:column;text-align:center}}
+
+/* ===== How section ===== */
+.how-section{max-width:800px;margin:0 auto;padding:0 24px 48px}
+.how-section h2{font-family:'Instrument Serif',serif;font-size:1.5rem;text-align:center;margin-bottom:28px;color:var(--ink)}
+.how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:650px){.how-steps{grid-template-columns:1fr}}
+.how-card{background:var(--surface-alt);border-radius:var(--radius);padding:24px 20px;text-align:center;border:1px solid var(--border);transition:transform .2s}
+.how-card:hover{transform:translateY(-2px)}
+.how-card .hnum{width:40px;height:40px;margin:0 auto 12px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-size:1.1rem;color:#fff}
+.how-card:nth-child(1) .hnum{background:var(--accent)}
+.how-card:nth-child(2) .hnum{background:var(--primary)}
+.how-card:nth-child(3) .hnum{background:var(--teal)}
+.how-card h3{font-size:.92rem;font-weight:600;margin-bottom:4px}
+.how-card p{font-size:.82rem;color:var(--text-muted);line-height:1.5}
+
+/* ===== Novita section ===== */
+.novita-section{max-width:800px;margin:0 auto;padding:0 24px 48px}
+.novita-section h2{font-family:'Instrument Serif',serif;font-size:1.5rem;text-align:center;margin-bottom:28px}
+.novita-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.novita-card{background:var(--surface-alt);border-radius:var(--radius);padding:20px 18px;border:1px solid var(--border);transition:transform .2s;position:relative}
+.novita-card:hover{transform:translateY(-2px)}
+.novita-card h3{font-size:.92rem;font-weight:600;margin-bottom:6px;padding-right:65px}
+.novita-card p{font-size:.82rem;color:var(--text-soft);line-height:1.5}
+.novita-card .badge{position:absolute;top:12px;right:12px;font-size:.62rem;font-weight:700;padding:2px 8px;border-radius:var(--radius-xs);text-transform:uppercase;letter-spacing:.3px}
+.novita-card .badge.nuovo{background:var(--accent);color:#fff}
+.novita-card .badge.modificato{background:var(--gold);color:#fff}
+
+/* ===== Mini calculator ===== */
+.mini-calc{max-width:640px;margin:0 auto;padding:0 24px 48px}
+.mini-calc-inner{background:var(--surface-alt);border-radius:var(--radius);padding:28px 24px;border:1px solid var(--border);text-align:center}
+.mini-calc h2{font-family:'Instrument Serif',serif;font-size:1.2rem;margin-bottom:20px}
+.mini-calc-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+.mini-calc-group{display:flex;flex-direction:column;gap:4px;min-width:170px;text-align:left}
+.mini-calc-group label{font-size:.72rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.3px}
+.mini-calc-group select{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;color:var(--ink);font-size:.88rem;font-family:inherit;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 5 5-5' stroke='%238E9BA0' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;width:100%}
+.mini-calc-result{padding:14px 18px;background:var(--teal-pale);border-radius:var(--radius);margin-bottom:16px;display:none}
+.mini-calc-result.show{display:block}
+.mini-calc-result .mcr-amount{font-family:'Instrument Serif',serif;font-size:1.4rem;color:var(--teal)}
+.mini-calc-result .mcr-note{font-size:.78rem;color:var(--text-muted);margin-top:2px}
+
+/* ===== Testimonials ===== */
+.testimonials-section{max-width:860px;margin:0 auto;padding:0 24px 48px}
+.testimonials-section h2{font-family:'Instrument Serif',serif;font-size:1.5rem;text-align:center;margin-bottom:28px}
+.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:750px){.testimonials-grid{grid-template-columns:1fr;max-width:400px;margin:0 auto}}
+.testimonial-card{background:var(--surface-alt);border-radius:var(--radius);padding:24px 20px;border:1px solid var(--border);transition:transform .2s}
+.testimonial-card:hover{transform:translateY(-2px)}
+.testimonial-card .tq{font-family:'Instrument Serif',serif;font-size:2rem;color:var(--primary);line-height:1;margin-bottom:8px}
+.testimonial-card .ttext{font-size:.88rem;color:var(--text-soft);line-height:1.6;font-style:italic;margin-bottom:14px}
+.testimonial-card .tauthor{font-size:.82rem;font-weight:600;color:var(--ink)}
+.testimonial-card .trole{font-size:.75rem;color:var(--text-muted)}
+
+/* ===== Wizard ===== */
+.wizard{max-width:600px;margin:0 auto;padding:0 24px 60px;display:none}.wizard.show{display:block}
+.progress-bar{display:flex;gap:4px;margin-bottom:28px}
+.progress-dot{flex:1;height:3px;background:var(--surface-alt);border-radius:2px;transition:background .3s}
+.progress-dot.done{background:var(--primary)}
+.step{display:none;background:var(--surface);border-radius:var(--radius);padding:32px 28px;box-shadow:var(--shadow-md);border:1px solid var(--border);animation:stepIn .3s ease}
+.step.active{display:block}
+@keyframes stepIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.step-header{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.step-icon{width:40px;height:40px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.step-icon.s1{background:var(--accent-soft);color:var(--accent)}
+.step-icon.s2{background:var(--lavender-pale);color:var(--lavender)}
+.step-icon.s3{background:var(--gold-pale);color:var(--gold)}
+.step-icon.s4{background:var(--teal-pale);color:var(--teal)}
+.step-header h2{font-family:'Instrument Serif',serif;font-size:1.15rem}
+.step-header .step-sub{font-size:.8rem;color:var(--text-muted);margin-top:1px}
+
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:550px){.form-grid{grid-template-columns:1fr}}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-group.full{grid-column:1/-1}
+label{font-size:.72rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.3px}
+input,select{background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;color:var(--ink);font-size:.92rem;font-family:inherit;transition:border-color .15s;outline:none;width:100%}
+input:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,58,92,0.08)}
+input::placeholder{color:var(--text-muted)}
+select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 5 5-5' stroke='%238E9BA0' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:border-color .15s}
+.toggle-row:hover{border-color:var(--primary)}
+.toggle-row span{font-size:.88rem;font-weight:500}
+.toggle{width:42px;height:24px;background:#ccc;border-radius:12px;position:relative;transition:background .2s;flex-shrink:0}
+.toggle::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.15);transition:transform .2s}
+.toggle.on{background:var(--teal)}
+.toggle.on::after{transform:translateX(18px)}
+
+.nav-buttons{display:flex;gap:10px;margin-top:24px}
+.btn{flex:1;padding:14px 20px;border-radius:var(--radius);font-family:inherit;font-size:.92rem;font-weight:600;border:none;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:6px}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-light)}
+.btn-secondary{background:var(--surface-alt);color:var(--text-soft);border:1px solid var(--border)}
+.btn-secondary:hover{border-color:var(--primary);color:var(--primary)}
+
+/* ===== ISEE upload ===== */
+.isee-upload{border:2px dashed var(--border);border-radius:var(--radius);padding:24px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:10px;background:var(--surface-alt)}
+.isee-upload:hover{border-color:var(--primary)}
+.isee-upload .upload-icon{width:48px;height:48px;margin:0 auto 10px;border-radius:var(--radius);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:1.3rem;border:1px solid var(--border)}
+.isee-upload h4{font-size:.88rem;font-weight:600;margin-bottom:2px}
+.isee-upload p{font-size:.78rem;color:var(--text-muted)}
+.isee-upload.uploaded{border-color:var(--primary);border-style:solid}
+.isee-upload.drag-over{border-color:var(--accent);background:var(--accent-soft)}
+.isee-upload.isee-success{border-color:var(--green);border-style:solid;background:var(--green-pale)}
+.isee-upload.isee-success h4{color:var(--green)}
+.isee-upload.isee-error{border-color:var(--gold);border-style:solid;background:var(--gold-pale)}
+.isee-upload.isee-error h4{color:var(--gold)}
+.or-divider{text-align:center;color:var(--text-muted);font-size:.78rem;font-weight:600;margin:12px 0;display:flex;align-items:center;gap:10px}
+.or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ===== Loading ===== */
+.loading-overlay{display:none;position:fixed;inset:0;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);z-index:200;align-items:center;justify-content:center;flex-direction:column;gap:16px}
+.loading-overlay.show{display:flex}
+.loader{width:48px;height:48px;border:3px solid var(--surface-alt);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-overlay p{color:var(--text-soft);font-size:.95rem;font-weight:500}
+.loading-overlay .substep{font-size:.82rem;color:var(--text-muted)}
+
+/* ===== Results ===== */
+.results{display:none;max-width:820px;margin:0 auto;padding:0 24px 60px;animation:stepIn .4s ease}
+.results.show{display:block}
+.results-hero{text-align:center;background:var(--surface-alt);border-radius:var(--radius);padding:36px 28px;margin-bottom:24px;border:1px solid var(--border);position:relative;overflow:hidden}
+.results-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--primary),var(--accent),var(--teal))}
+.results-hero h2{font-family:'Instrument Serif',serif;font-size:1.4rem;margin-bottom:8px}
+.results-hero .saving{font-family:'Instrument Serif',serif;font-size:2.6rem;color:var(--primary);margin:6px 0}
+.results-hero .subtitle{color:var(--text-soft);font-size:.92rem}
+.results-hero .subtitle strong{color:var(--accent)}
+
+.results-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
+.action-btn{padding:8px 16px;border-radius:var(--radius);background:var(--surface-alt);border:1px solid var(--border);color:var(--text-soft);font-family:inherit;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:4px}
+.action-btn:hover{border-color:var(--primary);color:var(--primary)}
+
+/* ===== Share dropdown ===== */
+.share-dropdown{display:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:6px;background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow-md);border:1px solid var(--border);z-index:150;min-width:200px;padding:6px 0;text-align:left}
+.share-dropdown a,.share-dropdown button{display:block;width:100%;padding:8px 16px;font-family:inherit;font-size:.85rem;font-weight:500;color:var(--ink);background:none;border:none;text-decoration:none;text-align:left;cursor:pointer;transition:background .15s}
+.share-dropdown a:hover,.share-dropdown button:hover{background:var(--surface-alt)}
+
+/* ===== ISEE warning ===== */
+.isee-warning{padding:14px 18px;border-radius:var(--radius);margin-bottom:16px;position:relative;padding-right:36px;font-size:.85rem;line-height:1.6;border-left:3px solid}
+.isee-warning.warn{background:var(--gold-pale);color:#6B5210;border-left-color:var(--gold)}
+.isee-warning.info{background:var(--teal-pale);color:var(--teal);border-left-color:var(--teal)}
+.isee-warning .close-warn{position:absolute;top:8px;right:10px;background:none;border:none;font-size:1rem;cursor:pointer;color:inherit;opacity:.6;padding:4px}
+.isee-warning .close-warn:hover{opacity:1}
+
+/* ===== Simulator ===== */
+.simulator-box{background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin-bottom:20px}
+.simulator-box h3{font-size:.92rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;user-select:none}
+.simulator-box h3 .arrow{transition:transform .2s;display:inline-block;font-size:.8rem}
+.simulator-box .sim-content{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+.simulator-box .sim-content.open{display:block}
+.simulator-box .sim-row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:10px}
+.simulator-box .sim-row input{max-width:200px;padding:10px 12px;font-size:.88rem}
+.simulator-box .sim-row .btn{flex:unset;padding:10px 20px;font-size:.85rem}
+.simulator-result{display:none;padding:12px 16px;background:var(--teal-pale);border-radius:var(--radius);font-size:.85rem;color:var(--teal);line-height:1.6}
+
+/* ===== Category filter ===== */
+.category-filter{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-bottom:20px}
+.filter-btn{padding:6px 14px;border-radius:var(--radius);background:var(--surface-alt);border:1px solid var(--border);color:var(--text-soft);font-family:inherit;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .15s}
+.filter-btn:hover{border-color:var(--primary);color:var(--primary)}
+.filter-btn.active{border-color:var(--primary);background:var(--primary);color:#fff}
+
+/* ===== Bonus cards ===== */
+.bonus-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:12px;transition:all .2s;position:relative;overflow:hidden}
+.bonus-card:hover{box-shadow:var(--shadow-md)}
+.bonus-card .cat-stripe{position:absolute;top:0;left:0;width:3px;height:100%}
+.cat-famiglia{background:var(--accent)}.cat-casa{background:var(--gold)}.cat-salute{background:var(--lavender)}.cat-istruzione{background:var(--blue-soft)}.cat-spesa{background:var(--teal)}.cat-lavoro{background:var(--green)}.cat-sostegno{background:#E88A7A}.cat-altro{background:var(--text-muted)}
+.bonus-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px;padding-left:12px}
+.bonus-card h3{font-size:1rem;font-weight:600;line-height:1.3}
+.bonus-card .ente-tag{display:inline-block;font-size:.68rem;font-weight:600;color:var(--text-muted);background:var(--surface-alt);padding:2px 8px;border-radius:var(--radius-xs);margin-top:4px}
+.compat-pill{display:flex;align-items:center;gap:4px;padding:4px 12px;border-radius:var(--radius);font-size:.72rem;font-weight:600;white-space:nowrap;flex-shrink:0}
+.compat-high{background:var(--green-pale);color:var(--green)}
+.compat-med{background:var(--gold-pale);color:var(--gold)}
+.compat-low{background:var(--accent-soft);color:var(--accent)}
+.bonus-card .desc{font-size:.85rem;color:var(--text-soft);line-height:1.6;margin-bottom:12px;padding-left:12px}
+.importo-bar{display:flex;align-items:center;padding:10px 14px;margin-left:12px;background:var(--surface-alt);border-radius:var(--radius);margin-bottom:12px}
+.importo-bar .il{font-size:.7rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.importo-bar .iv{margin-left:auto;font-family:'Instrument Serif',serif;font-size:1rem;color:var(--primary)}
+.importo-reale-bar{display:flex;align-items:center;padding:10px 14px;margin-left:12px;background:var(--green-pale);border-radius:var(--radius);margin-bottom:12px}
+.importo-reale-bar .il{font-size:.7rem;color:var(--green);font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.importo-reale-bar .iv{margin-left:auto;font-family:'Instrument Serif',serif;font-size:1rem;color:var(--green)}
+
+.expand-btn{background:none;border:none;color:var(--primary);font-family:inherit;font-size:.82rem;font-weight:600;cursor:pointer;padding:4px 0;margin-left:12px;transition:color .15s}
+.expand-btn:hover{color:var(--accent)}
+.bonus-details{display:none;margin-top:14px;padding-left:12px;border-top:1px solid var(--border);padding-top:14px}
+.bonus-details.open{display:block}
+.detail-section{margin-bottom:12px}
+.detail-section h4{font-size:.72rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.3px;margin-bottom:6px}
+.detail-section ul{list-style:none}
+.detail-section li{padding:4px 0 4px 20px;position:relative;font-size:.85rem;color:var(--text-soft);line-height:1.5}
+.detail-section li::before{content:'';position:absolute;left:0;top:11px;width:6px;height:6px;border-radius:50%}
+.detail-section.req li::before{background:var(--accent-soft);border:1.5px solid var(--accent)}
+.detail-section.how li::before{background:var(--teal-pale);border:1.5px solid var(--teal)}
+.doc-checklist{margin-top:8px}
+.doc-item{display:flex;align-items:center;gap:8px;padding:4px 0;cursor:pointer;font-size:.85rem;color:var(--text-soft);user-select:none;transition:color .15s}
+.doc-item .doc-check{width:16px;height:16px;border:1.5px solid var(--border);border-radius:var(--radius-xs);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;font-size:.65rem;color:transparent}
+.doc-item.checked .doc-check{background:var(--teal);border-color:var(--teal);color:#fff}
+.doc-item.checked .doc-label{text-decoration:line-through;color:var(--text-muted)}
+
+.faq-section{margin-top:10px}
+.faq-item{border-bottom:1px solid var(--border)}.faq-item:last-child{border-bottom:none}
+.faq-question{padding:8px 0;font-size:.85rem;font-weight:600;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none}
+.faq-question::after{content:'+';font-size:.9rem;color:var(--text-muted);transition:transform .2s;font-weight:400}
+.faq-item.open .faq-question::after{content:'-'}
+.faq-answer{display:none;padding:0 0 8px;font-size:.82rem;color:var(--text-soft);line-height:1.6}
+.faq-item.open .faq-answer{display:block}
+
+.source-ref{margin-top:12px;padding:12px 14px;background:var(--surface-alt);border-radius:var(--radius);border-left:3px solid var(--blue-soft)}
+.source-ref h4{font-size:.68rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.3px;margin-bottom:6px}
+.source-ref .sr-row{display:flex;align-items:baseline;gap:6px;font-size:.78rem;color:var(--text-soft);padding:2px 0}
+.source-ref .sr-label{font-weight:600;color:var(--text-muted);white-space:nowrap}
+.source-ref a{color:var(--primary);font-weight:600;text-decoration:none}
+.source-ref a:hover{color:var(--accent)}
+.source-ref .sr-stato{display:inline-flex;align-items:center;gap:3px;padding:1px 8px;border-radius:var(--radius-xs);font-size:.68rem;font-weight:600;text-transform:uppercase}
+.source-ref .sr-stato.attivo{background:var(--green-pale);color:var(--green)}
+.source-ref .sr-stato.scaduto{background:var(--accent-soft);color:var(--accent)}
+.source-ref .sr-stato.in_scadenza{background:var(--gold-pale);color:var(--gold)}
+
+.bonus-link{display:inline-flex;align-items:center;gap:4px;color:var(--primary);font-size:.85rem;font-weight:600;text-decoration:none;transition:color .15s}
+.bonus-link:hover{color:var(--accent)}
+.scadenza-tag{display:inline-flex;align-items:center;gap:3px;margin-left:14px;font-size:.78rem;color:var(--text-muted);background:var(--surface-alt);padding:3px 8px;border-radius:var(--radius-xs)}
+.wa-share-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:var(--radius);background:#25D366;color:#fff;border:none;font-family:inherit;font-size:.72rem;font-weight:600;cursor:pointer;transition:all .15s;margin-left:6px;text-decoration:none}
+.wa-share-btn:hover{background:#1DA851}
+
+/* ===== Coming soon / restart ===== */
+.restart-section{text-align:center;margin-top:32px;padding-top:24px;border-top:1px solid var(--border)}
+.restart-section .privacy-note{display:inline-flex;align-items:center;gap:6px;background:var(--teal-pale);padding:8px 16px;border-radius:var(--radius);font-size:.82rem;font-weight:500;color:var(--teal);margin-bottom:14px}
+.coming-soon{margin-top:20px;padding:20px;background:var(--surface-alt);border-radius:var(--radius);border:1px solid var(--border);text-align:center}
+.coming-soon h3{font-size:.92rem;font-weight:600;margin-bottom:10px}
+.coming-soon .cs-pills{display:flex;gap:6px;justify-content:center;margin-bottom:14px;flex-wrap:wrap}
+.coming-soon .cs-pill{padding:6px 14px;border-radius:var(--radius);font-size:.78rem;font-weight:600;background:var(--surface);color:var(--text-muted);border:1px solid var(--border)}
+.coming-soon .notify-form{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;max-width:380px;margin:0 auto}
+.coming-soon .notify-form input{flex:1;min-width:180px;padding:10px 14px;font-size:.85rem}
+.coming-soon .notify-form .btn{flex:unset;padding:10px 20px;font-size:.85rem}
+
+/* ===== Field errors ===== */
+.field-error{font-size:.72rem;color:var(--accent);margin-top:2px;display:none}.field-error.show{display:block}
+input.invalid,select.invalid{border-color:var(--accent)!important;box-shadow:0 0 0 2px rgba(196,90,44,0.12)!important}
+
+/* ===== Footer ===== */
+footer{background:var(--surface-alt);border-top:1px solid var(--border);padding:32px 24px;text-align:center}
+.footer-badges{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.footer-badge{font-size:.72rem;font-weight:600;color:var(--text-muted);background:var(--surface);padding:4px 12px;border-radius:var(--radius);border:1px solid var(--border)}
+footer .disclaimer{font-size:.72rem;color:var(--text-muted);line-height:1.7;max-width:560px;margin:0 auto}
+footer a{color:var(--primary);text-decoration:none;font-weight:600}footer a:hover{color:var(--accent)}
+
+/* ===== Skip link (a11y) ===== */
+.skip-link{position:absolute;top:-100%;left:16px;background:var(--primary);color:#fff;padding:10px 20px;border-radius:0 0 var(--radius) var(--radius);font-weight:600;font-size:.88rem;z-index:9999;text-decoration:none;transition:top .15s}.skip-link:focus{top:0}
+*:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+
+/* ===== Print ===== */
+@media print{header,footer,.topbar,.cta-btn,.action-btn,.results-actions,.nav-buttons,.expand-btn,.filter-btn,.category-filter,.restart-section,.share-dropdown,.simulator-box,.coming-soon,.lang-switcher{display:none!important}.results{padding:0!important}.results-hero{box-shadow:none!important;border:1px solid #ccc!important}.bonus-details{display:block!important}.bonus-card{break-inside:avoid;box-shadow:none!important;border:1px solid #ccc!important}body{background:#fff!important}}
 </style>
 </head>
 <body>
 
 <a href="#main" class="skip-link" data-i18n="a11y.skip">Vai al contenuto principale</a>
 
-<div class="bg-shapes"><div class="shape s1"></div><div class="shape s2"></div><div class="shape s3"></div></div>
+<div class="topbar" data-i18n="hero.pretitle">Verifica gratuita bonus 2025 — Servizio indipendente e gratuito</div>
 
 <header role="banner"><div class="header-inner">
-  <div class="logo"><div class="logo-icon">🎯</div> Bonus360</div>
+  <a class="logo" href="/"><div class="logo-mark">B</div> Bonus360</a>
   <div class="header-tags">
-    <div class="htag free">✓ <span data-i18n="footer.gdpr">Gratuito</span></div>
-    <div class="htag safe">🔒 <span data-i18n="footer.no_tracking">Zero dati</span></div>
+    <div class="htag free" data-i18n="footer.gdpr">Gratuito</div>
+    <div class="htag safe" data-i18n="footer.no_tracking">Zero dati</div>
     <div class="lang-switcher" id="langSwitcher">
-      <button class="lang-switcher-btn" id="langBtn" aria-label="Change language" aria-expanded="false" onclick="toggleLangDropdown()">
-        <span id="langFlag">🇮🇹</span> <span id="langCode">IT</span> ▾
-      </button>
-      <div class="lang-dropdown" id="langDropdown" role="menu">
-        <button class="lang-option active" role="menuitem" data-lang="it" onclick="setLanguage('it')">🇮🇹 Italiano</button>
-        <button class="lang-option" role="menuitem" data-lang="en" onclick="setLanguage('en')">🇬🇧 English</button>
-        <button class="lang-option" role="menuitem" data-lang="fr" onclick="setLanguage('fr')">🇫🇷 Français</button>
-        <button class="lang-option" role="menuitem" data-lang="es" onclick="setLanguage('es')">🇪🇸 Español</button>
-        <button class="lang-option" role="menuitem" data-lang="ro" onclick="setLanguage('ro')">🇷🇴 Română</button>
-      </div>
+      <button class="lang-btn active" data-lang="it" onclick="setLanguage('it')">IT</button>
+      <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
+      <button class="lang-btn" data-lang="fr" onclick="setLanguage('fr')">FR</button>
+      <button class="lang-btn" data-lang="es" onclick="setLanguage('es')">ES</button>
+      <button class="lang-btn" data-lang="ro" onclick="setLanguage('ro')">RO</button>
+      <button class="lang-btn" data-lang="ar" onclick="setLanguage('ar')">AR</button>
+      <button class="lang-btn" data-lang="sq" onclick="setLanguage('sq')">SQ</button>
     </div>
   </div>
 </div></header>
@@ -103,13 +354,12 @@ footer{position:relative;z-index:1;background:#fff;border-top:1px solid var(--bo
 <div id="main" role="main">
 
 <section class="hero" id="heroSection">
-  <div class="hero-emoji">👨‍👩‍👧‍👦</div>
-  <p class="hero-pretitle" data-i18n="hero.pretitle" style="font-size:.88rem;font-weight:700;color:var(--coral);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">Verifica gratuita bonus 2025</p>
-  <h1 data-i18n="hero.title">Scopri tutti i <em>bonus</em><br>a cui la tua famiglia ha diritto</h1>
+  <p class="hero-pretitle" data-i18n="hero.pretitle">Verifica gratuita bonus 2025</p>
+  <h1 data-i18n="hero.title">Scopri tutti i <em>bonus</em> a cui la tua famiglia ha diritto</h1>
   <p data-i18n="hero.subtitle">Ogni anno migliaia di euro di bonus restano non richiesti. Rispondi a poche domande e ti diciamo esattamente quali puoi ottenere — gratis, senza registrazione.</p>
 
   <div class="impact-callout">
-    <div class="impact-num" data-i18n="hero.impact">€2,1 miliardi</div>
+    <div class="impact-num" data-i18n="hero.impact">2,1 mld</div>
     <div>
       <div class="impact-text" data-i18n="hero.counter_label">di bonus non richiesti ogni anno in Italia</div>
       <div class="impact-source">Fonte: elaborazione su dati INPS</div>
@@ -117,19 +367,17 @@ footer{position:relative;z-index:1;background:#fff;border-top:1px solid var(--bo
   </div>
 
   <div class="trust-strip">
-    <div class="trust-chip"><div class="icon users">👥</div><span class="num" id="counter">14.327</span>&nbsp;<span data-i18n="hero.counter_label">famiglie aiutate</span></div>
-    <div class="trust-chip"><div class="icon shield">🛡️</div><span data-i18n="footer.gdpr">GDPR compliant</span></div>
-    <div class="trust-chip"><div class="icon leaf">🌱</div><span data-i18n="footer.green">Green hosting</span></div>
-    <div class="trust-chip"><div class="icon eu">🇪🇺</div><span data-i18n="footer.eu">Server in UE</span></div>
+    <div class="trust-chip"><span class="num" id="counter">14.327</span>&nbsp;<span data-i18n="hero.counter_label">famiglie aiutate</span></div>
+    <div class="trust-chip"><span data-i18n="footer.gdpr">GDPR compliant</span></div>
+    <div class="trust-chip"><span data-i18n="footer.eu">Server in UE</span></div>
   </div>
   <div class="privacy-card">
-    <div class="pc-icon">🔒</div>
     <div>
-      <h3 data-i18n="privacy.title">La tua privacy è sacra</h3>
-      <p data-i18n="privacy.text"><strong>Nessun database, nessun cookie, nessun tracking.</strong> I tuoi dati restano solo nella tua sessione. Al refresh della pagina, tutto viene cancellato. Non chiediamo nome, email, né telefono. Mai.</p>
+      <h3 data-i18n="privacy.title">La tua privacy</h3>
+      <p data-i18n="privacy.text"><strong>Nessun database, nessun cookie, nessun tracking.</strong> I tuoi dati restano solo nella tua sessione. Al refresh della pagina, tutto viene cancellato. Non chiediamo nome, email, ne telefono. Mai.</p>
     </div>
   </div>
-  <button class="cta-btn" onclick="startWizard()" aria-label="Scopri i tuoi bonus" data-i18n="hero.cta">🔍 Scopri i tuoi bonus — è gratis</button>
+  <button class="cta-btn" onclick="startWizard()" aria-label="Scopri i tuoi bonus" data-i18n="hero.cta">Scopri i tuoi bonus</button>
 </section>
 
 <!-- Mini Calculator Widget -->
@@ -140,20 +388,16 @@ footer{position:relative;z-index:1;background:#fff;border-top:1px solid var(--bo
       <div class="mini-calc-group">
         <label data-i18n="widget.figli_label">Numero figli</label>
         <select id="mcFilgi" aria-label="Numero figli" onchange="calcMini()">
-          <option value="0">0 figli</option>
-          <option value="1">1 figlio</option>
-          <option value="2">2 figli</option>
-          <option value="3">3 figli</option>
-          <option value="4">4+ figli</option>
+          <option value="0">0 figli</option><option value="1">1 figlio</option><option value="2">2 figli</option><option value="3">3 figli</option><option value="4">4+ figli</option>
         </select>
       </div>
       <div class="mini-calc-group">
         <label data-i18n="widget.isee_label">Fascia ISEE</label>
         <select id="mcIsee" aria-label="Fascia ISEE" onchange="calcMini()">
-          <option value="under15" data-i18n="widget.isee_under15">Sotto €15.000</option>
-          <option value="15_25" data-i18n="widget.isee_15_25">€15.000 - €25.000</option>
-          <option value="25_40" data-i18n="widget.isee_25_40">€25.000 - €40.000</option>
-          <option value="over40" data-i18n="widget.isee_over40">Oltre €40.000</option>
+          <option value="under15" data-i18n="widget.isee_under15">Sotto 15.000</option>
+          <option value="15_25" data-i18n="widget.isee_15_25">15.000 - 25.000</option>
+          <option value="25_40" data-i18n="widget.isee_25_40">25.000 - 40.000</option>
+          <option value="over40" data-i18n="widget.isee_over40">Oltre 40.000</option>
         </select>
       </div>
     </div>
@@ -161,46 +405,27 @@ footer{position:relative;z-index:1;background:#fff;border-top:1px solid var(--bo
       <div class="mcr-amount" id="mcAmount"></div>
       <div class="mcr-note" data-i18n="widget.result">Stima indicativa basata su dati medi nazionali</div>
     </div>
-    <button class="cta-btn" onclick="startWizard()" aria-label="Inizia il check gratuito" style="font-size:.95rem;padding:14px 28px" data-i18n="hero.cta">🔍 Per un calcolo preciso, inizia il check gratuito</button>
+    <button class="cta-btn" onclick="startWizard()" aria-label="Inizia il check gratuito" style="font-size:.88rem;padding:12px 24px" data-i18n="hero.cta">Per un calcolo preciso, inizia il check gratuito</button>
   </div>
 </section>
 
 <section class="how-section" id="howSection">
   <h2 data-i18n="how.title">Come funziona</h2>
   <div class="how-steps">
-    <div class="how-card" tabindex="0"><div class="hnum">1</div><h3 data-i18n="how.step1.title">Rispondi a 4 domande</h3><p data-i18n="how.step1.desc">Età, famiglia, ISEE e casa. Solo l'essenziale, niente di più.</p></div>
+    <div class="how-card" tabindex="0"><div class="hnum">1</div><h3 data-i18n="how.step1.title">Rispondi a 4 domande</h3><p data-i18n="how.step1.desc">Eta, famiglia, ISEE e casa. Solo l'essenziale, niente di piu.</p></div>
     <div class="how-card" tabindex="0"><div class="hnum">2</div><h3 data-i18n="how.step2.title">Analisi istantanea</h3><p data-i18n="how.step2.desc">Confrontiamo la tua situazione con 20+ bonus attivi in Italia.</p></div>
     <div class="how-card" tabindex="0"><div class="hnum">3</div><h3 data-i18n="how.step3.title">Risultati personalizzati</h3><p data-i18n="how.step3.desc">Vedi quanto puoi risparmiare e come fare domanda, passo per passo.</p></div>
   </div>
 </section>
 
 <section class="novita-section" id="novitaSection">
-  <h2 data-i18n="novita.title">Novità bonus 2025</h2>
+  <h2 data-i18n="novita.title">Novita bonus 2025</h2>
   <div class="novita-grid">
-    <div class="novita-card" tabindex="0">
-      <span class="badge nuovo">NUOVO</span>
-      <h3>Carta Nuovi Nati</h3>
-      <p>€1.000 per ogni figlio nato dal 2025 (ISEE ≤ €40.000). Novità assoluta introdotta dalla Legge di Bilancio 2025.</p>
-    </div>
-    <div class="novita-card" tabindex="0">
-      <span class="badge modificato">MODIFICATO</span>
-      <h3>Bonus Ristrutturazione scende al 36%</h3>
-      <p>Per le seconde case, la detrazione passa dal 50% al 36%. Per la prima casa resta al 50%.</p>
-    </div>
-    <div class="novita-card" tabindex="0">
-      <span class="badge modificato">MODIFICATO</span>
-      <h3>Assegno Unico aggiornato</h3>
-      <p>Importi rivalutati all'inflazione. Maggiorazioni confermate per famiglie numerose.</p>
-    </div>
-    <div class="novita-card" tabindex="0">
-      <h3>Bonus Psicologo confermato</h3>
-      <p>Rifinanziato per il 2025 con le stesse modalità. Fino a €1.500 per percorsi di psicoterapia.</p>
-    </div>
-    <div class="novita-card" tabindex="0">
-      <span class="badge modificato">MODIFICATO</span>
-      <h3>Superbonus al 65%</h3>
-      <p>Solo per lavori già avviati su condomini. Fine dello sconto in fattura per nuove pratiche.</p>
-    </div>
+    <div class="novita-card" tabindex="0"><span class="badge nuovo">NUOVO</span><h3>Carta Nuovi Nati</h3><p>1.000 per ogni figlio nato dal 2025 (ISEE fino a 40.000). Novita dalla Legge di Bilancio 2025.</p></div>
+    <div class="novita-card" tabindex="0"><span class="badge modificato">MODIFICATO</span><h3>Bonus Ristrutturazione scende al 36%</h3><p>Per le seconde case, la detrazione passa dal 50% al 36%. Per la prima casa resta al 50%.</p></div>
+    <div class="novita-card" tabindex="0"><span class="badge modificato">MODIFICATO</span><h3>Assegno Unico aggiornato</h3><p>Importi rivalutati all'inflazione. Maggiorazioni confermate per famiglie numerose.</p></div>
+    <div class="novita-card" tabindex="0"><h3>Bonus Psicologo confermato</h3><p>Rifinanziato per il 2025 con le stesse modalita. Fino a 1.500 per percorsi di psicoterapia.</p></div>
+    <div class="novita-card" tabindex="0"><span class="badge modificato">MODIFICATO</span><h3>Superbonus al 65%</h3><p>Solo per lavori gia avviati su condomini. Fine dello sconto in fattura per nuove pratiche.</p></div>
   </div>
 </section>
 
@@ -208,80 +433,65 @@ footer{position:relative;z-index:1;background:#fff;border-top:1px solid var(--bo
 <section class="testimonials-section" id="testimonialsSection">
   <h2 data-i18n="testimonials.title">Cosa dicono le famiglie</h2>
   <div class="testimonials-grid">
-    <div class="testimonial-card" tabindex="0">
-      <div class="tq">"</div>
-      <div class="ttext">Grazie a Bonus360 abbiamo scoperto 4 bonus che non sapevamo esistessero. Risparmiamo €3.200 all'anno!</div>
-      <div class="tauthor">Maria, Roma</div>
-      <div class="trole">famiglia con 2 figli</div>
-    </div>
-    <div class="testimonial-card" tabindex="0">
-      <div class="tq">"</div>
-      <div class="ttext">Ho caricato l'ISEE, risposto a 4 domande e in 2 minuti avevo tutto chiaro. Facilissimo.</div>
-      <div class="tauthor">Ahmed, Milano</div>
-      <div class="trole">lavoratore dipendente</div>
-    </div>
-    <div class="testimonial-card" tabindex="0">
-      <div class="tq">"</div>
-      <div class="ttext">Il mio CAF non mi aveva detto del Bonus Psicologo. Qui l'ho trovato subito.</div>
-      <div class="tauthor">Giulia, Napoli</div>
-      <div class="trole">studentessa</div>
-    </div>
+    <div class="testimonial-card" tabindex="0"><div class="tq">"</div><div class="ttext">Grazie a Bonus360 abbiamo scoperto 4 bonus che non sapevamo esistessero. Risparmiamo 3.200 all'anno!</div><div class="tauthor">Maria, Roma</div><div class="trole">famiglia con 2 figli</div></div>
+    <div class="testimonial-card" tabindex="0"><div class="tq">"</div><div class="ttext">Ho caricato l'ISEE, risposto a 4 domande e in 2 minuti avevo tutto chiaro. Facilissimo.</div><div class="tauthor">Ahmed, Milano</div><div class="trole">lavoratore dipendente</div></div>
+    <div class="testimonial-card" tabindex="0"><div class="tq">"</div><div class="ttext">Il mio CAF non mi aveva detto del Bonus Psicologo. Qui l'ho trovato subito.</div><div class="tauthor">Giulia, Napoli</div><div class="trole">studentessa</div></div>
   </div>
 </section>
 
 <section class="wizard" id="wizardSection">
   <div class="progress-bar" id="progressBar" role="progressbar" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1"></div>
   <div class="step" data-step="1">
-    <div class="step-header"><div class="step-icon s1">👤</div><div><h2 data-i18n="step1.title">Parlaci di te</h2><div class="step-sub" data-i18n="step1.subtitle">Dati anagrafici di base</div></div></div>
+    <div class="step-header"><div class="step-icon s1">1</div><div><h2 data-i18n="step1.title">Parlaci di te</h2><div class="step-sub" data-i18n="step1.subtitle">Dati anagrafici di base</div></div></div>
     <div class="form-grid">
-      <div class="form-group"><label data-i18n="label.eta">Età</label><input type="number" id="eta" placeholder="es. 32" min="0" max="120" aria-label="Età"><div class="field-error" id="err-eta"></div></div>
+      <div class="form-group"><label data-i18n="label.eta">Eta</label><input type="number" id="eta" placeholder="es. 32" min="18" max="120" aria-label="Eta"><div class="field-error" id="err-eta"></div></div>
       <div class="form-group"><label data-i18n="label.regione">Regione</label><select id="residenza" aria-label="Regione di residenza"><option value="" data-i18n="opt.select">Seleziona...</option><option>Abruzzo</option><option>Basilicata</option><option>Calabria</option><option>Campania</option><option>Emilia-Romagna</option><option>Friuli Venezia Giulia</option><option>Lazio</option><option>Liguria</option><option>Lombardia</option><option>Marche</option><option>Molise</option><option>Piemonte</option><option>Puglia</option><option>Sardegna</option><option>Sicilia</option><option>Toscana</option><option>Trentino-Alto Adige</option><option>Umbria</option><option>Valle d'Aosta</option><option>Veneto</option></select></div>
-      <div class="form-group"><label data-i18n="label.stato_civile">Stato civile</label><select id="stato_civile" aria-label="Stato civile"><option value="" data-i18n="opt.select">Seleziona...</option><option value="single" data-i18n="opt.single">Single</option><option value="sposato" data-i18n="opt.married">Sposato/a</option><option value="convivente" data-i18n="opt.cohabiting">Convivente</option><option value="separato" data-i18n="opt.separated">Separato/a · Divorziato/a</option><option value="vedovo" data-i18n="opt.widowed">Vedovo/a</option></select></div>
+      <div class="form-group"><label data-i18n="label.stato_civile">Stato civile</label><select id="stato_civile" aria-label="Stato civile"><option value="" data-i18n="opt.select">Seleziona...</option><option value="single" data-i18n="opt.single">Single</option><option value="sposato" data-i18n="opt.married">Sposato/a</option><option value="convivente" data-i18n="opt.cohabiting">Convivente</option><option value="separato" data-i18n="opt.separated">Separato/a - Divorziato/a</option><option value="vedovo" data-i18n="opt.widowed">Vedovo/a</option></select></div>
       <div class="form-group"><label data-i18n="label.occupazione">Occupazione</label><select id="occupazione" aria-label="Occupazione"><option value="" data-i18n="opt.select">Seleziona...</option><option value="dipendente" data-i18n="opt.employee">Dipendente</option><option value="autonomo" data-i18n="opt.selfemployed">Autonomo / P.IVA</option><option value="disoccupato" data-i18n="opt.unemployed">Disoccupato/a</option><option value="pensionato" data-i18n="opt.retired">Pensionato/a</option><option value="studente" data-i18n="opt.student">Studente</option><option value="inoccupato" data-i18n="opt.inactive">Inoccupato/a</option></select></div>
     </div>
-    <div class="nav-buttons"><button class="btn btn-primary" onclick="nextStep()" aria-label="Avanti" data-i18n="btn.next">Avanti →</button></div>
+    <div class="nav-buttons"><button class="btn btn-primary" onclick="nextStep()" aria-label="Avanti" data-i18n="btn.next">Avanti</button></div>
   </div>
   <div class="step" data-step="2">
-    <div class="step-header"><div class="step-icon s2">👨‍👩‍👧</div><div><h2 data-i18n="step2.title">La tua famiglia</h2><div class="step-sub" data-i18n="step2.subtitle">Composizione del nucleo familiare</div></div></div>
+    <div class="step-header"><div class="step-icon s2">2</div><div><h2 data-i18n="step2.title">La tua famiglia</h2><div class="step-sub" data-i18n="step2.subtitle">Composizione del nucleo familiare</div></div></div>
     <div class="form-grid">
       <div class="form-group"><label data-i18n="label.numero_figli">Numero figli</label><input type="number" id="numero_figli" placeholder="0" min="0" max="20" value="0" aria-label="Numero figli"><div class="field-error" id="err-numero_figli"></div></div>
       <div class="form-group"><label data-i18n="label.figli_minorenni">Di cui minorenni</label><input type="number" id="figli_minorenni" placeholder="0" min="0" max="20" value="0" aria-label="Figli minorenni"><div class="field-error" id="err-figli_minorenni"></div></div>
       <div class="form-group"><label data-i18n="label.figli_under3">Di cui sotto 3 anni</label><input type="number" id="figli_under3" placeholder="0" min="0" max="10" value="0" aria-label="Figli sotto 3 anni"><div class="field-error" id="err-figli_under3"></div></div>
       <div class="form-group"><label data-i18n="label.over65">Over 65 nel nucleo</label><input type="number" id="over65" placeholder="0" min="0" max="10" value="0" aria-label="Over 65 nel nucleo"><div class="field-error" id="err-over65"></div></div>
-      <div class="form-group full"><div class="toggle-row" tabindex="0" role="switch" aria-checked="false" aria-label="Persona con disabilità nel nucleo" onclick="toggleSwitch('disabilita')" onkeydown="handleToggleKey(event,'disabilita')"><span data-i18n="label.disabilita">♿ Persona con disabilità nel nucleo</span><div class="toggle" id="toggle-disabilita"></div></div></div>
-      <div class="form-group full"><div class="toggle-row" tabindex="0" role="switch" aria-checked="false" aria-label="Nuovo nato o adottato nel 2025" onclick="toggleSwitch('nuovo_nato')" onkeydown="handleToggleKey(event,'nuovo_nato')"><span data-i18n="label.nuovo_nato">👶 Nuovo nato o adottato nel 2025</span><div class="toggle" id="toggle-nuovo_nato"></div></div></div>
+      <div class="form-group full"><div class="toggle-row" tabindex="0" role="switch" aria-checked="false" aria-label="Persona con disabilita nel nucleo" onclick="toggleSwitch('disabilita')" onkeydown="handleToggleKey(event,'disabilita')"><span data-i18n="label.disabilita">Persona con disabilita nel nucleo</span><div class="toggle" id="toggle-disabilita"></div></div></div>
+      <div class="form-group full"><div class="toggle-row" tabindex="0" role="switch" aria-checked="false" aria-label="Nuovo nato o adottato nel 2025" onclick="toggleSwitch('nuovo_nato')" onkeydown="handleToggleKey(event,'nuovo_nato')"><span data-i18n="label.nuovo_nato">Nuovo nato o adottato nel 2025</span><div class="toggle" id="toggle-nuovo_nato"></div></div></div>
     </div>
-    <div class="nav-buttons"><button class="btn btn-secondary" onclick="prevStep()" aria-label="Indietro" data-i18n="btn.prev">← Indietro</button><button class="btn btn-primary" onclick="nextStep()" aria-label="Avanti" data-i18n="btn.next">Avanti →</button></div>
+    <div class="nav-buttons"><button class="btn btn-secondary" onclick="prevStep()" aria-label="Indietro" data-i18n="btn.prev">Indietro</button><button class="btn btn-primary" onclick="nextStep()" aria-label="Avanti" data-i18n="btn.next">Avanti</button></div>
   </div>
   <div class="step" data-step="3">
-    <div class="step-header"><div class="step-icon s3">💰</div><div><h2 data-i18n="step3.title">Situazione economica</h2><div class="step-sub" data-i18n="step3.subtitle">ISEE e reddito — puoi anche lasciare vuoto</div></div></div>
+    <div class="step-header"><div class="step-icon s3">3</div><div><h2 data-i18n="step3.title">Situazione economica</h2><div class="step-sub" data-i18n="step3.subtitle">ISEE e reddito</div></div></div>
     <div class="isee-upload" id="iseeUpload" tabindex="0" role="button" aria-label="Carica attestazione ISEE" onclick="document.getElementById('iseeFile').click()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();document.getElementById('iseeFile').click()}">
-      <div class="upload-icon">📄</div><h4 data-i18n="isee.upload">Carica attestazione ISEE (PDF)</h4><p data-i18n="isee.upload_desc">Elaborato localmente, poi cancellato</p>
+      <div class="upload-icon">PDF</div><h4 data-i18n="isee.upload">Carica attestazione ISEE (PDF)</h4><p data-i18n="isee.upload_desc">Elaborato localmente, poi cancellato</p>
       <input type="file" id="iseeFile" accept=".pdf" style="display:none" onchange="handleISEEUpload(this)">
     </div>
     <div class="or-divider" data-i18n="isee.or">oppure inserisci manualmente</div>
     <div class="form-grid">
-      <div class="form-group"><label data-i18n="label.isee">ISEE (€)</label><input type="number" id="isee" placeholder="es. 18000" min="0" max="500000" step="100" aria-label="ISEE in euro"><div class="field-error" id="err-isee"></div></div>
-      <div class="form-group"><label data-i18n="label.reddito">Reddito annuo lordo (€)</label><input type="number" id="reddito_annuo" placeholder="es. 25000" min="0" max="1000000" step="100" aria-label="Reddito annuo lordo"><div class="field-error" id="err-reddito_annuo"></div></div>
+      <div class="form-group"><label data-i18n="label.isee">ISEE (EUR)</label><input type="number" id="isee" placeholder="es. 18000" min="0" max="500000" step="100" aria-label="ISEE in euro"><div class="field-error" id="err-isee"></div></div>
+      <div class="form-group"><label data-i18n="label.reddito">Reddito annuo lordo (EUR)</label><input type="number" id="reddito_annuo" placeholder="es. 25000" min="0" max="1000000" step="100" aria-label="Reddito annuo lordo"><div class="field-error" id="err-reddito_annuo"></div></div>
     </div>
-    <div class="nav-buttons"><button class="btn btn-secondary" onclick="prevStep()" aria-label="Indietro" data-i18n="btn.prev">← Indietro</button><button class="btn btn-primary" onclick="nextStep()" aria-label="Avanti" data-i18n="btn.next">Avanti →</button></div>
+    <div class="nav-buttons"><button class="btn btn-secondary" onclick="prevStep()" aria-label="Indietro" data-i18n="btn.prev">Indietro</button><button class="btn btn-primary" onclick="nextStep()" aria-label="Avanti" data-i18n="btn.next">Avanti</button></div>
   </div>
   <div class="step" data-step="4">
-    <div class="step-header"><div class="step-icon s4">🏠</div><div><h2 data-i18n="step4.title">La tua situazione</h2><div class="step-sub" data-i18n="step4.subtitle">Abitazione e altro</div></div></div>
+    <div class="step-header"><div class="step-icon s4">4</div><div><h2 data-i18n="step4.title">La tua situazione</h2><div class="step-sub" data-i18n="step4.subtitle">Abitazione e altro</div></div></div>
     <div class="form-grid">
-      <div class="form-group full"><div class="toggle-row" tabindex="0" role="switch" aria-checked="false" aria-label="Sono in affitto" onclick="toggleSwitch('affittuario')" onkeydown="handleToggleKey(event,'affittuario')"><span data-i18n="label.affittuario">🔑 Sono in affitto</span><div class="toggle" id="toggle-affittuario"></div></div></div>
-      <div class="form-group full"><div class="toggle-row" tabindex="0" role="switch" aria-checked="false" aria-label="Prima casa" onclick="toggleSwitch('prima_abitazione')" onkeydown="handleToggleKey(event,'prima_abitazione')"><span data-i18n="label.prima_casa">🏡 Sto comprando / ho comprato prima casa</span><div class="toggle" id="toggle-prima_abitazione"></div></div></div>
-      <div class="form-group full"><div class="toggle-row" tabindex="0" role="switch" aria-checked="false" aria-label="Ristrutturazione in corso" onclick="toggleSwitch('ristrutturazione')" onkeydown="handleToggleKey(event,'ristrutturazione')"><span data-i18n="label.ristrutturazione">🔨 Ristrutturazione in corso o in programma</span><div class="toggle" id="toggle-ristrutturazione"></div></div></div>
-      <div class="form-group full"><div class="toggle-row" tabindex="0" role="switch" aria-checked="false" aria-label="Studente universitario" onclick="toggleSwitch('studente')" onkeydown="handleToggleKey(event,'studente')"><span data-i18n="label.studente">🎓 Sono studente universitario</span><div class="toggle" id="toggle-studente"></div></div></div>
+      <div class="form-group full"><div class="toggle-row" tabindex="0" role="switch" aria-checked="false" aria-label="Sono in affitto" onclick="toggleSwitch('affittuario')" onkeydown="handleToggleKey(event,'affittuario')"><span data-i18n="label.affittuario">Sono in affitto</span><div class="toggle" id="toggle-affittuario"></div></div></div>
+      <div class="form-group full"><div class="toggle-row" tabindex="0" role="switch" aria-checked="false" aria-label="Prima casa" onclick="toggleSwitch('prima_abitazione')" onkeydown="handleToggleKey(event,'prima_abitazione')"><span data-i18n="label.prima_casa">Sto comprando / ho comprato prima casa</span><div class="toggle" id="toggle-prima_abitazione"></div></div></div>
+      <div class="form-group full"><div class="toggle-row" tabindex="0" role="switch" aria-checked="false" aria-label="Ristrutturazione in corso" onclick="toggleSwitch('ristrutturazione')" onkeydown="handleToggleKey(event,'ristrutturazione')"><span data-i18n="label.ristrutturazione">Ristrutturazione in corso o in programma</span><div class="toggle" id="toggle-ristrutturazione"></div></div></div>
+      <div class="form-group full"><div class="toggle-row" tabindex="0" role="switch" aria-checked="false" aria-label="Studente universitario" onclick="toggleSwitch('studente')" onkeydown="handleToggleKey(event,'studente')"><span data-i18n="label.studente">Sono studente universitario</span><div class="toggle" id="toggle-studente"></div></div></div>
     </div>
-    <div class="nav-buttons"><button class="btn btn-secondary" onclick="prevStep()" aria-label="Indietro" data-i18n="btn.prev">← Indietro</button><button class="btn btn-primary" onclick="submitScan()" aria-label="Trova i miei bonus" data-i18n="btn.submit">🔍 Trova i miei bonus</button></div>
+    <div class="nav-buttons"><button class="btn btn-secondary" onclick="prevStep()" aria-label="Indietro" data-i18n="btn.prev">Indietro</button><button class="btn btn-primary" onclick="submitScan()" aria-label="Trova i miei bonus" data-i18n="btn.submit">Trova i miei bonus</button></div>
   </div>
 </section>
 
 </div><!-- end #main -->
 
 <div class="loading-overlay" id="loading" aria-live="polite" role="status">
-  <div class="loader"><div class="loader-ring"></div><div class="loader-emoji">🎯</div></div>
+  <div class="loader"></div>
   <p data-i18n="loading.analyzing">Stiamo analizzando la tua situazione...</p>
   <div class="substep" id="loadingStep">Confronto con 20+ bonus attivi</div>
 </div>
@@ -290,18 +500,18 @@ footer{position:relative;z-index:1;background:#fff;border-top:1px solid var(--bo
   <div class="results-hero" id="resultsHero"></div>
   <div id="iseeWarning"></div>
   <div class="results-actions" id="resultsActions">
-    <button class="action-btn" onclick="downloadCalendar()" aria-label="Scarica scadenze" data-i18n="results.calendar">📅 Scarica scadenze</button>
-    <button class="action-btn" onclick="downloadPDF()" aria-label="Scarica PDF" data-i18n="results.pdf">📄 Scarica PDF</button>
-    <button class="action-btn" onclick="printResults()" aria-label="Stampa per il CAF" data-i18n="results.print">🖨️ Stampa per il CAF</button>
-    <button class="action-btn" onclick="expandAll()" aria-label="Espandi tutto" data-i18n="results.expand">📖 Espandi tutto</button>
-    <div style="position:relative"><button class="action-btn" onclick="toggleShareMenu()" aria-label="Condividi" aria-expanded="false" id="shareBtn" data-i18n="results.share">📤 Condividi</button><div class="share-dropdown" id="shareDropdown" role="menu"></div></div>
+    <button class="action-btn" onclick="downloadCalendar()" aria-label="Scarica scadenze" data-i18n="results.calendar">Scarica scadenze</button>
+    <button class="action-btn" onclick="downloadPDF()" aria-label="Scarica PDF" data-i18n="results.pdf">Scarica PDF</button>
+    <button class="action-btn" onclick="printResults()" aria-label="Stampa per il CAF" data-i18n="results.print">Stampa per il CAF</button>
+    <button class="action-btn" onclick="expandAll()" aria-label="Espandi tutto" data-i18n="results.expand">Espandi tutto</button>
+    <div style="position:relative"><button class="action-btn" onclick="toggleShareMenu()" aria-label="Condividi" aria-expanded="false" id="shareBtn" data-i18n="results.share">Condividi</button><div class="share-dropdown" id="shareDropdown" role="menu"></div></div>
   </div>
   <div class="simulator-box" id="simulatorBox">
-    <h3 onclick="toggleSimulator()" tabindex="0" role="button" aria-expanded="false" aria-controls="simContent" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSimulator()}" data-i18n="sim.title">🧮 Simulatore ISEE <span class="arrow">▾</span></h3>
+    <h3 onclick="toggleSimulator()" tabindex="0" role="button" aria-expanded="false" aria-controls="simContent" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSimulator()}" data-i18n="sim.title">Simulatore ISEE <span class="arrow">+</span></h3>
     <div class="sim-content" id="simContent">
-      <p style="font-size:.88rem;color:var(--text-soft);margin-bottom:14px" data-i18n="sim.label">Inserisci un valore ISEE ipotetico per scoprire se avresti diritto a bonus aggiuntivi.</p>
+      <p style="font-size:.85rem;color:var(--text-soft);margin-bottom:12px" data-i18n="sim.label">Inserisci un valore ISEE ipotetico per scoprire se avresti diritto a bonus aggiuntivi.</p>
       <div class="sim-row">
-        <div class="form-group"><label>ISEE simulato (€)</label><input type="number" id="iseeSimulato" placeholder="es. 15000" min="0" max="500000" step="100" aria-label="ISEE simulato"></div>
+        <div class="form-group"><label>ISEE simulato (EUR)</label><input type="number" id="iseeSimulato" placeholder="es. 15000" min="0" max="500000" step="100" aria-label="ISEE simulato"></div>
         <button class="btn btn-primary" onclick="runSimulation()" aria-label="Simula" data-i18n="sim.button">Simula</button>
       </div>
       <div class="simulator-result" id="simResult" aria-live="polite"></div>
@@ -310,16 +520,16 @@ footer{position:relative;z-index:1;background:#fff;border-top:1px solid var(--bo
   <div class="category-filter" id="categoryFilter" role="tablist" aria-label="Filtra bonus per categoria"></div>
   <div id="bonusList"></div>
   <div class="restart-section">
-    <div class="privacy-note" data-i18n="privacy.refresh_note">🔒 I tuoi dati verranno cancellati al refresh</div><br>
-    <button class="btn btn-secondary" onclick="findCAF()" aria-label="Trova CAF vicino a te" style="max-width:320px;margin:0 auto 12px;display:flex" data-i18n="caf.find">📍 Trova CAF vicino a te</button>
-    <button class="btn btn-secondary" onclick="resetAll()" aria-label="Cancella dati e ricomincia" style="max-width:320px;margin:0 auto" data-i18n="btn.reset">🗑️ Cancella dati e ricomincia</button>
+    <div class="privacy-note" data-i18n="privacy.refresh_note">I tuoi dati verranno cancellati al refresh</div><br>
+    <button class="btn btn-secondary" onclick="findCAF()" aria-label="Trova CAF vicino a te" style="max-width:300px;margin:0 auto 10px;display:flex" data-i18n="caf.find">Trova CAF vicino a te</button>
+    <button class="btn btn-secondary" onclick="resetAll()" aria-label="Cancella dati e ricomincia" style="max-width:300px;margin:0 auto" data-i18n="btn.reset">Cancella dati e ricomincia</button>
     <div class="coming-soon" id="comingSoon">
       <h3 data-i18n="coming.title">Prossimamente su Bonus360</h3>
       <div class="cs-pills">
-        <span class="cs-pill" data-i18n="coming.telegram">🔔 Notifiche Telegram</span>
-        <span class="cs-pill" data-i18n="coming.whatsapp">💬 Aggiornamenti WhatsApp</span>
+        <span class="cs-pill" data-i18n="coming.telegram">Notifiche Telegram</span>
+        <span class="cs-pill" data-i18n="coming.whatsapp">Aggiornamenti WhatsApp</span>
       </div>
-      <p style="font-size:.88rem;color:var(--text-soft);margin-bottom:14px" data-i18n="coming.desc">Lascia la tua email per essere avvisato al lancio</p>
+      <p style="font-size:.85rem;color:var(--text-soft);margin-bottom:12px" data-i18n="coming.desc">Lascia la tua email per essere avvisato al lancio</p>
       <div class="notify-form" id="notifyForm">
         <input type="email" id="notifyEmail" placeholder="La tua email..." aria-label="Email per notifiche" data-i18n-placeholder="coming.email_placeholder">
         <button class="btn btn-primary" onclick="submitNotify()" aria-label="Avvisami" data-i18n="coming.email_button">Avvisami</button>
@@ -330,14 +540,14 @@ footer{position:relative;z-index:1;background:#fff;border-top:1px solid var(--bo
 
 <footer role="contentinfo">
   <div class="footer-badges">
-    <div class="footer-badge" data-i18n="footer.gdpr">🛡️ GDPR Compliant</div>
-    <div class="footer-badge" data-i18n="footer.no_cookie">🍪 Zero Cookie</div>
-    <div class="footer-badge" data-i18n="footer.no_tracking">📊 Zero Tracking</div>
-    <div class="footer-badge" data-i18n="footer.eu">🇪🇺 Server EU</div>
-    <div class="footer-badge" data-i18n="footer.green">🌱 Green Hosting</div>
-    <div class="footer-badge" data-i18n="footer.open">💻 Open Source</div>
+    <div class="footer-badge" data-i18n="footer.gdpr">GDPR Compliant</div>
+    <div class="footer-badge" data-i18n="footer.no_cookie">Zero Cookie</div>
+    <div class="footer-badge" data-i18n="footer.no_tracking">Zero Tracking</div>
+    <div class="footer-badge" data-i18n="footer.eu">Server EU</div>
+    <div class="footer-badge" data-i18n="footer.green">Green Hosting</div>
+    <div class="footer-badge" data-i18n="footer.open">Open Source</div>
   </div>
-  <p class="disclaimer" data-i18n="footer.disclaimer">Bonus360 è un progetto gratuito e open source. Non siamo un CAF né un patronato.<br>Le informazioni sono a scopo orientativo — verifica sempre sui siti ufficiali.<br><a href="#">Privacy Policy</a> · <a href="#">Termini</a> · <a href="#">GitHub</a></p>
+  <p class="disclaimer" data-i18n="footer.disclaimer">Bonus360 e un progetto gratuito e open source. Non siamo un CAF ne un patronato. Le informazioni sono a scopo orientativo — verifica sempre sui siti ufficiali.</p>
 </footer>
 
 <script>
@@ -349,10 +559,8 @@ let activeFilter = 'tutti';
 let lastProfile = null;
 
 // ===== i18n =====
-let currentLang = localStorage.getItem('bonus360_lang') || 'it';
+let currentLang = sessionStorage.getItem('bonus360_lang') || 'it';
 let translations = {};
-const langFlags = { it: '🇮🇹', en: '🇬🇧', fr: '🇫🇷', es: '🇪🇸', ro: '🇷🇴' };
-const langNames = { it: 'IT', en: 'EN', fr: 'FR', es: 'ES', ro: 'RO' };
 
 async function loadTranslations(lang) {
   try {
@@ -367,75 +575,38 @@ async function loadTranslations(lang) {
 function applyTranslations() {
   document.querySelectorAll('[data-i18n]').forEach(function(el) {
     var key = el.getAttribute('data-i18n');
-    var val = getNestedTranslation(key);
+    var val = translations[key];
     if (val) el.textContent = val;
   });
   document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) {
     var key = el.getAttribute('data-i18n-placeholder');
-    var val = getNestedTranslation(key);
+    var val = translations[key];
     if (val) el.placeholder = val;
   });
 }
 
-function getNestedTranslation(key) {
-  var parts = key.split('.');
-  var obj = translations;
-  for (var i = 0; i < parts.length; i++) {
-    if (obj && typeof obj === 'object' && parts[i] in obj) {
-      obj = obj[parts[i]];
-    } else {
-      return null;
-    }
-  }
-  return typeof obj === 'string' ? obj : null;
-}
-
 function setLanguage(lang) {
   currentLang = lang;
-  localStorage.setItem('bonus360_lang', lang);
+  sessionStorage.setItem('bonus360_lang', lang);
   document.documentElement.lang = lang;
-  document.getElementById('langFlag').textContent = langFlags[lang] || '🌐';
-  document.getElementById('langCode').textContent = langNames[lang] || lang.toUpperCase();
-  // Update active class
-  document.querySelectorAll('.lang-option').forEach(function(btn) {
+  // RTL support for Arabic
+  if (lang === 'ar') {
+    document.documentElement.dir = 'rtl';
+  } else {
+    document.documentElement.dir = 'ltr';
+  }
+  // Update active button
+  document.querySelectorAll('.lang-btn').forEach(function(btn) {
     btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
   });
-  closeLangDropdown();
   loadTranslations(lang);
 }
 
-function toggleLangDropdown() {
-  var dd = document.getElementById('langDropdown');
-  var btn = document.getElementById('langBtn');
-  var isOpen = dd.classList.contains('open');
-  dd.classList.toggle('open');
-  btn.setAttribute('aria-expanded', !isOpen);
-  if (!isOpen) {
-    setTimeout(function() {
-      document.addEventListener('click', closeLangOnOutside, true);
-    }, 0);
-  }
-}
-
-function closeLangDropdown() {
-  var dd = document.getElementById('langDropdown');
-  var btn = document.getElementById('langBtn');
-  dd.classList.remove('open');
-  btn.setAttribute('aria-expanded', 'false');
-  document.removeEventListener('click', closeLangOnOutside, true);
-}
-
-function closeLangOnOutside(e) {
-  var sw = document.getElementById('langSwitcher');
-  if (!sw.contains(e.target)) closeLangDropdown();
-}
-
-// Load on init
+// Init language on load
 if (currentLang !== 'it') {
   document.documentElement.lang = currentLang;
-  document.getElementById('langFlag').textContent = langFlags[currentLang] || '🌐';
-  document.getElementById('langCode').textContent = langNames[currentLang] || currentLang.toUpperCase();
-  document.querySelectorAll('.lang-option').forEach(function(btn) {
+  if (currentLang === 'ar') document.documentElement.dir = 'rtl';
+  document.querySelectorAll('.lang-btn').forEach(function(btn) {
     btn.classList.toggle('active', btn.getAttribute('data-lang') === currentLang);
   });
 }
@@ -449,47 +620,30 @@ function calcMini() {
   var figli = parseInt(document.getElementById('mcFilgi').value) || 0;
   var fascia = document.getElementById('mcIsee').value;
   var estimate = 0;
-  // Base: Assegno Unico
   var auPerFiglio = { under15: 189, '15_25': 162, '25_40': 100, over40: 54 };
   estimate += figli * (auPerFiglio[fascia] || 54) * 12;
-  // Bonus nido (per child under 3, roughly)
   if (figli > 0 && fascia === 'under15') estimate += 2724;
   else if (figli > 0 && fascia === '15_25') estimate += 2268;
   else if (figli > 0 && fascia === '25_40') estimate += 1500;
-  // Carta Dedicata a te
   if (fascia === 'under15') estimate += 500;
-  // Bonus bollette
   if (fascia === 'under15') estimate += 600;
   else if (fascia === '15_25') estimate += 300;
-  // Social card
   if (fascia === 'under15' && figli >= 3) estimate += 400;
-
   var el = document.getElementById('mcResult');
   var amountEl = document.getElementById('mcAmount');
-  if (estimate > 0) {
-    amountEl.textContent = 'Fino a €' + estimate.toLocaleString('it-IT') + '/anno';
-    el.classList.add('show');
-  } else {
-    amountEl.textContent = '€0';
-    el.classList.add('show');
-  }
+  amountEl.textContent = 'Fino a EUR ' + estimate.toLocaleString('it-IT') + '/anno';
+  el.classList.add('show');
 }
 calcMini();
 
 // ===== Keyboard handlers for toggle switches (a11y) =====
 function handleToggleKey(event, name) {
-  if (event.key === 'Enter' || event.key === ' ') {
-    event.preventDefault();
-    toggleSwitch(name);
-  }
+  if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); toggleSwitch(name); }
 }
 
 // ===== Escape key handler =====
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
-    // Close lang dropdown
-    closeLangDropdown();
-    // Close share dropdown
     var sd = document.getElementById('shareDropdown');
     if (sd) sd.style.display = 'none';
     var sb = document.getElementById('shareBtn');
@@ -545,7 +699,6 @@ function prevStep() {
 function toggleSwitch(n) {
   toggles[n] = !toggles[n];
   document.getElementById('toggle-' + n).classList.toggle('on', toggles[n]);
-  // Update aria-checked on the toggle-row
   var row = document.getElementById('toggle-' + n).closest('.toggle-row');
   if (row) row.setAttribute('aria-checked', toggles[n] ? 'true' : 'false');
 }
@@ -558,7 +711,7 @@ function uploadISEEFile(file) {
   const u = document.getElementById('iseeUpload');
   u.classList.remove('uploaded', 'isee-success', 'isee-error', 'drag-over');
   u.classList.add('uploaded');
-  u.querySelector('h4').textContent = '⏳ Analisi in corso...';
+  u.querySelector('h4').textContent = 'Analisi in corso...';
   u.querySelector('p').textContent = file.name;
   const fd = new FormData();
   fd.append('file', file);
@@ -568,19 +721,19 @@ function uploadISEEFile(file) {
       u.classList.remove('uploaded');
       if (d.found) {
         u.classList.add('isee-success');
-        u.querySelector('h4').textContent = '✓ ISEE rilevato: €' + d.isee.toLocaleString('it-IT');
+        u.querySelector('h4').textContent = 'ISEE rilevato: EUR ' + d.isee.toLocaleString('it-IT');
         u.querySelector('p').textContent = file.name;
         document.getElementById('isee').value = d.isee;
       } else {
         u.classList.add('isee-error');
-        u.querySelector('h4').textContent = '⚠️ ISEE non trovato nel PDF';
+        u.querySelector('h4').textContent = 'ISEE non trovato nel PDF';
         u.querySelector('p').textContent = 'Inseriscilo manualmente';
       }
     })
     .catch(() => {
       u.classList.remove('uploaded');
       u.classList.add('isee-error');
-      u.querySelector('h4').textContent = '⚠️ Errore elaborazione PDF';
+      u.querySelector('h4').textContent = 'Errore elaborazione PDF';
       u.querySelector('p').textContent = 'Inserisci l\'ISEE manualmente';
     });
 }
@@ -591,17 +744,11 @@ document.addEventListener('DOMContentLoaded', function() {
   u.addEventListener('dragenter', function(e) { e.preventDefault(); u.classList.add('drag-over'); });
   u.addEventListener('dragleave', function(e) { e.preventDefault(); u.classList.remove('drag-over'); });
   u.addEventListener('drop', function(e) {
-    e.preventDefault();
-    u.classList.remove('drag-over');
+    e.preventDefault(); u.classList.remove('drag-over');
     if (e.dataTransfer.files.length > 0) {
-      const f = e.dataTransfer.files[0];
-      if (f.type === 'application/pdf') {
-        uploadISEEFile(f);
-      } else {
-        u.classList.add('isee-error');
-        u.querySelector('h4').textContent = '⚠️ Solo file PDF';
-        u.querySelector('p').textContent = 'Carica un file PDF dell\'attestazione ISEE';
-      }
+      var f = e.dataTransfer.files[0];
+      if (f.type === 'application/pdf') { uploadISEEFile(f); }
+      else { u.classList.add('isee-error'); u.querySelector('h4').textContent = 'Solo file PDF'; u.querySelector('p').textContent = 'Carica un file PDF dell\'attestazione ISEE'; }
     }
   });
 });
@@ -609,10 +756,10 @@ document.addEventListener('DOMContentLoaded', function() {
 async function submitScan() {
   if (!validateStep(4)) return;
   const eta = parseInt(document.getElementById('eta').value);
-  if (!eta || eta <= 0) { showError('eta', 'L\'età è obbligatoria per procedere'); return; }
+  if (!eta || eta < 18) { showError('eta', 'L\'eta deve essere almeno 18 anni'); return; }
   const loading = document.getElementById('loading');
   loading.classList.add('show');
-  const steps = ['Analisi dati anagrafici...', 'Verifica requisiti familiari...', 'Calcolo compatibilità ISEE...', 'Ricerca bonus attivi...', 'Preparazione risultati 🎉'];
+  const steps = ['Analisi dati anagrafici...', 'Verifica requisiti familiari...', 'Calcolo compatibilita ISEE...', 'Ricerca bonus attivi...', 'Preparazione risultati...'];
   let i = 0;
   const si = setInterval(() => { if (i < steps.length) { document.getElementById('loadingStep').textContent = steps[i]; i++; } }, 400);
 
@@ -635,14 +782,13 @@ async function submitScan() {
     studente: toggles.studente || document.getElementById('occupazione').value === 'studente',
     nuovo_nato_2025: toggles.nuovo_nato
   };
-
   lastProfile = profile;
 
   try {
     const r = await fetch('/api/match', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(profile) });
     resultData = await r.json();
   } catch (e) {
-    resultData = { bonus_trovati: 0, risparmio_stimato: '€0', bonus: [] };
+    resultData = { bonus_trovati: 0, risparmio_stimato: 'EUR 0', bonus: [] };
   }
 
   setTimeout(() => {
@@ -655,12 +801,24 @@ async function submitScan() {
   }, 2200);
 }
 
+function buildShareText() {
+  if (!resultData || resultData.bonus_trovati === 0) return '';
+  var lines = ['I miei bonus — Bonus360\n'];
+  lines.push('Bonus trovati: ' + resultData.bonus_trovati);
+  lines.push('Risparmio stimato: ' + resultData.risparmio_stimato + '/anno\n');
+  resultData.bonus.forEach(function(b) {
+    lines.push('- ' + b.nome + ' (' + b.importo + ') — ' + b.compatibilita + '% compatibile');
+  });
+  lines.push('\nVerifica anche tu gratis: ' + window.location.origin);
+  return lines.join('\n');
+}
+
 function renderResults() {
   if (!resultData) return;
-
+  var catIcons = { famiglia: 'Famiglia', casa: 'Casa', salute: 'Salute', istruzione: 'Istruzione', spesa: 'Spesa', trasporti: 'Trasporti', lavoro: 'Lavoro', sostegno: 'Sostegno', altro: 'Altro' };
   const hero = document.getElementById('resultsHero');
   if (resultData.bonus_trovati === 0) {
-    hero.innerHTML = '<div class="confetti">😔</div><h2 data-i18n="results.no_results">Nessun bonus trovato</h2><p class="subtitle" data-i18n="results.no_results_desc">Con i dati che hai inserito non risultano bonus compatibili. Prova a modificare i parametri o verifica di aver inserito l\'ISEE.</p><button class="btn btn-primary" style="margin-top:20px;display:inline-flex" onclick="resetAll()" aria-label="Modifica i dati" data-i18n="btn.modify">🔄 Modifica i dati</button>';
+    hero.innerHTML = '<h2 data-i18n="results.no_results">Nessun bonus trovato</h2><p class="subtitle" data-i18n="results.no_results_desc">Con i dati che hai inserito non risultano bonus compatibili. Prova a modificare i parametri o verifica di aver inserito l\'ISEE.</p><button class="btn btn-primary" style="margin-top:16px;display:inline-flex;max-width:220px" onclick="resetAll()" aria-label="Modifica i dati" data-i18n="btn.modify">Modifica i dati</button>';
     document.getElementById('categoryFilter').innerHTML = '';
     document.getElementById('bonusList').innerHTML = '';
     document.getElementById('resultsActions').style.display = 'none';
@@ -670,26 +828,20 @@ function renderResults() {
     return;
   }
 
-  hero.innerHTML = '<div class="confetti">🎉</div><h2 data-i18n="results.title">Buone notizie per la tua famiglia!</h2><div class="saving" id="resultSaving">' + resultData.risparmio_stimato + '</div><div class="subtitle" data-i18n="results.subtitle">di risparmio stimato con <strong id="resultCount">' + resultData.bonus_trovati + '</strong> bonus compatibili</div>';
-
-  // Show results actions
+  hero.innerHTML = '<h2 data-i18n="results.title">Buone notizie per la tua famiglia!</h2><div class="saving" id="resultSaving">' + resultData.risparmio_stimato + '</div><div class="subtitle" data-i18n="results.subtitle">di risparmio stimato con <strong id="resultCount">' + resultData.bonus_trovati + '</strong> bonus compatibili</div>';
   document.getElementById('resultsActions').style.display = '';
   document.getElementById('simulatorBox').style.display = '';
-
-  // Render ISEE warning
   renderISEEWarning();
 
   const categories = ['tutti', ...new Set(resultData.bonus.map(b => b.categoria))];
-  const catLabels = { tutti: '🎯 Tutti', famiglia: '👨‍👩‍👧 Famiglia', casa: '🏠 Casa', salute: '🧠 Salute', istruzione: '📚 Istruzione', spesa: '🛒 Spesa', trasporti: '🚌 Trasporti', lavoro: '💼 Lavoro', sostegno: '🤝 Sostegno', altro: '📋 Altro' };
   const fe = document.getElementById('categoryFilter');
   fe.innerHTML = '';
   categories.forEach(cat => {
     const b = document.createElement('button');
     b.className = 'filter-btn' + (cat === activeFilter ? ' active' : '');
-    b.textContent = catLabels[cat] || cat;
+    b.textContent = cat === 'tutti' ? 'Tutti' : (catIcons[cat] || cat);
     b.setAttribute('role', 'tab');
     b.setAttribute('aria-selected', cat === activeFilter ? 'true' : 'false');
-    b.setAttribute('aria-label', 'Filtra: ' + (catLabels[cat] || cat));
     b.onclick = () => { activeFilter = cat; renderResults(); };
     fe.appendChild(b);
   });
@@ -697,55 +849,43 @@ function renderResults() {
   const list = document.getElementById('bonusList');
   list.innerHTML = '';
   const filtered = activeFilter === 'tutti' ? resultData.bonus : resultData.bonus.filter(b => b.categoria === activeFilter);
-  const ce = { famiglia: '👨‍👩‍👧', casa: '🏠', salute: '🧠', istruzione: '📚', spesa: '🛒', trasporti: '🚌', lavoro: '💼', sostegno: '🤝', altro: '📋' };
 
   filtered.forEach(bonus => {
     const cc = bonus.compatibilita >= 80 ? 'compat-high' : bonus.compatibilita >= 50 ? 'compat-med' : 'compat-low';
-    const cl = bonus.compatibilita >= 80 ? '✓ Alta' : bonus.compatibilita >= 50 ? '~ Media' : '? Da verificare';
+    const cl = bonus.compatibilita >= 80 ? 'Alta' : bonus.compatibilita >= 50 ? 'Media' : 'Da verificare';
 
-    // Build importo reale bar if different
     let importoRealeHTML = '';
     if (bonus.importo_reale && bonus.importo_reale !== bonus.importo) {
       importoRealeHTML = '<div class="importo-reale-bar"><span class="il" data-i18n="results.importo_reale">Importo stimato per te</span><span class="iv">' + bonus.importo_reale + '</span></div>';
     }
 
-    // Build documents checklist
     let docsHTML = '';
     if (bonus.documenti && bonus.documenti.length > 0) {
-      docsHTML = '<div class="detail-section"><h4 data-i18n="results.documenti">📎 Documenti necessari</h4><div class="doc-checklist">' +
-        bonus.documenti.map(doc => '<div class="doc-item" tabindex="0" role="checkbox" aria-checked="false" onclick="toggleDoc(this)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();toggleDoc(this)}"><span class="doc-check">✓</span><span class="doc-label">' + doc + '</span></div>').join('') +
+      docsHTML = '<div class="detail-section"><h4 data-i18n="results.documenti">Documenti necessari</h4><div class="doc-checklist">' +
+        bonus.documenti.map(doc => '<div class="doc-item" tabindex="0" role="checkbox" aria-checked="false" onclick="toggleDoc(this)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();toggleDoc(this)}"><span class="doc-check">&#10003;</span><span class="doc-label">' + doc + '</span></div>').join('') +
         '</div></div>';
     }
 
-    // Build FAQ accordion
     let faqHTML = '';
     if (bonus.faq && bonus.faq.length > 0) {
-      faqHTML = '<div class="detail-section faq-section"><h4 data-i18n="results.faq">❓ Domande frequenti</h4>' +
+      faqHTML = '<div class="detail-section faq-section"><h4 data-i18n="results.faq">Domande frequenti</h4>' +
         bonus.faq.map(f => '<div class="faq-item"><div class="faq-question" tabindex="0" role="button" aria-expanded="false" onclick="toggleFaq(this)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();toggleFaq(this)}">' + f.domanda + '</div><div class="faq-answer">' + f.risposta + '</div></div>').join('') +
         '</div>';
     }
 
-    // Build source references section
     let sourceHTML = '';
     if (bonus.fonte_url || bonus.fonte_nome || bonus.riferimenti_normativi || bonus.ultimo_aggiornamento || bonus.stato) {
-      sourceHTML = '<div class="source-ref"><h4 data-i18n="results.fonti">📚 Fonti e riferimenti</h4>';
+      sourceHTML = '<div class="source-ref"><h4 data-i18n="results.fonti">Fonti e riferimenti</h4>';
       if (bonus.fonte_nome) {
         sourceHTML += '<div class="sr-row"><span class="sr-label" data-i18n="results.fonte_ist">Fonte:</span> ';
-        if (bonus.fonte_url) {
-          sourceHTML += '<a href="' + bonus.fonte_url + '" target="_blank" rel="noopener">' + bonus.fonte_nome + '</a>';
-        } else {
-          sourceHTML += bonus.fonte_nome;
-        }
+        if (bonus.fonte_url) { sourceHTML += '<a href="' + bonus.fonte_url + '" target="_blank" rel="noopener">' + bonus.fonte_nome + '</a>'; }
+        else { sourceHTML += bonus.fonte_nome; }
         sourceHTML += '</div>';
       } else if (bonus.fonte_url) {
         sourceHTML += '<div class="sr-row"><span class="sr-label" data-i18n="results.fonte_ist">Fonte:</span> <a href="' + bonus.fonte_url + '" target="_blank" rel="noopener">' + bonus.fonte_url + '</a></div>';
       }
-      if (bonus.riferimenti_normativi) {
-        sourceHTML += '<div class="sr-row"><span class="sr-label" data-i18n="results.fonte_edit">Rif. normativi:</span> ' + bonus.riferimenti_normativi + '</div>';
-      }
-      if (bonus.ultimo_aggiornamento) {
-        sourceHTML += '<div class="sr-row"><span class="sr-label" data-i18n="results.last_update">Aggiornato:</span> ' + bonus.ultimo_aggiornamento + '</div>';
-      }
+      if (bonus.riferimenti_normativi) { sourceHTML += '<div class="sr-row"><span class="sr-label" data-i18n="results.fonte_edit">Rif. normativi:</span> ' + bonus.riferimenti_normativi + '</div>'; }
+      if (bonus.ultimo_aggiornamento) { sourceHTML += '<div class="sr-row"><span class="sr-label" data-i18n="results.last_update">Aggiornato:</span> ' + bonus.ultimo_aggiornamento + '</div>'; }
       if (bonus.stato) {
         var statoClass = bonus.stato === 'attivo' ? 'attivo' : bonus.stato === 'scaduto' ? 'scaduto' : 'in_scadenza';
         sourceHTML += '<div class="sr-row"><span class="sr-label">Stato:</span> <span class="sr-stato ' + statoClass + '">' + bonus.stato + '</span></div>';
@@ -753,30 +893,25 @@ function renderResults() {
       sourceHTML += '</div>';
     }
 
-    // WhatsApp share button
-    var waMsg = 'Ho scoperto il bonus "' + bonus.nome + '" su Bonus360! ' + (bonus.importo ? 'Vale ' + bonus.importo + '. ' : '') + 'Verifica anche tu: ' + window.location.href;
-    var waShareHTML = '<a href="https://wa.me/?text=' + encodeURIComponent(waMsg) + '" target="_blank" rel="noopener" class="wa-share-btn" aria-label="Condividi ' + bonus.nome + ' su WhatsApp" data-i18n="results.share_bonus">💬 Condividi</a>';
+    var waMsg = 'Ho scoperto il bonus "' + bonus.nome + '" su Bonus360! ' + (bonus.importo ? 'Vale ' + bonus.importo + '. ' : '') + 'Verifica anche tu: ' + window.location.origin;
+    var waShareHTML = '<a href="https://wa.me/?text=' + encodeURIComponent(waMsg) + '" target="_blank" rel="noopener" class="wa-share-btn" aria-label="Condividi ' + bonus.nome + ' su WhatsApp" data-i18n="results.share_bonus">Condividi</a>';
 
     const card = document.createElement('div');
     card.className = 'bonus-card';
     card.innerHTML = '<div class="cat-stripe cat-' + bonus.categoria + '"></div>' +
-      '<div class="bonus-card-top"><div><h3>' + (ce[bonus.categoria] || '📋') + ' ' + bonus.nome + '</h3><span class="ente-tag">' + bonus.ente + '</span></div><div class="compat-pill ' + cc + '">' + cl + ' · ' + bonus.compatibilita + '%</div></div>' +
+      '<div class="bonus-card-top"><div><h3>' + bonus.nome + '</h3><span class="ente-tag">' + bonus.ente + '</span></div><div class="compat-pill ' + cc + '">' + cl + ' ' + bonus.compatibilita + '%</div></div>' +
       '<div class="desc">' + bonus.descrizione + '</div>' +
       '<div class="importo-bar"><span class="il" data-i18n="results.importo">Importo</span><span class="iv">' + bonus.importo + '</span></div>' +
       importoRealeHTML +
-      '<button class="expand-btn" aria-expanded="false" aria-controls="details-' + bonus.id + '" onclick="toggleDetails(\'' + bonus.id + '\')" data-i18n="results.details">Vedi come richiederlo ▾</button>' +
+      '<button class="expand-btn" aria-expanded="false" aria-controls="details-' + bonus.id + '" onclick="toggleDetails(\'' + bonus.id + '\')" data-i18n="results.details">Vedi come richiederlo +</button>' +
       '<div class="bonus-details" id="details-' + bonus.id + '">' +
-        '<div class="detail-section req"><h4 data-i18n="results.requisiti">📋 Requisiti</h4><ul>' + bonus.requisiti.map(r => '<li>' + r + '</li>').join('') + '</ul></div>' +
-        '<div class="detail-section how"><h4 data-i18n="results.come_fare">📝 Come fare domanda</h4><ul>' + bonus.come_richiederlo.map(r => '<li>' + r + '</li>').join('') + '</ul></div>' +
-        docsHTML +
-        faqHTML +
-        sourceHTML +
-        '<div style="margin-top:14px;display:flex;align-items:center;flex-wrap:wrap;gap:8px"><a href="' + bonus.link_ufficiale + '" target="_blank" rel="noopener" class="bonus-link" aria-label="Sito ufficiale ' + bonus.nome + '" data-i18n="results.link_ufficiale">🔗 Sito ufficiale →</a>' + (bonus.scadenza ? '<span class="scadenza-tag">⏰ ' + bonus.scadenza + '</span>' : '') + waShareHTML + '</div>' +
+        '<div class="detail-section req"><h4 data-i18n="results.requisiti">Requisiti</h4><ul>' + bonus.requisiti.map(r => '<li>' + r + '</li>').join('') + '</ul></div>' +
+        '<div class="detail-section how"><h4 data-i18n="results.come_fare">Come fare domanda</h4><ul>' + bonus.come_richiederlo.map(r => '<li>' + r + '</li>').join('') + '</ul></div>' +
+        docsHTML + faqHTML + sourceHTML +
+        '<div style="margin-top:12px;display:flex;align-items:center;flex-wrap:wrap;gap:6px"><a href="' + bonus.link_ufficiale + '" target="_blank" rel="noopener" class="bonus-link" aria-label="Sito ufficiale ' + bonus.nome + '" data-i18n="results.link_ufficiale">Sito ufficiale &rarr;</a>' + (bonus.scadenza ? '<span class="scadenza-tag">' + bonus.scadenza + '</span>' : '') + waShareHTML + '</div>' +
       '</div>';
     list.appendChild(card);
   });
-
-  // Re-apply translations to dynamically added elements
   applyTranslations();
 }
 
@@ -784,17 +919,9 @@ function renderISEEWarning() {
   const box = document.getElementById('iseeWarning');
   const isee = lastProfile ? lastProfile.isee : 0;
   if (isee > 0) {
-    box.innerHTML = '<div class="isee-warning warn">' +
-      '<button class="close-warn" onclick="this.parentElement.remove()" aria-label="Chiudi avviso">&times;</button>' +
-      '<span data-i18n="isee_warn.has_isee">⚠️ <strong>Ricorda:</strong> l\'attestazione ISEE ha validità fino al 31 dicembre dell\'anno in corso. ' +
-      'Se il tuo ISEE è scaduto o sta per scadere, rinnovala presso un CAF per non perdere l\'accesso ai bonus.</span>' +
-      '</div>';
+    box.innerHTML = '<div class="isee-warning warn"><button class="close-warn" onclick="this.parentElement.remove()" aria-label="Chiudi avviso">&times;</button><span data-i18n="isee_warn.has_isee"><strong>Ricorda:</strong> l\'attestazione ISEE ha validita fino al 31 dicembre dell\'anno in corso. Se il tuo ISEE e scaduto o sta per scadere, rinnovala presso un CAF.</span></div>';
   } else {
-    box.innerHTML = '<div class="isee-warning info">' +
-      '<button class="close-warn" onclick="this.parentElement.remove()" aria-label="Chiudi avviso">&times;</button>' +
-      '<span data-i18n="isee_warn.no_isee">💡 <strong>Non hai inserito l\'ISEE.</strong> Con un ISEE valido potresti sbloccare fino a <strong>12 bonus aggiuntivi</strong> ' +
-      'legati al reddito familiare. Puoi ottenere l\'ISEE gratuitamente presso qualsiasi CAF o sul sito INPS.</span>' +
-      '</div>';
+    box.innerHTML = '<div class="isee-warning info"><button class="close-warn" onclick="this.parentElement.remove()" aria-label="Chiudi avviso">&times;</button><span data-i18n="isee_warn.no_isee"><strong>Non hai inserito l\'ISEE.</strong> Con un ISEE valido potresti sbloccare fino a 12 bonus aggiuntivi legati al reddito familiare. Puoi ottenere l\'ISEE gratuitamente presso qualsiasi CAF o sul sito INPS.</span></div>';
   }
   applyTranslations();
 }
@@ -804,15 +931,14 @@ function toggleDetails(id) {
   el.classList.toggle('open');
   const btn = el.previousElementSibling;
   var isOpen = el.classList.contains('open');
-  btn.textContent = isOpen ? 'Nascondi dettagli ▴' : 'Vedi come richiederlo ▾';
+  btn.textContent = isOpen ? 'Nascondi dettagli -' : 'Vedi come richiederlo +';
   btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 }
 
 function downloadCalendar() {
   if (!resultData || !resultData.bonus) return;
   const bonuses = resultData.bonus.map(b => ({ nome: b.nome, scadenza: b.scadenza }));
-  const url = '/api/calendar?bonuses=' + encodeURIComponent(JSON.stringify(bonuses));
-  window.location.href = url;
+  window.location.href = '/api/calendar?bonuses=' + encodeURIComponent(JSON.stringify(bonuses));
 }
 
 function downloadPDF() {
@@ -822,47 +948,72 @@ function downloadPDF() {
     .then(blob => {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
-      a.href = url;
-      a.download = 'bonus360-report.pdf';
-      a.click();
+      a.href = url; a.download = 'bonus360-report.pdf'; a.click();
       URL.revokeObjectURL(url);
     });
 }
 
-function printResults() {
-  window.print();
-}
+function printResults() { window.print(); }
 
 function expandAll() {
   document.querySelectorAll('.bonus-details').forEach(d => d.classList.add('open'));
-  document.querySelectorAll('.expand-btn').forEach(b => {
-    b.textContent = 'Nascondi dettagli ▴';
-    b.setAttribute('aria-expanded', 'true');
-  });
+  document.querySelectorAll('.expand-btn').forEach(b => { b.textContent = 'Nascondi dettagli -'; b.setAttribute('aria-expanded', 'true'); });
 }
 
 function toggleShareMenu() {
-  const dd = document.getElementById('shareDropdown');
-  const sb = document.getElementById('shareBtn');
-  if (dd.style.display === 'block') {
-    dd.style.display = 'none';
-    sb.setAttribute('aria-expanded', 'false');
-    return;
-  }
-  const msg = 'Ho scoperto che la mia famiglia ha diritto a ' + resultData.bonus_trovati + ' bonus per un risparmio di ' + resultData.risparmio_stimato + ' all\'anno! Verifica anche tu gratis: ' + window.location.href;
-  const isMobile = /Android|iPhone|iPad/.test(navigator.userAgent);
+  var dd = document.getElementById('shareDropdown');
+  var sb = document.getElementById('shareBtn');
+  if (dd.style.display === 'block') { dd.style.display = 'none'; sb.setAttribute('aria-expanded', 'false'); return; }
+
+  var shareText = buildShareText();
+  var isMobile = /Android|iPhone|iPad/.test(navigator.userAgent);
+
   if (isMobile) {
-    window.open('https://wa.me/?text=' + encodeURIComponent(msg));
+    // Mobile: WhatsApp directly
+    window.open('https://wa.me/?text=' + encodeURIComponent(shareText));
     return;
   }
+
   dd.style.display = 'block';
   sb.setAttribute('aria-expanded', 'true');
-  dd.innerHTML = '<a href="https://wa.me/?text=' + encodeURIComponent(msg) + '" target="_blank" role="menuitem">WhatsApp Web</a>' +
-    '<button role="menuitem" onclick="navigator.clipboard.writeText(\'' + window.location.href + '\');this.textContent=\'Copiato!\';setTimeout(()=>{document.getElementById(\'shareDropdown\').style.display=\'none\';document.getElementById(\'shareBtn\').setAttribute(\'aria-expanded\',\'false\')},1000)">Copia link</button>';
+  dd.innerHTML = '';
+
+  // WhatsApp Web
+  var waLink = document.createElement('a');
+  waLink.href = 'https://wa.me/?text=' + encodeURIComponent(shareText);
+  waLink.target = '_blank';
+  waLink.rel = 'noopener';
+  waLink.role = 'menuitem';
+  waLink.textContent = (translations['share.whatsapp'] || 'Condividi su WhatsApp');
+  dd.appendChild(waLink);
+
+  // Copy summary
+  var copyBtn = document.createElement('button');
+  copyBtn.role = 'menuitem';
+  copyBtn.textContent = (translations['share.copy'] || 'Copia riepilogo');
+  copyBtn.onclick = function() {
+    navigator.clipboard.writeText(shareText).then(function() {
+      copyBtn.textContent = (translations['share.copied'] || 'Copiato!');
+      setTimeout(function() { dd.style.display = 'none'; sb.setAttribute('aria-expanded', 'false'); }, 800);
+    });
+  };
+  dd.appendChild(copyBtn);
+
+  // Native share if available
+  if (navigator.share) {
+    var nativeBtn = document.createElement('button');
+    nativeBtn.role = 'menuitem';
+    nativeBtn.textContent = (translations['share.native'] || 'Altre opzioni...');
+    nativeBtn.onclick = function() {
+      navigator.share({ title: translations['share.title'] || 'I miei bonus — Bonus360', text: shareText }).catch(function(){});
+      dd.style.display = 'none'; sb.setAttribute('aria-expanded', 'false');
+    };
+    dd.appendChild(nativeBtn);
+  }
+
   setTimeout(() => document.addEventListener('click', function closeShare(e) {
-    if (!dd.contains(e.target)) {
-      dd.style.display = 'none';
-      sb.setAttribute('aria-expanded', 'false');
+    if (!dd.contains(e.target) && e.target !== sb) {
+      dd.style.display = 'none'; sb.setAttribute('aria-expanded', 'false');
       document.removeEventListener('click', closeShare);
     }
   }, true), 0);
@@ -873,7 +1024,7 @@ function toggleSimulator() {
   content.classList.toggle('open');
   const isOpen = content.classList.contains('open');
   const arrow = document.querySelector('.simulator-box .arrow');
-  arrow.textContent = isOpen ? '▴' : '▾';
+  arrow.textContent = isOpen ? '-' : '+';
   var h3 = content.previousElementSibling;
   if (h3) h3.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 }
@@ -887,26 +1038,16 @@ function runSimulation() {
     .then(d => {
       const el = document.getElementById('simResult');
       if (d.bonus_extra > 0) {
-        el.innerHTML = 'Con un ISEE di €' + iseeSimulato.toLocaleString('it-IT') + ', avresti <strong>' + d.bonus_extra + '</strong> bonus in più per un risparmio extra di <strong>' + d.risparmio_extra + '</strong>/anno';
+        el.innerHTML = 'Con un ISEE di EUR ' + iseeSimulato.toLocaleString('it-IT') + ', avresti <strong>' + d.bonus_extra + '</strong> bonus in piu per un risparmio extra di <strong>' + d.risparmio_extra + '</strong>/anno';
       } else {
-        el.innerHTML = 'Con un ISEE di €' + iseeSimulato.toLocaleString('it-IT') + ', i tuoi bonus resterebbero gli stessi';
+        el.innerHTML = 'Con un ISEE di EUR ' + iseeSimulato.toLocaleString('it-IT') + ', i tuoi bonus resterebbero gli stessi';
       }
       el.style.display = 'block';
     });
 }
 
-function toggleFaq(el) {
-  var item = el.parentElement;
-  item.classList.toggle('open');
-  var isOpen = item.classList.contains('open');
-  el.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-}
-
-function toggleDoc(el) {
-  el.classList.toggle('checked');
-  var isChecked = el.classList.contains('checked');
-  el.setAttribute('aria-checked', isChecked ? 'true' : 'false');
-}
+function toggleFaq(el) { var item = el.parentElement; item.classList.toggle('open'); el.setAttribute('aria-expanded', item.classList.contains('open') ? 'true' : 'false'); }
+function toggleDoc(el) { el.classList.toggle('checked'); el.setAttribute('aria-checked', el.classList.contains('checked') ? 'true' : 'false'); }
 
 function findCAF() {
   const regione = lastProfile ? lastProfile.residenza : '';
@@ -932,7 +1073,7 @@ function submitNotify() {
     .then(r => r.json())
     .then(d => {
       if (d.ok) {
-        document.getElementById('notifyForm').innerHTML = '<p style="color:var(--teal);font-weight:700" data-i18n="coming.thanks">Grazie! Ti avviseremo al lancio.</p>';
+        document.getElementById('notifyForm').innerHTML = '<p style="color:var(--teal);font-weight:600" data-i18n="coming.thanks">Grazie! Ti avviseremo al lancio.</p>';
         applyTranslations();
       }
     });
@@ -944,10 +1085,7 @@ function resetAll() {
   Object.keys(toggles).forEach(k => { toggles[k] = false; });
   document.querySelectorAll('.toggle').forEach(t => t.classList.remove('on'));
   document.querySelectorAll('.toggle-row[role="switch"]').forEach(r => r.setAttribute('aria-checked', 'false'));
-  resultData = null;
-  lastProfile = null;
-  currentStep = 0;
-  activeFilter = 'tutti';
+  resultData = null; lastProfile = null; currentStep = 0; activeFilter = 'tutti';
   document.getElementById('results').classList.remove('show');
   document.getElementById('wizardSection').classList.remove('show');
   document.getElementById('heroSection').style.display = '';
@@ -958,11 +1096,11 @@ function resetAll() {
   document.getElementById('iseeWarning').innerHTML = '';
   document.getElementById('simulatorBox').style.display = '';
   document.getElementById('shareDropdown').style.display = 'none';
-  const simContent = document.getElementById('simContent');
+  var simContent = document.getElementById('simContent');
   if (simContent) simContent.classList.remove('open');
-  const simResult = document.getElementById('simResult');
+  var simResult = document.getElementById('simResult');
   if (simResult) { simResult.style.display = 'none'; simResult.innerHTML = ''; }
-  const u = document.getElementById('iseeUpload');
+  var u = document.getElementById('iseeUpload');
   u.classList.remove('uploaded', 'isee-success', 'isee-error');
   u.querySelector('h4').textContent = 'Carica attestazione ISEE (PDF)';
   u.querySelector('p').textContent = 'Elaborato localmente, poi cancellato';
@@ -970,34 +1108,32 @@ function resetAll() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Validation
-const fieldLimits = { eta: { min: 0, max: 120 }, numero_figli: { min: 0, max: 20 }, figli_minorenni: { min: 0, max: 20 }, figli_under3: { min: 0, max: 10 }, over65: { min: 0, max: 10 }, isee: { min: 0, max: 500000 }, reddito_annuo: { min: 0, max: 1000000 } };
+// ===== Validation =====
+const fieldLimits = { eta: { min: 18, max: 120 }, numero_figli: { min: 0, max: 20 }, figli_minorenni: { min: 0, max: 20 }, figli_under3: { min: 0, max: 10 }, over65: { min: 0, max: 10 }, isee: { min: 0, max: 500000 }, reddito_annuo: { min: 0, max: 1000000 } };
 
 function showError(id, msg) {
-  const el = document.getElementById('err-' + id);
+  var el = document.getElementById('err-' + id);
   if (el) { el.textContent = msg; el.classList.add('show'); }
-  const inp = document.getElementById(id);
+  var inp = document.getElementById(id);
   if (inp) inp.classList.add('invalid');
 }
 
 function clearError(id) {
-  const el = document.getElementById('err-' + id);
+  var el = document.getElementById('err-' + id);
   if (el) { el.textContent = ''; el.classList.remove('show'); }
-  const inp = document.getElementById(id);
+  var inp = document.getElementById(id);
   if (inp) inp.classList.remove('invalid');
 }
 
-function clearAllErrors() {
-  Object.keys(fieldLimits).forEach(clearError);
-}
+function clearAllErrors() { Object.keys(fieldLimits).forEach(clearError); }
 
 function validateStep(step) {
   clearAllErrors();
   let valid = true;
   if (step === 1) {
     const eta = document.getElementById('eta').value;
-    if (eta === '' || isNaN(parseInt(eta))) { showError('eta', 'L\'età è obbligatoria'); valid = false; }
-    else { const v = parseInt(eta); if (v < 0 || v > 120) { showError('eta', 'L\'età deve essere tra 0 e 120'); valid = false; } }
+    if (eta === '' || isNaN(parseInt(eta))) { showError('eta', 'L\'eta e obbligatoria'); valid = false; }
+    else { const v = parseInt(eta); if (v < 18 || v > 120) { showError('eta', 'L\'eta deve essere tra 18 e 120'); valid = false; } }
   }
   if (step === 2) {
     const nf = parseInt(document.getElementById('numero_figli').value) || 0;
@@ -1005,8 +1141,8 @@ function validateStep(step) {
     const fu = parseInt(document.getElementById('figli_under3').value) || 0;
     const o65 = parseInt(document.getElementById('over65').value) || 0;
     if (nf < 0 || nf > 20) { showError('numero_figli', 'Valore tra 0 e 20'); valid = false; }
-    if (fm < 0 || fm > nf) { showError('figli_minorenni', 'Non può superare il numero di figli (' + nf + ')'); valid = false; }
-    if (fu < 0 || fu > fm) { showError('figli_under3', 'Non può superare i figli minorenni (' + fm + ')'); valid = false; }
+    if (fm < 0 || fm > nf) { showError('figli_minorenni', 'Non puo superare il numero di figli (' + nf + ')'); valid = false; }
+    if (fu < 0 || fu > fm) { showError('figli_under3', 'Non puo superare i figli minorenni (' + fm + ')'); valid = false; }
     if (o65 < 0 || o65 > 10) { showError('over65', 'Valore tra 0 e 10'); valid = false; }
   }
   if (step === 3) {
@@ -1018,13 +1154,12 @@ function validateStep(step) {
   return valid;
 }
 
-// Clamp on blur
 function clampField(id) {
-  const el = document.getElementById(id);
+  var el = document.getElementById(id);
   if (!el) return;
-  const limits = fieldLimits[id];
+  var limits = fieldLimits[id];
   if (!limits) return;
-  let v = parseFloat(el.value);
+  var v = parseFloat(el.value);
   if (isNaN(v)) return;
   if (v < limits.min) v = limits.min;
   if (v > limits.max) v = limits.max;
@@ -1033,14 +1168,13 @@ function clampField(id) {
 }
 
 Object.keys(fieldLimits).forEach(id => {
-  const el = document.getElementById(id);
+  var el = document.getElementById(id);
   if (el) {
     el.addEventListener('blur', () => clampField(id));
     el.addEventListener('input', () => clearError(id));
   }
 });
 
-// Cross-field: figli_minorenni <= numero_figli
 document.getElementById('numero_figli').addEventListener('input', function() {
   const nf = parseInt(this.value) || 0;
   const fm = document.getElementById('figli_minorenni');
@@ -1055,7 +1189,6 @@ document.getElementById('figli_minorenni').addEventListener('input', function() 
   if (parseInt(fu.value) > fm) fu.value = fm;
 });
 
-// Auto-enable studente toggle if occupation=studente
 document.getElementById('occupazione').addEventListener('change', function() {
   if (this.value === 'studente' && !toggles.studente) { toggleSwitch('studente'); }
 });
