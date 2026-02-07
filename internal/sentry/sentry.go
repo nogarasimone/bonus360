@@ -55,6 +55,9 @@ func CaptureMessage(msg string, level sentry.Level, tags map[string]string) {
 	})
 }
 
+// LevelWarning returns sentry.LevelWarning so callers don't need to import sentry-go directly.
+func LevelWarning() sentry.Level { return sentry.LevelWarning }
+
 func getEnv(key, fb string) string {
 	if v := os.Getenv(key); v != "" {
 		return v

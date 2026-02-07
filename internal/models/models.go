@@ -54,9 +54,15 @@ type Bonus struct {
 	FonteURL             string               `json:"fonte_url,omitempty"`
 	FonteNome            string               `json:"fonte_nome,omitempty"`
 	RiferimentiNormativi []string             `json:"riferimenti_normativi,omitempty"`
-	RegioniApplicabili   []string             `json:"regioni,omitempty"`
-	SogliaISEE           float64              `json:"soglia_isee,omitempty"`
-	Traduzioni           map[string]BonusTrad `json:"traduzioni,omitempty"`
+	RegioniApplicabili        []string             `json:"regioni,omitempty"`
+	SogliaISEE                float64              `json:"soglia_isee,omitempty"`
+	LinkRicerca               string               `json:"link_ricerca,omitempty"`
+	LinkVerificato            bool                  `json:"link_verificato"`
+	LinkVerificatoAl          string               `json:"link_verificato_al,omitempty"`
+	FonteAggiornamento        string               `json:"fonte_aggiornamento,omitempty"`
+	VerificaManualeNecessaria bool                  `json:"verifica_manuale_necessaria,omitempty"`
+	NotaVerifica              string               `json:"nota_verifica,omitempty"`
+	Traduzioni                map[string]BonusTrad `json:"traduzioni,omitempty"`
 }
 
 type MatchResult struct {

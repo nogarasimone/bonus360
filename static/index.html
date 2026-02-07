@@ -922,7 +922,7 @@ function renderResults() {
     var waMsg = 'Ho scoperto il bonus "' + bonus.nome + '" su Bonus360! ' + (bonus.importo ? 'Vale ' + bonus.importo + '. ' : '') + 'Verifica anche tu: ' + window.location.origin;
     var waShareHTML = '<a href="https://wa.me/?text=' + encodeURIComponent(waMsg) + '" target="_blank" rel="noopener" class="wa-share-btn" aria-label="Condividi ' + bonus.nome + ' su WhatsApp" data-i18n="results.share_bonus">Condividi</a>';
 
-    var regionaleTag = (bonus.regioni_applicabili && bonus.regioni_applicabili.length > 0) ? '<span class="badge-regionale">Regionale</span>' : '';
+    var regionaleTag = (bonus.regioni && bonus.regioni.length > 0) ? '<span class="badge-regionale">Regionale</span>' : '';
 
     const card = document.createElement('div');
     card.className = 'bonus-card';
