@@ -2354,44 +2354,66 @@
   function onTurnstileSuccess(token) { turnstileToken = token; }
 
   /* ============================================
-     SOCIAL PROOF TOAST
+     SOCIAL PROOF — AGGREGATE STATS ONLY
      ============================================ */
-  var spCities = ['Roma','Milano','Napoli','Torino','Palermo','Genova','Bologna','Firenze','Bari','Catania','Venezia','Verona','Padova','Brescia','Parma','Cagliari'];
-  var spMessages = [
-    'Una famiglia di {city} ha appena scoperto 3 bonus',
-    '{n} famiglie oggi hanno usato BonusPerMe',
-    'Una mamma di {city} ha trovato €2.400 di bonus',
-    'Nuova verifica completata da {city}'
-  ];
+  var spData = {visitors_today: 0, families_helped_total: 0, total_bonus_value_today: 0};
   var spTimer = null;
+  var spIndex = 0;
+
+  function spDefaultMessages() {
+    return [
+      '{visitors} famiglie hanno usato BonusPerMe oggi',
+      'Già {total} famiglie hanno trovato i bonus giusti',
+      'Oggi sono stati trovati €{value} di bonus compatibili',
+      'In media, ogni famiglia scopre 3,2 bonus disponibili',
+      '{visitors} verifiche completate nelle ultime 24 ore'
+    ];
+  }
+
+  function spTranslatedMessages() {
+    if (currentTranslations && currentTranslations['sp.msg1']) {
+      return [
+        currentTranslations['sp.msg1'],
+        currentTranslations['sp.msg2'],
+        currentTranslations['sp.msg3'],
+        currentTranslations['sp.msg4'],
+        currentTranslations['sp.msg5']
+      ];
+    }
+    return spDefaultMessages();
+  }
+
+  function spFormatMsg(tpl) {
+    return tpl
+      .replace('{visitors}', Number(spData.visitors_today).toLocaleString('it-IT'))
+      .replace('{total}', Number(spData.families_helped_total).toLocaleString('it-IT'))
+      .replace('{value}', Number(spData.total_bonus_value_today).toLocaleString('it-IT'));
+  }
 
   function initSocialProof() {
     if (sessionStorage.getItem('bpm_sp_closed')) return;
+    fetch('/api/stats').then(function(r){return r.json();}).then(function(d) {
+      if (d.visitors_today) spData.visitors_today = d.visitors_today;
+      if (d.families_helped_total) spData.families_helped_total = d.families_helped_total;
+      if (d.total_bonus_value_today) spData.total_bonus_value_today = d.total_bonus_value_today;
+    }).catch(function(){});
     var delay = 15000 + Math.random() * 10000;
     spTimer = setTimeout(showSocialProof, delay);
   }
 
   function showSocialProof() {
     if (sessionStorage.getItem('bpm_sp_closed')) return;
-    if (document.getElementById('wizardPage').style.display !== 'none') {
+    var wizPage = document.getElementById('wizardPage');
+    if (wizPage && wizPage.style.display !== 'none') {
       spTimer = setTimeout(showSocialProof, 10000);
       return;
     }
-    var city = spCities[Math.floor(Math.random() * spCities.length)];
-    var n = 40 + Math.floor(Math.random() * 60);
-    var msgs = spMessages;
-    if (currentTranslations && currentTranslations['social_proof.msg1']) {
-      msgs = [
-        currentTranslations['social_proof.msg1'],
-        currentTranslations['social_proof.msg2'],
-        currentTranslations['social_proof.msg3'],
-        currentTranslations['social_proof.msg4']
-      ];
-    }
-    var msg = msgs[Math.floor(Math.random() * msgs.length)];
-    msg = msg.replace('{city}', city).replace('{n}', n);
+    var msgs = spTranslatedMessages();
+    var msg = spFormatMsg(msgs[spIndex % msgs.length]);
+    spIndex++;
 
     var el = document.getElementById('socialProofToast');
+    if (!el) return;
     el.querySelector('.sp-text').textContent = msg;
     el.classList.add('show');
 
@@ -2405,7 +2427,7 @@
 
   function closeSocialProof() {
     var el = document.getElementById('socialProofToast');
-    el.classList.remove('show');
+    if (el) el.classList.remove('show');
     sessionStorage.setItem('bpm_sp_closed', '1');
     if (spTimer) clearTimeout(spTimer);
   }
@@ -2459,18 +2481,18 @@
   }
 </script>
 
-<!-- Social Proof Toast -->
+<!-- Social Proof Toast — Aggregate Stats Only -->
 <style>
 .social-proof{position:fixed;bottom:24px;left:24px;z-index:900;background:#fff;border:1px solid var(--ink-15);border-radius:var(--radius-lg);box-shadow:var(--shadow-dropdown);padding:14px 40px 14px 16px;max-width:360px;transform:translateY(120%);opacity:0;transition:transform .4s ease,opacity .3s ease;pointer-events:none}
 .social-proof.show{transform:translateY(0);opacity:1;pointer-events:auto}
-.social-proof .sp-dot{display:inline-block;width:8px;height:8px;background:var(--green);border-radius:50%;margin-right:8px;animation:sp-pulse 2s infinite}
+.social-proof .sp-icon{display:inline-block;width:8px;height:8px;background:var(--green);border-radius:50%;margin-right:8px;animation:sp-pulse 2s infinite}
 .social-proof .sp-text{font-size:.85rem;color:var(--ink-75)}
 .social-proof .sp-close{position:absolute;top:8px;right:10px;background:none;border:none;font-size:1rem;color:var(--ink-30);cursor:pointer;line-height:1}
 @keyframes sp-pulse{0%,100%{opacity:1}50%{opacity:.4}}
 @media(max-width:480px){.social-proof{left:12px;right:12px;max-width:none;bottom:12px}}
 </style>
-<div class="social-proof" id="socialProofToast">
-  <span class="sp-dot"></span>
+<div class="social-proof" id="socialProofToast" role="status" aria-live="polite">
+  <span class="sp-icon" aria-hidden="true"></span>
   <span class="sp-text"></span>
   <button class="sp-close" onclick="closeSocialProof()" aria-label="Chiudi notifica">&times;</button>
 </div>
