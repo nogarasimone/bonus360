@@ -28,6 +28,11 @@ func MatchHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
+	if msg, ok := validateProfile(profile); !ok {
+		http.Error(w, msg, http.StatusBadRequest)
+		return
+	}
+
 	IncrementCounter()
 
 	cachedBonus := scraper.GetCachedBonus()
