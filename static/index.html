@@ -191,199 +191,29 @@
     /* ============================================
        TOPBAR
        ============================================ */
-    .topbar {
-      background: var(--blue);
-      color: rgba(255,255,255,0.85);
-      font-size: 0.72rem;
-      padding: 7px 0;
-      text-align: center;
-      letter-spacing: 0.02em;
-    }
-    .topbar span { opacity: 0.5; margin: 0 8px; }
+    /* ============================================
+       TOPBAR
+       ============================================ */
+    .topbar { background: var(--blue); color: rgba(255,255,255,0.7); font-size: 0.72rem; padding: 6px 0; }
+    .topbar-inner { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--gutter); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .topbar-separator { opacity: 0.4; }
+    .topbar-right { margin-left: auto; }
+    .lang-select { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; font-size: 0.72rem; padding: 2px 6px; cursor: pointer; font-family: inherit; }
+    .lang-select option { color: #333; background: #fff; }
 
     /* ============================================
        HEADER
        ============================================ */
-    .header {
-      background: #fff;
-      border-bottom: 1px solid var(--ink-15);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .header-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 54px;
-    }
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-      color: var(--ink);
-    }
-    .logo-mark {
-      width: 26px;
-      height: 26px;
-      background: var(--blue);
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-family: 'DM Serif Display', serif;
-      font-size: 14px;
-      line-height: 1;
-    }
-    .logo-text {
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 600;
-      font-size: 0.95rem;
-      letter-spacing: -0.01em;
-    }
-    .header-badges {
-      display: flex;
-      gap: 8px;
-      padding-left: 14px;
-      border-left: 1px solid var(--ink-15);
-    }
-    .header-badge {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 0.62rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--ink-30);
-    }
-    .header-badge .icon { width: 12px; height: 12px; color: var(--ink-30); }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    /* ============================================
-       LANGUAGE DROPDOWN WITH FLAGS
-       ============================================ */
-    .lang-dropdown-wrap {
-      position: relative;
-    }
-    .lang-trigger {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 5px 10px;
-      border: 1px solid var(--ink-15);
-      border-radius: var(--radius);
-      background: #fff;
-      cursor: pointer;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--ink-75);
-      transition: all 0.15s;
-    }
-    .lang-trigger:hover {
-      border-color: var(--ink-30);
-      background: var(--ink-05);
-    }
-    .lang-trigger .flag {
-      width: 18px;
-      height: 13px;
-      border-radius: 2px;
-      overflow: hidden;
-      flex-shrink: 0;
-      display: block;
-      background-size: cover;
-      background-position: center;
-    }
-    .lang-trigger .chevron {
-      width: 10px;
-      height: 10px;
-      color: var(--ink-30);
-      transition: transform 0.15s;
-    }
-    .lang-dropdown-wrap.open .lang-trigger .chevron {
-      transform: rotate(180deg);
-    }
-    .lang-dropdown {
-      display: none;
-      position: absolute;
-      top: calc(100% + 4px);
-      right: 0;
-      background: #fff;
-      border: 1px solid var(--ink-15);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-dropdown);
-      min-width: 160px;
-      padding: 4px 0;
-      z-index: 200;
-    }
-    .lang-dropdown-wrap.open .lang-dropdown {
-      display: block;
-    }
-    .lang-option {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 12px;
-      cursor: pointer;
-      font-size: 0.82rem;
-      color: var(--ink-75);
-      transition: background 0.1s;
-      border: none;
-      background: none;
-      width: 100%;
-      font-family: 'DM Sans', sans-serif;
-      text-align: left;
-    }
-    .lang-option:hover {
-      background: var(--ink-05);
-    }
-    .lang-option.active {
-      color: var(--blue);
-      font-weight: 600;
-      background: var(--blue-light);
-    }
-    .lang-option .flag {
-      width: 18px;
-      height: 13px;
-      border-radius: 2px;
-      overflow: hidden;
-      flex-shrink: 0;
-      display: block;
-      background-size: cover;
-      background-position: center;
-    }
-    .lang-option .check {
-      margin-left: auto;
-      width: 14px;
-      height: 14px;
-      color: var(--blue);
-      opacity: 0;
-    }
-    .lang-option.active .check {
-      opacity: 1;
-    }
-
-    /* Flag backgrounds using inline SVGs encoded as data URIs for zero network requests */
-    .flag-it { background: linear-gradient(90deg, #009246 33.3%, #fff 33.3%, #fff 66.6%, #CE2B37 66.6%); }
-    .flag-en { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'%3E%3Crect fill='%23012169' width='60' height='30'/%3E%3Cpath d='M0 0L60 30M60 0L0 30' stroke='%23fff' stroke-width='6'/%3E%3Cpath d='M0 0L60 30M60 0L0 30' stroke='%23C8102E' stroke-width='4' clip-path='polygon(30 0,60 0,30 15,60 30,30 30,0 30,30 15,0 0)'/%3E%3Cpath d='M30 0v30M0 15h60' stroke='%23fff' stroke-width='10'/%3E%3Cpath d='M30 0v30M0 15h60' stroke='%23C8102E' stroke-width='6'/%3E%3C/svg%3E") center/cover; }
-    .flag-fr { background: linear-gradient(90deg, #002395 33.3%, #fff 33.3%, #fff 66.6%, #ED2939 66.6%); }
-    .flag-es { background: linear-gradient(180deg, #AA151B 25%, #F1BF00 25%, #F1BF00 75%, #AA151B 75%); }
-    .flag-ro { background: linear-gradient(90deg, #002B7F 33.3%, #FCD116 33.3%, #FCD116 66.6%, #CE1126 66.6%); }
-    .flag-ar { background: linear-gradient(180deg, #000 33.3%, #fff 33.3%, #fff 66.6%, #007A3D 66.6%); position: relative; }
-    .flag-sq { background: #E41E20; }
+    .site-header { background: #fff; border-bottom: 1px solid var(--ink-15); position: sticky; top: 0; z-index: 100; }
+    .site-header .header-inner { display: flex; align-items: center; justify-content: space-between; height: 54px; }
+    .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--ink); }
+    .logo:hover { text-decoration: none; }
+    .logo-mark { width: 26px; height: 26px; background: var(--blue); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'DM Serif Display', serif; font-size: 14px; line-height: 1; }
+    .logo-text { font-family: 'DM Serif Display', serif; font-size: 1.15rem; font-weight: 400; color: var(--blue); }
+    .main-nav { display: flex; gap: 20px; }
+    .nav-link { font-family: 'DM Sans', sans-serif; font-size: 0.85rem; color: var(--ink-50); text-decoration: none; transition: color 0.15s; }
+    .nav-link:hover { color: var(--blue); text-decoration: none; }
+    .nav-link.active { color: var(--blue); font-weight: 600; }
 
     /* ============================================
        HERO
@@ -822,44 +652,18 @@
     /* ============================================
        FOOTER
        ============================================ */
-    .footer {
-      background: var(--warm-cream);
-      border-top: 1px solid var(--warm-sand);
-      padding: 32px 0;
-    }
-    .footer-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: start;
-    }
-    .footer-left p {
-      font-size: 0.78rem;
-      color: var(--ink-50);
-      line-height: 1.6;
-      max-width: 400px;
-    }
-    .footer-left .logo { margin-bottom: 12px; }
-    .footer-right { text-align: right; }
-    .footer-links {
-      display: flex;
-      gap: 16px;
-      margin-bottom: 12px;
-      justify-content: flex-end;
-    }
-    .footer-links a {
-      font-size: 0.78rem;
-      color: var(--ink-50);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .footer-links a .icon { width: 14px; height: 14px; }
-    .footer-links a:hover { color: var(--ink); }
-    .footer-badges {
-      font-size: 0.68rem;
-      color: var(--ink-30);
-    }
-    .footer-badges span { margin: 0 4px; opacity: 0.4; }
+    .site-footer { background: var(--warm-cream); border-top: 1px solid var(--warm-sand); padding: 32px 0 24px; margin-top: 48px; }
+    .site-footer .footer-inner { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--gutter); text-align: center; }
+    .footer-nav { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+    .footer-nav a { font-size: 0.8rem; color: var(--ink-50); text-decoration: none; }
+    .footer-nav a:hover { color: var(--blue); text-decoration: underline; }
+    .footer-legal { margin-bottom: 16px; font-size: 0.75rem; color: var(--ink-30); line-height: 1.6; }
+    .footer-brand { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--blue); margin-bottom: 4px; }
+    .footer-legal p { margin: 0; }
+    .footer-email a { color: var(--blue-mid); text-decoration: none; }
+    .footer-email a:hover { text-decoration: underline; }
+    .footer-disclaimer { font-size: 0.7rem; color: var(--ink-30); line-height: 1.5; font-style: italic; }
+    .footer-disclaimer p { margin: 2px 0; }
 
     /* ============================================
        RESPONSIVE
@@ -872,14 +676,14 @@
     }
     @media (max-width: 640px) {
       :root { --gutter: 20px; }
-      .topbar { display: none; }
-      .header-badges { display: none; }
+      .topbar-inner { justify-content: center; text-align: center; }
+      .topbar-right { margin-left: 0; margin-top: 4px; width: 100%; text-align: center; }
+      .main-nav { gap: 12px; }
+      .nav-link { font-size: 0.78rem; }
       .hero { padding: 48px 0 40px; }
       .how-grid, .news-grid, .testimonials-grid, .privacy-grid { grid-template-columns: 1fr; }
       .estimate-row { grid-template-columns: 1fr; }
-      .footer-inner { flex-direction: column; gap: 24px; }
-      .footer-right { text-align: left; }
-      .footer-links { justify-content: flex-start; }
+      .site-footer .footer-inner { text-align: center; }
       section, .how, .news, .testimonials, .privacy, .cta-section { padding: 56px 0; }
     }
 
@@ -1185,66 +989,36 @@
 
 <!-- TOPBAR -->
 <div class="topbar">
-  <span data-i18n="topbar.free">Servizio gratuito</span> <span>·</span> <span data-i18n="topbar.nodata">Nessun dato salvato</span> <span>·</span> <span id="lastUpdate" data-i18n="topbar.updated">Dati aggiornati al ...</span>
+  <div class="topbar-inner">
+    <span id="lastUpdate" data-i18n="topbar.updated">Dati aggiornati al ...</span>
+    <span class="topbar-separator">&middot;</span>
+    <span><span id="proofCounter">0</span> <span data-i18n="hero.counter_label">famiglie aiutate</span></span>
+    <div class="topbar-right">
+      <select id="langSelect" class="lang-select" aria-label="Lingua" onchange="selectLang(this.value)">
+        <option value="it">Italiano</option>
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+        <option value="es">Español</option>
+        <option value="ro">Română</option>
+        <option value="ar">العربية</option>
+        <option value="sq">Shqip</option>
+      </select>
+    </div>
+  </div>
 </div>
 
 <!-- HEADER -->
-<header class="header">
+<header class="site-header">
   <div class="container header-inner">
-    <div class="header-left">
-      <a href="/" class="logo">
-        <div class="logo-mark">B</div>
-        <span class="logo-text">BonusPerMe</span>
-      </a>
-      <div class="header-badges">
-                <span class="header-badge">
-                    <span class="icon"><svg><use href="#ico-shield"/></svg></span> GDPR
-                </span>
-        <span class="header-badge">
-                    <span class="icon"><svg><use href="#ico-eye-off"/></svg></span> Privacy First
-                </span>
-      </div>
-    </div>
-    <div class="header-right">
-      <!-- Language Dropdown -->
-      <div class="lang-dropdown-wrap" id="langWrap">
-        <button class="lang-trigger" onclick="toggleLangDropdown()" aria-haspopup="true" aria-expanded="false" id="langTrigger">
-          <span class="flag flag-it" id="langFlag"></span>
-          <span id="langLabel">IT</span>
-          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="lang-dropdown" id="langDropdown" role="listbox">
-          <button class="lang-option active" data-lang="it" onclick="selectLang('it')" role="option">
-            <span class="flag flag-it"></span> Italiano
-            <svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          </button>
-          <button class="lang-option" data-lang="en" onclick="selectLang('en')" role="option">
-            <span class="flag flag-en"></span> English
-            <svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          </button>
-          <button class="lang-option" data-lang="fr" onclick="selectLang('fr')" role="option">
-            <span class="flag flag-fr"></span> Français
-            <svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          </button>
-          <button class="lang-option" data-lang="es" onclick="selectLang('es')" role="option">
-            <span class="flag flag-es"></span> Español
-            <svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          </button>
-          <button class="lang-option" data-lang="ro" onclick="selectLang('ro')" role="option">
-            <span class="flag flag-ro"></span> Română
-            <svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          </button>
-          <button class="lang-option" data-lang="ar" onclick="selectLang('ar')" role="option">
-            <span class="flag flag-ar"></span> العربية
-            <svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          </button>
-          <button class="lang-option" data-lang="sq" onclick="selectLang('sq')" role="option">
-            <span class="flag flag-sq"></span> Shqip
-            <svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          </button>
-        </div>
-      </div>
-    </div>
+    <a href="/" class="logo" aria-label="BonusPerMe — Torna alla home">
+      <div class="logo-mark">B</div>
+      <span class="logo-text">BonusPerMe</span>
+    </a>
+    <nav class="main-nav" aria-label="Navigazione principale">
+      <a href="/" class="nav-link active" data-i18n="nav.home">Home</a>
+      <a href="/per-caf" class="nav-link" data-i18n="nav.caf">Per i CAF</a>
+      <a href="/contatti" class="nav-link" data-i18n="nav.contatti">Contatti</a>
+    </nav>
   </div>
 </header>
 
@@ -1298,7 +1072,7 @@
     </div>
 
     <div class="proof-card">
-      <div class="proof-number" id="proofCounter">14.335</div>
+      <div class="proof-number" id="proofCounterHero">14.335</div>
       <div class="proof-label" data-i18n="hero.counter_label">famiglie aiutate</div>
       <hr class="proof-divider">
       <p class="proof-quote">
@@ -1557,39 +1331,25 @@
 </section>
 
 <!-- FOOTER -->
-<footer class="footer" role="contentinfo">
-  <div class="container footer-inner">
-    <div class="footer-left">
-      <a href="/" class="logo">
-        <div class="logo-mark">B</div>
-        <span class="logo-text">BonusPerMe</span>
-      </a>
-      <p data-i18n="footer.disclaimer">Progetto gratuito e open source. Non siamo un CAF né un patronato. Le informazioni sono a scopo orientativo.</p>
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-inner">
+    <nav class="footer-nav" aria-label="Navigazione footer">
+      <a href="/" data-i18n="nav.home">Home</a>
+      <a href="/per-caf" data-i18n="nav.caf">Per i CAF</a>
+      <a href="/contatti" data-i18n="nav.contatti">Contatti</a>
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/cookie-policy">Cookie Policy</a>
+    </nav>
+    <div class="footer-legal">
+      <p class="footer-brand">BonusPerMe</p>
+      <p>Simone Nogara</p>
+      <p>P.IVA 03817020138 &middot; C.F. NGRSMN91P14C933V</p>
+      <p>Via Morazzone 4, 22100 Como (CO), Italia</p>
+      <p class="footer-email"><a href="mailto:info@bonusperme.it">info@bonusperme.it</a></p>
     </div>
-    <div class="footer-right">
-      <div class="footer-links">
-        <a href="https://github.com/nicospa/bonusperme">
-          <span class="icon"><svg><use href="#ico-github"/></svg></span> GitHub
-        </a>
-        <a href="/privacy">
-          <span class="icon"><svg><use href="#ico-shield"/></svg></span> Privacy Policy
-        </a>
-        <a href="/cookie-policy">
-          <span class="icon"><svg><use href="#ico-file-text"/></svg></span> Cookie Policy
-        </a>
-        <a href="/per-caf">
-          <span class="icon"><svg><use href="#ico-home"/></svg></span> Per i CAF
-        </a>
-        <a href="/contatti">
-          <span class="icon"><svg><use href="#ico-edit"/></svg></span> Contatti
-        </a>
-      </div>
-      <div class="footer-badges">
-        Simone Nogara · P.IVA 03817020138 <span>·</span> info@bonusperme.it
-      </div>
-      <div class="footer-badges" style="margin-top:4px">
-        GDPR <span>·</span> Privacy First <span>·</span> Server EU <span>·</span> Open Source
-      </div>
+    <div class="footer-disclaimer">
+      <p data-i18n="footer.disclaimer">Questo servizio è a scopo orientativo e non sostituisce la consulenza di un professionista, CAF o patronato.</p>
+      <p>Progetto gratuito e open source &middot; <a href="https://github.com/nicospa/bonusperme" style="color:var(--blue-mid)">GitHub</a></p>
     </div>
   </div>
 </footer>
@@ -1838,42 +1598,15 @@
 </div><!-- /resultsPage -->
 
 <script>
-  /* Language dropdown */
-  function toggleLangDropdown() {
-    var wrap = document.getElementById('langWrap');
-    var isOpen = wrap.classList.toggle('open');
-    document.getElementById('langTrigger').setAttribute('aria-expanded', isOpen);
-    if (isOpen) {
-      setTimeout(function() {
-        document.addEventListener('click', closeLangOutside, true);
-      }, 0);
-    }
-  }
-  function closeLangOutside(e) {
-    var wrap = document.getElementById('langWrap');
-    if (!wrap.contains(e.target)) {
-      wrap.classList.remove('open');
-      document.getElementById('langTrigger').setAttribute('aria-expanded', 'false');
-      document.removeEventListener('click', closeLangOutside, true);
-    }
-  }
+  /* Language switcher */
   var currentLang = 'it';
 
   function selectLang(lang) {
-    document.querySelectorAll('.lang-option').forEach(function(o) {
-      o.classList.toggle('active', o.dataset.lang === lang);
-    });
-    var selected = document.querySelector('.lang-option[data-lang="'+lang+'"]');
-    if (selected) {
-      document.getElementById('langLabel').textContent = lang.toUpperCase();
-      var flagClasses = document.getElementById('langFlag').className.split(' ').filter(function(c) { return c === 'flag'; });
-      document.getElementById('langFlag').className = flagClasses.join(' ') + ' flag-' + lang;
-    }
-    document.getElementById('langWrap').classList.remove('open');
-    document.getElementById('langTrigger').setAttribute('aria-expanded', 'false');
-    document.removeEventListener('click', closeLangOutside, true);
-
     currentLang = lang;
+    var sel = document.getElementById('langSelect');
+    if (sel) sel.value = lang;
+    document.documentElement.setAttribute('lang', lang);
+    document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
     fetch('/api/translations?lang=' + lang)
       .then(function(r) { return r.json(); })
       .then(function(t) { applyTranslations(t); });
@@ -2488,8 +2221,11 @@
     .then(function(r) { return r.json(); })
     .then(function(data) {
       if (data.scansioni) {
-        var el = document.getElementById('proofCounter');
-        if (el) el.textContent = Number(data.scansioni).toLocaleString('it-IT');
+        var formatted = Number(data.scansioni).toLocaleString('it-IT');
+        var el1 = document.getElementById('proofCounter');
+        if (el1) el1.textContent = formatted;
+        var el2 = document.getElementById('proofCounterHero');
+        if (el2) el2.textContent = formatted;
       }
     })
     .catch(function() {});
@@ -2577,14 +2313,6 @@
       });
     }
   });
-
-  /* Update lang and dir on language change */
-  var origSelectLang = selectLang;
-  selectLang = function(lang) {
-    origSelectLang(lang);
-    document.documentElement.setAttribute('lang', lang);
-    document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-  };
 
   function handleISEEFile(file) {
     var status = document.getElementById('iseeUploadStatus');

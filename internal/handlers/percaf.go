@@ -29,41 +29,9 @@ func PerCAFHandler(w http.ResponseWriter, r *http.Request) {
 	sb.WriteString(`<!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BonusPerMe per i CAF — Centro di Assistenza Fiscale</title>
-<meta name="description" content="BonusPerMe per i Centri di Assistenza Fiscale. I tuoi clienti arrivano con il report già pronto.">
-<meta name="robots" content="index, follow">
-<meta property="og:type" content="website">
-<meta property="og:url" content="` + config.Cfg.BaseURL + `/per-caf">
-<meta property="og:title" content="BonusPerMe per i CAF — Centro di Assistenza Fiscale">
-<meta property="og:description" content="I tuoi clienti arrivano con il report già pronto. 40+ bonus, report PDF automatico.">
-<meta property="og:image" content="` + config.Cfg.BaseURL + `/og-image.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:site_name" content="BonusPerMe">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="BonusPerMe per i CAF">
-<meta name="twitter:description" content="I tuoi clienti arrivano con il report già pronto.">
-<meta name="twitter:image" content="` + config.Cfg.BaseURL + `/og-image.png">
-<link rel="canonical" href="` + config.Cfg.BaseURL + `/per-caf">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<meta name="theme-color" content="#1B3A54">
-<link rel="stylesheet" href="/fonts/fonts.css">
+` + SharedMetaTags("BonusPerMe per i CAF — Centro di Assistenza Fiscale", "BonusPerMe per i Centri di Assistenza Fiscale. I tuoi clienti arrivano con il report già pronto.", "/per-caf") + `
 ` + turnstileScript + `
-<style>
-:root{--ink:#1C1C1F;--ink-75:#404045;--ink-50:#76767C;--ink-30:#A8A8AD;--ink-15:#D4D4D7;--ink-05:#F0F0F1;--warm-white:#FAFAF7;--warm-cream:#F4F3EE;--warm-sand:#EAE8E0;--blue:#1B3A54;--blue-mid:#2D5F8A;--blue-light:#E6EEF4;--terra:#C0522E;--terra-dark:#9E3F20;--terra-light:#FAF0EB;--green:#2A6B45;--green-light:#E8F3EC;--radius:5px;--radius-lg:8px;--shadow-card:0 1px 3px rgba(0,0,0,0.05),0 4px 16px rgba(0,0,0,0.04)}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--warm-white);color:var(--ink);min-height:100vh;font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
-h1,h2,h3{font-family:'DM Serif Display',Georgia,serif;font-weight:400}
-.container{max-width:720px;margin:0 auto;padding:0 24px}
-a{color:var(--blue-mid);text-decoration:none}a:hover{text-decoration:underline}
-.topbar{background:var(--blue);color:rgba(255,255,255,0.85);font-size:.72rem;padding:7px 0;text-align:center;letter-spacing:.02em}
-.header{background:#fff;border-bottom:1px solid var(--ink-15);height:54px;display:flex;align-items:center;justify-content:center}
-.logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink)}
-.logo-mark{width:26px;height:26px;background:var(--blue);border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'DM Serif Display',serif;font-size:.75rem;font-weight:700}
+<style>` + SharedCSS() + `
 .hero-caf{padding:56px 0 40px;text-align:center}
 .badge{display:inline-block;padding:5px 14px;background:var(--green-light);color:var(--green);font-size:.72rem;font-weight:700;border-radius:var(--radius);margin-bottom:14px;text-transform:uppercase;letter-spacing:.8px}
 .hero-caf h1{font-size:clamp(1.6rem,4vw,2.3rem);margin-bottom:14px}
@@ -99,14 +67,12 @@ a{color:var(--blue-mid);text-decoration:none}a:hover{text-decoration:underline}
 .api-box{border:1px solid var(--ink-15);border-radius:var(--radius-lg);padding:24px;margin:32px 0;background:#fff;box-shadow:var(--shadow-card)}
 .api-box h3{font-size:1rem;margin-bottom:8px}
 .api-box code{display:block;background:var(--warm-cream);padding:12px;border-radius:var(--radius);font-size:.85rem;margin:8px 0;overflow-x:auto;font-family:'JetBrains Mono',monospace}
-footer{border-top:1px solid var(--ink-15);padding:24px 0;text-align:center;color:var(--ink-50);font-size:.82rem;margin-top:48px}
-footer a{color:var(--blue-mid);margin:0 8px}
 @media(max-width:640px){.value-cards,.step-grid{grid-template-columns:1fr}.adv-grid{grid-template-columns:1fr}.caf-form-section{padding:24px 20px}}
 </style>
 </head>
 <body>
-<div class="topbar">BonusPerMe per i Centri di Assistenza Fiscale</div>
-<header class="header"><a href="/" class="logo"><div class="logo-mark">B</div> BonusPerMe</a></header>
+` + SharedTopbar() + `
+` + SharedHeader("/per-caf") + `
 
 <div class="container">
 <section class="hero-caf">
@@ -163,12 +129,8 @@ footer a{color:var(--blue-mid);margin:0 8px}
 </section>
 </div>
 
-<footer>
-<div class="container">
-<p>BonusPerMe — Progetto gratuito e open source. Non siamo un CAF o un patronato.</p>
-<p><a href="/">Torna a BonusPerMe</a> <a href="/contatti">Contatti</a> <a href="/privacy">Privacy Policy</a></p>
-</div>
-</footer>
+` + SharedFooter() + `
+` + SharedCookieBanner() + `
 
 <script>
 var cafTurnstileToken='';
@@ -212,6 +174,7 @@ function submitCAFSignup(){
   });
 }
 </script>
+` + SharedScripts() + `
 </body>
 </html>`)
 

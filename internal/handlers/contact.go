@@ -29,41 +29,9 @@ func ContattiHandler(w http.ResponseWriter, r *http.Request) {
 	sb.WriteString(`<!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contatti — BonusPerMe</title>
-<meta name="description" content="Contattaci per informazioni, segnalazioni o partnership. BonusPerMe — servizio gratuito per le famiglie italiane.">
-<meta name="robots" content="index, follow">
-<meta property="og:type" content="website">
-<meta property="og:url" content="` + config.Cfg.BaseURL + `/contatti">
-<meta property="og:title" content="Contatti — BonusPerMe">
-<meta property="og:description" content="Contattaci per informazioni, segnalazioni o partnership.">
-<meta property="og:image" content="` + config.Cfg.BaseURL + `/og-image.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:site_name" content="BonusPerMe">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Contatti — BonusPerMe">
-<meta name="twitter:description" content="Contattaci per informazioni, segnalazioni o partnership.">
-<meta name="twitter:image" content="` + config.Cfg.BaseURL + `/og-image.png">
-<link rel="canonical" href="` + config.Cfg.BaseURL + `/contatti">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<meta name="theme-color" content="#1B3A54">
-<link rel="stylesheet" href="/fonts/fonts.css">
+` + SharedMetaTags("Contatti — BonusPerMe", "Contattaci per informazioni, segnalazioni o partnership. BonusPerMe — servizio gratuito per le famiglie italiane.", "/contatti") + `
 ` + turnstileScript + `
-<style>
-:root{--ink:#1C1C1F;--ink-75:#404045;--ink-50:#76767C;--ink-30:#A8A8AD;--ink-15:#D4D4D7;--ink-05:#F0F0F1;--warm-white:#FAFAF7;--warm-cream:#F4F3EE;--blue:#1B3A54;--blue-mid:#2D5F8A;--blue-light:#E6EEF4;--terra:#C0522E;--terra-dark:#9E3F20;--terra-light:#FAF0EB;--green:#2A6B45;--green-light:#E8F3EC;--radius:5px;--radius-lg:8px;--shadow-card:0 1px 3px rgba(0,0,0,0.05),0 4px 16px rgba(0,0,0,0.04)}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--warm-white);color:var(--ink);min-height:100vh;font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
-h1,h2,h3{font-family:'DM Serif Display',Georgia,serif;font-weight:400}
-.container{max-width:720px;margin:0 auto;padding:0 24px}
-a{color:var(--blue-mid);text-decoration:none}a:hover{text-decoration:underline}
-.topbar{background:var(--blue);color:rgba(255,255,255,0.85);font-size:.72rem;padding:7px 0;text-align:center;letter-spacing:.02em}
-.header{background:#fff;border-bottom:1px solid var(--ink-15);height:54px;display:flex;align-items:center;justify-content:center}
-.logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink)}
-.logo-mark{width:26px;height:26px;background:var(--blue);border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'DM Serif Display',serif;font-size:.75rem;font-weight:700}
+<style>` + SharedCSS() + `
 .page-hero{padding:48px 0 32px;text-align:center}
 .page-hero h1{font-size:clamp(1.5rem,3.5vw,2rem);margin-bottom:10px}
 .page-hero p{color:var(--ink-75);font-size:1rem}
@@ -84,14 +52,12 @@ a{color:var(--blue-mid);text-decoration:none}a:hover{text-decoration:underline}
 .btn-contact{display:block;width:100%;padding:12px 20px;background:var(--terra);color:#fff;border:none;border-radius:var(--radius);font-family:inherit;font-size:.95rem;font-weight:600;cursor:pointer}
 .btn-contact:hover{background:var(--terra-dark)}
 #contactResult{display:none;margin-top:16px;padding:12px 16px;border-radius:var(--radius);font-size:.9rem;font-weight:600;text-align:center}
-footer{border-top:1px solid var(--ink-15);padding:24px 0;text-align:center;color:var(--ink-50);font-size:.82rem;margin-top:48px}
-footer a{color:var(--blue-mid);margin:0 8px}
 @media(max-width:640px){.contact-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<div class="topbar">BonusPerMe — Servizio gratuito per le famiglie italiane</div>
-<header class="header"><a href="/" class="logo"><div class="logo-mark">B</div> BonusPerMe</a></header>
+` + SharedTopbar() + `
+` + SharedHeader("/contatti") + `
 
 <div class="container">
 <section class="page-hero">
@@ -140,12 +106,8 @@ footer a{color:var(--blue-mid);margin:0 8px}
 </div>
 </div>
 
-<footer>
-<div class="container">
-<p>BonusPerMe — Progetto gratuito e open source.</p>
-<p><a href="/">Home</a> <a href="/per-caf">Per i CAF</a> <a href="/privacy">Privacy Policy</a></p>
-</div>
-</footer>
+` + SharedFooter() + `
+` + SharedCookieBanner() + `
 
 <script>
 var contactTurnstileToken='';
@@ -197,6 +159,7 @@ function submitContact(){
   });
 }
 </script>
+` + SharedScripts() + `
 </body>
 </html>`)
 
