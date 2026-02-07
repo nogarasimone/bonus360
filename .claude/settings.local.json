@@ -4,7 +4,8 @@
       "Bash(go mod init:*)",
       "Bash(go mod tidy:*)",
       "Bash(go run:*)",
-      "Bash(open:*)"
+      "Bash(open:*)",
+      "Bash(go get:*)"
     ]
   }
 }

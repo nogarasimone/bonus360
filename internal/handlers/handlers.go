@@ -4,12 +4,16 @@ import (
 	"bonus360/internal/matcher"
 	"bonus360/internal/models"
 	"bonus360/internal/scraper"
+	"bytes"
 	"encoding/json"
+	"io"
 	"net/http"
-	"sync/atomic"
-)
+	"regexp"
+	"strconv"
+	"strings"
 
-var visitorCount int64 = 14327 // seed with a realistic starting number
+	"github.com/ledongthuc/pdf"
+)
 
 func MatchHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
@@ -24,8 +28,7 @@ func MatchHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
-	// Increment visitor count
-	atomic.AddInt64(&visitorCount, 1)
+	IncrementCounter()
 
 	cachedBonus := scraper.GetCachedBonus()
 	result := matcher.MatchBonus(profile, cachedBonus)
@@ -40,7 +43,7 @@ func MatchHandler(w http.ResponseWriter, r *http.Request) {
 func StatsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]int64{
-		"scansioni": atomic.LoadInt64(&visitorCount),
+		"scansioni": GetCounter(),
 	})
 }
 

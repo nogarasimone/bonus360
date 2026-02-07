@@ -15,6 +15,9 @@ func main() {
 		port = "8080"
 	}
 
+	// Initialize persistent counter
+	handlers.InitCounter()
+
 	// Start scraper scheduler (refreshes bonus data every 24h)
 	scraper.StartScheduler()
 
