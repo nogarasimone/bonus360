@@ -41,6 +41,7 @@ type Bonus struct {
 	Importo              string               `json:"importo"`
 	ImportoReale         string               `json:"importo_reale,omitempty"`
 	Scadenza             string               `json:"scadenza"`
+	Scaduto              bool                 `json:"scaduto"`
 	Requisiti            []string             `json:"requisiti"`
 	ComeRichiederlo      []string             `json:"come_richiederlo"`
 	Documenti            []string             `json:"documenti,omitempty"`
@@ -67,6 +68,8 @@ type Bonus struct {
 
 type MatchResult struct {
 	BonusTrovati     int     `json:"bonus_trovati"`
+	BonusAttivi      int     `json:"bonus_attivi"`
+	BonusScaduti     int     `json:"bonus_scaduti"`
 	RisparmioStimato string  `json:"risparmio_stimato"`
 	PersoFinora      string  `json:"perso_finora,omitempty"`
 	Bonus            []Bonus `json:"bonus"`

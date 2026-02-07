@@ -355,7 +355,11 @@ func ReportHandler(w http.ResponseWriter, r *http.Request) {
 	pdf.SetX(marginL + 5)
 	pdf.SetFont("Helvetica", "", 10)
 	pdf.SetTextColor(50, 50, 50)
-	pdf.CellFormat(contentW/2-5, 6, transliterate(fmt.Sprintf("Bonus compatibili: %d", result.BonusTrovati)), "", 0, "L", false, 0, "")
+	summaryLabel := fmt.Sprintf("Bonus compatibili: %d", result.BonusTrovati)
+	if result.BonusAttivi > 0 || result.BonusScaduti > 0 {
+		summaryLabel = fmt.Sprintf("Bonus: %d attivi, %d scaduti", result.BonusAttivi, result.BonusScaduti)
+	}
+	pdf.CellFormat(contentW/2-5, 6, transliterate(summaryLabel), "", 0, "L", false, 0, "")
 	pdf.CellFormat(contentW/2-5, 6, transliterate(fmt.Sprintf("Risparmio stimato: %s", result.RisparmioStimato)), "", 1, "L", false, 0, "")
 	pdf.SetY(summaryY + boxH + 6)
 
@@ -377,11 +381,29 @@ func ReportHandler(w http.ResponseWriter, r *http.Request) {
 		// Colored left border (drawn after content to know height; save startY)
 		contentX := marginL + 5
 
-		// Nome
+		// Nome + SCADUTO badge
 		pdf.SetX(contentX)
 		pdf.SetFont("Helvetica", "B", 13)
-		pdf.SetTextColor(26, 58, 92)
-		pdf.CellFormat(contentW-5, 7, transliterate(b.Nome), "", 1, "L", false, 0, "")
+		if b.Scaduto {
+			pdf.SetTextColor(128, 128, 128)
+		} else {
+			pdf.SetTextColor(26, 58, 92)
+		}
+		nomeText := transliterate(b.Nome)
+		pdf.CellFormat(0, 7, nomeText, "", 0, "L", false, 0, "")
+		if b.Scaduto {
+			// SCADUTO badge in red next to name
+			badgeX := contentX + pdf.GetStringWidth(nomeText) + 3
+			badgeY := pdf.GetY() + 1
+			pdf.SetFillColor(220, 38, 38)
+			pdf.SetTextColor(255, 255, 255)
+			pdf.SetFont("Helvetica", "B", 7)
+			badgeW := pdf.GetStringWidth("SCADUTO") + 4
+			pdf.RoundedRect(badgeX, badgeY, badgeW, 5, 1, "1234", "F")
+			pdf.SetXY(badgeX, badgeY)
+			pdf.CellFormat(badgeW, 5, "SCADUTO", "", 0, "C", false, 0, "")
+		}
+		pdf.Ln(7)
 
 		// Ente
 		pdf.SetX(contentX)
@@ -392,13 +414,21 @@ func ReportHandler(w http.ResponseWriter, r *http.Request) {
 		// Compatibilita
 		pdf.SetX(contentX)
 		pdf.SetFont("Helvetica", "B", 10)
-		pdf.SetTextColor(50, 50, 50)
+		if b.Scaduto {
+			pdf.SetTextColor(128, 128, 128)
+		} else {
+			pdf.SetTextColor(50, 50, 50)
+		}
 		pdf.CellFormat(contentW-5, 6, transliterate(fmt.Sprintf("Compatibilita: %d%%", b.Compatibilita)), "", 1, "L", false, 0, "")
 
-		// Importo
+		// Importo — grey for expired
 		pdf.SetX(contentX)
 		pdf.SetFont("Helvetica", "B", 11)
-		pdf.SetTextColor(0, 0, 0)
+		if b.Scaduto {
+			pdf.SetTextColor(160, 160, 160)
+		} else {
+			pdf.SetTextColor(0, 0, 0)
+		}
 		pdf.CellFormat(contentW-5, 6, transliterate("Importo: "+b.Importo), "", 1, "L", false, 0, "")
 
 		if b.ImportoReale != "" && b.ImportoReale != b.Importo {

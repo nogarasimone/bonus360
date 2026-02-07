@@ -979,6 +979,22 @@
     .sr-label { font-weight: 600; color: var(--ink-50); }
     .results-modify { text-align: center; margin-top: 32px; }
 
+    /* Expired bonus */
+    .bonus-card--expired { opacity: 0.65; border-color: var(--ink-15); }
+    .bonus-card--expired:hover { opacity: 0.8; }
+    .badge-scaduto { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; background: #FEE2E2; color: #DC2626; font-family: 'DM Sans', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 3px; line-height: 1; margin-left: 6px; vertical-align: middle; }
+    .bonus-card--expired .compat-dot { background: var(--ink-30) !important; }
+    .bonus-card--expired .bonus-importo .val { color: var(--ink-30); text-decoration: line-through; }
+    .bonus-card--expired .bonus-importo-reale { display: none; }
+    .expired-note { display: none; padding: 8px 16px; font-size: 0.78rem; color: var(--ink-30); text-align: center; font-style: italic; border-top: 1px solid var(--ink-15); background: var(--ink-05); border-radius: 0 0 var(--radius-lg) var(--radius-lg); margin-top: 8px; }
+    .bonus-card--expired .expired-note { display: block; }
+    .expired-separator { display: flex; align-items: center; gap: 12px; margin: 24px 0 16px; }
+    .expired-separator-line { flex: 1; height: 1px; background: var(--ink-15); }
+    .expired-separator-text { display: flex; align-items: center; gap: 4px; font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 600; color: var(--ink-30); text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+    .expired-separator-text .icon { width: 14px; height: 14px; }
+    .bonus-count-expired { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; background: var(--ink-05); border-radius: 12px; font-size: 0.75rem; color: var(--ink-30); margin-top: 4px; }
+    .tab-count--expired { background: #FEE2E2; color: #DC2626; }
+
     /* ============================================
        COOKIE BANNER
        ============================================ */
@@ -1901,14 +1917,32 @@
   };
 
   function renderResults(data) {
+    var attivi = data.bonus_attivi || data.bonus.filter(function(b){return !b.scaduto;}).length;
+    var scaduti = data.bonus_scaduti || data.bonus.filter(function(b){return b.scaduto;}).length;
+
     document.getElementById('results-saving').textContent = data.risparmio_stimato || 'EUR 0';
-    document.getElementById('results-count-pill').textContent = data.bonus_trovati + ' bonus compatibili';
+    var countText = attivi + ' bonus disponibil' + (attivi === 1 ? 'e' : 'i');
+    document.getElementById('results-count-pill').textContent = countText;
+
+    // Expired count pill
+    var heroCard = document.querySelector('.results-hero-card');
+    var oldExpPill = document.getElementById('results-expired-pill');
+    if (oldExpPill) oldExpPill.remove();
+    if (scaduti > 0) {
+      var expPill = document.createElement('div');
+      expPill.id = 'results-expired-pill';
+      expPill.className = 'bonus-count-expired';
+      expPill.textContent = '+ ' + scaduti + ' scadut' + (scaduti === 1 ? 'o' : 'i');
+      heroCard.appendChild(expPill);
+    }
 
     // Build tab bar
     var cats = {};
     data.bonus.forEach(function(b) {
-      var c = b.categoria || 'altro';
-      cats[c] = (cats[c] || 0) + 1;
+      if (!b.scaduto) {
+        var c = b.categoria || 'altro';
+        cats[c] = (cats[c] || 0) + 1;
+      }
     });
     var tabs = document.getElementById('resultsTabs');
     tabs.innerHTML = '<button class="results-tab active" data-cat="all" onclick="filterBonus(\'all\')"><span class="icon"><svg><use href="#ico-list"/></svg></span> Tutti <span class="tab-count">' + data.bonus.length + '</span></button>';
@@ -1916,6 +1950,10 @@
       var icon = catIcons[c] || 'ico-list';
       tabs.innerHTML += '<button class="results-tab" data-cat="' + c + '" onclick="filterBonus(\'' + c + '\')"><span class="icon"><svg><use href="#' + icon + '"/></svg></span> ' + capitalize(c) + ' <span class="tab-count">' + cats[c] + '</span></button>';
     });
+    // Expired tab
+    if (scaduti > 0) {
+      tabs.innerHTML += '<button class="results-tab" data-cat="scaduti" onclick="filterBonus(\'scaduti\')"><span class="icon"><svg><use href="#ico-clock"/></svg></span> Scaduti <span class="tab-count tab-count--expired">' + scaduti + '</span></button>';
+    }
 
     renderBonusCards(data.bonus, 'all');
   }
@@ -1926,27 +1964,43 @@
     document.querySelectorAll('.results-tab').forEach(function(b) {
       b.classList.toggle('active', b.dataset.cat === cat);
     });
-    var filtered = cat === 'all' ? lastResult.bonus : lastResult.bonus.filter(function(b) { return (b.categoria || 'altro') === cat; });
+    var filtered;
+    if (cat === 'all') {
+      filtered = lastResult.bonus;
+    } else if (cat === 'scaduti') {
+      filtered = lastResult.bonus.filter(function(b) { return b.scaduto; });
+    } else {
+      filtered = lastResult.bonus.filter(function(b) { return !b.scaduto && (b.categoria || 'altro') === cat; });
+    }
     renderBonusCards(filtered, cat);
   }
 
   function renderBonusCards(bonuses, activeCat) {
     var grid = document.getElementById('bonusGrid');
     grid.innerHTML = '';
+    var shownExpiredSep = false;
 
     bonuses.forEach(function(b, idx) {
       var cat = (b.categoria || 'altro').toLowerCase();
-      var compatClass = b.compatibilita >= 80 ? 'compat-high' : (b.compatibilita >= 50 ? 'compat-med' : 'compat-low');
       var cardId = 'bonus-card-' + idx;
 
-      var html = '<div class="bonus-card" id="' + cardId + '">';
+      // Expired separator
+      if (b.scaduto && !shownExpiredSep && activeCat !== 'scaduti') {
+        shownExpiredSep = true;
+        grid.innerHTML += '<div class="expired-separator"><div class="expired-separator-line"></div><span class="expired-separator-text"><span class="icon"><svg><use href="#ico-clock"/></svg></span> Bonus scaduti</span><div class="expired-separator-line"></div></div>';
+      }
+
+      var html = '<div class="bonus-card' + (b.scaduto ? ' bonus-card--expired' : '') + '" id="' + cardId + '">';
       html += '<div class="bonus-card-stripe ' + cat + '"></div>';
 
-      // Top: name + compat
+      // Top: name + badges + compat
       html += '<div class="bonus-card-top">';
       html += '<div><h3>' + esc(b.nome);
       if (b.regioni && b.regioni.length > 0) {
         html += ' <span class="badge-regionale">' + esc(b.regioni[0]) + '</span>';
+      }
+      if (b.scaduto) {
+        html += ' <span class="badge-scaduto">SCADUTO</span>';
       }
       html += '</h3>';
       html += '<div class="bonus-ente">' + esc(b.ente || '') + '</div></div>';
@@ -2037,6 +2091,12 @@
       }
 
       html += '</div>'; // bonus-details
+
+      // Expired note
+      if (b.scaduto) {
+        html += '<div class="expired-note"><span class="icon icon-sm"><svg><use href="#ico-clock"/></svg></span> Questo bonus non è più disponibile. Lasciamo i dettagli per riferimento.</div>';
+      }
+
       html += '</div>'; // bonus-card
 
       grid.innerHTML += html;

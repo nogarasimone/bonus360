@@ -4,10 +4,78 @@ import (
 	"bonusperme/internal/models"
 	"fmt"
 	"math"
+	"regexp"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 )
+
+var italianMonthsMap = map[string]time.Month{
+	"gennaio": time.January, "febbraio": time.February, "marzo": time.March,
+	"aprile": time.April, "maggio": time.May, "giugno": time.June,
+	"luglio": time.July, "agosto": time.August, "settembre": time.September,
+	"ottobre": time.October, "novembre": time.November, "dicembre": time.December,
+}
+
+var itDateRe = regexp.MustCompile(`(\d{1,2})\s+(gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre)\s+(\d{4})`)
+var yearOnlyRe = regexp.MustCompile(`\b(20\d{2})\b`)
+
+// isScaduto determines whether a bonus deadline has passed.
+func isScaduto(scadenza string) bool {
+	if scadenza == "" {
+		return false
+	}
+	lower := strings.ToLower(strings.TrimSpace(scadenza))
+
+	// Never-expiring patterns
+	neverExpired := []string{"in vigore", "permanente", "annuale", "esaurimento fondi", "erogazione automatica", "entro 60 giorni"}
+	for _, pat := range neverExpired {
+		if strings.Contains(lower, pat) {
+			return false
+		}
+	}
+	// "Bando regionale" / "Bando annuale" patterns
+	if strings.Contains(lower, "bando") {
+		return false
+	}
+	// "Domanda entro il 28 febbraio per arretrati" — recurring deadline, not expired
+	if strings.Contains(lower, "per arretrati") {
+		return false
+	}
+
+	now := time.Now()
+
+	// Try Italian date pattern: "31 dicembre 2025"
+	// Also handles "Entro il 31 dicembre 2025" since regex finds within string
+	if m := itDateRe.FindStringSubmatch(lower); len(m) == 4 {
+		day, _ := strconv.Atoi(m[1])
+		month := italianMonthsMap[m[2]]
+		year, _ := strconv.Atoi(m[3])
+		deadline := time.Date(year, month, day, 23, 59, 59, 0, time.UTC)
+		return now.After(deadline)
+	}
+
+	// Try dd/mm/yyyy pattern
+	slashRe := regexp.MustCompile(`(\d{2})/(\d{2})/(\d{4})`)
+	if m := slashRe.FindStringSubmatch(scadenza); len(m) == 4 {
+		day, _ := strconv.Atoi(m[1])
+		month, _ := strconv.Atoi(m[2])
+		year, _ := strconv.Atoi(m[3])
+		deadline := time.Date(year, time.Month(month), day, 23, 59, 59, 0, time.UTC)
+		return now.After(deadline)
+	}
+
+	// If just a past year is mentioned (e.g. "2024"), consider expired
+	if m := yearOnlyRe.FindStringSubmatch(scadenza); len(m) == 2 {
+		year, _ := strconv.Atoi(m[1])
+		if year < now.Year() {
+			return true
+		}
+	}
+
+	return false
+}
 
 func GetAllBonus() []models.Bonus {
 	return []models.Bonus{
@@ -472,16 +540,41 @@ func MatchBonus(profile models.UserProfile, bonusList ...[]models.Bonus) models.
 		}
 	}
 
-	sort.Slice(matched, func(i, j int) bool {
+	// Mark expired bonuses and count
+	attivi := 0
+	scaduti := 0
+	activeSaving := 0.0
+	for i := range matched {
+		matched[i].Scaduto = isScaduto(matched[i].Scadenza)
+		if matched[i].Scaduto {
+			scaduti++
+		} else {
+			attivi++
+			// Re-estimate saving for active only
+			s := estimateSaving(matched[i].ID, profile)
+			if s == 0 && len(matched[i].RegioniApplicabili) > 0 {
+				s = estimateRegionalSaving(matched[i])
+			}
+			activeSaving += s
+		}
+	}
+
+	// Sort: active first (by compat desc), then expired (by compat desc)
+	sort.SliceStable(matched, func(i, j int) bool {
+		if matched[i].Scaduto != matched[j].Scaduto {
+			return !matched[i].Scaduto
+		}
 		return matched[i].Compatibilita > matched[j].Compatibilita
 	})
 
 	// Calculate "perso finora" — monthly bonuses × months elapsed since January
-	perso := calcPersoFinora(totalSaving)
+	perso := calcPersoFinora(activeSaving)
 
 	return models.MatchResult{
 		BonusTrovati:     len(matched),
-		RisparmioStimato: fmt.Sprintf("€%.0f", totalSaving),
+		BonusAttivi:      attivi,
+		BonusScaduti:     scaduti,
+		RisparmioStimato: fmt.Sprintf("€%.0f", activeSaving),
 		PersoFinora:      perso,
 		Bonus:            matched,
 	}

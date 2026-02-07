@@ -3,7 +3,7 @@ bonusperme
 *.exe
 
 # Data files (generati a runtime)
-counter.json
+*/counter.json
 analytics.csv
 emails.txt
 
