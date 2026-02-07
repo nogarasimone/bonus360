@@ -6,8 +6,10 @@ import (
 	"bonusperme/internal/models"
 	"bonusperme/internal/scraper"
 	sentryutil "bonusperme/internal/sentry"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"math"
 	"net/http"
 	"os"
 	"regexp"
@@ -58,7 +60,6 @@ func parseItalianDate(s string) time.Time {
 		return time.Date(year, time.Month(month), day, 0, 0, 0, 0, time.UTC)
 	}
 
-	// fallback: December 31 of current year
 	return time.Date(time.Now().Year(), 12, 31, 0, 0, 0, 0, time.UTC)
 }
 
@@ -80,7 +81,7 @@ func transliterate(s string) string {
 	replacer := strings.NewReplacer(
 		"à", "a", "è", "e", "é", "e", "ì", "i", "ò", "o", "ù", "u",
 		"À", "A", "È", "E", "É", "E", "Ì", "I", "Ò", "O", "Ù", "U",
-		"€", "EUR ", "\u2264", "<=", "\u2265", ">=",
+		"\u2264", "<=", "\u2265", ">=",
 	)
 	return replacer.Replace(s)
 }
@@ -257,8 +258,158 @@ func SimulateHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(result)
 }
 
-// ---------- 3. ReportHandler ----------
+// =====================================================================
+// 3. ReportHandler — Professional PDF Report
+// =====================================================================
 
+// PDF design system colors
+var (
+	cBlue    = [3]int{27, 58, 84}
+	cBlueMid = [3]int{44, 95, 124}
+	cTerra   = [3]int{192, 82, 46}
+	cGreen   = [3]int{42, 107, 69}
+	cGreenBg = [3]int{233, 245, 237}
+	cAmber   = [3]int{154, 123, 46}
+	cAmberBg = [3]int{250, 244, 230}
+	cCream   = [3]int{244, 243, 238}
+	cInk90   = [3]int{38, 38, 38}
+	cInk75   = [3]int{64, 64, 64}
+	cInk50   = [3]int{107, 107, 107}
+	cInk30   = [3]int{160, 160, 160}
+	cInk15   = [3]int{217, 217, 217}
+	cRed     = [3]int{220, 38, 38}
+	cRedBg   = [3]int{254, 226, 226}
+	cWhite   = [3]int{255, 255, 255}
+)
+
+const (
+	pageW   = 210.0
+	marginL = 18.0
+	marginR = 18.0
+	contentW = pageW - marginL - marginR // 174mm
+)
+
+func setFill(pdf *gofpdf.Fpdf, c [3]int)  { pdf.SetFillColor(c[0], c[1], c[2]) }
+func setText(pdf *gofpdf.Fpdf, c [3]int)   { pdf.SetTextColor(c[0], c[1], c[2]) }
+func setDraw(pdf *gofpdf.Fpdf, c [3]int)   { pdf.SetDrawColor(c[0], c[1], c[2]) }
+
+func fmtEuro(amount float64) string {
+	if amount == 0 {
+		return "0"
+	}
+	neg := amount < 0
+	if neg {
+		amount = -amount
+	}
+	whole := int(amount)
+	frac := int(math.Round((amount - float64(whole)) * 100))
+	s := addDotSep(fmt.Sprintf("%d", whole))
+	prefix := ""
+	if neg {
+		prefix = "-"
+	}
+	if frac > 0 {
+		return fmt.Sprintf("%s%s,%02d", prefix, s, frac)
+	}
+	return prefix + s
+}
+
+func addDotSep(s string) string {
+	n := len(s)
+	if n <= 3 {
+		return s
+	}
+	return addDotSep(s[:n-3]) + "." + s[n-3:]
+}
+
+func compatColor(pct int) ([3]int, [3]int) {
+	if pct >= 80 {
+		return cGreen, cGreenBg
+	}
+	if pct >= 50 {
+		return cAmber, cAmberBg
+	}
+	return cInk30, [3]int{240, 240, 240}
+}
+
+func truncURL(url string, max int) string {
+	url = strings.TrimPrefix(url, "https://")
+	url = strings.TrimPrefix(url, "http://")
+	url = strings.TrimPrefix(url, "www.")
+	if len(url) > max {
+		return url[:max-3] + "..."
+	}
+	return url
+}
+
+func estimateBonusH(b models.Bonus) float64 {
+	if b.Scaduto {
+		return 40
+	}
+	h := 22.0 // header
+	h += 18   // importo box
+	h += 16   // desc
+	h += 3    // separator
+	if len(b.Requisiti) > 0 {
+		h += float64(len(b.Requisiti))*5.5 + 10
+	}
+	if len(b.ComeRichiederlo) > 0 {
+		h += float64(len(b.ComeRichiederlo))*5.5 + 10
+	}
+	if len(b.Documenti) > 0 {
+		h += float64(len(b.Documenti))*5.5 + 10
+	}
+	h += 14 // footer
+	return h
+}
+
+func ensureSpace(pdf *gofpdf.Fpdf, needed float64) float64 {
+	y := pdf.GetY()
+	if y+needed > 277 {
+		pdf.AddPage()
+		return 18
+	}
+	return y
+}
+
+func drawPill(pdf *gofpdf.Fpdf, x, y float64, text string, bg, fg [3]int) float64 {
+	pdf.SetFont("Helvetica", "B", 7.5)
+	w := pdf.GetStringWidth(transliterate(text)) + 8
+	setFill(pdf, bg)
+	pdf.RoundedRect(x, y, w, 5.5, 2, "1234", "F")
+	setText(pdf, fg)
+	pdf.SetXY(x, y+0.5)
+	pdf.CellFormat(w, 5, transliterate(text), "", 0, "C", false, 0, "")
+	return w
+}
+
+func drawStepCircle(pdf *gofpdf.Fpdf, x, y float64, num int) {
+	setFill(pdf, cBlue)
+	pdf.Circle(x+1.5, y+1.8, 2.5, "F")
+	pdf.SetFont("Courier", "B", 6)
+	setText(pdf, cWhite)
+	pdf.SetXY(x-1, y-0.2)
+	pdf.CellFormat(5, 4.5, fmt.Sprintf("%d", num), "", 0, "C", false, 0, "")
+}
+
+func drawCheckGreen(pdf *gofpdf.Fpdf, x, y float64) {
+	setFill(pdf, cGreenBg)
+	pdf.Circle(x+1.5, y+1.5, 2, "F")
+	setDraw(pdf, cGreen)
+	pdf.SetLineWidth(0.35)
+	pdf.Line(x+0.5, y+1.5, x+1.2, y+2.2)
+	pdf.Line(x+1.2, y+2.2, x+2.5, y+0.8)
+}
+
+func drawCheckboxEmpty(pdf *gofpdf.Fpdf, x, y float64) {
+	setDraw(pdf, cInk15)
+	pdf.SetLineWidth(0.3)
+	pdf.RoundedRect(x, y, 3, 3, 0.5, "1234", "D")
+}
+
+// ReportHandler generates a professional PDF report.
+// Accepts JSON body or form field "data" with JSON.
+// Query param ?mode=inline opens in browser instead of downloading.
 func ReportHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -266,11 +417,27 @@ func ReportHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var profile models.UserProfile
-	if err := json.NewDecoder(r.Body).Decode(&profile); err != nil {
-		http.Error(w, "Invalid request body", http.StatusBadRequest)
-		return
+
+	// Support both JSON body and form-encoded "data" field
+	ct := r.Header.Get("Content-Type")
+	if strings.Contains(ct, "application/x-www-form-urlencoded") || strings.Contains(ct, "multipart/form-data") {
+		r.ParseForm()
+		dataStr := r.FormValue("data")
+		if dataStr == "" {
+			http.Error(w, "Missing data field", http.StatusBadRequest)
+			return
+		}
+		if err := json.Unmarshal([]byte(dataStr), &profile); err != nil {
+			http.Error(w, "Invalid profile data", http.StatusBadRequest)
+			return
+		}
+	} else {
+		if err := json.NewDecoder(r.Body).Decode(&profile); err != nil {
+			http.Error(w, "Invalid request body", http.StatusBadRequest)
+			return
+		}
+		defer r.Body.Close()
 	}
-	defer r.Body.Close()
 
 	if msg, ok := validateProfile(profile); !ok {
 		http.Error(w, msg, http.StatusBadRequest)
@@ -281,345 +448,694 @@ func ReportHandler(w http.ResponseWriter, r *http.Request) {
 	result := matcher.MatchBonus(profile, cachedBonus)
 	linkcheck.ApplyStatus(result.Bonus)
 
+	// Generate profile code for footer
+	profileCode := "BPM-..."
+	compact := toCompact(profile)
+	if data, err := json.Marshal(compact); err == nil {
+		b64 := base64.RawURLEncoding.EncodeToString(data)
+		code := codePrefix + b64
+		if len(code) > 64 {
+			code = code[:64]
+		}
+		profileCode = code
+	}
+
 	now := time.Now()
 	dateStr := now.Format("2006-01-02")
-	dateTimeStr := now.Format("02/01/2006 15:04")
+	dateDisplay := now.Format("02/01/2006")
 
-	// Category color map
-	categoryColors := map[string][3]int{
-		"famiglia":   {232, 115, 90},
-		"casa":       {229, 165, 73},
-		"salute":     {184, 169, 212},
-		"istruzione": {108, 155, 207},
-		"spesa":      {43, 138, 126},
-		"lavoro":     {92, 184, 92},
-		"sostegno":   {240, 158, 140},
+	// Separate active and expired bonuses
+	var activeBonuses, expiredBonuses []models.Bonus
+	for _, b := range result.Bonus {
+		if b.Scaduto {
+			expiredBonuses = append(expiredBonuses, b)
+		} else {
+			activeBonuses = append(activeBonuses, b)
+		}
 	}
-	defaultColor := [3]int{142, 155, 160}
 
-	pageW := 210.0
-	marginL := 15.0
-	marginR := 15.0
-	contentW := pageW - marginL - marginR
+	risparmioVal := parseEuroAmount(result.RisparmioStimato)
 
 	pdf := gofpdf.New("P", "mm", "A4", "")
 	pdf.SetMargins(marginL, 15, marginR)
-	pdf.SetAutoPageBreak(true, 25)
+	pdf.SetAutoPageBreak(false, 20)
+
+	isFirstPage := true
 
 	// Footer on every page
 	pdf.SetFooterFunc(func() {
+		pdf.SetY(-18)
+		setDraw(pdf, cInk15)
+		pdf.SetLineWidth(0.2)
+		pdf.Line(marginL, pdf.GetY(), pageW-marginR, pdf.GetY())
 		pdf.SetY(-15)
-		pdf.SetFont("Helvetica", "I", 8)
-		pdf.SetTextColor(128, 128, 128)
-		pdf.CellFormat(contentW/2, 10, transliterate("BonusPerMe.it -- Servizio gratuito e indipendente"), "", 0, "L", false, 0, "")
+		pdf.SetFont("Helvetica", "", 7)
+		setText(pdf, cInk30)
+		pdf.SetX(marginL)
+		pdf.CellFormat(contentW/2, 10, transliterate("bonusperme.it -- Servizio gratuito"), "", 0, "L", false, 0, "")
 		pdf.CellFormat(contentW/2, 10, fmt.Sprintf("Pagina %d", pdf.PageNo()), "", 0, "R", false, 0, "")
 	})
 
+	// Header on pages 2+ (set via SetHeaderFunc)
+	pdf.SetHeaderFunc(func() {
+		if isFirstPage {
+			return
+		}
+		pdf.SetY(10)
+		pdf.SetX(marginL)
+		pdf.SetFont("Helvetica", "B", 7)
+		setText(pdf, cBlue)
+		pdf.CellFormat(contentW/2, 4, "BonusPerMe", "", 0, "L", false, 0, "")
+		pdf.SetFont("Helvetica", "", 7)
+		setText(pdf, cInk30)
+		pdf.CellFormat(contentW/2, 4, "Report Personalizzato", "", 0, "R", false, 0, "")
+		setDraw(pdf, cBlue)
+		pdf.SetLineWidth(0.4)
+		pdf.Line(marginL, 15, pageW-marginR, 15)
+	})
+
+	// ═══════════════════════════════════════════════════
+	// PAGE 1 — COVER
+	// ═══════════════════════════════════════════════════
 	pdf.AddPage()
 
-	// ── 1. Header bar ──
-	pdf.SetFillColor(26, 58, 92)
-	pdf.Rect(0, 0, pageW, 20, "F")
-	pdf.SetY(3)
-	pdf.SetX(marginL)
-	pdf.SetFont("Helvetica", "B", 18)
-	pdf.SetTextColor(255, 255, 255)
-	pdf.CellFormat(contentW, 8, transliterate("BonusPerMe"), "", 1, "L", false, 0, "")
-	pdf.SetX(marginL)
-	pdf.SetFont("Helvetica", "", 12)
-	pdf.CellFormat(contentW, 7, transliterate("Report Personalizzato"), "", 1, "L", false, 0, "")
+	// 1. HEADER BLU (full width, 55mm)
+	setFill(pdf, cBlue)
+	pdf.Rect(0, 0, pageW, 55, "F")
 
-	// ── 2. Date and subtitle ──
-	pdf.SetY(24)
+	pdf.SetXY(marginL, 15)
+	pdf.SetFont("Helvetica", "B", 26)
+	setText(pdf, cWhite)
+	pdf.CellFormat(contentW, 10, "BonusPerMe", "", 1, "L", false, 0, "")
+
+	// Decorative line
+	pdf.SetXY(marginL, 27)
+	pdf.SetDrawColor(255, 255, 255)
+	pdf.SetLineWidth(0.3)
+	pdf.Line(marginL, 27, marginL+40, 27)
+
+	pdf.SetXY(marginL, 30)
+	pdf.SetFont("Helvetica", "", 11)
+	pdf.SetTextColor(255, 255, 255) // white 70%
+	pdf.CellFormat(contentW, 6, "Report Personalizzato", "", 1, "L", false, 0, "")
+
+	pdf.SetXY(marginL, 37)
+	pdf.SetFont("Helvetica", "", 8)
+	pdf.SetTextColor(200, 210, 220) // white 50%
+	pdf.CellFormat(contentW, 5, transliterate("Generato il "+dateDisplay), "", 1, "L", false, 0, "")
+
+	// 2. SUMMARY CARD (overlapping the blue header)
+	cardW := 140.0
+	cardX := (pageW - cardW) / 2
+	cardY := 44.0
+	cardH := 22.0
+
+	// Shadow
+	setFill(pdf, [3]int{200, 200, 200})
+	pdf.RoundedRect(cardX+1, cardY+1, cardW, cardH, 4, "1234", "F")
+	// Card bg
+	setFill(pdf, cWhite)
+	setDraw(pdf, cInk15)
+	pdf.SetLineWidth(0.3)
+	pdf.RoundedRect(cardX, cardY, cardW, cardH, 4, "1234", "FD")
+
+	// Left: bonus count
+	pdf.SetXY(cardX+8, cardY+3)
+	pdf.SetFont("Courier", "B", 30)
+	setText(pdf, cBlue)
+	pdf.CellFormat(cardW/2-8, 10, fmt.Sprintf("%d", result.BonusAttivi), "", 0, "L", false, 0, "")
+
+	pdf.SetXY(cardX+8, cardY+14)
+	pdf.SetFont("Helvetica", "", 8)
+	setText(pdf, cInk50)
+	label := "bonus attivi"
+	if result.BonusScaduti > 0 {
+		label = fmt.Sprintf("bonus attivi + %d scadut", result.BonusScaduti)
+		if result.BonusScaduti == 1 {
+			label += "o"
+		} else {
+			label += "i"
+		}
+	}
+	pdf.CellFormat(cardW/2-8, 4, transliterate(label), "", 0, "L", false, 0, "")
+
+	// Right: risparmio
+	pdf.SetXY(cardX+cardW/2, cardY+3)
+	pdf.SetFont("Courier", "B", 30)
+	setText(pdf, cGreen)
+	euroStr := fmtEuro(risparmioVal)
+	// Use smaller font if amount is very large
+	if len(euroStr) > 8 {
+		pdf.SetFont("Courier", "B", 22)
+	}
+	pdf.CellFormat(cardW/2-8, 10, transliterate("EUR "+euroStr), "", 0, "R", false, 0, "")
+
+	pdf.SetXY(cardX+cardW/2, cardY+14)
+	pdf.SetFont("Helvetica", "", 8)
+	setText(pdf, cInk50)
+	pdf.CellFormat(cardW/2-8, 4, "risparmio stimato", "", 0, "R", false, 0, "")
+
+	// 3. PROFILE SECTION
+	pdf.SetY(75)
 	pdf.SetX(marginL)
-	pdf.SetFont("Helvetica", "", 9)
-	pdf.SetTextColor(128, 128, 128)
-	pdf.CellFormat(contentW, 5, transliterate("Generato il "+dateTimeStr), "", 1, "L", false, 0, "")
+	pdf.SetFont("Helvetica", "B", 8)
+	setText(pdf, cInk30)
+	pdf.CellFormat(contentW, 5, "IL TUO PROFILO", "", 1, "L", false, 0, "")
+	pdf.Ln(2)
+
+	profY := pdf.GetY()
+	profH := 24.0
+	setFill(pdf, cCream)
+	pdf.RoundedRect(marginL, profY, contentW, profH, 3, "1234", "F")
+
+	colW := contentW / 3
+	row1Y := profY + 4
+	row2Y := profY + 14
+
+	// Row 1
+	profileCell(pdf, marginL+5, row1Y, colW, "Eta", fmt.Sprintf("%d anni", profile.Eta))
+	iseeStr := fmtEuro(profile.ISEE)
+	profileCell(pdf, marginL+5+colW, row1Y, colW, "ISEE", transliterate("EUR "+iseeStr))
+	regioneVal := profile.Residenza
+	if regioneVal == "" {
+		regioneVal = "-"
+	}
+	profileCell(pdf, marginL+5+colW*2, row1Y, colW, "Regione", transliterate(regioneVal))
+
+	// Row 2
+	figliStr := fmt.Sprintf("%d", profile.NumeroFigli)
+	if profile.FigliMinorenni > 0 {
+		figliStr += fmt.Sprintf(" (%d min.)", profile.FigliMinorenni)
+	}
+	profileCell(pdf, marginL+5, row2Y, colW, "Figli", figliStr)
+	occVal := profile.Occupazione
+	if occVal == "" {
+		occVal = "-"
+	}
+	profileCell(pdf, marginL+5+colW, row2Y, colW, "Occupazione", transliterate(occVal))
+	civVal := profile.StatoCivile
+	if civVal == "" {
+		civVal = "-"
+	}
+	profileCell(pdf, marginL+5+colW*2, row2Y, colW, "Stato civile", transliterate(civVal))
+
+	// 4. PANORAMICA BONUS
+	pdf.SetY(profY + profH + 8)
 	pdf.SetX(marginL)
-	pdf.SetFont("Helvetica", "I", 8)
-	pdf.SetTextColor(150, 150, 150)
-	pdf.CellFormat(contentW, 5, transliterate("Documento a scopo orientativo"), "", 1, "L", false, 0, "")
+	pdf.SetFont("Helvetica", "B", 8)
+	setText(pdf, cInk30)
+	pdf.CellFormat(contentW, 5, "PANORAMICA", "", 1, "L", false, 0, "")
+	pdf.Ln(2)
+
+	// Active bonuses list
+	for _, b := range activeBonuses {
+		y := pdf.GetY()
+		fg, _ := compatColor(b.Compatibilita)
+
+		// Colored dot
+		setFill(pdf, fg)
+		pdf.Circle(marginL+3, y+2, 1.5, "F")
+
+		// Name
+		pdf.SetXY(marginL+8, y)
+		pdf.SetFont("Helvetica", "", 9)
+		setText(pdf, cInk75)
+		pdf.CellFormat(contentW-50, 4.5, transliterate(b.Nome), "", 0, "L", false, 0, "")
+
+		// Importo aligned right
+		pdf.SetFont("Courier", "B", 9)
+		setText(pdf, cBlue)
+		importoDisplay := transliterate(b.Importo)
+		if importoDisplay == "" {
+			importoDisplay = "-"
+		}
+		pdf.CellFormat(42, 4.5, importoDisplay, "", 1, "R", false, 0, "")
+		pdf.Ln(1)
+	}
+
+	// Separator
+	if len(expiredBonuses) > 0 {
+		sepY := pdf.GetY() + 1
+		setDraw(pdf, cInk15)
+		pdf.SetLineWidth(0.2)
+		pdf.Line(marginL, sepY, pageW-marginR, sepY)
+		pdf.SetY(sepY + 3)
+
+		for _, b := range expiredBonuses {
+			y := pdf.GetY()
+			// Red X dot
+			setFill(pdf, cRed)
+			pdf.Circle(marginL+3, y+2, 1.5, "F")
+			setText(pdf, cWhite)
+			pdf.SetFont("Helvetica", "B", 5)
+			pdf.SetXY(marginL+1.5, y+0.2)
+			pdf.CellFormat(3, 3.5, "x", "", 0, "C", false, 0, "")
+
+			// Name in grey
+			pdf.SetXY(marginL+8, y)
+			pdf.SetFont("Helvetica", "", 9)
+			setText(pdf, cInk30)
+			pdf.CellFormat(contentW-50, 4.5, transliterate(b.Nome), "", 0, "L", false, 0, "")
+
+			// SCADUTO label
+			pdf.SetFont("Helvetica", "B", 7)
+			setText(pdf, cRed)
+			pdf.CellFormat(42, 4.5, "SCADUTO", "", 1, "R", false, 0, "")
+			pdf.Ln(1)
+		}
+	}
+
+	// Legend
+	pdf.Ln(2)
+	legendY := pdf.GetY()
+	pdf.SetFont("Helvetica", "", 7)
+	setText(pdf, cInk30)
+	// Green dot
+	setFill(pdf, cGreen)
+	pdf.Circle(marginL+3, legendY+1.5, 1, "F")
+	pdf.SetXY(marginL+6, legendY)
+	pdf.CellFormat(15, 3, "alta", "", 0, "L", false, 0, "")
+	// Amber dot
+	setFill(pdf, cAmber)
+	pdf.Circle(marginL+25, legendY+1.5, 1, "F")
+	pdf.SetXY(marginL+28, legendY)
+	pdf.CellFormat(15, 3, "media", "", 0, "L", false, 0, "")
+	// Grey dot
+	setFill(pdf, cInk30)
+	pdf.Circle(marginL+47, legendY+1.5, 1, "F")
+	pdf.SetXY(marginL+50, legendY)
+	pdf.CellFormat(15, 3, "bassa", "", 0, "L", false, 0, "")
+	// Red X
+	if len(expiredBonuses) > 0 {
+		setFill(pdf, cRed)
+		pdf.Circle(marginL+69, legendY+1.5, 1, "F")
+		pdf.SetXY(marginL+72, legendY)
+		pdf.CellFormat(15, 3, "scaduto", "", 0, "L", false, 0, "")
+	}
+
+	// 5. FOOTER COPERTINA
+	pdf.SetY(275)
+	setDraw(pdf, cInk15)
+	pdf.SetLineWidth(0.2)
+	pdf.Line(marginL, 275, pageW-marginR, 275)
+	pdf.SetY(277)
+	pdf.SetX(marginL)
+	pdf.SetFont("Helvetica", "", 7)
+	setText(pdf, cInk30)
+	pdf.CellFormat(contentW/2, 4, transliterate("bonusperme.it -- Documento a scopo orientativo"), "", 0, "L", false, 0, "")
+	pdf.CellFormat(contentW/2, 4, transliterate("Codice profilo: "+profileCode), "", 0, "R", false, 0, "")
+
+	isFirstPage = false
+
+	// ═══════════════════════════════════════════════════
+	// PAGES 2+ — BONUS CARDS
+	// ═══════════════════════════════════════════════════
+
+	// Active bonus cards
+	for _, b := range activeBonuses {
+		needed := estimateBonusH(b)
+		y := ensureSpace(pdf, needed)
+		if y < 18 {
+			y = 18
+		}
+		pdf.SetY(y)
+		drawBonusCardActive(pdf, b, profile)
+		pdf.Ln(6)
+	}
+
+	// Expired bonus cards (compact)
+	for _, b := range expiredBonuses {
+		y := ensureSpace(pdf, 40)
+		if y < 18 {
+			y = 18
+		}
+		pdf.SetY(y)
+		drawBonusCardExpired(pdf, b)
+		pdf.Ln(6)
+	}
+
+	// ═══════════════════════════════════════════════════
+	// LAST PAGE — PROSSIMI PASSI
+	// ═══════════════════════════════════════════════════
+	ensureSpace(pdf, 160)
+	pdf.SetY(ensureSpace(pdf, 160))
+
+	pdf.SetX(marginL)
+	pdf.SetFont("Helvetica", "B", 16)
+	setText(pdf, cBlue)
+	pdf.CellFormat(contentW, 10, "Prossimi passi", "", 1, "L", false, 0, "")
 	pdf.Ln(4)
 
-	// ── 3. Summary box ──
-	summaryY := pdf.GetY()
-	boxH := 22.0
-	pdf.SetFillColor(232, 240, 248)
-	pdf.SetDrawColor(180, 210, 235)
-	pdf.RoundedRect(marginL, summaryY, contentW, boxH, 3, "1234", "FD")
-	pdf.SetY(summaryY + 3)
-	pdf.SetX(marginL + 5)
-	pdf.SetFont("Helvetica", "B", 11)
-	pdf.SetTextColor(26, 58, 92)
-	pdf.CellFormat(contentW-10, 6, transliterate("RIEPILOGO"), "", 1, "L", false, 0, "")
-	pdf.SetX(marginL + 5)
-	pdf.SetFont("Helvetica", "", 10)
-	pdf.SetTextColor(50, 50, 50)
-	summaryLabel := fmt.Sprintf("Bonus compatibili: %d", result.BonusTrovati)
-	if result.BonusAttivi > 0 || result.BonusScaduti > 0 {
-		summaryLabel = fmt.Sprintf("Bonus: %d attivi, %d scaduti", result.BonusAttivi, result.BonusScaduti)
+	nextSteps := []struct {
+		Num   string
+		Title string
+		Desc  string
+	}{
+		{"1", "Verifica i requisiti", "Controlla ogni bonus sui siti ufficiali indicati."},
+		{"2", "Prepara i documenti", "ISEE aggiornato, SPID o CIE, documenti d'identita."},
+		{"3", "Presenta le domande", "Online sui portali ufficiali o presso un CAF/patronato."},
 	}
-	pdf.CellFormat(contentW/2-5, 6, transliterate(summaryLabel), "", 0, "L", false, 0, "")
-	pdf.CellFormat(contentW/2-5, 6, transliterate(fmt.Sprintf("Risparmio stimato: %s", result.RisparmioStimato)), "", 1, "L", false, 0, "")
-	pdf.SetY(summaryY + boxH + 6)
 
-	// ── 4. Each bonus ──
-	for i, b := range result.Bonus {
-		if pdf.GetY() > 250 {
-			pdf.AddPage()
-		}
+	for _, step := range nextSteps {
+		stepY := pdf.GetY()
+		stepH := 22.0
+		setFill(pdf, cCream)
+		pdf.RoundedRect(marginL, stepY, contentW, stepH, 3, "1234", "F")
 
-		startY := pdf.GetY()
+		// Number
+		pdf.SetXY(marginL+6, stepY+3)
+		pdf.SetFont("Courier", "B", 18)
+		setText(pdf, cTerra)
+		pdf.CellFormat(12, 8, step.Num, "", 0, "L", false, 0, "")
 
-		// Determine category color
-		cat := strings.ToLower(b.Categoria)
-		col, ok := categoryColors[cat]
-		if !ok {
-			col = defaultColor
-		}
-
-		// Colored left border (drawn after content to know height; save startY)
-		contentX := marginL + 5
-
-		// Nome + SCADUTO badge
-		pdf.SetX(contentX)
-		pdf.SetFont("Helvetica", "B", 13)
-		if b.Scaduto {
-			pdf.SetTextColor(128, 128, 128)
-		} else {
-			pdf.SetTextColor(26, 58, 92)
-		}
-		nomeText := transliterate(b.Nome)
-		pdf.CellFormat(0, 7, nomeText, "", 0, "L", false, 0, "")
-		if b.Scaduto {
-			// SCADUTO badge in red next to name
-			badgeX := contentX + pdf.GetStringWidth(nomeText) + 3
-			badgeY := pdf.GetY() + 1
-			pdf.SetFillColor(220, 38, 38)
-			pdf.SetTextColor(255, 255, 255)
-			pdf.SetFont("Helvetica", "B", 7)
-			badgeW := pdf.GetStringWidth("SCADUTO") + 4
-			pdf.RoundedRect(badgeX, badgeY, badgeW, 5, 1, "1234", "F")
-			pdf.SetXY(badgeX, badgeY)
-			pdf.CellFormat(badgeW, 5, "SCADUTO", "", 0, "C", false, 0, "")
-		}
-		pdf.Ln(7)
-
-		// Ente
-		pdf.SetX(contentX)
-		pdf.SetFont("Helvetica", "", 8)
-		pdf.SetTextColor(128, 128, 128)
-		pdf.CellFormat(contentW-5, 5, transliterate(b.Ente), "", 1, "L", false, 0, "")
-
-		// Compatibilita
-		pdf.SetX(contentX)
+		// Title
+		pdf.SetXY(marginL+20, stepY+3)
 		pdf.SetFont("Helvetica", "B", 10)
-		if b.Scaduto {
-			pdf.SetTextColor(128, 128, 128)
-		} else {
-			pdf.SetTextColor(50, 50, 50)
-		}
-		pdf.CellFormat(contentW-5, 6, transliterate(fmt.Sprintf("Compatibilita: %d%%", b.Compatibilita)), "", 1, "L", false, 0, "")
+		setText(pdf, cBlue)
+		pdf.CellFormat(contentW-26, 6, transliterate(step.Title), "", 1, "L", false, 0, "")
 
-		// Importo — grey for expired
-		pdf.SetX(contentX)
-		pdf.SetFont("Helvetica", "B", 11)
-		if b.Scaduto {
-			pdf.SetTextColor(160, 160, 160)
-		} else {
-			pdf.SetTextColor(0, 0, 0)
-		}
-		pdf.CellFormat(contentW-5, 6, transliterate("Importo: "+b.Importo), "", 1, "L", false, 0, "")
+		// Description
+		pdf.SetXY(marginL+20, stepY+11)
+		pdf.SetFont("Helvetica", "", 8)
+		setText(pdf, cInk75)
+		pdf.CellFormat(contentW-26, 5, transliterate(step.Desc), "", 1, "L", false, 0, "")
 
-		if b.ImportoReale != "" && b.ImportoReale != b.Importo {
-			pdf.SetX(contentX)
-			pdf.SetFont("Helvetica", "", 10)
-			pdf.SetTextColor(0, 128, 0)
-			pdf.CellFormat(contentW-5, 5, transliterate("Importo stimato per te: "+b.ImportoReale), "", 1, "L", false, 0, "")
-		}
-
-		// Descrizione
-		pdf.SetX(contentX)
-		pdf.SetFont("Helvetica", "", 9)
-		pdf.SetTextColor(50, 50, 50)
-		pdf.MultiCell(contentW-5, 4.5, transliterate(b.Descrizione), "", "L", false)
-		pdf.Ln(2)
-
-		// Requisiti
-		if len(b.Requisiti) > 0 {
-			if pdf.GetY() > 250 {
-				pdf.AddPage()
-			}
-			pdf.SetX(contentX)
-			pdf.SetFont("Helvetica", "B", 10)
-			pdf.SetTextColor(26, 58, 92)
-			pdf.CellFormat(contentW-5, 6, transliterate("Requisiti:"), "", 1, "L", false, 0, "")
-			pdf.SetFont("Helvetica", "", 9)
-			pdf.SetTextColor(50, 50, 50)
-			for _, req := range b.Requisiti {
-				if pdf.GetY() > 270 {
-					pdf.AddPage()
-				}
-				pdf.SetX(contentX + 3)
-				pdf.CellFormat(contentW-8, 5, transliterate("  "+req), "", 1, "L", false, 0, "")
-			}
-			pdf.Ln(2)
-		}
-
-		// Come fare domanda
-		if len(b.ComeRichiederlo) > 0 {
-			if pdf.GetY() > 250 {
-				pdf.AddPage()
-			}
-			pdf.SetX(contentX)
-			pdf.SetFont("Helvetica", "B", 10)
-			pdf.SetTextColor(26, 58, 92)
-			pdf.CellFormat(contentW-5, 6, transliterate("Come fare domanda:"), "", 1, "L", false, 0, "")
-			pdf.SetFont("Helvetica", "", 9)
-			pdf.SetTextColor(50, 50, 50)
-			for stepIdx, step := range b.ComeRichiederlo {
-				if pdf.GetY() > 270 {
-					pdf.AddPage()
-				}
-				pdf.SetX(contentX + 3)
-				pdf.CellFormat(contentW-8, 5, transliterate(fmt.Sprintf("%d. %s", stepIdx+1, step)), "", 1, "L", false, 0, "")
-			}
-			pdf.Ln(2)
-		}
-
-		// Documenti necessari
-		if len(b.Documenti) > 0 {
-			if pdf.GetY() > 250 {
-				pdf.AddPage()
-			}
-			pdf.SetX(contentX)
-			pdf.SetFont("Helvetica", "B", 10)
-			pdf.SetTextColor(26, 58, 92)
-			pdf.CellFormat(contentW-5, 6, transliterate("Documenti necessari:"), "", 1, "L", false, 0, "")
-			pdf.SetFont("Helvetica", "", 9)
-			pdf.SetTextColor(50, 50, 50)
-			for _, doc := range b.Documenti {
-				if pdf.GetY() > 270 {
-					pdf.AddPage()
-				}
-				cbX := contentX + 3
-				cbY := pdf.GetY() + 1
-				pdf.SetDrawColor(100, 100, 100)
-				pdf.Rect(cbX, cbY, 3, 3, "D")
-				pdf.SetX(cbX + 5)
-				pdf.CellFormat(contentW-13, 5, transliterate(doc), "", 1, "L", false, 0, "")
-			}
-			pdf.Ln(2)
-		}
-
-		// Link ufficiale — smart rendering based on verification
-		if b.LinkUfficiale != "" {
-			if pdf.GetY() > 270 {
-				pdf.AddPage()
-			}
-			pdf.SetX(contentX)
-			pdf.SetFont("Helvetica", "", 9)
-			if b.LinkVerificato {
-				// Verified: blue link
-				pdf.SetTextColor(0, 51, 153)
-				pdf.Write(5, transliterate("Link ufficiale: "))
-				pdf.WriteLinkString(5, b.LinkUfficiale, b.LinkUfficiale)
-			} else if b.LinkRicerca != "" {
-				// Broken: warning color with search fallback
-				pdf.SetTextColor(184, 134, 11)
-				pdf.Write(5, transliterate("Cerca su sito ufficiale: "))
-				pdf.WriteLinkString(5, b.LinkRicerca, b.LinkRicerca)
-			} else {
-				// Not verified, no search: show as-is
-				pdf.SetTextColor(0, 51, 153)
-				pdf.Write(5, transliterate("Link ufficiale: "))
-				pdf.WriteLinkString(5, b.LinkUfficiale, b.LinkUfficiale)
-			}
-			pdf.Ln(6)
-		}
-
-		// Verifica manuale disclaimer for regional bonuses
-		if b.VerificaManualeNecessaria {
-			if pdf.GetY() > 270 {
-				pdf.AddPage()
-			}
-			pdf.SetX(contentX)
-			pdf.SetFillColor(255, 251, 235)
-			pdf.SetDrawColor(184, 134, 11)
-			noteW := contentW - 5
-			noteY := pdf.GetY()
-			pdf.Rect(contentX, noteY, noteW, 12, "FD")
-			pdf.SetX(contentX + 3)
-			pdf.SetFont("Helvetica", "I", 8)
-			pdf.SetTextColor(130, 100, 0)
-			pdf.CellFormat(noteW-6, 12, transliterate("Dato inserito manualmente -- potrebbe non essere aggiornato. Verificare sul sito della regione."), "", 1, "L", false, 0, "")
-		}
-
-		// Scadenza
-		if b.Scadenza != "" {
-			if pdf.GetY() > 270 {
-				pdf.AddPage()
-			}
-			pdf.SetX(contentX)
-			pdf.SetFont("Helvetica", "I", 9)
-			pdf.SetTextColor(200, 0, 0)
-			pdf.CellFormat(contentW-5, 5, transliterate("Scadenza: "+b.Scadenza), "", 1, "L", false, 0, "")
-		}
-
-		// Draw colored left border now that we know the height
-		endY := pdf.GetY()
-		borderH := endY - startY
-		if borderH < 10 {
-			borderH = 10
-		}
-		pdf.SetFillColor(col[0], col[1], col[2])
-		pdf.Rect(marginL, startY, 3, borderH, "F")
-
-		// Separator between bonuses
-		if i < len(result.Bonus)-1 {
-			pdf.Ln(3)
-			pdf.SetDrawColor(200, 200, 200)
-			pdf.Line(marginL, pdf.GetY(), pageW-marginR, pdf.GetY())
-			pdf.Ln(5)
-		}
+		pdf.SetY(stepY + stepH + 4)
 	}
 
-	// ── 5. "Come procedere" box ──
-	if pdf.GetY() > 250 {
-		pdf.AddPage()
-	}
-	pdf.Ln(6)
-	boxY := pdf.GetY()
-	procBoxH := 38.0
-	pdf.SetFillColor(232, 245, 232)
-	pdf.SetDrawColor(180, 220, 180)
-	pdf.RoundedRect(marginL, boxY, contentW, procBoxH, 3, "1234", "FD")
-	pdf.SetY(boxY + 3)
-	pdf.SetX(marginL + 5)
+	// Double line separator
+	pdf.Ln(4)
+	sepLineY := pdf.GetY()
+	setDraw(pdf, cInk30)
+	pdf.SetLineWidth(0.5)
+	pdf.Line(marginL, sepLineY, pageW-marginR, sepLineY)
+	pdf.SetLineWidth(0.5)
+	pdf.Line(marginL, sepLineY+1.5, pageW-marginR, sepLineY+1.5)
+
+	// Legal footer
+	pdf.SetY(sepLineY + 8)
+	pdf.SetX(marginL)
 	pdf.SetFont("Helvetica", "B", 11)
-	pdf.SetTextColor(26, 58, 92)
-	pdf.CellFormat(contentW-10, 7, transliterate("PROSSIMI PASSI"), "", 1, "L", false, 0, "")
-	pdf.SetFont("Helvetica", "", 10)
-	pdf.SetTextColor(50, 50, 50)
-	steps := []string{
-		"1. Verifica i requisiti specifici per ogni bonus sui siti ufficiali indicati",
-		"2. Prepara la documentazione necessaria (ISEE, SPID, documenti)",
-		"3. Presenta le domande online o presso un CAF/patronato",
-	}
-	for _, step := range steps {
-		pdf.SetX(marginL + 5)
-		pdf.CellFormat(contentW-10, 7, transliterate(step), "", 1, "L", false, 0, "")
+	setText(pdf, cBlue)
+	pdf.CellFormat(contentW, 6, "BonusPerMe", "", 1, "C", false, 0, "")
+
+	pdf.SetFont("Helvetica", "", 8)
+	setText(pdf, cInk50)
+	pdf.CellFormat(contentW, 5, "bonusperme.it", "", 1, "C", false, 0, "")
+	pdf.Ln(4)
+
+	pdf.SetFont("Helvetica", "", 7.5)
+	setText(pdf, cInk30)
+	pdf.CellFormat(contentW, 4, "Simone Nogara", "", 1, "C", false, 0, "")
+	pdf.CellFormat(contentW, 4, "P.IVA 03817020138 -- C.F. NGRSMN91P14C933V", "", 1, "C", false, 0, "")
+	pdf.CellFormat(contentW, 4, "Via Morazzone 4, 22100 Como (CO), Italia", "", 1, "C", false, 0, "")
+	pdf.Ln(4)
+
+	pdf.SetFont("Helvetica", "I", 7)
+	setText(pdf, cInk30)
+	pdf.CellFormat(contentW, 4, "Questo documento e a scopo orientativo.", "", 1, "C", false, 0, "")
+	pdf.CellFormat(contentW, 4, "Non sostituisce la consulenza di un professionista, CAF o patronato.", "", 1, "C", false, 0, "")
+
+	// ═══════════════════════════════════════════════════
+	// OUTPUT
+	// ═══════════════════════════════════════════════════
+	disposition := "attachment"
+	if r.URL.Query().Get("mode") == "inline" {
+		disposition = "inline"
 	}
 
-	// ── Output ──
 	w.Header().Set("Content-Type", "application/pdf")
-	w.Header().Set("Content-Disposition", fmt.Sprintf(`attachment; filename="bonusperme-report-%s.pdf"`, dateStr))
+	w.Header().Set("Content-Disposition", fmt.Sprintf(`%s; filename="bonusperme-report-%s.pdf"`, disposition, dateStr))
 
 	if err := pdf.Output(w); err != nil {
 		sentryutil.CaptureError(err, map[string]string{"handler": "report", "phase": "pdf-output"})
 		http.Error(w, "Errore generazione PDF", http.StatusInternalServerError)
-		return
 	}
+}
+
+// profileCell draws a label+value pair in the profile grid.
+func profileCell(pdf *gofpdf.Fpdf, x, y, w float64, label, value string) {
+	pdf.SetXY(x, y)
+	pdf.SetFont("Helvetica", "", 7)
+	setText(pdf, cInk50)
+	pdf.CellFormat(w-5, 3.5, label, "", 1, "L", false, 0, "")
+	pdf.SetXY(x, y+4)
+	pdf.SetFont("Helvetica", "B", 9)
+	setText(pdf, cInk75)
+	pdf.CellFormat(w-5, 4, value, "", 0, "L", false, 0, "")
+}
+
+// drawBonusCardActive draws a full bonus card with all details.
+func drawBonusCardActive(pdf *gofpdf.Fpdf, b models.Bonus, profile models.UserProfile) {
+	cardX := marginL
+	cardInner := marginL + 6
+	innerW := contentW - 12
+
+	startY := pdf.GetY()
+
+	// We'll draw the card border at the end once we know the height
+
+	// A) HEADER
+	y := startY + 6
+	fg, _ := compatColor(b.Compatibilita)
+
+	// Dot
+	setFill(pdf, fg)
+	pdf.Circle(cardInner+2, y+3, 2.5, "F")
+
+	// Name
+	pdf.SetXY(cardInner+7, y)
+	pdf.SetFont("Helvetica", "B", 12)
+	setText(pdf, cBlue)
+	pdf.CellFormat(innerW-50, 6, transliterate(b.Nome), "", 0, "L", false, 0, "")
+
+	// Pill
+	pillText := fmt.Sprintf("%d%%", b.Compatibilita)
+	pillFg, pillBg := compatColor(b.Compatibilita)
+	pillX := pageW - marginR - 6 - pdf.GetStringWidth(pillText) - 8
+	drawPill(pdf, pillX, y, pillText, pillBg, pillFg)
+
+	// Ente + Scadenza line
+	y += 8
+	pdf.SetXY(cardInner+7, y)
+	pdf.SetFont("Helvetica", "", 8)
+	setText(pdf, cInk50)
+	enteScad := transliterate(b.Ente)
+	if b.Scadenza != "" {
+		enteScad += " -- Scad: "
+	}
+	pdf.CellFormat(0, 4.5, enteScad, "", 0, "L", false, 0, "")
+	if b.Scadenza != "" {
+		x := cardInner + 7 + pdf.GetStringWidth(enteScad)
+		pdf.SetXY(x, y)
+		setText(pdf, cTerra)
+		pdf.CellFormat(0, 4.5, transliterate(b.Scadenza), "", 0, "L", false, 0, "")
+	}
+	y += 7
+
+	// B) IMPORTO BOX
+	boxY := y
+	boxH := 16.0
+	setFill(pdf, cCream)
+	pdf.RoundedRect(cardInner, boxY, innerW, boxH, 2, "1234", "F")
+
+	pdf.SetXY(cardInner+4, boxY+3)
+	pdf.SetFont("Courier", "B", 11)
+	setText(pdf, cGreen)
+	importoText := transliterate(b.Importo)
+	if importoText == "" {
+		importoText = "Vedi sito ufficiale"
+		pdf.SetFont("Helvetica", "", 9)
+		setText(pdf, cInk50)
+	}
+	pdf.CellFormat(innerW-8, 5, importoText, "", 1, "L", false, 0, "")
+
+	if b.ImportoReale != "" && b.ImportoReale != b.Importo {
+		pdf.SetXY(cardInner+4, boxY+9)
+		pdf.SetFont("Helvetica", "", 7.5)
+		setText(pdf, cInk50)
+		pdf.CellFormat(innerW-8, 4, transliterate("Stimato per te: "+b.ImportoReale), "", 0, "L", false, 0, "")
+
+		// "STIMATO PER TE" label top right
+		pdf.SetFont("Helvetica", "B", 6.5)
+		setText(pdf, cGreen)
+		labelW := pdf.GetStringWidth("STIMATO PER TE") + 4
+		pdf.SetXY(cardInner+innerW-labelW-4, boxY+2)
+		pdf.CellFormat(labelW, 3.5, "STIMATO PER TE", "", 0, "R", false, 0, "")
+	}
+	y = boxY + boxH + 3
+
+	// C) DESCRIZIONE
+	pdf.SetXY(cardInner, y)
+	pdf.SetFont("Helvetica", "", 8.5)
+	setText(pdf, cInk75)
+	desc := b.Descrizione
+	if len(desc) > 300 {
+		desc = desc[:297] + "..."
+	}
+	pdf.MultiCell(innerW, 4.5, transliterate(desc), "", "L", false)
+	y = pdf.GetY() + 2
+
+	// D) SEPARATOR
+	setDraw(pdf, cInk15)
+	pdf.SetLineWidth(0.2)
+	pdf.Line(cardInner, y, cardInner+innerW, y)
+	y += 3
+
+	// E) REQUISITI
+	if len(b.Requisiti) > 0 {
+		y = ensureSpace(pdf, float64(len(b.Requisiti))*5.5+10)
+		pdf.SetXY(cardInner, y)
+		pdf.SetFont("Helvetica", "B", 7.5)
+		setText(pdf, cInk30)
+		pdf.CellFormat(innerW, 5, "REQUISITI", "", 1, "L", false, 0, "")
+		y += 5
+
+		for _, req := range b.Requisiti {
+			drawCheckGreen(pdf, cardInner+1, y)
+			pdf.SetXY(cardInner+6, y-0.5)
+			pdf.SetFont("Helvetica", "", 8)
+			setText(pdf, cInk75)
+			pdf.CellFormat(innerW-6, 4.5, transliterate(req), "", 1, "L", false, 0, "")
+			y += 5.5
+		}
+		y += 2
+	}
+
+	// F) COME FARE DOMANDA
+	if len(b.ComeRichiederlo) > 0 {
+		y = ensureSpace(pdf, float64(len(b.ComeRichiederlo))*5.5+10)
+		pdf.SetXY(cardInner, y)
+		pdf.SetFont("Helvetica", "B", 7.5)
+		setText(pdf, cInk30)
+		pdf.CellFormat(innerW, 5, "COME FARE DOMANDA", "", 1, "L", false, 0, "")
+		y += 5
+
+		for stepIdx, step := range b.ComeRichiederlo {
+			drawStepCircle(pdf, cardInner+1, y, stepIdx+1)
+			pdf.SetXY(cardInner+6, y-0.5)
+			pdf.SetFont("Helvetica", "", 8)
+			setText(pdf, cInk75)
+			pdf.CellFormat(innerW-6, 4.5, transliterate(step), "", 1, "L", false, 0, "")
+			y += 5.5
+		}
+		y += 2
+	}
+
+	// G) DOCUMENTI
+	if len(b.Documenti) > 0 {
+		y = ensureSpace(pdf, float64(len(b.Documenti))*5.5+10)
+		pdf.SetXY(cardInner, y)
+		pdf.SetFont("Helvetica", "B", 7.5)
+		setText(pdf, cInk30)
+		pdf.CellFormat(innerW, 5, "DOCUMENTI", "", 1, "L", false, 0, "")
+		y += 5
+
+		for _, doc := range b.Documenti {
+			drawCheckboxEmpty(pdf, cardInner+1, y)
+			pdf.SetXY(cardInner+6, y-0.5)
+			pdf.SetFont("Helvetica", "", 8)
+			setText(pdf, cInk75)
+			pdf.CellFormat(innerW-6, 4.5, transliterate(doc), "", 1, "L", false, 0, "")
+			y += 5.5
+		}
+		y += 2
+	}
+
+	// H) FOOTER CARD
+	y = pdf.GetY()
+	setDraw(pdf, cInk15)
+	pdf.SetLineWidth(0.2)
+	pdf.Line(cardInner, y, cardInner+innerW, y)
+	y += 3
+
+	if b.LinkUfficiale != "" {
+		pdf.SetXY(cardInner, y)
+		pdf.SetFont("Helvetica", "", 7.5)
+		setText(pdf, cBlueMid)
+		linkText := truncURL(b.LinkUfficiale, 55)
+		pdf.WriteLinkString(4, transliterate(linkText), b.LinkUfficiale)
+	}
+
+	if b.Scadenza != "" {
+		pdf.SetFont("Helvetica", "", 7.5)
+		setText(pdf, cTerra)
+		scadW := pdf.GetStringWidth(transliterate(b.Scadenza)) + 2
+		pdf.SetXY(cardInner+innerW-scadW, y)
+		pdf.CellFormat(scadW, 4, transliterate(b.Scadenza), "", 0, "R", false, 0, "")
+	}
+	y += 6
+
+	// Draw card border around everything
+	endY := y
+	cardH := endY - startY
+	setDraw(pdf, cInk15)
+	pdf.SetLineWidth(0.3)
+	pdf.RoundedRect(cardX, startY, contentW, cardH, 3, "1234", "D")
+
+	pdf.SetY(endY)
+}
+
+// drawBonusCardExpired draws a compact card for an expired bonus.
+func drawBonusCardExpired(pdf *gofpdf.Fpdf, b models.Bonus) {
+	cardX := marginL
+	cardInner := marginL + 6
+	innerW := contentW - 12
+
+	startY := pdf.GetY()
+	y := startY + 6
+
+	// Red X dot
+	setFill(pdf, cRed)
+	pdf.Circle(cardInner+2, y+3, 2.5, "F")
+	setText(pdf, cWhite)
+	pdf.SetFont("Helvetica", "B", 7)
+	pdf.SetXY(cardInner, y+0.5)
+	pdf.CellFormat(4, 5, "x", "", 0, "C", false, 0, "")
+
+	// Name in grey
+	pdf.SetXY(cardInner+7, y)
+	pdf.SetFont("Helvetica", "B", 12)
+	setText(pdf, cInk30)
+	pdf.CellFormat(innerW-50, 6, transliterate(b.Nome), "", 0, "L", false, 0, "")
+
+	// [SCADUTO] pill
+	drawPill(pdf, pageW-marginR-6-pdf.GetStringWidth("SCADUTO")-8, y, "SCADUTO", cRedBg, cRed)
+	y += 10
+
+	// Importo in grey (barred)
+	pdf.SetXY(cardInner+7, y)
+	pdf.SetFont("Courier", "B", 10)
+	setText(pdf, cInk30)
+	importoText := transliterate(b.Importo)
+	if importoText != "" {
+		pdf.CellFormat(0, 5, importoText, "", 0, "L", false, 0, "")
+		// Strikethrough line
+		strW := pdf.GetStringWidth(importoText)
+		setDraw(pdf, cInk30)
+		pdf.SetLineWidth(0.3)
+		pdf.Line(cardInner+7, y+2.5, cardInner+7+strW, y+2.5)
+	}
+	y += 8
+
+	// Note
+	pdf.SetXY(cardInner+7, y)
+	pdf.SetFont("Helvetica", "I", 8)
+	setText(pdf, cInk50)
+	nota := "Questo bonus non e piu disponibile."
+	if b.Scadenza != "" {
+		nota += " Scaduto il " + b.Scadenza + "."
+	}
+	pdf.CellFormat(innerW-7, 4.5, transliterate(nota), "", 1, "L", false, 0, "")
+	y += 8
+
+	// Card border
+	cardH := y - startY
+	setDraw(pdf, cInk15)
+	pdf.SetLineWidth(0.3)
+	pdf.RoundedRect(cardX, startY, contentW, cardH, 3, "1234", "D")
+
+	pdf.SetY(y)
 }
 
 // ---------- 4. NotifySignupHandler ----------

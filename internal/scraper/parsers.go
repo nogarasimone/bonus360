@@ -1,6 +1,7 @@
 package scraper
 
 import (
+	"bonusperme/internal/config"
 	"bonusperme/internal/models"
 	"fmt"
 	"io"
@@ -23,8 +24,6 @@ var httpClient = &http.Client{
 	},
 }
 
-const userAgent = "Mozilla/5.0 (compatible; BonusPerMeBot/1.0; +https://bonusperme.it)"
-
 var bonusKeywords = []string{"bonus", "assegno", "detrazione", "agevolazione", "contributo", "carta", "esonero"}
 
 var (
@@ -38,7 +37,7 @@ func fetchURL(url string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Set("User-Agent", userAgent)
+	req.Header.Set("User-Agent", config.Cfg.UserAgent)
 
 	resp, err := httpClient.Do(req)
 	if err != nil {

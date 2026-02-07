@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"bonusperme/internal/config"
 	"bonusperme/internal/matcher"
 	"bonusperme/internal/scraper"
 	"encoding/json"
@@ -308,7 +309,7 @@ type siteURL struct {
 }
 
 func SitemapHandler(w http.ResponseWriter, r *http.Request) {
-	baseURL := "https://bonusperme.it"
+	baseURL := config.Cfg.BaseURL
 
 	urls := []siteURL{
 		{Loc: baseURL + "/", ChangeFreq: "daily", Priority: "1.0"},
@@ -339,7 +340,7 @@ func SitemapHandler(w http.ResponseWriter, r *http.Request) {
 // RobotsTxtHandler serves robots.txt with sitemap link.
 func RobotsTxtHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
-	w.Write([]byte("User-agent: *\nAllow: /\n\nSitemap: https://bonusperme.it/sitemap.xml\n"))
+	w.Write([]byte("User-agent: *\nAllow: /\n\nSitemap: " + config.Cfg.BaseURL + "/sitemap.xml\n"))
 }
 
 // ---------- Translations ----------

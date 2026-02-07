@@ -1,19 +1,19 @@
 package sentryutil
 
 import (
+	"bonusperme/internal/config"
 	"log"
-	"os"
 	"time"
 
 	"github.com/getsentry/sentry-go"
 )
 
 func Init() {
-	dsn := os.Getenv("SENTRY_DSN")
+	dsn := config.Cfg.SentryDSN
 	err := sentry.Init(sentry.ClientOptions{
 		Dsn:              dsn,
-		Environment:      getEnv("SENTRY_ENVIRONMENT", "production"),
-		Release:          getEnv("SENTRY_RELEASE", "bonusperme@1.0.0"),
+		Environment:      config.Cfg.SentryEnvironment,
+		Release:          config.Cfg.SentryRelease,
 		TracesSampleRate: 0.2,
 		EnableTracing:    dsn != "",
 		BeforeSend: func(event *sentry.Event, hint *sentry.EventHint) *sentry.Event {
@@ -57,10 +57,3 @@ func CaptureMessage(msg string, level sentry.Level, tags map[string]string) {
 
 // LevelWarning returns sentry.LevelWarning so callers don't need to import sentry-go directly.
 func LevelWarning() sentry.Level { return sentry.LevelWarning }
-
-func getEnv(key, fb string) string {
-	if v := os.Getenv(key); v != "" {
-		return v
-	}
-	return fb
-}

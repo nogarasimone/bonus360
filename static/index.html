@@ -7,11 +7,12 @@
   <link rel="stylesheet" href="/fonts/fonts.css">
   <!-- Google Tag Manager (loads only after cookie consent) -->
   <script>
-    function loadGTM(){if(window._gtmLoaded)return;window._gtmLoaded=true;
+    var __GTM_ID__='{{.GTMID}}';
+    function loadGTM(){if(!__GTM_ID__||window._gtmLoaded)return;window._gtmLoaded=true;
     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
     var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
     j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-KQG8R7VF');}
+    })(window,document,'script','dataLayer',__GTM_ID__);}
     if(localStorage.getItem('cookie_consent')==='accepted'){loadGTM();}
   </script>
   <style>
@@ -1066,7 +1067,7 @@
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQG8R7VF" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+{{if .GTMID}}<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{.GTMID}}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>{{end}}
 
 <!-- ============================================
      SVG ICON SPRITE (hidden, referenced via <use>)
@@ -1759,10 +1760,10 @@
       <div class="bonus-count" id="results-count"></div>
     </div>
     <div class="results-actions">
-      <button class="action-btn" onclick="window.print()">
+      <button class="action-btn" onclick="downloadReport('print')">
         <span class="icon"><svg><use href="#ico-printer"/></svg></span> Stampa
       </button>
-      <button class="action-btn" onclick="downloadPDF()">
+      <button class="action-btn" onclick="downloadReport('download')">
         <span class="icon"><svg><use href="#ico-file-text"/></svg></span> PDF
       </button>
       <button class="action-btn" onclick="exportCalendar()">
@@ -2266,27 +2267,22 @@
   /* ============================================
      ACTIONS
      ============================================ */
-  function downloadPDF() {
+  function downloadReport(mode) {
     if (!lastProfile) return;
-    dataLayer.push({ event: 'pdf_download' });
-    fetch('/api/report', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(lastProfile)
-    })
-    .then(function(r) {
-      if (!r.ok) throw new Error('Errore generazione PDF');
-      return r.blob();
-    })
-    .then(function(blob) {
-      var url = URL.createObjectURL(blob);
-      var a = document.createElement('a');
-      a.href = url;
-      a.download = 'bonusperme-report.pdf';
-      a.click();
-      URL.revokeObjectURL(url);
-    })
-    .catch(function(err) { alert(err.message); });
+    dataLayer.push({ event: mode === 'print' ? 'pdf_print' : 'pdf_download' });
+    var url = '/api/report' + (mode === 'print' ? '?mode=inline' : '');
+    var form = document.createElement('form');
+    form.method = 'POST';
+    form.action = url;
+    form.target = mode === 'print' ? '_blank' : '';
+    var input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'data';
+    input.value = JSON.stringify(lastProfile);
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
   }
 
   function exportCalendar() {

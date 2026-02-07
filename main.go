@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bonusperme/internal/config"
 	"bonusperme/internal/handlers"
 	"bonusperme/internal/i18n"
 	"bonusperme/internal/linkcheck"
@@ -13,31 +14,32 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"time"
 )
 
 func main() {
+	// Load configuration from .env and environment variables
+	config.Load()
+
 	// Initialize Sentry (non-blocking if SENTRY_DSN is empty)
 	sentryutil.Init()
 	defer sentryutil.Flush()
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
-
 	// Initialize persistent counter
 	handlers.InitCounter()
 
-	// Start scraper scheduler (refreshes bonus data every 24h)
+	// Start scraper scheduler (respects SCRAPER_ENABLED config)
 	scraper.StartScheduler()
 
 	// Connect i18n translations to handler
 	handlers.SetTranslationLoader(i18n.GetAll)
 
-	// Rate limiter: 30 requests per second per IP, burst of 60
-	limiter := handlers.NewRateLimiter(30, 60, time.Second)
+	// Rate limiter from config
+	limiter := handlers.NewRateLimiter(
+		config.Cfg.RateLimitRPS,
+		config.Cfg.RateLimitBurst,
+		time.Second,
+	)
 
 	// Create mux
 	mux := http.NewServeMux()
@@ -76,42 +78,57 @@ func main() {
 	mux.HandleFunc("/sitemap.xml", handlers.SitemapHandler)
 	mux.HandleFunc("/robots.txt", handlers.RobotsTxtHandler)
 
-	// Serve static files
+	// Serve static files (index.html served via template handler for GTM injection)
+	mux.HandleFunc("/index.html", handlers.IndexHandler)
 	fs := http.FileServer(http.Dir("static"))
-	mux.Handle("/", fs)
-
-	// Wrap with middleware: Recovery → Gzip → Rate Limiter
-	handler := middleware.Recovery(middleware.Gzip(limiter.Middleware(mux)))
-
-	// Link check at boot (background, delayed 5s to not slow startup)
-	go func() {
-		time.Sleep(5 * time.Second)
-		allBonus := matcher.GetAllBonusWithRegional()
-		ptrs := make([]*models.Bonus, len(allBonus))
-		for i := range allBonus {
-			ptrs[i] = &allBonus[i]
+	mux.Handle("/static/", http.StripPrefix("/static/", fs))
+	// Root handler: serve index.html via template for GTM, fallback to static for other files
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path == "/" {
+			handlers.IndexHandler(w, r)
+			return
 		}
-		broken := linkcheck.CheckAllLinks(ptrs)
-		if broken > 0 {
-			logger.Warn("link check: broken links found at boot", map[string]interface{}{"broken": broken})
-		}
-	}()
+		fs.ServeHTTP(w, r)
+	})
 
-	// Periodic link check every 24h
-	go func() {
-		ticker := time.NewTicker(24 * time.Hour)
-		defer ticker.Stop()
-		for range ticker.C {
+	// Wrap with middleware: Recovery → Gzip (if enabled) → Rate Limiter
+	var handler http.Handler = limiter.Middleware(mux)
+	if config.Cfg.GzipEnabled {
+		handler = middleware.Gzip(handler)
+	}
+	handler = middleware.Recovery(handler)
+
+	// Link check at boot (background, respects config)
+	if config.Cfg.LinkCheckEnabled {
+		go func() {
+			time.Sleep(config.Cfg.LinkCheckDelay)
 			allBonus := matcher.GetAllBonusWithRegional()
 			ptrs := make([]*models.Bonus, len(allBonus))
 			for i := range allBonus {
 				ptrs[i] = &allBonus[i]
 			}
-			linkcheck.CheckAllLinks(ptrs)
-		}
-	}()
+			broken := linkcheck.CheckAllLinks(ptrs)
+			if broken > 0 {
+				logger.Warn("link check: broken links found at boot", map[string]interface{}{"broken": broken})
+			}
+		}()
 
-	logger.Info("server starting", map[string]interface{}{"port": port})
-	fmt.Printf("BonusPerMe running on http://localhost:%s\n", port)
-	log.Fatal(http.ListenAndServe(":"+port, handler))
+		// Periodic link check
+		go func() {
+			ticker := time.NewTicker(config.Cfg.LinkCheckInterval)
+			defer ticker.Stop()
+			for range ticker.C {
+				allBonus := matcher.GetAllBonusWithRegional()
+				ptrs := make([]*models.Bonus, len(allBonus))
+				for i := range allBonus {
+					ptrs[i] = &allBonus[i]
+				}
+				linkcheck.CheckAllLinks(ptrs)
+			}
+		}()
+	}
+
+	logger.Info("server starting", map[string]interface{}{"port": config.Cfg.Port})
+	fmt.Printf("BonusPerMe running on http://localhost:%s\n", config.Cfg.Port)
+	log.Fatal(http.ListenAndServe(":"+config.Cfg.Port, handler))
 }

@@ -1,6 +1,8 @@
 package scraper
 
 import (
+	"bonusperme/internal/config"
+	"bonusperme/internal/datasource"
 	"bonusperme/internal/logger"
 	"bonusperme/internal/matcher"
 	"bonusperme/internal/models"
@@ -31,11 +33,16 @@ var cache = &BonusCache{
 	sourcesStatus: make(map[string]SourceStatus),
 }
 
-// StartScheduler runs an initial scrape and then re-scrapes every 24 hours.
+// StartScheduler runs an initial scrape and then re-scrapes at the configured interval.
 func StartScheduler() {
+	if !config.Cfg.ScraperEnabled {
+		logger.Info("scraper: disabled via config", nil)
+		return
+	}
+
 	go func() {
 		RunScrape()
-		ticker := time.NewTicker(24 * time.Hour)
+		ticker := time.NewTicker(config.Cfg.ScraperInterval)
 		defer ticker.Stop()
 		for range ticker.C {
 			RunScrape()
@@ -43,12 +50,13 @@ func StartScheduler() {
 	}()
 }
 
-// RunScrape performs a full scrape cycle across all sources.
+// RunScrape performs a full scrape cycle across all sources + datasource Manager.
 func RunScrape() {
 	logger.Info("scraper: starting scrape cycle", nil)
 	sources := GetSources()
 	var allScraped []models.Bonus
 
+	// 1. Legacy scraper sources
 	for i, src := range sources {
 		if i > 0 {
 			time.Sleep(2 * time.Second) // polite delay between sources
@@ -59,7 +67,7 @@ func RunScrape() {
 
 		status := SourceStatus{
 			LastFetch:  time.Now(),
-			Success:    true, // success if no fetch error (even if 0 results)
+			Success:    true,
 			BonusFound: len(bonuses),
 		}
 
@@ -74,6 +82,14 @@ func RunScrape() {
 
 		allScraped = append(allScraped, bonuses...)
 		logger.Info("scraper: source complete", map[string]interface{}{"source": src.Name, "found": len(bonuses)})
+	}
+
+	// 2. Official data sources via datasource.Manager
+	mgr := datasource.NewManager()
+	officialBonuses := mgr.FetchAll()
+	if len(officialBonuses) > 0 {
+		allScraped = append(allScraped, officialBonuses...)
+		logger.Info("scraper: official datasources", map[string]interface{}{"found": len(officialBonuses)})
 	}
 
 	hardcoded := matcher.GetAllBonus()
@@ -113,7 +129,7 @@ func GetScraperStatus() map[string]interface{} {
 
 	return map[string]interface{}{
 		"last_run":     cache.lastUpdate,
-		"next_run":     cache.lastUpdate.Add(24 * time.Hour),
+		"next_run":     cache.lastUpdate.Add(config.Cfg.ScraperInterval),
 		"bonus_count":  len(cache.bonus),
 		"update_count": cache.updateCount,
 		"sources":      sources,

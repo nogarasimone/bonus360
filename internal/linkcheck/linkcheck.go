@@ -1,6 +1,7 @@
 package linkcheck
 
 import (
+	"bonusperme/internal/config"
 	"bonusperme/internal/logger"
 	"bonusperme/internal/models"
 	sentryutil "bonusperme/internal/sentry"
@@ -47,7 +48,7 @@ func CheckLink(url string) (ok bool, statusCode int) {
 	if err != nil {
 		return false, 0
 	}
-	req.Header.Set("User-Agent", "Mozilla/5.0 (compatible; BonusPerMe/1.0; +https://bonusperme.it)")
+	req.Header.Set("User-Agent", config.Cfg.UserAgent)
 	req.Header.Set("Accept-Language", "it-IT,it;q=0.9")
 
 	resp, err := client.Do(req)
