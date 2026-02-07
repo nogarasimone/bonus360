@@ -18,6 +18,12 @@ type UserProfile struct {
 	RistrutturazCasa bool    `json:"ristrutturaz_casa"`
 	Studente         bool    `json:"studente"`
 	NuovoNato2025    bool    `json:"nuovo_nato_2025"`
+	ISEESimulato     float64 `json:"isee_simulato,omitempty"`
+}
+
+type FAQ struct {
+	Domanda  string `json:"domanda"`
+	Risposta string `json:"risposta"`
 }
 
 type Bonus struct {
@@ -26,9 +32,12 @@ type Bonus struct {
 	Categoria       string   `json:"categoria"`
 	Descrizione     string   `json:"descrizione"`
 	Importo         string   `json:"importo"`
+	ImportoReale    string   `json:"importo_reale,omitempty"`
 	Scadenza        string   `json:"scadenza"`
 	Requisiti       []string `json:"requisiti"`
 	ComeRichiederlo []string `json:"come_richiederlo"`
+	Documenti       []string `json:"documenti,omitempty"`
+	FAQ             []FAQ    `json:"faq,omitempty"`
 	LinkUfficiale   string   `json:"link_ufficiale"`
 	Ente            string   `json:"ente"`
 	Compatibilita   int      `json:"compatibilita"`
@@ -38,4 +47,11 @@ type MatchResult struct {
 	BonusTrovati     int     `json:"bonus_trovati"`
 	RisparmioStimato string  `json:"risparmio_stimato"`
 	Bonus            []Bonus `json:"bonus"`
+}
+
+type SimulateResult struct {
+	Reale          MatchResult `json:"reale"`
+	Simulato       MatchResult `json:"simulato"`
+	BonusExtra     int         `json:"bonus_extra"`
+	RisparmioExtra string      `json:"risparmio_extra"`
 }

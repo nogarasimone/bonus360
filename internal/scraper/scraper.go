@@ -14,8 +14,11 @@ import (
 )
 
 // ScrapeBonus attempts to scrape bonus information from official Italian sources.
-// Falls back to hardcoded bonuses if scraping fails.
+// Always starts from hardcoded bonuses and supplements with any newly found ones.
 func ScrapeBonus() []models.Bonus {
+	// Always use hardcoded bonuses as the base (they have proper IDs for matching)
+	base := matcher.GetAllBonus()
+
 	sources := []struct {
 		name string
 		url  string
@@ -25,9 +28,13 @@ func ScrapeBonus() []models.Bonus {
 		{"MEF", "https://www.mef.gov.it/"},
 	}
 
-	var scraped []models.Bonus
-
 	client := &http.Client{Timeout: 15 * time.Second}
+
+	// Track existing IDs to avoid duplicates
+	existing := make(map[string]bool)
+	for _, b := range base {
+		existing[b.ID] = true
+	}
 
 	for _, src := range sources {
 		bonuses, err := scrapeSource(client, src.url, src.name)
@@ -35,15 +42,15 @@ func ScrapeBonus() []models.Bonus {
 			log.Printf("[scraper] Errore scraping %s (%s): %v", src.name, src.url, err)
 			continue
 		}
-		scraped = append(scraped, bonuses...)
+		for _, b := range bonuses {
+			if !existing[b.ID] {
+				existing[b.ID] = true
+				base = append(base, b)
+			}
+		}
 	}
 
-	if len(scraped) == 0 {
-		log.Printf("[scraper] Nessun bonus trovato dallo scraping, uso fallback hardcoded")
-		return matcher.GetAllBonus()
-	}
-
-	return scraped
+	return base
 }
 
 func scrapeSource(client *http.Client, url, ente string) ([]models.Bonus, error) {
