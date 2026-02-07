@@ -1,6 +1,9 @@
 package handlers
 
 import (
+	"bonusperme/internal/config"
+	"encoding/json"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -14,6 +17,14 @@ func PerCAFHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
+	siteKey := config.Cfg.TurnstileSiteKey
+	turnstileScript := ""
+	turnstileWidget := ""
+	if siteKey != "" {
+		turnstileScript = `<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>`
+		turnstileWidget = `<div class="cf-turnstile" data-sitekey="` + siteKey + `" data-callback="onCafTurnstile" data-theme="light" style="margin-bottom:16px"></div>`
+	}
+
 	var sb strings.Builder
 	sb.WriteString(`<!DOCTYPE html>
 <html lang="it">
@@ -21,87 +32,111 @@ func PerCAFHandler(w http.ResponseWriter, r *http.Request) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BonusPerMe per i CAF — Centro di Assistenza Fiscale</title>
-<meta name="description" content="BonusPerMe per i Centri di Assistenza Fiscale. I tuoi clienti arrivano con il report gia pronto.">
+<meta name="description" content="BonusPerMe per i Centri di Assistenza Fiscale. I tuoi clienti arrivano con il report già pronto.">
 <meta property="og:title" content="BonusPerMe per i CAF">
-<meta property="og:description" content="I tuoi clienti arrivano con il report gia pronto.">
+<meta property="og:description" content="I tuoi clienti arrivano con il report già pronto.">
 <link rel="canonical" href="/per-caf">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/fonts/fonts.css">
+` + turnstileScript + `
 <style>
-:root{--ink:#1B1B1F;--surface:#FFFFFF;--surface-alt:#F5F4F0;--primary:#1A3A5C;--accent:#C45A2C;--teal:#2B8A7E;--text-soft:#555E60;--text-muted:#8E9BA0;--border:rgba(0,0,0,0.08);--radius:8px}
+:root{--ink:#1C1C1F;--ink-75:#404045;--ink-50:#76767C;--ink-30:#A8A8AD;--ink-15:#D4D4D7;--ink-05:#F0F0F1;--warm-white:#FAFAF7;--warm-cream:#F4F3EE;--warm-sand:#EAE8E0;--blue:#1B3A54;--blue-mid:#2D5F8A;--blue-light:#E6EEF4;--terra:#C0522E;--terra-dark:#9E3F20;--terra-light:#FAF0EB;--green:#2A6B45;--green-light:#E8F3EC;--radius:5px;--radius-lg:8px;--shadow-card:0 1px 3px rgba(0,0,0,0.05),0 4px 16px rgba(0,0,0,0.04)}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'IBM Plex Sans',-apple-system,sans-serif;background:var(--surface);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;font-size:15px;line-height:1.6}
-.topbar{background:var(--primary);color:#fff;font-size:.72rem;font-weight:600;letter-spacing:.3px;text-align:center;padding:8px 16px}
-header{background:rgba(255,255,255,.95);border-bottom:1px solid var(--border);height:56px;display:flex;align-items:center;justify-content:center}
-.logo{font-family:'Instrument Serif',serif;font-size:1.4rem;color:var(--primary);display:flex;align-items:center;gap:8px;text-decoration:none}
-.logo-mark{width:32px;height:32px;background:var(--primary);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Instrument Serif',serif;font-size:1rem}
-.container{max-width:800px;margin:0 auto;padding:0 24px}
-.hero-caf{padding:64px 0 48px;text-align:center}
-.hero-caf .badge{display:inline-block;padding:6px 16px;background:rgba(43,138,126,0.1);color:var(--teal);font-size:.78rem;font-weight:700;border-radius:var(--radius);margin-bottom:16px;text-transform:uppercase;letter-spacing:1px}
-.hero-caf h1{font-family:'Instrument Serif',serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:400;margin-bottom:16px}
-.hero-caf p{color:var(--text-soft);max-width:560px;margin:0 auto 32px;font-size:1.05rem}
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;margin:48px 0}
-.step{background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;text-align:center}
-.step .num{width:36px;height:36px;background:var(--primary);color:#fff;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;margin-bottom:12px}
+body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--warm-white);color:var(--ink);min-height:100vh;font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:'DM Serif Display',Georgia,serif;font-weight:400}
+.container{max-width:720px;margin:0 auto;padding:0 24px}
+a{color:var(--blue-mid);text-decoration:none}a:hover{text-decoration:underline}
+.topbar{background:var(--blue);color:rgba(255,255,255,0.85);font-size:.72rem;padding:7px 0;text-align:center;letter-spacing:.02em}
+.header{background:#fff;border-bottom:1px solid var(--ink-15);height:54px;display:flex;align-items:center;justify-content:center}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink)}
+.logo-mark{width:26px;height:26px;background:var(--blue);border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'DM Serif Display',serif;font-size:.75rem;font-weight:700}
+.hero-caf{padding:56px 0 40px;text-align:center}
+.badge{display:inline-block;padding:5px 14px;background:var(--green-light);color:var(--green);font-size:.72rem;font-weight:700;border-radius:var(--radius);margin-bottom:14px;text-transform:uppercase;letter-spacing:.8px}
+.hero-caf h1{font-size:clamp(1.6rem,4vw,2.3rem);margin-bottom:14px}
+.hero-caf p{color:var(--ink-75);max-width:560px;margin:0 auto;font-size:1rem}
+.value-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:40px 0}
+.value-card{background:#fff;border:1px solid var(--ink-15);border-radius:var(--radius-lg);padding:24px 20px;text-align:center;box-shadow:var(--shadow-card)}
+.value-card .num{font-family:'DM Serif Display',serif;font-size:1.8rem;color:var(--terra);margin-bottom:4px}
+.value-card p{font-size:.85rem;color:var(--ink-75)}
+.steps{margin:48px 0}
+.steps h2{text-align:center;margin-bottom:24px;font-size:1.5rem}
+.step-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.step{background:#fff;border:1px solid var(--ink-15);border-radius:var(--radius-lg);padding:24px 20px;text-align:center;box-shadow:var(--shadow-card)}
+.step .step-num{width:36px;height:36px;background:var(--blue);color:#fff;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;margin-bottom:10px;font-size:.9rem}
 .step h3{font-size:1rem;margin-bottom:6px}
-.step p{font-size:.88rem;color:var(--text-soft)}
+.step p{font-size:.85rem;color:var(--ink-75)}
 .advantages{margin:48px 0}
-.advantages h2{font-family:'Instrument Serif',serif;font-size:1.5rem;text-align:center;margin-bottom:24px}
-.adv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
-.adv{padding:20px;border:1px solid var(--border);border-radius:var(--radius)}
-.adv h4{font-size:.92rem;margin-bottom:4px}
-.adv p{font-size:.82rem;color:var(--text-soft)}
-.coming-box{background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius);padding:32px;text-align:center;margin:48px 0}
-.coming-box h3{font-size:1.1rem;margin-bottom:8px}
-.coming-box p{color:var(--text-soft);margin-bottom:20px}
-.email-form{display:flex;gap:8px;max-width:400px;margin:0 auto}
-.email-form input{flex:1;padding:10px 14px;border:1px solid var(--border);border-radius:var(--radius);font-family:inherit;font-size:.92rem}
-.email-form button{padding:10px 20px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius);font-family:inherit;font-weight:600;cursor:pointer}
-.email-form button:hover{background:#A84A22}
-.api-box{border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin:32px 0}
+.advantages h2{text-align:center;margin-bottom:24px;font-size:1.5rem}
+.adv-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.adv{background:#fff;padding:20px;border:1px solid var(--ink-15);border-radius:var(--radius-lg);box-shadow:var(--shadow-card)}
+.adv h4{font-size:.92rem;margin-bottom:4px;font-family:'DM Sans',sans-serif;font-weight:600}
+.adv p{font-size:.82rem;color:var(--ink-75)}
+.caf-form-section{background:var(--warm-cream);border:1px solid var(--ink-15);border-radius:var(--radius-lg);padding:36px 32px;margin:48px 0;text-align:center}
+.caf-form-section h2{font-size:1.3rem;margin-bottom:8px}
+.caf-form-section>p{color:var(--ink-75);margin-bottom:24px;font-size:.95rem}
+.caf-form{max-width:400px;margin:0 auto;text-align:left}
+.caf-form .field{margin-bottom:14px}
+.caf-form label{display:block;font-size:.82rem;font-weight:600;margin-bottom:4px;color:var(--ink-75)}
+.caf-form input,.caf-form select{width:100%;padding:10px 14px;border:1px solid var(--ink-15);border-radius:var(--radius);font-family:inherit;font-size:.92rem;background:#fff}
+.caf-form input:focus,.caf-form select:focus{outline:none;border-color:var(--blue-mid)}
+.btn-caf{display:block;width:100%;padding:12px 20px;background:var(--terra);color:#fff;border:none;border-radius:var(--radius);font-family:inherit;font-size:.95rem;font-weight:600;cursor:pointer;margin-top:20px}
+.btn-caf:hover{background:var(--terra-dark)}
+#cafResult{display:none;margin-top:16px;padding:12px 16px;border-radius:var(--radius);font-size:.9rem;font-weight:600;text-align:center}
+.api-box{border:1px solid var(--ink-15);border-radius:var(--radius-lg);padding:24px;margin:32px 0;background:#fff;box-shadow:var(--shadow-card)}
 .api-box h3{font-size:1rem;margin-bottom:8px}
-.api-box code{display:block;background:var(--surface-alt);padding:12px;border-radius:var(--radius);font-size:.85rem;margin:8px 0;overflow-x:auto}
-footer{border-top:1px solid var(--border);padding:24px 0;text-align:center;color:var(--text-muted);font-size:.82rem;margin-top:48px}
-footer a{color:var(--primary);text-decoration:none}
-#thanks{display:none;color:var(--teal);font-weight:600;margin-top:12px}
+.api-box code{display:block;background:var(--warm-cream);padding:12px;border-radius:var(--radius);font-size:.85rem;margin:8px 0;overflow-x:auto;font-family:'JetBrains Mono',monospace}
+footer{border-top:1px solid var(--ink-15);padding:24px 0;text-align:center;color:var(--ink-50);font-size:.82rem;margin-top:48px}
+footer a{color:var(--blue-mid);margin:0 8px}
+@media(max-width:640px){.value-cards,.step-grid{grid-template-columns:1fr}.adv-grid{grid-template-columns:1fr}.caf-form-section{padding:24px 20px}}
 </style>
 </head>
 <body>
 <div class="topbar">BonusPerMe per i Centri di Assistenza Fiscale</div>
-<header><a href="/" class="logo"><div class="logo-mark">B</div> BonusPerMe</a></header>
+<header class="header"><a href="/" class="logo"><div class="logo-mark">B</div> BonusPerMe</a></header>
 
 <div class="container">
 <section class="hero-caf">
 <div class="badge">Per i CAF</div>
 <h1>I tuoi clienti arrivano con il report pronto</h1>
-<p>BonusPerMe aiuta le famiglie a scoprire i bonus a cui hanno diritto. Il risultato? Clienti che arrivano al CAF sapendo esattamente cosa chiedere, con tutta la documentazione.</p>
+<p>BonusPerMe aiuta le famiglie a scoprire i bonus a cui hanno diritto. Il risultato? Clienti che arrivano al CAF sapendo esattamente cosa chiedere.</p>
+</section>
+
+<section class="value-cards">
+<div class="value-card"><div class="num">-40%</div><p>Tempo consulenza base</p></div>
+<div class="value-card"><div class="num">+30%</div><p>Pratiche evase al giorno</p></div>
+<div class="value-card"><div class="num">€0</div><p>Costo per il tuo CAF</p></div>
 </section>
 
 <section class="steps">
-<div class="step"><div class="num">1</div><h3>Il cliente usa BonusPerMe</h3><p>Risponde a 4 domande — eta, famiglia, ISEE, situazione abitativa — e scopre i bonus compatibili.</p></div>
-<div class="step"><div class="num">2</div><h3>Scarica il report PDF</h3><p>Un report professionale con elenco bonus, requisiti, documenti necessari e link ufficiali.</p></div>
-<div class="step"><div class="num">3</div><h3>Viene al CAF preparato</h3><p>Il cliente arriva con documenti pronti. Meno tempo per la consulenza, piu pratiche evase.</p></div>
+<h2>Come funziona</h2>
+<div class="step-grid">
+<div class="step"><div class="step-num">1</div><h3>Il cliente usa BonusPerMe</h3><p>Risponde a 4 domande e scopre i bonus compatibili in 2 minuti.</p></div>
+<div class="step"><div class="step-num">2</div><h3>Scarica il report PDF</h3><p>Report professionale con bonus, requisiti, documenti e link ufficiali.</p></div>
+<div class="step"><div class="step-num">3</div><h3>Viene al CAF preparato</h3><p>Documenti pronti, domande chiare. Meno tempo, più pratiche.</p></div>
+</div>
 </section>
 
 <section class="advantages">
 <h2>Vantaggi per il tuo CAF</h2>
 <div class="adv-grid">
-<div class="adv"><h4>Clienti informati</h4><p>Arrivano sapendo cosa chiedere, con report e documenti.</p></div>
-<div class="adv"><h4>Meno consulenza base</h4><p>Le domande generiche ("a cosa ho diritto?") vengono filtrate prima.</p></div>
-<div class="adv"><h4>Piu pratiche/giorno</h4><p>Clienti preparati = consulenze piu rapide = piu appuntamenti.</p></div>
-<div class="adv"><h4>Zero costi</h4><p>BonusPerMe e gratuito, open source e senza pubblicita.</p></div>
+<div class="adv"><h4>Clienti informati</h4><p>Arrivano sapendo cosa chiedere, con report e documenti pronti.</p></div>
+<div class="adv"><h4>Meno consulenza base</h4><p>Le domande generiche vengono filtrate prima dell'appuntamento.</p></div>
+<div class="adv"><h4>Più pratiche al giorno</h4><p>Clienti preparati = consulenze più rapide = più appuntamenti.</p></div>
+<div class="adv"><h4>Zero costi</h4><p>BonusPerMe è gratuito, open source e senza pubblicità.</p></div>
 </div>
 </section>
 
-<section class="coming-box">
-<h3>Prossimamente</h3>
-<p>Widget embeddabile per il sito del tuo CAF e API per integrazione con i vostri gestionali.</p>
-<p>Lascia la tua email per essere avvisato al lancio:</p>
-<div class="email-form">
-<input type="email" id="caf-email" placeholder="La tua email...">
-<button onclick="submitCAF()">Avvisami</button>
+<section class="caf-form-section">
+<h2>Registra il tuo CAF</h2>
+<p>Ricevi aggiornamenti e accesso anticipato al widget embeddabile.</p>
+<div class="caf-form">
+<div class="field"><label>Nome CAF *</label><input type="text" id="caf-nome" placeholder="Es. CAF CISL Milano"></div>
+<div class="field"><label>Email referente *</label><input type="email" id="caf-email" placeholder="referente@caf.it"></div>
+<div class="field"><label>Telefono</label><input type="tel" id="caf-telefono" placeholder="Es. 02 1234567"></div>
+<div class="field"><label>Provincia *</label><input type="text" id="caf-provincia" placeholder="Es. Milano"></div>
+` + turnstileWidget + `
+<button class="btn-caf" onclick="submitCAFSignup()">Registra il CAF</button>
+<div id="cafResult"></div>
 </div>
-<div id="thanks">Grazie! Ti avviseremo al lancio.</div>
 </section>
 
 <section class="api-box">
@@ -109,27 +144,110 @@ footer a{color:var(--primary);text-decoration:none}
 <p>Accedi ai dati di tutti i bonus italiani tramite API REST:</p>
 <code>GET /api/bonus — Lista completa bonus (nazionali + regionali)</code>
 <code>GET /api/bonus/{id} — Dettaglio singolo bonus</code>
-<p style="font-size:.85rem;color:var(--text-soft);margin-top:8px">Formato JSON, CORS abilitato, cache 1 ora. Rate limit: 60 richieste/minuto.</p>
+<p style="font-size:.85rem;color:var(--ink-50);margin-top:8px">Formato JSON, CORS abilitato, cache 1 ora. Rate limit: 60 richieste/minuto.</p>
 </section>
 </div>
 
 <footer>
 <div class="container">
 <p>BonusPerMe — Progetto gratuito e open source. Non siamo un CAF o un patronato.</p>
-<p><a href="/">Torna a BonusPerMe</a></p>
+<p><a href="/">Torna a BonusPerMe</a> <a href="/contatti">Contatti</a> <a href="/privacy">Privacy Policy</a></p>
 </div>
 </footer>
 
 <script>
-function submitCAF(){
-var email=document.getElementById('caf-email').value.trim();
-if(!email||!email.includes('@'))return;
-fetch('/api/notify-signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,tipo:'caf'})})
-.then(function(){document.getElementById('thanks').style.display='block';document.querySelector('.email-form').style.display='none';});
+var cafTurnstileToken='';
+function onCafTurnstile(t){cafTurnstileToken=t;}
+
+function submitCAFSignup(){
+  var nome=document.getElementById('caf-nome').value.trim();
+  var email=document.getElementById('caf-email').value.trim();
+  var telefono=document.getElementById('caf-telefono').value.trim();
+  var provincia=document.getElementById('caf-provincia').value.trim();
+  var result=document.getElementById('cafResult');
+
+  if(!nome||!email||!provincia){
+    result.style.display='block';result.style.background='var(--terra-light)';result.style.color='var(--terra)';
+    result.textContent='Compila tutti i campi obbligatori (*).';return;
+  }
+  if(!email.includes('@')){
+    result.style.display='block';result.style.background='var(--terra-light)';result.style.color='var(--terra)';
+    result.textContent='Inserisci un indirizzo email valido.';return;
+  }
+
+  var headers={'Content-Type':'application/json'};
+  if(cafTurnstileToken)headers['X-Turnstile-Token']=cafTurnstileToken;
+
+  fetch('/api/caf-signup',{method:'POST',headers:headers,body:JSON.stringify({nome:nome,email:email,telefono:telefono,provincia:provincia})})
+  .then(function(r){return r.json();})
+  .then(function(data){
+    result.style.display='block';
+    if(data.ok){
+      result.style.background='var(--green-light)';result.style.color='var(--green)';
+      result.textContent='Grazie! Ti contatteremo presto.';
+      document.querySelector('.caf-form').querySelectorAll('input').forEach(function(i){i.value='';});
+    } else {
+      result.style.background='var(--terra-light)';result.style.color='var(--terra)';
+      result.textContent=data.error||'Errore. Riprova.';
+    }
+  })
+  .catch(function(){
+    result.style.display='block';result.style.background='var(--terra-light)';result.style.color='var(--terra)';
+    result.textContent='Errore di rete. Riprova.';
+  });
 }
 </script>
 </body>
 </html>`)
 
 	w.Write([]byte(sb.String()))
+}
+
+type cafSignupRequest struct {
+	Nome      string `json:"nome"`
+	Email     string `json:"email"`
+	Telefono  string `json:"telefono"`
+	Provincia string `json:"provincia"`
+}
+
+// CAFSignupHandler handles POST /api/caf-signup
+func CAFSignupHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	if !verifyTurnstile(getTurnstileToken(r)) {
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(map[string]interface{}{"ok": false, "error": "Verifica di sicurezza non superata"})
+		return
+	}
+
+	var req cafSignupRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(map[string]interface{}{"ok": false, "error": "Dati non validi"})
+		return
+	}
+	defer r.Body.Close()
+
+	req.Nome = strings.TrimSpace(req.Nome)
+	req.Email = strings.TrimSpace(req.Email)
+	req.Provincia = strings.TrimSpace(req.Provincia)
+
+	if req.Nome == "" || req.Email == "" || req.Provincia == "" {
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(map[string]interface{}{"ok": false, "error": "Compila tutti i campi obbligatori"})
+		return
+	}
+	if !strings.Contains(req.Email, "@") {
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(map[string]interface{}{"ok": false, "error": "Email non valida"})
+		return
+	}
+
+	log.Printf("[caf-signup] nome=%s email=%s provincia=%s", req.Nome, req.Email, req.Provincia)
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]interface{}{"ok": true})
 }

@@ -51,6 +51,10 @@ type Config struct {
 
 	// Gzip
 	GzipEnabled bool
+
+	// Turnstile
+	TurnstileSiteKey   string
+	TurnstileSecretKey string
 }
 
 // Load reads .env (if present) and populates Cfg from environment variables.
@@ -88,6 +92,9 @@ func Load() {
 		UserAgent: envOr("USER_AGENT", "Mozilla/5.0 (compatible; BonusPerMeBot/1.0; +https://bonusperme.it)"),
 
 		GzipEnabled: envBool("GZIP_ENABLED", true),
+
+		TurnstileSiteKey:   os.Getenv("TURNSTILE_SITE_KEY"),
+		TurnstileSecretKey: os.Getenv("TURNSTILE_SECRET_KEY"),
 	}
 
 	log.Printf("config: loaded (port=%s, scraper=%v, linkcheck=%v, gtm=%s)",

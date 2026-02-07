@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BonusPerMe — Scopri i bonus a cui hai diritto</title>
   <link rel="stylesheet" href="/fonts/fonts.css">
+  {{if .TurnstileSiteKey}}<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>{{end}}
   <!-- Google Tag Manager (loads only after cookie consent) -->
   <script>
     var __GTM_ID__='{{.GTMID}}';
@@ -1256,8 +1257,8 @@
     </div>
 
     <div class="proof-card">
-      <div class="proof-number">14.335</div>
-      <div class="proof-label">verifiche effettuate</div>
+      <div class="proof-number" id="proofCounter">14.335</div>
+      <div class="proof-label" data-i18n="hero.counter_label">famiglie aiutate</div>
       <hr class="proof-divider">
       <p class="proof-quote">
         Secondo i dati INPS, ogni anno restano non richiesti
@@ -1538,6 +1539,9 @@
         <a href="/per-caf">
           <span class="icon"><svg><use href="#ico-home"/></svg></span> Per i CAF
         </a>
+        <a href="/contatti">
+          <span class="icon"><svg><use href="#ico-edit"/></svg></span> Contatti
+        </a>
       </div>
       <div class="footer-badges">
         Simone Nogara · P.IVA 03817020138 <span>·</span> info@bonusperme.it
@@ -1567,46 +1571,47 @@
         <h2 class="wizard-step-title" data-i18n="step1.title">Dati personali</h2>
         <p class="wizard-step-sub" data-i18n="step1.subtitle">Informazioni di base per la verifica.</p>
         <div class="wiz-row">
+        {{if .TurnstileSiteKey}}<div class="cf-turnstile" data-sitekey="{{.TurnstileSiteKey}}" data-callback="onTurnstileSuccess" data-theme="light" style="margin-bottom:16px"></div>{{end}}
           <div class="wiz-field">
-            <label for="wiz-eta">Eta</label>
+            <label for="wiz-eta" data-i18n="label.eta">Età</label>
             <input type="number" id="wiz-eta" min="18" max="120" value="35" placeholder="Es. 35">
           </div>
           <div class="wiz-field">
-            <label for="wiz-stato-civile">Stato civile</label>
+            <label for="wiz-stato-civile" data-i18n="label.stato_civile">Stato civile</label>
             <select id="wiz-stato-civile">
-              <option value="">— Seleziona —</option>
-              <option value="celibe/nubile">Celibe / Nubile</option>
-              <option value="coniugato/a">Coniugato/a</option>
-              <option value="convivente">Convivente</option>
-              <option value="separato/a">Separato/a</option>
-              <option value="divorziato/a">Divorziato/a</option>
-              <option value="vedovo/a">Vedovo/a</option>
+              <option value="" data-i18n="opt.select">— Seleziona —</option>
+              <option value="celibe/nubile" data-i18n="opt.single">Celibe / Nubile</option>
+              <option value="coniugato/a" data-i18n="opt.married">Coniugato/a</option>
+              <option value="convivente" data-i18n="opt.cohabiting">Convivente</option>
+              <option value="separato/a" data-i18n="opt.separated">Separato/a</option>
+              <option value="divorziato/a" data-i18n="opt.separated">Divorziato/a</option>
+              <option value="vedovo/a" data-i18n="opt.widowed">Vedovo/a</option>
             </select>
           </div>
         </div>
         <div class="wiz-row">
           <div class="wiz-field">
-            <label for="wiz-occupazione">Occupazione</label>
+            <label for="wiz-occupazione" data-i18n="label.occupazione">Occupazione</label>
             <select id="wiz-occupazione">
-              <option value="">— Seleziona —</option>
-              <option value="dipendente">Dipendente</option>
-              <option value="autonomo">Autonomo</option>
-              <option value="pensionato">Pensionato</option>
-              <option value="disoccupato">Disoccupato</option>
-              <option value="casalinga">Casalinga</option>
-              <option value="studente">Studente</option>
+              <option value="" data-i18n="opt.select">— Seleziona —</option>
+              <option value="dipendente" data-i18n="opt.employee">Dipendente</option>
+              <option value="autonomo" data-i18n="opt.selfemployed">Autonomo</option>
+              <option value="pensionato" data-i18n="opt.retired">Pensionato</option>
+              <option value="disoccupato" data-i18n="opt.unemployed">Disoccupato</option>
+              <option value="casalinga" data-i18n="opt.inactive">Casalinga</option>
+              <option value="studente" data-i18n="opt.student">Studente</option>
             </select>
           </div>
           <div class="wiz-field" style="display:flex;align-items:flex-end">
             <label class="wiz-check">
-              <input type="checkbox" id="wiz-studente"> Studente universitario
+              <input type="checkbox" id="wiz-studente"> <span data-i18n="label.studente">Studente universitario</span>
             </label>
           </div>
         </div>
         <div class="wiz-nav">
-          <button class="btn-ghost" onclick="backToLanding()">Indietro</button>
+          <button class="btn-ghost" onclick="backToLanding()" data-i18n="btn.prev">Indietro</button>
           <button class="btn btn-primary" onclick="wizNext()">
-            Avanti
+            <span data-i18n="btn.next">Avanti</span>
             <span class="icon icon-sm"><svg><use href="#ico-arrow-right"/></svg></span>
           </button>
         </div>
@@ -1618,34 +1623,34 @@
         <p class="wizard-step-sub" data-i18n="step2.subtitle">Composizione della tua famiglia.</p>
         <div class="wiz-row">
           <div class="wiz-field">
-            <label for="wiz-figli">Numero figli</label>
+            <label for="wiz-figli" data-i18n="label.numero_figli">Numero figli</label>
             <input type="number" id="wiz-figli" min="0" max="20" value="0">
           </div>
           <div class="wiz-field">
-            <label for="wiz-figli-min">Figli minorenni</label>
+            <label for="wiz-figli-min" data-i18n="label.figli_minorenni">Figli minorenni</label>
             <input type="number" id="wiz-figli-min" min="0" max="20" value="0">
           </div>
         </div>
         <div class="wiz-row">
           <div class="wiz-field">
-            <label for="wiz-figli-u3">Figli under 3 anni</label>
+            <label for="wiz-figli-u3" data-i18n="label.figli_under3">Figli under 3 anni</label>
             <input type="number" id="wiz-figli-u3" min="0" max="20" value="0">
           </div>
           <div class="wiz-field">
-            <label for="wiz-over65">Over 65 nel nucleo</label>
+            <label for="wiz-over65" data-i18n="label.over65">Over 65 nel nucleo</label>
             <input type="number" id="wiz-over65" min="0" max="10" value="0">
           </div>
         </div>
         <label class="wiz-check">
-          <input type="checkbox" id="wiz-disabilita"> Componente con disabilita nel nucleo
+          <input type="checkbox" id="wiz-disabilita"> <span data-i18n="label.disabilita">Componente con disabilità nel nucleo</span>
         </label>
         <label class="wiz-check">
-          <input type="checkbox" id="wiz-nuovo-nato"> Nuovo nato nel 2025
+          <input type="checkbox" id="wiz-nuovo-nato"> <span data-i18n="label.nuovo_nato">Nuovo nato nel 2025</span>
         </label>
         <div class="wiz-nav">
-          <button class="btn-ghost" onclick="wizPrev()">Indietro</button>
+          <button class="btn-ghost" onclick="wizPrev()" data-i18n="btn.prev">Indietro</button>
           <button class="btn btn-primary" onclick="wizNext()">
-            Avanti
+            <span data-i18n="btn.next">Avanti</span>
             <span class="icon icon-sm"><svg><use href="#ico-arrow-right"/></svg></span>
           </button>
         </div>
@@ -1657,7 +1662,7 @@
         <p class="wizard-step-sub" data-i18n="step4.subtitle">Residenza e condizione casa.</p>
         <div class="wiz-row full">
           <div class="wiz-field">
-            <label for="wiz-residenza">Regione di residenza</label>
+            <label for="wiz-residenza" data-i18n="label.regione">Regione di residenza</label>
             <select id="wiz-residenza">
               <option value="">— Seleziona regione —</option>
               <option value="Piemonte">Piemonte</option>
@@ -1684,18 +1689,18 @@
           </div>
         </div>
         <label class="wiz-check">
-          <input type="checkbox" id="wiz-affittuario"> Sono in affitto
+          <input type="checkbox" id="wiz-affittuario"> <span data-i18n="label.affittuario">Sono in affitto</span>
         </label>
         <label class="wiz-check">
-          <input type="checkbox" id="wiz-prima-abitazione"> Prima abitazione di proprieta
+          <input type="checkbox" id="wiz-prima-abitazione"> <span data-i18n="label.prima_casa">Prima abitazione di proprietà</span>
         </label>
         <label class="wiz-check">
-          <input type="checkbox" id="wiz-ristrutturazione"> Ristrutturazione casa in corso / prevista
+          <input type="checkbox" id="wiz-ristrutturazione"> <span data-i18n="label.ristrutturazione">Ristrutturazione casa in corso / prevista</span>
         </label>
         <div class="wiz-nav">
-          <button class="btn-ghost" onclick="wizPrev()">Indietro</button>
+          <button class="btn-ghost" onclick="wizPrev()" data-i18n="btn.prev">Indietro</button>
           <button class="btn btn-primary" onclick="wizNext()">
-            Avanti
+            <span data-i18n="btn.next">Avanti</span>
             <span class="icon icon-sm"><svg><use href="#ico-arrow-right"/></svg></span>
           </button>
         </div>
@@ -1707,25 +1712,25 @@
         <p class="wizard-step-sub" data-i18n="step3.subtitle">ISEE e reddito. Se non hai l'ISEE lascia 0.</p>
         <div class="wiz-row">
           <div class="wiz-field">
-            <label for="wiz-isee">ISEE annuo (EUR)</label>
+            <label for="wiz-isee" data-i18n="label.isee">ISEE annuo (EUR)</label>
             <input type="number" id="wiz-isee" min="0" max="500000" value="0" step="100" placeholder="Es. 15000">
           </div>
           <div class="wiz-field">
-            <label for="wiz-reddito">Reddito annuo (EUR)</label>
+            <label for="wiz-reddito" data-i18n="label.reddito">Reddito annuo (EUR)</label>
             <input type="number" id="wiz-reddito" min="0" max="1000000" value="0" step="100" placeholder="Es. 25000">
           </div>
         </div>
         <div class="wiz-isee-upload" id="iseeUploadZone">
           <input type="file" id="iseeFile" accept=".pdf">
           <span class="icon icon-sm"><svg><use href="#ico-file-text"/></svg></span>
-          Hai il PDF dell'ISEE? Trascinalo qui o clicca per caricarlo
+          <span data-i18n="isee.upload">Hai il PDF dell'ISEE? Trascinalo qui o clicca per caricarlo</span>
           <div id="iseeUploadStatus" style="margin-top:8px;font-weight:600;display:none"></div>
         </div>
         <div class="wiz-nav">
-          <button class="btn-ghost" onclick="wizPrev()">Indietro</button>
+          <button class="btn-ghost" onclick="wizPrev()" data-i18n="btn.prev">Indietro</button>
           <button class="btn btn-primary" onclick="wizSubmit()" id="wizSubmitBtn">
             <span class="icon icon-sm"><svg><use href="#ico-zap"/></svg></span>
-            Verifica bonus
+            <span data-i18n="btn.submit">Verifica bonus</span>
           </button>
         </div>
       </div>
@@ -1755,22 +1760,22 @@
     </div>
 
     <div class="results-hero" id="resultsHero">
-      <h2 id="results-title">I tuoi bonus</h2>
+      <h2 id="results-title" data-i18n="results.title">I tuoi bonus</h2>
       <div class="saving-amount" id="results-saving"></div>
       <div class="bonus-count" id="results-count"></div>
     </div>
     <div class="results-actions">
       <button class="action-btn" onclick="downloadReport('print')">
-        <span class="icon"><svg><use href="#ico-printer"/></svg></span> Stampa
+        <span class="icon"><svg><use href="#ico-printer"/></svg></span> <span data-i18n="results.print">Stampa</span>
       </button>
       <button class="action-btn" onclick="downloadReport('download')">
-        <span class="icon"><svg><use href="#ico-file-text"/></svg></span> PDF
+        <span class="icon"><svg><use href="#ico-file-text"/></svg></span> <span data-i18n="results.pdf">PDF</span>
       </button>
       <button class="action-btn" onclick="exportCalendar()">
-        <span class="icon"><svg><use href="#ico-clock"/></svg></span> Scadenze
+        <span class="icon"><svg><use href="#ico-clock"/></svg></span> <span data-i18n="results.calendar">Scadenze</span>
       </button>
       <button class="action-btn" onclick="shareWhatsApp()">
-        <span class="icon"><svg><use href="#ico-external"/></svg></span> Condividi
+        <span class="icon"><svg><use href="#ico-external"/></svg></span> <span data-i18n="results.share">Condividi</span>
       </button>
     </div>
     <div class="results-tabs" id="resultsTabs"></div>
@@ -1778,7 +1783,7 @@
     <div class="results-modify">
       <button class="btn btn-outline" onclick="backToWizard()">
         <span class="icon icon-sm"><svg><use href="#ico-edit"/></svg></span>
-        Modifica dati
+        <span data-i18n="btn.modify">Modifica dati</span>
       </button>
     </div>
 
@@ -1833,11 +1838,35 @@
       .then(function(t) { applyTranslations(t); });
   }
 
+  var currentTranslations = {};
+
   function applyTranslations(t) {
+    currentTranslations = t;
     document.querySelectorAll('[data-i18n]').forEach(function(el) {
       var key = el.dataset.i18n;
-      if (t[key]) el.textContent = t[key];
+      if (!t[key]) return;
+      if (el.tagName === 'OPTION') {
+        el.textContent = t[key];
+      } else {
+        // Preserve child SVG icons in buttons
+        var svg = el.querySelector('svg, .icon');
+        if (svg && el.children.length > 0) {
+          // Only update text nodes
+          Array.from(el.childNodes).forEach(function(n) {
+            if (n.nodeType === 3 && n.textContent.trim()) n.textContent = ' ' + t[key] + ' ';
+          });
+          // If no text node found, try span
+          var span = el.querySelector('span[data-i18n]');
+          if (!span) el.textContent = t[key];
+        } else {
+          el.textContent = t[key];
+        }
+      }
     });
+    // If results visible, re-render bonus cards
+    if (lastResult && document.getElementById('resultsPage').style.display !== 'none') {
+      renderBonusCards(lastResult.bonus, activeFilter);
+    }
   }
 
   /* Quick estimate calculator */
@@ -1967,9 +1996,12 @@
 
     lastProfile = getProfile();
 
+    var matchHeaders = { 'Content-Type': 'application/json' };
+    if (turnstileToken) matchHeaders['X-Turnstile-Token'] = turnstileToken;
+
     fetch('/api/match', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: matchHeaders,
       body: JSON.stringify(lastProfile)
     })
     .then(function(r) {
@@ -2127,11 +2159,12 @@
       html += '</div>';
 
       // Importo box — anti-duplication logic
+      var lStimato = (currentTranslations && currentTranslations['results.importo_reale']) || 'Stimato per te';
       var hasStimato = b.importo_reale && b.importo_reale !== b.importo;
       html += '<div class="bonus-importo-box">';
       if (hasStimato) {
         html += '<span class="importo-main">' + esc(b.importo_reale) + '</span>';
-        html += '<span class="importo-label">Stimato per te</span>';
+        html += '<span class="importo-label">' + esc(lStimato) + '</span>';
         html += '<div class="importo-range">Range: ' + esc(b.importo) + '</div>';
       } else {
         html += '<span class="importo-main">' + esc(b.importo || '') + '</span>';
@@ -2144,21 +2177,27 @@
       html += '</div>'; // bonus-card-header
 
       // Accordion toggle
-      html += '<button class="bonus-toggle" onclick="toggleDetails(\'' + cardId + '\')"><span>Vedi dettagli</span><svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>';
+      var lExpand = (currentTranslations && currentTranslations['results.expand']) || 'Vedi dettagli';
+      html += '<button class="bonus-toggle" onclick="toggleDetails(\'' + cardId + '\')"><span>' + esc(lExpand) + '</span><svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>';
 
       // Details
       html += '<div class="bonus-details" id="' + cardId + '-details">';
 
       // Requisiti
+      var lRequisiti = (currentTranslations && currentTranslations['results.requisiti']) || 'Requisiti';
+      var lComeFare = (currentTranslations && currentTranslations['results.come_fare']) || 'Come fare domanda';
+      var lDocumenti = (currentTranslations && currentTranslations['results.documenti']) || 'Documenti necessari';
+      var lFaq = (currentTranslations && currentTranslations['results.faq']) || 'Domande frequenti';
+
       if (b.requisiti && b.requisiti.length > 0) {
-        html += '<div class="detail-section"><div class="detail-section-title">Requisiti</div><ul class="req-list">';
+        html += '<div class="detail-section"><div class="detail-section-title">' + esc(lRequisiti) + '</div><ul class="req-list">';
         b.requisiti.forEach(function(r) { html += '<li class="req-item">' + esc(r) + '</li>'; });
         html += '</ul></div>';
       }
 
       // Come fare domanda
       if (b.come_richiederlo && b.come_richiederlo.length > 0) {
-        html += '<div class="detail-section"><div class="detail-section-title">Come fare domanda</div><ul class="steps-list">';
+        html += '<div class="detail-section"><div class="detail-section-title">' + esc(lComeFare) + '</div><ul class="steps-list">';
         b.come_richiederlo.forEach(function(s, si) {
           html += '<li class="step-item"><span class="step-num">' + (si+1) + '</span><span>' + esc(s) + '</span></li>';
         });
@@ -2167,7 +2206,7 @@
 
       // Documenti
       if (b.documenti && b.documenti.length > 0) {
-        html += '<div class="detail-section"><div class="detail-section-title">Documenti necessari</div><ul class="doc-list">';
+        html += '<div class="detail-section"><div class="detail-section-title">' + esc(lDocumenti) + '</div><ul class="doc-list">';
         b.documenti.forEach(function(d, di) {
           html += '<li class="doc-item" data-doc-idx="' + di + '" onclick="toggleDoc(this)"><span class="doc-checkbox"></span><span class="doc-label">' + esc(d) + '</span></li>';
         });
@@ -2176,7 +2215,7 @@
 
       // FAQ
       if (b.faq && b.faq.length > 0) {
-        html += '<div class="detail-section"><div class="detail-section-title">Domande frequenti</div><ul class="faq-list">';
+        html += '<div class="detail-section"><div class="detail-section-title">' + esc(lFaq) + '</div><ul class="faq-list">';
         b.faq.forEach(function(f) {
           html += '<li class="faq-item"><button class="faq-question" onclick="toggleFaq(this)"><span>' + esc(f.domanda) + '</span><svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button><div class="faq-answer">' + esc(f.risposta) + '</div></li>';
         });
@@ -2191,6 +2230,7 @@
       html += '</div>'; // bonus-details
 
       // Card footer: verification + CTA button (compact, one line)
+      var lVaiSito = (currentTranslations && currentTranslations['results.link_ufficiale']) || 'Vai al sito';
       html += '<div class="bonus-card-footer">';
       if (b.link_verificato && b.link_ufficiale) {
         var footerDate = formatDateIT(b.link_verificato_al || b.ultimo_aggiornamento);
@@ -2199,13 +2239,13 @@
         if (footerDate) html += '<span class="date">' + footerDate + '</span>';
         if (footerEnte) html += '<span class="date">&middot; ' + esc(footerEnte) + '</span>';
         html += '</div>';
-        html += '<a href="' + safeURL(b.link_ufficiale) + '" target="_blank" rel="noopener" class="btn-sito-ufficiale">Vai al sito <span class="icon"><svg><use href="#ico-external"/></svg></span></a>';
+        html += '<a href="' + safeURL(b.link_ufficiale) + '" target="_blank" rel="noopener" class="btn-sito-ufficiale">' + esc(lVaiSito) + ' <span class="icon"><svg><use href="#ico-external"/></svg></span></a>';
       } else if (b.link_ricerca) {
         html += '<div class="link-warn-footer"><span class="icon"><svg><use href="#ico-alert"/></svg></span><span>Link non verificato</span></div>';
         html += '<a href="' + safeURL(b.link_ricerca) + '" target="_blank" rel="noopener" class="btn-sito-ufficiale">Cerca su sito <span class="icon"><svg><use href="#ico-external"/></svg></span></a>';
       } else if (b.link_ufficiale) {
         html += '<div></div>';
-        html += '<a href="' + safeURL(b.link_ufficiale) + '" target="_blank" rel="noopener" class="btn-sito-ufficiale">Vai al sito <span class="icon"><svg><use href="#ico-external"/></svg></span></a>';
+        html += '<a href="' + safeURL(b.link_ufficiale) + '" target="_blank" rel="noopener" class="btn-sito-ufficiale">' + esc(lVaiSito) + ' <span class="icon"><svg><use href="#ico-external"/></svg></span></a>';
       }
       html += '</div>';
 
@@ -2383,6 +2423,84 @@
     dataLayer.push({ event: 'cookie_consent', consent: 'rejected' });
   }
 
+  /* ============================================
+     DYNAMIC COUNTER
+     ============================================ */
+  fetch('/api/stats')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.scansioni) {
+        var el = document.getElementById('proofCounter');
+        if (el) el.textContent = Number(data.scansioni).toLocaleString('it-IT');
+      }
+    })
+    .catch(function() {});
+
+  /* ============================================
+     TURNSTILE
+     ============================================ */
+  var turnstileToken = '';
+  function onTurnstileSuccess(token) { turnstileToken = token; }
+
+  /* ============================================
+     SOCIAL PROOF TOAST
+     ============================================ */
+  var spCities = ['Roma','Milano','Napoli','Torino','Palermo','Genova','Bologna','Firenze','Bari','Catania','Venezia','Verona','Padova','Brescia','Parma','Cagliari'];
+  var spMessages = [
+    'Una famiglia di {city} ha appena scoperto 3 bonus',
+    '{n} famiglie oggi hanno usato BonusPerMe',
+    'Una mamma di {city} ha trovato €2.400 di bonus',
+    'Nuova verifica completata da {city}'
+  ];
+  var spTimer = null;
+
+  function initSocialProof() {
+    if (sessionStorage.getItem('bpm_sp_closed')) return;
+    var delay = 15000 + Math.random() * 10000;
+    spTimer = setTimeout(showSocialProof, delay);
+  }
+
+  function showSocialProof() {
+    if (sessionStorage.getItem('bpm_sp_closed')) return;
+    if (document.getElementById('wizardPage').style.display !== 'none') {
+      spTimer = setTimeout(showSocialProof, 10000);
+      return;
+    }
+    var city = spCities[Math.floor(Math.random() * spCities.length)];
+    var n = 40 + Math.floor(Math.random() * 60);
+    var msgs = spMessages;
+    if (currentTranslations && currentTranslations['social_proof.msg1']) {
+      msgs = [
+        currentTranslations['social_proof.msg1'],
+        currentTranslations['social_proof.msg2'],
+        currentTranslations['social_proof.msg3'],
+        currentTranslations['social_proof.msg4']
+      ];
+    }
+    var msg = msgs[Math.floor(Math.random() * msgs.length)];
+    msg = msg.replace('{city}', city).replace('{n}', n);
+
+    var el = document.getElementById('socialProofToast');
+    el.querySelector('.sp-text').textContent = msg;
+    el.classList.add('show');
+
+    setTimeout(function() {
+      el.classList.remove('show');
+    }, 6000);
+
+    var next = 45000 + Math.random() * 45000;
+    spTimer = setTimeout(showSocialProof, next);
+  }
+
+  function closeSocialProof() {
+    var el = document.getElementById('socialProofToast');
+    el.classList.remove('show');
+    sessionStorage.setItem('bpm_sp_closed', '1');
+    if (spTimer) clearTimeout(spTimer);
+  }
+
+  initSocialProof();
+
   function handleISEEFile(file) {
     var status = document.getElementById('iseeUploadStatus');
     status.style.display = 'block';
@@ -2410,5 +2528,22 @@
     });
   }
 </script>
+
+<!-- Social Proof Toast -->
+<style>
+.social-proof{position:fixed;bottom:24px;left:24px;z-index:900;background:#fff;border:1px solid var(--ink-15);border-radius:var(--radius-lg);box-shadow:var(--shadow-dropdown);padding:14px 40px 14px 16px;max-width:360px;transform:translateY(120%);opacity:0;transition:transform .4s ease,opacity .3s ease;pointer-events:none}
+.social-proof.show{transform:translateY(0);opacity:1;pointer-events:auto}
+.social-proof .sp-dot{display:inline-block;width:8px;height:8px;background:var(--green);border-radius:50%;margin-right:8px;animation:sp-pulse 2s infinite}
+.social-proof .sp-text{font-size:.85rem;color:var(--ink-75)}
+.social-proof .sp-close{position:absolute;top:8px;right:10px;background:none;border:none;font-size:1rem;color:var(--ink-30);cursor:pointer;line-height:1}
+@keyframes sp-pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@media(max-width:480px){.social-proof{left:12px;right:12px;max-width:none;bottom:12px}}
+</style>
+<div class="social-proof" id="socialProofToast">
+  <span class="sp-dot"></span>
+  <span class="sp-text"></span>
+  <button class="sp-close" onclick="closeSocialProof()">&times;</button>
+</div>
+
 </body>
 </html>

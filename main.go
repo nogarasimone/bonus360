@@ -73,6 +73,9 @@ func main() {
 
 	// Pages
 	mux.HandleFunc("/per-caf", handlers.PerCAFHandler)
+	mux.HandleFunc("/contatti", handlers.ContattiHandler)
+	mux.HandleFunc("/api/contact", handlers.ContactHandler)
+	mux.HandleFunc("/api/caf-signup", handlers.CAFSignupHandler)
 	mux.HandleFunc("/privacy", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "static/privacy.html")
 	})

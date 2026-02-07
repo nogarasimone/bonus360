@@ -14,7 +14,8 @@ var (
 )
 
 type indexData struct {
-	GTMID string
+	GTMID            string
+	TurnstileSiteKey string
 }
 
 func loadIndexTemplate() {
@@ -37,7 +38,8 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := indexData{
-		GTMID: config.Cfg.GTMID,
+		GTMID:            config.Cfg.GTMID,
+		TurnstileSiteKey: config.Cfg.TurnstileSiteKey,
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
