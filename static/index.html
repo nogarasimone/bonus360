@@ -11,7 +11,7 @@
 :root{--cream:#FFF9F0;--peach:#FFE8D6;--peach-deep:#F4C4A0;--coral:#E8735A;--coral-soft:#F09E8C;--teal:#2B8A7E;--teal-light:#3AAFA9;--teal-pale:#E8F6F5;--blue-soft:#6C9BCF;--lavender:#B8A9D4;--lavender-pale:#F0ECF7;--gold:#E5A549;--gold-pale:#FFF3DC;--green:#5CB85C;--green-pale:#E8F5E8;--text:#2D3436;--text-soft:#555E60;--text-muted:#8E9BA0;--border:rgba(0,0,0,0.06);--shadow-sm:0 2px 8px rgba(0,0,0,0.04);--shadow-md:0 4px 24px rgba(0,0,0,0.06);--shadow-glow:0 4px 30px rgba(232,115,90,0.15);--radius:20px;--radius-sm:14px;--radius-xs:10px}
 *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:'Nunito',-apple-system,sans-serif;background:var(--cream);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 .bg-shapes{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}.bg-shapes .shape{position:absolute;border-radius:50%;opacity:.4}.bg-shapes .s1{width:600px;height:600px;top:-200px;right:-150px;background:radial-gradient(circle,var(--peach) 0%,transparent 70%);animation:f1 25s ease-in-out infinite}.bg-shapes .s2{width:500px;height:500px;bottom:-100px;left:-200px;background:radial-gradient(circle,var(--teal-pale) 0%,transparent 70%);animation:f2 30s ease-in-out infinite}.bg-shapes .s3{width:300px;height:300px;top:40%;left:60%;background:radial-gradient(circle,var(--lavender-pale) 0%,transparent 70%);animation:f3 20s ease-in-out infinite}@keyframes f1{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,40px)}}@keyframes f2{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,-30px)}}@keyframes f3{0%,100%{transform:translate(0,0)}50%{transform:translate(-20px,20px)}}
-header{position:sticky;top:0;z-index:100;background:rgba(255,253,251,.88);backdrop-filter:blur(20px) saturate(1.5);border-bottom:1px solid var(--border)}.header-inner{max-width:1000px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}.logo{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:800;color:var(--coral);display:flex;align-items:center;gap:8px}.logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--coral),var(--gold));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;box-shadow:0 2px 12px rgba(232,115,90,.25)}.header-tags{display:flex;gap:8px}.htag{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:.72rem;font-weight:700;letter-spacing:.3px;text-transform:uppercase}.htag.free{background:var(--green-pale);color:var(--green)}.htag.safe{background:var(--teal-pale);color:var(--teal)}
+header{position:sticky;top:0;z-index:100;background:rgba(255,253,251,.88);backdrop-filter:blur(20px) saturate(1.5);border-bottom:1px solid var(--border)}.header-inner{max-width:1000px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}.logo{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:800;color:var(--coral);display:flex;align-items:center;gap:8px}.logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--coral),var(--gold));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;box-shadow:0 2px 12px rgba(232,115,90,.25)}.header-tags{display:flex;gap:8px;align-items:center}.htag{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:.72rem;font-weight:700;letter-spacing:.3px;text-transform:uppercase}.htag.free{background:var(--green-pale);color:var(--green)}.htag.safe{background:var(--teal-pale);color:var(--teal)}
 .hero{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:60px 24px 40px;text-align:center}.hero-emoji{font-size:3.5rem;margin-bottom:16px;display:inline-block;animation:wave 2s ease-in-out infinite}@keyframes wave{0%,100%{transform:rotate(0)}25%{transform:rotate(10deg)}75%{transform:rotate(-5deg)}}.hero h1{font-family:'Fraunces',serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:800;line-height:1.2;margin-bottom:16px}.hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--coral),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero>p{font-size:1.1rem;color:var(--text-soft);max-width:560px;margin:0 auto 36px;line-height:1.65}
 .trust-strip{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;margin-bottom:36px}.trust-chip{display:flex;align-items:center;gap:8px;font-size:.88rem;font-weight:600;color:var(--text-soft)}.trust-chip .icon{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem}.trust-chip .icon.users{background:var(--peach)}.trust-chip .icon.shield{background:var(--teal-pale)}.trust-chip .icon.leaf{background:var(--green-pale)}.trust-chip .icon.eu{background:var(--lavender-pale)}.trust-chip .num{font-weight:800;color:var(--coral);font-variant-numeric:tabular-nums}
 .privacy-card{max-width:620px;margin:0 auto 44px;background:#fff;border:2px solid var(--teal-pale);border-radius:var(--radius);padding:22px 26px;display:flex;align-items:flex-start;gap:16px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}.privacy-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,var(--teal),var(--teal-light))}.privacy-card .pc-icon{width:44px;height:44px;border-radius:12px;background:var(--teal-pale);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}.privacy-card h3{font-size:.95rem;font-weight:800;color:var(--teal);margin-bottom:4px}.privacy-card p{font-size:.84rem;color:var(--text-soft);line-height:1.55}.privacy-card strong{color:var(--teal);font-weight:700}
@@ -48,68 +48,155 @@ header{position:sticky;top:0;z-index:100;background:rgba(255,253,251,.88);backdr
 footer{position:relative;z-index:1;background:#fff;border-top:1px solid var(--border);padding:40px 24px;text-align:center}.footer-badges{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:16px}.footer-badge{font-size:.78rem;font-weight:700;color:var(--text-muted);background:var(--cream);padding:6px 14px;border-radius:20px}footer .disclaimer{font-size:.75rem;color:var(--text-muted);line-height:1.7;max-width:600px;margin:0 auto}footer a{color:var(--teal);text-decoration:none;font-weight:700}footer a:hover{color:var(--coral)}
 /* Print styles */
 @media print{header,footer,.bg-shapes,.cta-btn,.action-btn,.results-actions,.nav-buttons,.expand-btn,.filter-btn,.category-filter,.restart-section,.share-dropdown,.simulator-box,.coming-soon{display:none!important}.results{padding:0!important}.results-hero{box-shadow:none!important;border:1px solid #ccc!important}.bonus-details{display:block!important}.bonus-card{break-inside:avoid;box-shadow:none!important;border:1px solid #ccc!important;page-break-inside:avoid}.doc-item .doc-check{border:2px solid #333!important;background:transparent!important;color:transparent!important}.doc-item.checked .doc-check{background:transparent!important;color:transparent!important}.doc-item.checked .doc-label{text-decoration:none!important;color:var(--text-soft)!important}.faq-item .faq-answer{display:block!important}.bonus-details.open,.bonus-details{display:block!important}body{background:#fff!important}}
+
+/* ===== NEW: Skip link (a11y) ===== */
+.skip-link{position:absolute;top:-100%;left:16px;background:var(--coral);color:#fff;padding:12px 24px;border-radius:0 0 var(--radius-xs) var(--radius-xs);font-weight:700;font-size:.95rem;z-index:9999;text-decoration:none;transition:top .2s}.skip-link:focus{top:0}
+
+/* ===== NEW: Focus-visible (a11y) ===== */
+*:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+
+/* ===== NEW: Language switcher ===== */
+.lang-switcher{position:relative;display:inline-flex;align-items:center}.lang-switcher-btn{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:.78rem;font-weight:700;background:var(--cream);border:2px solid var(--border);color:var(--text-soft);cursor:pointer;font-family:inherit;transition:border-color .2s}.lang-switcher-btn:hover{border-color:var(--coral-soft);color:var(--coral)}.lang-dropdown{display:none;position:absolute;top:100%;right:0;margin-top:6px;background:#fff;border-radius:var(--radius-xs);box-shadow:var(--shadow-md);border:1px solid var(--border);z-index:200;min-width:140px;padding:6px 0}.lang-dropdown.open{display:block}.lang-option{display:flex;align-items:center;gap:8px;width:100%;padding:8px 16px;font-family:inherit;font-size:.85rem;font-weight:600;color:var(--text);background:none;border:none;cursor:pointer;text-align:left;transition:background .2s}.lang-option:hover{background:var(--cream)}.lang-option.active{color:var(--coral);font-weight:800}
+
+/* ===== NEW: Impact callout in hero ===== */
+.impact-callout{max-width:520px;margin:0 auto 36px;padding:20px 28px;background:linear-gradient(135deg,rgba(232,115,90,.08),rgba(229,165,73,.08));border:2px solid var(--peach-deep);border-radius:var(--radius);display:flex;align-items:center;gap:20px;text-align:left}.impact-callout .impact-num{font-family:'Fraunces',serif;font-size:1.8rem;font-weight:800;background:linear-gradient(135deg,var(--coral),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap;flex-shrink:0}.impact-callout .impact-text{font-size:.9rem;color:var(--text-soft);line-height:1.5}.impact-callout .impact-text strong{color:var(--coral);font-weight:700}.impact-callout .impact-source{font-size:.72rem;color:var(--text-muted);margin-top:4px}@media(max-width:500px){.impact-callout{flex-direction:column;text-align:center}}
+
+/* ===== NEW: Mini calculator widget ===== */
+.mini-calc{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 24px 60px}.mini-calc-inner{background:#fff;border-radius:var(--radius);padding:32px 28px;box-shadow:var(--shadow-sm);border:1px solid var(--border);text-align:center}.mini-calc h2{font-family:'Fraunces',serif;font-size:1.3rem;font-weight:700;margin-bottom:24px}.mini-calc-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}.mini-calc-group{display:flex;flex-direction:column;gap:6px;min-width:180px;text-align:left}.mini-calc-group label{font-size:.78rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}.mini-calc-group select{background:var(--cream);border:2px solid transparent;border-radius:var(--radius-xs);padding:12px 14px;color:var(--text);font-size:.95rem;font-family:inherit;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238E9BA0' stroke-width='2' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;width:100%}.mini-calc-group select:focus{border-color:var(--coral-soft);box-shadow:0 0 0 4px rgba(232,115,90,.1);background-color:#fff}.mini-calc-result{padding:16px 20px;background:var(--teal-pale);border-radius:var(--radius-xs);margin-bottom:20px;display:none}.mini-calc-result.show{display:block}.mini-calc-result .mcr-amount{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:800;color:var(--teal)}.mini-calc-result .mcr-note{font-size:.82rem;color:var(--text-muted);margin-top:4px}
+
+/* ===== NEW: Testimonials section ===== */
+.testimonials-section{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 24px 60px}.testimonials-section h2{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:700;text-align:center;margin-bottom:32px}.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}@media(max-width:750px){.testimonials-grid{grid-template-columns:1fr;max-width:420px;margin:0 auto}}.testimonial-card{background:#fff;border-radius:var(--radius);padding:28px 24px;box-shadow:var(--shadow-sm);border:1px solid var(--border);position:relative;transition:transform .3s,box-shadow .3s}.testimonial-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}.testimonial-card .tq{font-size:2rem;color:var(--peach-deep);font-family:'Fraunces',serif;line-height:1;margin-bottom:8px}.testimonial-card .ttext{font-size:.9rem;color:var(--text-soft);line-height:1.65;font-style:italic;margin-bottom:16px}.testimonial-card .tauthor{font-size:.82rem;font-weight:700;color:var(--text)}.testimonial-card .trole{font-size:.78rem;color:var(--text-muted)}
+
+/* ===== NEW: Source references in bonus cards ===== */
+.source-ref{margin-top:14px;padding:14px 16px;background:var(--cream);border-radius:var(--radius-xs);border-left:3px solid var(--blue-soft)}.source-ref h4{font-size:.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}.source-ref .sr-row{display:flex;align-items:baseline;gap:8px;font-size:.82rem;color:var(--text-soft);padding:3px 0}.source-ref .sr-label{font-weight:700;color:var(--text-muted);white-space:nowrap}.source-ref a{color:var(--teal);font-weight:700;text-decoration:none}.source-ref a:hover{color:var(--coral)}.source-ref .sr-stato{display:inline-flex;align-items:center;gap:4px;padding:2px 10px;border-radius:20px;font-size:.72rem;font-weight:700;text-transform:uppercase}.source-ref .sr-stato.attivo{background:var(--green-pale);color:var(--green)}.source-ref .sr-stato.scaduto{background:var(--peach);color:var(--coral)}.source-ref .sr-stato.in_scadenza{background:var(--gold-pale);color:#B8860B}
+
+/* ===== NEW: WhatsApp share button in bonus cards ===== */
+.wa-share-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:30px;background:#25D366;color:#fff;border:none;font-family:inherit;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s;margin-left:8px;text-decoration:none}.wa-share-btn:hover{background:#1DA851;transform:translateY(-1px)}
 </style>
 </head>
 <body>
+
+<a href="#main" class="skip-link" data-i18n="a11y.skip">Vai al contenuto principale</a>
+
 <div class="bg-shapes"><div class="shape s1"></div><div class="shape s2"></div><div class="shape s3"></div></div>
 
-<header><div class="header-inner">
+<header role="banner"><div class="header-inner">
   <div class="logo"><div class="logo-icon">🎯</div> Bonus360</div>
-  <div class="header-tags"><div class="htag free">✓ Gratuito</div><div class="htag safe">🔒 Zero dati</div></div>
+  <div class="header-tags">
+    <div class="htag free">✓ <span data-i18n="footer.gdpr">Gratuito</span></div>
+    <div class="htag safe">🔒 <span data-i18n="footer.no_tracking">Zero dati</span></div>
+    <div class="lang-switcher" id="langSwitcher">
+      <button class="lang-switcher-btn" id="langBtn" aria-label="Change language" aria-expanded="false" onclick="toggleLangDropdown()">
+        <span id="langFlag">🇮🇹</span> <span id="langCode">IT</span> ▾
+      </button>
+      <div class="lang-dropdown" id="langDropdown" role="menu">
+        <button class="lang-option active" role="menuitem" data-lang="it" onclick="setLanguage('it')">🇮🇹 Italiano</button>
+        <button class="lang-option" role="menuitem" data-lang="en" onclick="setLanguage('en')">🇬🇧 English</button>
+        <button class="lang-option" role="menuitem" data-lang="fr" onclick="setLanguage('fr')">🇫🇷 Français</button>
+        <button class="lang-option" role="menuitem" data-lang="es" onclick="setLanguage('es')">🇪🇸 Español</button>
+        <button class="lang-option" role="menuitem" data-lang="ro" onclick="setLanguage('ro')">🇷🇴 Română</button>
+      </div>
+    </div>
+  </div>
 </div></header>
+
+<div id="main" role="main">
 
 <section class="hero" id="heroSection">
   <div class="hero-emoji">👨‍👩‍👧‍👦</div>
-  <h1>Scopri tutti i <em>bonus</em><br>a cui la tua famiglia ha diritto</h1>
-  <p>Ogni anno migliaia di euro di bonus restano non richiesti. Rispondi a poche domande e ti diciamo esattamente quali puoi ottenere — gratis, senza registrazione.</p>
+  <p class="hero-pretitle" data-i18n="hero.pretitle" style="font-size:.88rem;font-weight:700;color:var(--coral);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">Verifica gratuita bonus 2025</p>
+  <h1 data-i18n="hero.title">Scopri tutti i <em>bonus</em><br>a cui la tua famiglia ha diritto</h1>
+  <p data-i18n="hero.subtitle">Ogni anno migliaia di euro di bonus restano non richiesti. Rispondi a poche domande e ti diciamo esattamente quali puoi ottenere — gratis, senza registrazione.</p>
+
+  <div class="impact-callout">
+    <div class="impact-num" data-i18n="hero.impact">€2,1 miliardi</div>
+    <div>
+      <div class="impact-text" data-i18n="hero.counter_label">di bonus non richiesti ogni anno in Italia</div>
+      <div class="impact-source">Fonte: elaborazione su dati INPS</div>
+    </div>
+  </div>
+
   <div class="trust-strip">
-    <div class="trust-chip"><div class="icon users">👥</div><span class="num" id="counter">14.327</span>&nbsp;famiglie aiutate</div>
-    <div class="trust-chip"><div class="icon shield">🛡️</div>GDPR compliant</div>
-    <div class="trust-chip"><div class="icon leaf">🌱</div>Green hosting</div>
-    <div class="trust-chip"><div class="icon eu">🇪🇺</div>Server in UE</div>
+    <div class="trust-chip"><div class="icon users">👥</div><span class="num" id="counter">14.327</span>&nbsp;<span data-i18n="hero.counter_label">famiglie aiutate</span></div>
+    <div class="trust-chip"><div class="icon shield">🛡️</div><span data-i18n="footer.gdpr">GDPR compliant</span></div>
+    <div class="trust-chip"><div class="icon leaf">🌱</div><span data-i18n="footer.green">Green hosting</span></div>
+    <div class="trust-chip"><div class="icon eu">🇪🇺</div><span data-i18n="footer.eu">Server in UE</span></div>
   </div>
   <div class="privacy-card">
     <div class="pc-icon">🔒</div>
     <div>
-      <h3>La tua privacy è sacra</h3>
-      <p><strong>Nessun database, nessun cookie, nessun tracking.</strong> I tuoi dati restano solo nella tua sessione. Al refresh della pagina, tutto viene cancellato. Non chiediamo nome, email, né telefono. Mai.</p>
+      <h3 data-i18n="privacy.title">La tua privacy è sacra</h3>
+      <p data-i18n="privacy.text"><strong>Nessun database, nessun cookie, nessun tracking.</strong> I tuoi dati restano solo nella tua sessione. Al refresh della pagina, tutto viene cancellato. Non chiediamo nome, email, né telefono. Mai.</p>
     </div>
   </div>
-  <button class="cta-btn" onclick="startWizard()">🔍 Scopri i tuoi bonus — è gratis</button>
+  <button class="cta-btn" onclick="startWizard()" aria-label="Scopri i tuoi bonus" data-i18n="hero.cta">🔍 Scopri i tuoi bonus — è gratis</button>
+</section>
+
+<!-- Mini Calculator Widget -->
+<section class="mini-calc" id="miniCalcSection">
+  <div class="mini-calc-inner">
+    <h2 data-i18n="widget.note">Stima veloce: quanto potresti ricevere?</h2>
+    <div class="mini-calc-row">
+      <div class="mini-calc-group">
+        <label data-i18n="widget.figli_label">Numero figli</label>
+        <select id="mcFilgi" aria-label="Numero figli" onchange="calcMini()">
+          <option value="0">0 figli</option>
+          <option value="1">1 figlio</option>
+          <option value="2">2 figli</option>
+          <option value="3">3 figli</option>
+          <option value="4">4+ figli</option>
+        </select>
+      </div>
+      <div class="mini-calc-group">
+        <label data-i18n="widget.isee_label">Fascia ISEE</label>
+        <select id="mcIsee" aria-label="Fascia ISEE" onchange="calcMini()">
+          <option value="under15" data-i18n="widget.isee_under15">Sotto €15.000</option>
+          <option value="15_25" data-i18n="widget.isee_15_25">€15.000 - €25.000</option>
+          <option value="25_40" data-i18n="widget.isee_25_40">€25.000 - €40.000</option>
+          <option value="over40" data-i18n="widget.isee_over40">Oltre €40.000</option>
+        </select>
+      </div>
+    </div>
+    <div class="mini-calc-result" id="mcResult" aria-live="polite">
+      <div class="mcr-amount" id="mcAmount"></div>
+      <div class="mcr-note" data-i18n="widget.result">Stima indicativa basata su dati medi nazionali</div>
+    </div>
+    <button class="cta-btn" onclick="startWizard()" aria-label="Inizia il check gratuito" style="font-size:.95rem;padding:14px 28px" data-i18n="hero.cta">🔍 Per un calcolo preciso, inizia il check gratuito</button>
+  </div>
 </section>
 
 <section class="how-section" id="howSection">
-  <h2>Come funziona</h2>
+  <h2 data-i18n="how.title">Come funziona</h2>
   <div class="how-steps">
-    <div class="how-card"><div class="hnum">1</div><h3>Rispondi a 4 domande</h3><p>Età, famiglia, ISEE e casa. Solo l'essenziale, niente di più.</p></div>
-    <div class="how-card"><div class="hnum">2</div><h3>Analisi istantanea</h3><p>Confrontiamo la tua situazione con 20+ bonus attivi in Italia.</p></div>
-    <div class="how-card"><div class="hnum">3</div><h3>Risultati personalizzati</h3><p>Vedi quanto puoi risparmiare e come fare domanda, passo per passo.</p></div>
+    <div class="how-card" tabindex="0"><div class="hnum">1</div><h3 data-i18n="how.step1.title">Rispondi a 4 domande</h3><p data-i18n="how.step1.desc">Età, famiglia, ISEE e casa. Solo l'essenziale, niente di più.</p></div>
+    <div class="how-card" tabindex="0"><div class="hnum">2</div><h3 data-i18n="how.step2.title">Analisi istantanea</h3><p data-i18n="how.step2.desc">Confrontiamo la tua situazione con 20+ bonus attivi in Italia.</p></div>
+    <div class="how-card" tabindex="0"><div class="hnum">3</div><h3 data-i18n="how.step3.title">Risultati personalizzati</h3><p data-i18n="how.step3.desc">Vedi quanto puoi risparmiare e come fare domanda, passo per passo.</p></div>
   </div>
 </section>
 
 <section class="novita-section" id="novitaSection">
-  <h2>Novità bonus 2025</h2>
+  <h2 data-i18n="novita.title">Novità bonus 2025</h2>
   <div class="novita-grid">
-    <div class="novita-card">
+    <div class="novita-card" tabindex="0">
       <span class="badge nuovo">NUOVO</span>
       <h3>Carta Nuovi Nati</h3>
       <p>€1.000 per ogni figlio nato dal 2025 (ISEE ≤ €40.000). Novità assoluta introdotta dalla Legge di Bilancio 2025.</p>
     </div>
-    <div class="novita-card">
+    <div class="novita-card" tabindex="0">
       <span class="badge modificato">MODIFICATO</span>
       <h3>Bonus Ristrutturazione scende al 36%</h3>
       <p>Per le seconde case, la detrazione passa dal 50% al 36%. Per la prima casa resta al 50%.</p>
     </div>
-    <div class="novita-card">
+    <div class="novita-card" tabindex="0">
       <span class="badge modificato">MODIFICATO</span>
       <h3>Assegno Unico aggiornato</h3>
       <p>Importi rivalutati all'inflazione. Maggiorazioni confermate per famiglie numerose.</p>
     </div>
-    <div class="novita-card">
+    <div class="novita-card" tabindex="0">
       <h3>Bonus Psicologo confermato</h3>
       <p>Rifinanziato per il 2025 con le stesse modalità. Fino a €1.500 per percorsi di psicoterapia.</p>
     </div>
-    <div class="novita-card">
+    <div class="novita-card" tabindex="0">
       <span class="badge modificato">MODIFICATO</span>
       <h3>Superbonus al 65%</h3>
       <p>Solo per lavori già avviati su condomini. Fine dello sconto in fattura per nuove pratiche.</p>
@@ -117,113 +204,140 @@ footer{position:relative;z-index:1;background:#fff;border-top:1px solid var(--bo
   </div>
 </section>
 
-<section class="wizard" id="wizardSection">
-  <div class="progress-bar" id="progressBar"></div>
-  <div class="step" data-step="1">
-    <div class="step-header"><div class="step-icon s1">👤</div><div><h2>Parlaci di te</h2><div class="step-sub">Dati anagrafici di base</div></div></div>
-    <div class="form-grid">
-      <div class="form-group"><label>Età</label><input type="number" id="eta" placeholder="es. 32" min="0" max="120"><div class="field-error" id="err-eta"></div></div>
-      <div class="form-group"><label>Regione</label><select id="residenza"><option value="">Seleziona...</option><option>Abruzzo</option><option>Basilicata</option><option>Calabria</option><option>Campania</option><option>Emilia-Romagna</option><option>Friuli Venezia Giulia</option><option>Lazio</option><option>Liguria</option><option>Lombardia</option><option>Marche</option><option>Molise</option><option>Piemonte</option><option>Puglia</option><option>Sardegna</option><option>Sicilia</option><option>Toscana</option><option>Trentino-Alto Adige</option><option>Umbria</option><option>Valle d'Aosta</option><option>Veneto</option></select></div>
-      <div class="form-group"><label>Stato civile</label><select id="stato_civile"><option value="">Seleziona...</option><option value="single">Single</option><option value="sposato">Sposato/a</option><option value="convivente">Convivente</option><option value="separato">Separato/a · Divorziato/a</option><option value="vedovo">Vedovo/a</option></select></div>
-      <div class="form-group"><label>Occupazione</label><select id="occupazione"><option value="">Seleziona...</option><option value="dipendente">Dipendente</option><option value="autonomo">Autonomo / P.IVA</option><option value="disoccupato">Disoccupato/a</option><option value="pensionato">Pensionato/a</option><option value="studente">Studente</option><option value="inoccupato">Inoccupato/a</option></select></div>
+<!-- Testimonials Section -->
+<section class="testimonials-section" id="testimonialsSection">
+  <h2 data-i18n="testimonials.title">Cosa dicono le famiglie</h2>
+  <div class="testimonials-grid">
+    <div class="testimonial-card" tabindex="0">
+      <div class="tq">"</div>
+      <div class="ttext">Grazie a Bonus360 abbiamo scoperto 4 bonus che non sapevamo esistessero. Risparmiamo €3.200 all'anno!</div>
+      <div class="tauthor">Maria, Roma</div>
+      <div class="trole">famiglia con 2 figli</div>
     </div>
-    <div class="nav-buttons"><button class="btn btn-primary" onclick="nextStep()">Avanti →</button></div>
-  </div>
-  <div class="step" data-step="2">
-    <div class="step-header"><div class="step-icon s2">👨‍👩‍👧</div><div><h2>La tua famiglia</h2><div class="step-sub">Composizione del nucleo familiare</div></div></div>
-    <div class="form-grid">
-      <div class="form-group"><label>Numero figli</label><input type="number" id="numero_figli" placeholder="0" min="0" max="20" value="0"><div class="field-error" id="err-numero_figli"></div></div>
-      <div class="form-group"><label>Di cui minorenni</label><input type="number" id="figli_minorenni" placeholder="0" min="0" max="20" value="0"><div class="field-error" id="err-figli_minorenni"></div></div>
-      <div class="form-group"><label>Di cui sotto 3 anni</label><input type="number" id="figli_under3" placeholder="0" min="0" max="10" value="0"><div class="field-error" id="err-figli_under3"></div></div>
-      <div class="form-group"><label>Over 65 nel nucleo</label><input type="number" id="over65" placeholder="0" min="0" max="10" value="0"><div class="field-error" id="err-over65"></div></div>
-      <div class="form-group full"><div class="toggle-row" onclick="toggleSwitch('disabilita')"><span>♿ Persona con disabilità nel nucleo</span><div class="toggle" id="toggle-disabilita"></div></div></div>
-      <div class="form-group full"><div class="toggle-row" onclick="toggleSwitch('nuovo_nato')"><span>👶 Nuovo nato o adottato nel 2025</span><div class="toggle" id="toggle-nuovo_nato"></div></div></div>
+    <div class="testimonial-card" tabindex="0">
+      <div class="tq">"</div>
+      <div class="ttext">Ho caricato l'ISEE, risposto a 4 domande e in 2 minuti avevo tutto chiaro. Facilissimo.</div>
+      <div class="tauthor">Ahmed, Milano</div>
+      <div class="trole">lavoratore dipendente</div>
     </div>
-    <div class="nav-buttons"><button class="btn btn-secondary" onclick="prevStep()">← Indietro</button><button class="btn btn-primary" onclick="nextStep()">Avanti →</button></div>
-  </div>
-  <div class="step" data-step="3">
-    <div class="step-header"><div class="step-icon s3">💰</div><div><h2>Situazione economica</h2><div class="step-sub">ISEE e reddito — puoi anche lasciare vuoto</div></div></div>
-    <div class="isee-upload" id="iseeUpload" onclick="document.getElementById('iseeFile').click()">
-      <div class="upload-icon">📄</div><h4>Carica attestazione ISEE (PDF)</h4><p>Elaborato localmente, poi cancellato</p>
-      <input type="file" id="iseeFile" accept=".pdf" style="display:none" onchange="handleISEEUpload(this)">
+    <div class="testimonial-card" tabindex="0">
+      <div class="tq">"</div>
+      <div class="ttext">Il mio CAF non mi aveva detto del Bonus Psicologo. Qui l'ho trovato subito.</div>
+      <div class="tauthor">Giulia, Napoli</div>
+      <div class="trole">studentessa</div>
     </div>
-    <div class="or-divider">oppure inserisci manualmente</div>
-    <div class="form-grid">
-      <div class="form-group"><label>ISEE (€)</label><input type="number" id="isee" placeholder="es. 18000" min="0" max="500000" step="100"><div class="field-error" id="err-isee"></div></div>
-      <div class="form-group"><label>Reddito annuo lordo (€)</label><input type="number" id="reddito_annuo" placeholder="es. 25000" min="0" max="1000000" step="100"><div class="field-error" id="err-reddito_annuo"></div></div>
-    </div>
-    <div class="nav-buttons"><button class="btn btn-secondary" onclick="prevStep()">← Indietro</button><button class="btn btn-primary" onclick="nextStep()">Avanti →</button></div>
-  </div>
-  <div class="step" data-step="4">
-    <div class="step-header"><div class="step-icon s4">🏠</div><div><h2>La tua situazione</h2><div class="step-sub">Abitazione e altro</div></div></div>
-    <div class="form-grid">
-      <div class="form-group full"><div class="toggle-row" onclick="toggleSwitch('affittuario')"><span>🔑 Sono in affitto</span><div class="toggle" id="toggle-affittuario"></div></div></div>
-      <div class="form-group full"><div class="toggle-row" onclick="toggleSwitch('prima_abitazione')"><span>🏡 Sto comprando / ho comprato prima casa</span><div class="toggle" id="toggle-prima_abitazione"></div></div></div>
-      <div class="form-group full"><div class="toggle-row" onclick="toggleSwitch('ristrutturazione')"><span>🔨 Ristrutturazione in corso o in programma</span><div class="toggle" id="toggle-ristrutturazione"></div></div></div>
-      <div class="form-group full"><div class="toggle-row" onclick="toggleSwitch('studente')"><span>🎓 Sono studente universitario</span><div class="toggle" id="toggle-studente"></div></div></div>
-    </div>
-    <div class="nav-buttons"><button class="btn btn-secondary" onclick="prevStep()">← Indietro</button><button class="btn btn-primary" onclick="submitScan()">🔍 Trova i miei bonus</button></div>
   </div>
 </section>
 
-<div class="loading-overlay" id="loading">
+<section class="wizard" id="wizardSection">
+  <div class="progress-bar" id="progressBar" role="progressbar" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1"></div>
+  <div class="step" data-step="1">
+    <div class="step-header"><div class="step-icon s1">👤</div><div><h2 data-i18n="step1.title">Parlaci di te</h2><div class="step-sub" data-i18n="step1.subtitle">Dati anagrafici di base</div></div></div>
+    <div class="form-grid">
+      <div class="form-group"><label data-i18n="label.eta">Età</label><input type="number" id="eta" placeholder="es. 32" min="0" max="120" aria-label="Età"><div class="field-error" id="err-eta"></div></div>
+      <div class="form-group"><label data-i18n="label.regione">Regione</label><select id="residenza" aria-label="Regione di residenza"><option value="" data-i18n="opt.select">Seleziona...</option><option>Abruzzo</option><option>Basilicata</option><option>Calabria</option><option>Campania</option><option>Emilia-Romagna</option><option>Friuli Venezia Giulia</option><option>Lazio</option><option>Liguria</option><option>Lombardia</option><option>Marche</option><option>Molise</option><option>Piemonte</option><option>Puglia</option><option>Sardegna</option><option>Sicilia</option><option>Toscana</option><option>Trentino-Alto Adige</option><option>Umbria</option><option>Valle d'Aosta</option><option>Veneto</option></select></div>
+      <div class="form-group"><label data-i18n="label.stato_civile">Stato civile</label><select id="stato_civile" aria-label="Stato civile"><option value="" data-i18n="opt.select">Seleziona...</option><option value="single" data-i18n="opt.single">Single</option><option value="sposato" data-i18n="opt.married">Sposato/a</option><option value="convivente" data-i18n="opt.cohabiting">Convivente</option><option value="separato" data-i18n="opt.separated">Separato/a · Divorziato/a</option><option value="vedovo" data-i18n="opt.widowed">Vedovo/a</option></select></div>
+      <div class="form-group"><label data-i18n="label.occupazione">Occupazione</label><select id="occupazione" aria-label="Occupazione"><option value="" data-i18n="opt.select">Seleziona...</option><option value="dipendente" data-i18n="opt.employee">Dipendente</option><option value="autonomo" data-i18n="opt.selfemployed">Autonomo / P.IVA</option><option value="disoccupato" data-i18n="opt.unemployed">Disoccupato/a</option><option value="pensionato" data-i18n="opt.retired">Pensionato/a</option><option value="studente" data-i18n="opt.student">Studente</option><option value="inoccupato" data-i18n="opt.inactive">Inoccupato/a</option></select></div>
+    </div>
+    <div class="nav-buttons"><button class="btn btn-primary" onclick="nextStep()" aria-label="Avanti" data-i18n="btn.next">Avanti →</button></div>
+  </div>
+  <div class="step" data-step="2">
+    <div class="step-header"><div class="step-icon s2">👨‍👩‍👧</div><div><h2 data-i18n="step2.title">La tua famiglia</h2><div class="step-sub" data-i18n="step2.subtitle">Composizione del nucleo familiare</div></div></div>
+    <div class="form-grid">
+      <div class="form-group"><label data-i18n="label.numero_figli">Numero figli</label><input type="number" id="numero_figli" placeholder="0" min="0" max="20" value="0" aria-label="Numero figli"><div class="field-error" id="err-numero_figli"></div></div>
+      <div class="form-group"><label data-i18n="label.figli_minorenni">Di cui minorenni</label><input type="number" id="figli_minorenni" placeholder="0" min="0" max="20" value="0" aria-label="Figli minorenni"><div class="field-error" id="err-figli_minorenni"></div></div>
+      <div class="form-group"><label data-i18n="label.figli_under3">Di cui sotto 3 anni</label><input type="number" id="figli_under3" placeholder="0" min="0" max="10" value="0" aria-label="Figli sotto 3 anni"><div class="field-error" id="err-figli_under3"></div></div>
+      <div class="form-group"><label data-i18n="label.over65">Over 65 nel nucleo</label><input type="number" id="over65" placeholder="0" min="0" max="10" value="0" aria-label="Over 65 nel nucleo"><div class="field-error" id="err-over65"></div></div>
+      <div class="form-group full"><div class="toggle-row" tabindex="0" role="switch" aria-checked="false" aria-label="Persona con disabilità nel nucleo" onclick="toggleSwitch('disabilita')" onkeydown="handleToggleKey(event,'disabilita')"><span data-i18n="label.disabilita">♿ Persona con disabilità nel nucleo</span><div class="toggle" id="toggle-disabilita"></div></div></div>
+      <div class="form-group full"><div class="toggle-row" tabindex="0" role="switch" aria-checked="false" aria-label="Nuovo nato o adottato nel 2025" onclick="toggleSwitch('nuovo_nato')" onkeydown="handleToggleKey(event,'nuovo_nato')"><span data-i18n="label.nuovo_nato">👶 Nuovo nato o adottato nel 2025</span><div class="toggle" id="toggle-nuovo_nato"></div></div></div>
+    </div>
+    <div class="nav-buttons"><button class="btn btn-secondary" onclick="prevStep()" aria-label="Indietro" data-i18n="btn.prev">← Indietro</button><button class="btn btn-primary" onclick="nextStep()" aria-label="Avanti" data-i18n="btn.next">Avanti →</button></div>
+  </div>
+  <div class="step" data-step="3">
+    <div class="step-header"><div class="step-icon s3">💰</div><div><h2 data-i18n="step3.title">Situazione economica</h2><div class="step-sub" data-i18n="step3.subtitle">ISEE e reddito — puoi anche lasciare vuoto</div></div></div>
+    <div class="isee-upload" id="iseeUpload" tabindex="0" role="button" aria-label="Carica attestazione ISEE" onclick="document.getElementById('iseeFile').click()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();document.getElementById('iseeFile').click()}">
+      <div class="upload-icon">📄</div><h4 data-i18n="isee.upload">Carica attestazione ISEE (PDF)</h4><p data-i18n="isee.upload_desc">Elaborato localmente, poi cancellato</p>
+      <input type="file" id="iseeFile" accept=".pdf" style="display:none" onchange="handleISEEUpload(this)">
+    </div>
+    <div class="or-divider" data-i18n="isee.or">oppure inserisci manualmente</div>
+    <div class="form-grid">
+      <div class="form-group"><label data-i18n="label.isee">ISEE (€)</label><input type="number" id="isee" placeholder="es. 18000" min="0" max="500000" step="100" aria-label="ISEE in euro"><div class="field-error" id="err-isee"></div></div>
+      <div class="form-group"><label data-i18n="label.reddito">Reddito annuo lordo (€)</label><input type="number" id="reddito_annuo" placeholder="es. 25000" min="0" max="1000000" step="100" aria-label="Reddito annuo lordo"><div class="field-error" id="err-reddito_annuo"></div></div>
+    </div>
+    <div class="nav-buttons"><button class="btn btn-secondary" onclick="prevStep()" aria-label="Indietro" data-i18n="btn.prev">← Indietro</button><button class="btn btn-primary" onclick="nextStep()" aria-label="Avanti" data-i18n="btn.next">Avanti →</button></div>
+  </div>
+  <div class="step" data-step="4">
+    <div class="step-header"><div class="step-icon s4">🏠</div><div><h2 data-i18n="step4.title">La tua situazione</h2><div class="step-sub" data-i18n="step4.subtitle">Abitazione e altro</div></div></div>
+    <div class="form-grid">
+      <div class="form-group full"><div class="toggle-row" tabindex="0" role="switch" aria-checked="false" aria-label="Sono in affitto" onclick="toggleSwitch('affittuario')" onkeydown="handleToggleKey(event,'affittuario')"><span data-i18n="label.affittuario">🔑 Sono in affitto</span><div class="toggle" id="toggle-affittuario"></div></div></div>
+      <div class="form-group full"><div class="toggle-row" tabindex="0" role="switch" aria-checked="false" aria-label="Prima casa" onclick="toggleSwitch('prima_abitazione')" onkeydown="handleToggleKey(event,'prima_abitazione')"><span data-i18n="label.prima_casa">🏡 Sto comprando / ho comprato prima casa</span><div class="toggle" id="toggle-prima_abitazione"></div></div></div>
+      <div class="form-group full"><div class="toggle-row" tabindex="0" role="switch" aria-checked="false" aria-label="Ristrutturazione in corso" onclick="toggleSwitch('ristrutturazione')" onkeydown="handleToggleKey(event,'ristrutturazione')"><span data-i18n="label.ristrutturazione">🔨 Ristrutturazione in corso o in programma</span><div class="toggle" id="toggle-ristrutturazione"></div></div></div>
+      <div class="form-group full"><div class="toggle-row" tabindex="0" role="switch" aria-checked="false" aria-label="Studente universitario" onclick="toggleSwitch('studente')" onkeydown="handleToggleKey(event,'studente')"><span data-i18n="label.studente">🎓 Sono studente universitario</span><div class="toggle" id="toggle-studente"></div></div></div>
+    </div>
+    <div class="nav-buttons"><button class="btn btn-secondary" onclick="prevStep()" aria-label="Indietro" data-i18n="btn.prev">← Indietro</button><button class="btn btn-primary" onclick="submitScan()" aria-label="Trova i miei bonus" data-i18n="btn.submit">🔍 Trova i miei bonus</button></div>
+  </div>
+</section>
+
+</div><!-- end #main -->
+
+<div class="loading-overlay" id="loading" aria-live="polite" role="status">
   <div class="loader"><div class="loader-ring"></div><div class="loader-emoji">🎯</div></div>
-  <p>Stiamo analizzando la tua situazione...</p>
+  <p data-i18n="loading.analyzing">Stiamo analizzando la tua situazione...</p>
   <div class="substep" id="loadingStep">Confronto con 20+ bonus attivi</div>
 </div>
 
-<section class="results" id="results">
+<section class="results" id="results" aria-live="polite">
   <div class="results-hero" id="resultsHero"></div>
   <div id="iseeWarning"></div>
   <div class="results-actions" id="resultsActions">
-    <button class="action-btn" onclick="downloadCalendar()">📅 Scarica scadenze</button>
-    <button class="action-btn" onclick="downloadPDF()">📄 Scarica PDF</button>
-    <button class="action-btn" onclick="printResults()">🖨️ Stampa per il CAF</button>
-    <button class="action-btn" onclick="expandAll()">📖 Espandi tutto</button>
-    <div style="position:relative"><button class="action-btn" onclick="toggleShareMenu()">📤 Condividi</button><div class="share-dropdown" id="shareDropdown"></div></div>
+    <button class="action-btn" onclick="downloadCalendar()" aria-label="Scarica scadenze" data-i18n="results.calendar">📅 Scarica scadenze</button>
+    <button class="action-btn" onclick="downloadPDF()" aria-label="Scarica PDF" data-i18n="results.pdf">📄 Scarica PDF</button>
+    <button class="action-btn" onclick="printResults()" aria-label="Stampa per il CAF" data-i18n="results.print">🖨️ Stampa per il CAF</button>
+    <button class="action-btn" onclick="expandAll()" aria-label="Espandi tutto" data-i18n="results.expand">📖 Espandi tutto</button>
+    <div style="position:relative"><button class="action-btn" onclick="toggleShareMenu()" aria-label="Condividi" aria-expanded="false" id="shareBtn" data-i18n="results.share">📤 Condividi</button><div class="share-dropdown" id="shareDropdown" role="menu"></div></div>
   </div>
   <div class="simulator-box" id="simulatorBox">
-    <h3 onclick="toggleSimulator()">🧮 Simulatore ISEE <span class="arrow">▾</span></h3>
+    <h3 onclick="toggleSimulator()" tabindex="0" role="button" aria-expanded="false" aria-controls="simContent" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSimulator()}" data-i18n="sim.title">🧮 Simulatore ISEE <span class="arrow">▾</span></h3>
     <div class="sim-content" id="simContent">
-      <p style="font-size:.88rem;color:var(--text-soft);margin-bottom:14px">Inserisci un valore ISEE ipotetico per scoprire se avresti diritto a bonus aggiuntivi.</p>
+      <p style="font-size:.88rem;color:var(--text-soft);margin-bottom:14px" data-i18n="sim.label">Inserisci un valore ISEE ipotetico per scoprire se avresti diritto a bonus aggiuntivi.</p>
       <div class="sim-row">
-        <div class="form-group"><label>ISEE simulato (€)</label><input type="number" id="iseeSimulato" placeholder="es. 15000" min="0" max="500000" step="100"></div>
-        <button class="btn btn-primary" onclick="runSimulation()">Simula</button>
+        <div class="form-group"><label>ISEE simulato (€)</label><input type="number" id="iseeSimulato" placeholder="es. 15000" min="0" max="500000" step="100" aria-label="ISEE simulato"></div>
+        <button class="btn btn-primary" onclick="runSimulation()" aria-label="Simula" data-i18n="sim.button">Simula</button>
       </div>
-      <div class="simulator-result" id="simResult"></div>
+      <div class="simulator-result" id="simResult" aria-live="polite"></div>
     </div>
   </div>
-  <div class="category-filter" id="categoryFilter"></div>
+  <div class="category-filter" id="categoryFilter" role="tablist" aria-label="Filtra bonus per categoria"></div>
   <div id="bonusList"></div>
   <div class="restart-section">
-    <div class="privacy-note">🔒 I tuoi dati verranno cancellati al refresh</div><br>
-    <button class="btn btn-secondary" onclick="findCAF()" style="max-width:320px;margin:0 auto 12px;display:flex">📍 Trova CAF vicino a te</button>
-    <button class="btn btn-secondary" onclick="resetAll()" style="max-width:320px;margin:0 auto">🗑️ Cancella dati e ricomincia</button>
+    <div class="privacy-note" data-i18n="privacy.refresh_note">🔒 I tuoi dati verranno cancellati al refresh</div><br>
+    <button class="btn btn-secondary" onclick="findCAF()" aria-label="Trova CAF vicino a te" style="max-width:320px;margin:0 auto 12px;display:flex" data-i18n="caf.find">📍 Trova CAF vicino a te</button>
+    <button class="btn btn-secondary" onclick="resetAll()" aria-label="Cancella dati e ricomincia" style="max-width:320px;margin:0 auto" data-i18n="btn.reset">🗑️ Cancella dati e ricomincia</button>
     <div class="coming-soon" id="comingSoon">
-      <h3>Prossimamente su Bonus360</h3>
+      <h3 data-i18n="coming.title">Prossimamente su Bonus360</h3>
       <div class="cs-pills">
-        <span class="cs-pill">🔔 Notifiche Telegram</span>
-        <span class="cs-pill">💬 Aggiornamenti WhatsApp</span>
+        <span class="cs-pill" data-i18n="coming.telegram">🔔 Notifiche Telegram</span>
+        <span class="cs-pill" data-i18n="coming.whatsapp">💬 Aggiornamenti WhatsApp</span>
       </div>
-      <p style="font-size:.88rem;color:var(--text-soft);margin-bottom:14px">Lascia la tua email per essere avvisato al lancio</p>
+      <p style="font-size:.88rem;color:var(--text-soft);margin-bottom:14px" data-i18n="coming.desc">Lascia la tua email per essere avvisato al lancio</p>
       <div class="notify-form" id="notifyForm">
-        <input type="email" id="notifyEmail" placeholder="La tua email...">
-        <button class="btn btn-primary" onclick="submitNotify()">Avvisami</button>
+        <input type="email" id="notifyEmail" placeholder="La tua email..." aria-label="Email per notifiche" data-i18n-placeholder="coming.email_placeholder">
+        <button class="btn btn-primary" onclick="submitNotify()" aria-label="Avvisami" data-i18n="coming.email_button">Avvisami</button>
       </div>
     </div>
   </div>
 </section>
 
-<footer>
+<footer role="contentinfo">
   <div class="footer-badges">
-    <div class="footer-badge">🛡️ GDPR Compliant</div>
-    <div class="footer-badge">🍪 Zero Cookie</div>
-    <div class="footer-badge">📊 Zero Tracking</div>
-    <div class="footer-badge">🇪🇺 Server EU</div>
-    <div class="footer-badge">🌱 Green Hosting</div>
-    <div class="footer-badge">💻 Open Source</div>
+    <div class="footer-badge" data-i18n="footer.gdpr">🛡️ GDPR Compliant</div>
+    <div class="footer-badge" data-i18n="footer.no_cookie">🍪 Zero Cookie</div>
+    <div class="footer-badge" data-i18n="footer.no_tracking">📊 Zero Tracking</div>
+    <div class="footer-badge" data-i18n="footer.eu">🇪🇺 Server EU</div>
+    <div class="footer-badge" data-i18n="footer.green">🌱 Green Hosting</div>
+    <div class="footer-badge" data-i18n="footer.open">💻 Open Source</div>
   </div>
-  <p class="disclaimer">Bonus360 è un progetto gratuito e open source. Non siamo un CAF né un patronato.<br>Le informazioni sono a scopo orientativo — verifica sempre sui siti ufficiali.<br><a href="#">Privacy Policy</a> · <a href="#">Termini</a> · <a href="#">GitHub</a></p>
+  <p class="disclaimer" data-i18n="footer.disclaimer">Bonus360 è un progetto gratuito e open source. Non siamo un CAF né un patronato.<br>Le informazioni sono a scopo orientativo — verifica sempre sui siti ufficiali.<br><a href="#">Privacy Policy</a> · <a href="#">Termini</a> · <a href="#">GitHub</a></p>
 </footer>
 
 <script>
@@ -233,6 +347,155 @@ const toggles = { disabilita: false, nuovo_nato: false, affittuario: false, prim
 let resultData = null;
 let activeFilter = 'tutti';
 let lastProfile = null;
+
+// ===== i18n =====
+let currentLang = localStorage.getItem('bonus360_lang') || 'it';
+let translations = {};
+const langFlags = { it: '🇮🇹', en: '🇬🇧', fr: '🇫🇷', es: '🇪🇸', ro: '🇷🇴' };
+const langNames = { it: 'IT', en: 'EN', fr: 'FR', es: 'ES', ro: 'RO' };
+
+async function loadTranslations(lang) {
+  try {
+    const r = await fetch('/api/translations?lang=' + encodeURIComponent(lang));
+    translations = await r.json();
+    applyTranslations();
+  } catch (e) {
+    console.warn('Could not load translations for', lang, e);
+  }
+}
+
+function applyTranslations() {
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    var val = getNestedTranslation(key);
+    if (val) el.textContent = val;
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n-placeholder');
+    var val = getNestedTranslation(key);
+    if (val) el.placeholder = val;
+  });
+}
+
+function getNestedTranslation(key) {
+  var parts = key.split('.');
+  var obj = translations;
+  for (var i = 0; i < parts.length; i++) {
+    if (obj && typeof obj === 'object' && parts[i] in obj) {
+      obj = obj[parts[i]];
+    } else {
+      return null;
+    }
+  }
+  return typeof obj === 'string' ? obj : null;
+}
+
+function setLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('bonus360_lang', lang);
+  document.documentElement.lang = lang;
+  document.getElementById('langFlag').textContent = langFlags[lang] || '🌐';
+  document.getElementById('langCode').textContent = langNames[lang] || lang.toUpperCase();
+  // Update active class
+  document.querySelectorAll('.lang-option').forEach(function(btn) {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
+  closeLangDropdown();
+  loadTranslations(lang);
+}
+
+function toggleLangDropdown() {
+  var dd = document.getElementById('langDropdown');
+  var btn = document.getElementById('langBtn');
+  var isOpen = dd.classList.contains('open');
+  dd.classList.toggle('open');
+  btn.setAttribute('aria-expanded', !isOpen);
+  if (!isOpen) {
+    setTimeout(function() {
+      document.addEventListener('click', closeLangOnOutside, true);
+    }, 0);
+  }
+}
+
+function closeLangDropdown() {
+  var dd = document.getElementById('langDropdown');
+  var btn = document.getElementById('langBtn');
+  dd.classList.remove('open');
+  btn.setAttribute('aria-expanded', 'false');
+  document.removeEventListener('click', closeLangOnOutside, true);
+}
+
+function closeLangOnOutside(e) {
+  var sw = document.getElementById('langSwitcher');
+  if (!sw.contains(e.target)) closeLangDropdown();
+}
+
+// Load on init
+if (currentLang !== 'it') {
+  document.documentElement.lang = currentLang;
+  document.getElementById('langFlag').textContent = langFlags[currentLang] || '🌐';
+  document.getElementById('langCode').textContent = langNames[currentLang] || currentLang.toUpperCase();
+  document.querySelectorAll('.lang-option').forEach(function(btn) {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === currentLang);
+  });
+}
+loadTranslations(currentLang);
+
+// ===== Analytics =====
+fetch('/api/analytics', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ event: 'page_view', path: window.location.pathname, ts: Date.now() }) }).catch(function(){});
+
+// ===== Mini Calculator =====
+function calcMini() {
+  var figli = parseInt(document.getElementById('mcFilgi').value) || 0;
+  var fascia = document.getElementById('mcIsee').value;
+  var estimate = 0;
+  // Base: Assegno Unico
+  var auPerFiglio = { under15: 189, '15_25': 162, '25_40': 100, over40: 54 };
+  estimate += figli * (auPerFiglio[fascia] || 54) * 12;
+  // Bonus nido (per child under 3, roughly)
+  if (figli > 0 && fascia === 'under15') estimate += 2724;
+  else if (figli > 0 && fascia === '15_25') estimate += 2268;
+  else if (figli > 0 && fascia === '25_40') estimate += 1500;
+  // Carta Dedicata a te
+  if (fascia === 'under15') estimate += 500;
+  // Bonus bollette
+  if (fascia === 'under15') estimate += 600;
+  else if (fascia === '15_25') estimate += 300;
+  // Social card
+  if (fascia === 'under15' && figli >= 3) estimate += 400;
+
+  var el = document.getElementById('mcResult');
+  var amountEl = document.getElementById('mcAmount');
+  if (estimate > 0) {
+    amountEl.textContent = 'Fino a €' + estimate.toLocaleString('it-IT') + '/anno';
+    el.classList.add('show');
+  } else {
+    amountEl.textContent = '€0';
+    el.classList.add('show');
+  }
+}
+calcMini();
+
+// ===== Keyboard handlers for toggle switches (a11y) =====
+function handleToggleKey(event, name) {
+  if (event.key === 'Enter' || event.key === ' ') {
+    event.preventDefault();
+    toggleSwitch(name);
+  }
+}
+
+// ===== Escape key handler =====
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    // Close lang dropdown
+    closeLangDropdown();
+    // Close share dropdown
+    var sd = document.getElementById('shareDropdown');
+    if (sd) sd.style.display = 'none';
+    var sb = document.getElementById('shareBtn');
+    if (sb) sb.setAttribute('aria-expanded', 'false');
+  }
+});
 
 async function updateCounter() {
   try {
@@ -249,6 +512,8 @@ function startWizard() {
   document.getElementById('heroSection').style.display = 'none';
   document.getElementById('howSection').style.display = 'none';
   document.getElementById('novitaSection').style.display = 'none';
+  document.getElementById('miniCalcSection').style.display = 'none';
+  document.getElementById('testimonialsSection').style.display = 'none';
   document.getElementById('wizardSection').classList.add('show');
   renderStep();
   document.getElementById('wizardSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -260,6 +525,7 @@ function renderStep() {
   if (a) a.classList.add('active');
   const bar = document.getElementById('progressBar');
   bar.innerHTML = '';
+  bar.setAttribute('aria-valuenow', currentStep);
   for (let i = 1; i <= totalSteps; i++) {
     const d = document.createElement('div');
     d.className = 'progress-dot' + (i <= currentStep ? ' done' : '');
@@ -279,6 +545,9 @@ function prevStep() {
 function toggleSwitch(n) {
   toggles[n] = !toggles[n];
   document.getElementById('toggle-' + n).classList.toggle('on', toggles[n]);
+  // Update aria-checked on the toggle-row
+  var row = document.getElementById('toggle-' + n).closest('.toggle-row');
+  if (row) row.setAttribute('aria-checked', toggles[n] ? 'true' : 'false');
 }
 
 function handleISEEUpload(input) {
@@ -391,16 +660,17 @@ function renderResults() {
 
   const hero = document.getElementById('resultsHero');
   if (resultData.bonus_trovati === 0) {
-    hero.innerHTML = '<div class="confetti">😔</div><h2>Nessun bonus trovato</h2><p class="subtitle">Con i dati che hai inserito non risultano bonus compatibili. Prova a modificare i parametri o verifica di aver inserito l\'ISEE.</p><button class="btn btn-primary" style="margin-top:20px;display:inline-flex" onclick="resetAll()">🔄 Modifica i dati</button>';
+    hero.innerHTML = '<div class="confetti">😔</div><h2 data-i18n="results.no_results">Nessun bonus trovato</h2><p class="subtitle" data-i18n="results.no_results_desc">Con i dati che hai inserito non risultano bonus compatibili. Prova a modificare i parametri o verifica di aver inserito l\'ISEE.</p><button class="btn btn-primary" style="margin-top:20px;display:inline-flex" onclick="resetAll()" aria-label="Modifica i dati" data-i18n="btn.modify">🔄 Modifica i dati</button>';
     document.getElementById('categoryFilter').innerHTML = '';
     document.getElementById('bonusList').innerHTML = '';
     document.getElementById('resultsActions').style.display = 'none';
     document.getElementById('simulatorBox').style.display = 'none';
     document.getElementById('iseeWarning').innerHTML = '';
+    applyTranslations();
     return;
   }
 
-  hero.innerHTML = '<div class="confetti">🎉</div><h2>Buone notizie per la tua famiglia!</h2><div class="saving" id="resultSaving">' + resultData.risparmio_stimato + '</div><div class="subtitle">di risparmio stimato con <strong id="resultCount">' + resultData.bonus_trovati + '</strong> bonus compatibili</div>';
+  hero.innerHTML = '<div class="confetti">🎉</div><h2 data-i18n="results.title">Buone notizie per la tua famiglia!</h2><div class="saving" id="resultSaving">' + resultData.risparmio_stimato + '</div><div class="subtitle" data-i18n="results.subtitle">di risparmio stimato con <strong id="resultCount">' + resultData.bonus_trovati + '</strong> bonus compatibili</div>';
 
   // Show results actions
   document.getElementById('resultsActions').style.display = '';
@@ -417,6 +687,9 @@ function renderResults() {
     const b = document.createElement('button');
     b.className = 'filter-btn' + (cat === activeFilter ? ' active' : '');
     b.textContent = catLabels[cat] || cat;
+    b.setAttribute('role', 'tab');
+    b.setAttribute('aria-selected', cat === activeFilter ? 'true' : 'false');
+    b.setAttribute('aria-label', 'Filtra: ' + (catLabels[cat] || cat));
     b.onclick = () => { activeFilter = cat; renderResults(); };
     fe.appendChild(b);
   });
@@ -433,42 +706,78 @@ function renderResults() {
     // Build importo reale bar if different
     let importoRealeHTML = '';
     if (bonus.importo_reale && bonus.importo_reale !== bonus.importo) {
-      importoRealeHTML = '<div class="importo-reale-bar"><span class="il">Importo stimato per te</span><span class="iv">' + bonus.importo_reale + '</span></div>';
+      importoRealeHTML = '<div class="importo-reale-bar"><span class="il" data-i18n="results.importo_reale">Importo stimato per te</span><span class="iv">' + bonus.importo_reale + '</span></div>';
     }
 
     // Build documents checklist
     let docsHTML = '';
     if (bonus.documenti && bonus.documenti.length > 0) {
-      docsHTML = '<div class="detail-section"><h4>📎 Documenti necessari</h4><div class="doc-checklist">' +
-        bonus.documenti.map(doc => '<div class="doc-item" onclick="toggleDoc(this)"><span class="doc-check">✓</span><span class="doc-label">' + doc + '</span></div>').join('') +
+      docsHTML = '<div class="detail-section"><h4 data-i18n="results.documenti">📎 Documenti necessari</h4><div class="doc-checklist">' +
+        bonus.documenti.map(doc => '<div class="doc-item" tabindex="0" role="checkbox" aria-checked="false" onclick="toggleDoc(this)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();toggleDoc(this)}"><span class="doc-check">✓</span><span class="doc-label">' + doc + '</span></div>').join('') +
         '</div></div>';
     }
 
     // Build FAQ accordion
     let faqHTML = '';
     if (bonus.faq && bonus.faq.length > 0) {
-      faqHTML = '<div class="detail-section faq-section"><h4>❓ Domande frequenti</h4>' +
-        bonus.faq.map(f => '<div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">' + f.domanda + '</div><div class="faq-answer">' + f.risposta + '</div></div>').join('') +
+      faqHTML = '<div class="detail-section faq-section"><h4 data-i18n="results.faq">❓ Domande frequenti</h4>' +
+        bonus.faq.map(f => '<div class="faq-item"><div class="faq-question" tabindex="0" role="button" aria-expanded="false" onclick="toggleFaq(this)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();toggleFaq(this)}">' + f.domanda + '</div><div class="faq-answer">' + f.risposta + '</div></div>').join('') +
         '</div>';
     }
+
+    // Build source references section
+    let sourceHTML = '';
+    if (bonus.fonte_url || bonus.fonte_nome || bonus.riferimenti_normativi || bonus.ultimo_aggiornamento || bonus.stato) {
+      sourceHTML = '<div class="source-ref"><h4 data-i18n="results.fonti">📚 Fonti e riferimenti</h4>';
+      if (bonus.fonte_nome) {
+        sourceHTML += '<div class="sr-row"><span class="sr-label" data-i18n="results.fonte_ist">Fonte:</span> ';
+        if (bonus.fonte_url) {
+          sourceHTML += '<a href="' + bonus.fonte_url + '" target="_blank" rel="noopener">' + bonus.fonte_nome + '</a>';
+        } else {
+          sourceHTML += bonus.fonte_nome;
+        }
+        sourceHTML += '</div>';
+      } else if (bonus.fonte_url) {
+        sourceHTML += '<div class="sr-row"><span class="sr-label" data-i18n="results.fonte_ist">Fonte:</span> <a href="' + bonus.fonte_url + '" target="_blank" rel="noopener">' + bonus.fonte_url + '</a></div>';
+      }
+      if (bonus.riferimenti_normativi) {
+        sourceHTML += '<div class="sr-row"><span class="sr-label" data-i18n="results.fonte_edit">Rif. normativi:</span> ' + bonus.riferimenti_normativi + '</div>';
+      }
+      if (bonus.ultimo_aggiornamento) {
+        sourceHTML += '<div class="sr-row"><span class="sr-label" data-i18n="results.last_update">Aggiornato:</span> ' + bonus.ultimo_aggiornamento + '</div>';
+      }
+      if (bonus.stato) {
+        var statoClass = bonus.stato === 'attivo' ? 'attivo' : bonus.stato === 'scaduto' ? 'scaduto' : 'in_scadenza';
+        sourceHTML += '<div class="sr-row"><span class="sr-label">Stato:</span> <span class="sr-stato ' + statoClass + '">' + bonus.stato + '</span></div>';
+      }
+      sourceHTML += '</div>';
+    }
+
+    // WhatsApp share button
+    var waMsg = 'Ho scoperto il bonus "' + bonus.nome + '" su Bonus360! ' + (bonus.importo ? 'Vale ' + bonus.importo + '. ' : '') + 'Verifica anche tu: ' + window.location.href;
+    var waShareHTML = '<a href="https://wa.me/?text=' + encodeURIComponent(waMsg) + '" target="_blank" rel="noopener" class="wa-share-btn" aria-label="Condividi ' + bonus.nome + ' su WhatsApp" data-i18n="results.share_bonus">💬 Condividi</a>';
 
     const card = document.createElement('div');
     card.className = 'bonus-card';
     card.innerHTML = '<div class="cat-stripe cat-' + bonus.categoria + '"></div>' +
       '<div class="bonus-card-top"><div><h3>' + (ce[bonus.categoria] || '📋') + ' ' + bonus.nome + '</h3><span class="ente-tag">' + bonus.ente + '</span></div><div class="compat-pill ' + cc + '">' + cl + ' · ' + bonus.compatibilita + '%</div></div>' +
       '<div class="desc">' + bonus.descrizione + '</div>' +
-      '<div class="importo-bar"><span class="il">Importo</span><span class="iv">' + bonus.importo + '</span></div>' +
+      '<div class="importo-bar"><span class="il" data-i18n="results.importo">Importo</span><span class="iv">' + bonus.importo + '</span></div>' +
       importoRealeHTML +
-      '<button class="expand-btn" onclick="toggleDetails(\'' + bonus.id + '\')">Vedi come richiederlo ▾</button>' +
+      '<button class="expand-btn" aria-expanded="false" aria-controls="details-' + bonus.id + '" onclick="toggleDetails(\'' + bonus.id + '\')" data-i18n="results.details">Vedi come richiederlo ▾</button>' +
       '<div class="bonus-details" id="details-' + bonus.id + '">' +
-        '<div class="detail-section req"><h4>📋 Requisiti</h4><ul>' + bonus.requisiti.map(r => '<li>' + r + '</li>').join('') + '</ul></div>' +
-        '<div class="detail-section how"><h4>📝 Come fare domanda</h4><ul>' + bonus.come_richiederlo.map(r => '<li>' + r + '</li>').join('') + '</ul></div>' +
+        '<div class="detail-section req"><h4 data-i18n="results.requisiti">📋 Requisiti</h4><ul>' + bonus.requisiti.map(r => '<li>' + r + '</li>').join('') + '</ul></div>' +
+        '<div class="detail-section how"><h4 data-i18n="results.come_fare">📝 Come fare domanda</h4><ul>' + bonus.come_richiederlo.map(r => '<li>' + r + '</li>').join('') + '</ul></div>' +
         docsHTML +
         faqHTML +
-        '<div style="margin-top:14px;display:flex;align-items:center;flex-wrap:wrap;gap:8px"><a href="' + bonus.link_ufficiale + '" target="_blank" rel="noopener" class="bonus-link">🔗 Sito ufficiale →</a>' + (bonus.scadenza ? '<span class="scadenza-tag">⏰ ' + bonus.scadenza + '</span>' : '') + '</div>' +
+        sourceHTML +
+        '<div style="margin-top:14px;display:flex;align-items:center;flex-wrap:wrap;gap:8px"><a href="' + bonus.link_ufficiale + '" target="_blank" rel="noopener" class="bonus-link" aria-label="Sito ufficiale ' + bonus.nome + '" data-i18n="results.link_ufficiale">🔗 Sito ufficiale →</a>' + (bonus.scadenza ? '<span class="scadenza-tag">⏰ ' + bonus.scadenza + '</span>' : '') + waShareHTML + '</div>' +
       '</div>';
     list.appendChild(card);
   });
+
+  // Re-apply translations to dynamically added elements
+  applyTranslations();
 }
 
 function renderISEEWarning() {
@@ -476,24 +785,27 @@ function renderISEEWarning() {
   const isee = lastProfile ? lastProfile.isee : 0;
   if (isee > 0) {
     box.innerHTML = '<div class="isee-warning warn">' +
-      '<button class="close-warn" onclick="this.parentElement.remove()">&times;</button>' +
-      '⚠️ <strong>Ricorda:</strong> l\'attestazione ISEE ha validità fino al 31 dicembre dell\'anno in corso. ' +
-      'Se il tuo ISEE è scaduto o sta per scadere, rinnovala presso un CAF per non perdere l\'accesso ai bonus.' +
+      '<button class="close-warn" onclick="this.parentElement.remove()" aria-label="Chiudi avviso">&times;</button>' +
+      '<span data-i18n="isee_warn.has_isee">⚠️ <strong>Ricorda:</strong> l\'attestazione ISEE ha validità fino al 31 dicembre dell\'anno in corso. ' +
+      'Se il tuo ISEE è scaduto o sta per scadere, rinnovala presso un CAF per non perdere l\'accesso ai bonus.</span>' +
       '</div>';
   } else {
     box.innerHTML = '<div class="isee-warning info">' +
-      '<button class="close-warn" onclick="this.parentElement.remove()">&times;</button>' +
-      '💡 <strong>Non hai inserito l\'ISEE.</strong> Con un ISEE valido potresti sbloccare fino a <strong>12 bonus aggiuntivi</strong> ' +
-      'legati al reddito familiare. Puoi ottenere l\'ISEE gratuitamente presso qualsiasi CAF o sul sito INPS.' +
+      '<button class="close-warn" onclick="this.parentElement.remove()" aria-label="Chiudi avviso">&times;</button>' +
+      '<span data-i18n="isee_warn.no_isee">💡 <strong>Non hai inserito l\'ISEE.</strong> Con un ISEE valido potresti sbloccare fino a <strong>12 bonus aggiuntivi</strong> ' +
+      'legati al reddito familiare. Puoi ottenere l\'ISEE gratuitamente presso qualsiasi CAF o sul sito INPS.</span>' +
       '</div>';
   }
+  applyTranslations();
 }
 
 function toggleDetails(id) {
   const el = document.getElementById('details-' + id);
   el.classList.toggle('open');
   const btn = el.previousElementSibling;
-  btn.textContent = el.classList.contains('open') ? 'Nascondi dettagli ▴' : 'Vedi come richiederlo ▾';
+  var isOpen = el.classList.contains('open');
+  btn.textContent = isOpen ? 'Nascondi dettagli ▴' : 'Vedi come richiederlo ▾';
+  btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 }
 
 function downloadCalendar() {
@@ -523,12 +835,20 @@ function printResults() {
 
 function expandAll() {
   document.querySelectorAll('.bonus-details').forEach(d => d.classList.add('open'));
-  document.querySelectorAll('.expand-btn').forEach(b => b.textContent = 'Nascondi dettagli ▴');
+  document.querySelectorAll('.expand-btn').forEach(b => {
+    b.textContent = 'Nascondi dettagli ▴';
+    b.setAttribute('aria-expanded', 'true');
+  });
 }
 
 function toggleShareMenu() {
   const dd = document.getElementById('shareDropdown');
-  if (dd.style.display === 'block') { dd.style.display = 'none'; return; }
+  const sb = document.getElementById('shareBtn');
+  if (dd.style.display === 'block') {
+    dd.style.display = 'none';
+    sb.setAttribute('aria-expanded', 'false');
+    return;
+  }
   const msg = 'Ho scoperto che la mia famiglia ha diritto a ' + resultData.bonus_trovati + ' bonus per un risparmio di ' + resultData.risparmio_stimato + ' all\'anno! Verifica anche tu gratis: ' + window.location.href;
   const isMobile = /Android|iPhone|iPad/.test(navigator.userAgent);
   if (isMobile) {
@@ -536,18 +856,26 @@ function toggleShareMenu() {
     return;
   }
   dd.style.display = 'block';
-  dd.innerHTML = '<a href="https://wa.me/?text=' + encodeURIComponent(msg) + '" target="_blank">WhatsApp Web</a>' +
-    '<button onclick="navigator.clipboard.writeText(\'' + window.location.href + '\');this.textContent=\'Copiato!\';setTimeout(()=>document.getElementById(\'shareDropdown\').style.display=\'none\',1000)">Copia link</button>';
+  sb.setAttribute('aria-expanded', 'true');
+  dd.innerHTML = '<a href="https://wa.me/?text=' + encodeURIComponent(msg) + '" target="_blank" role="menuitem">WhatsApp Web</a>' +
+    '<button role="menuitem" onclick="navigator.clipboard.writeText(\'' + window.location.href + '\');this.textContent=\'Copiato!\';setTimeout(()=>{document.getElementById(\'shareDropdown\').style.display=\'none\';document.getElementById(\'shareBtn\').setAttribute(\'aria-expanded\',\'false\')},1000)">Copia link</button>';
   setTimeout(() => document.addEventListener('click', function closeShare(e) {
-    if (!dd.contains(e.target)) { dd.style.display = 'none'; document.removeEventListener('click', closeShare); }
+    if (!dd.contains(e.target)) {
+      dd.style.display = 'none';
+      sb.setAttribute('aria-expanded', 'false');
+      document.removeEventListener('click', closeShare);
+    }
   }, true), 0);
 }
 
 function toggleSimulator() {
   const content = document.getElementById('simContent');
   content.classList.toggle('open');
+  const isOpen = content.classList.contains('open');
   const arrow = document.querySelector('.simulator-box .arrow');
-  arrow.textContent = content.classList.contains('open') ? '▴' : '▾';
+  arrow.textContent = isOpen ? '▴' : '▾';
+  var h3 = content.previousElementSibling;
+  if (h3) h3.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 }
 
 function runSimulation() {
@@ -568,11 +896,16 @@ function runSimulation() {
 }
 
 function toggleFaq(el) {
-  el.parentElement.classList.toggle('open');
+  var item = el.parentElement;
+  item.classList.toggle('open');
+  var isOpen = item.classList.contains('open');
+  el.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 }
 
 function toggleDoc(el) {
   el.classList.toggle('checked');
+  var isChecked = el.classList.contains('checked');
+  el.setAttribute('aria-checked', isChecked ? 'true' : 'false');
 }
 
 function findCAF() {
@@ -599,7 +932,8 @@ function submitNotify() {
     .then(r => r.json())
     .then(d => {
       if (d.ok) {
-        document.getElementById('notifyForm').innerHTML = '<p style="color:var(--teal);font-weight:700">Grazie! Ti avviseremo al lancio.</p>';
+        document.getElementById('notifyForm').innerHTML = '<p style="color:var(--teal);font-weight:700" data-i18n="coming.thanks">Grazie! Ti avviseremo al lancio.</p>';
+        applyTranslations();
       }
     });
 }
@@ -609,6 +943,7 @@ function resetAll() {
   document.querySelectorAll('select').forEach(s => { s.selectedIndex = 0; });
   Object.keys(toggles).forEach(k => { toggles[k] = false; });
   document.querySelectorAll('.toggle').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('.toggle-row[role="switch"]').forEach(r => r.setAttribute('aria-checked', 'false'));
   resultData = null;
   lastProfile = null;
   currentStep = 0;
@@ -618,6 +953,8 @@ function resetAll() {
   document.getElementById('heroSection').style.display = '';
   document.getElementById('howSection').style.display = '';
   document.getElementById('novitaSection').style.display = '';
+  document.getElementById('miniCalcSection').style.display = '';
+  document.getElementById('testimonialsSection').style.display = '';
   document.getElementById('iseeWarning').innerHTML = '';
   document.getElementById('simulatorBox').style.display = '';
   document.getElementById('shareDropdown').style.display = 'none';
