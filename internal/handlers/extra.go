@@ -98,8 +98,8 @@ func parseEuroAmount(s string) float64 {
 // ---------- validateProfile ----------
 
 func validateProfile(p models.UserProfile) (string, bool) {
-	if p.Eta < 0 || p.Eta > 120 {
-		return "Eta non valida (0-120)", false
+	if p.Eta < 18 || p.Eta > 120 {
+		return "Eta non valida (18-120)", false
 	}
 	if p.ISEE < 0 || p.ISEE > 500000 {
 		return "ISEE non valido (0-500000)", false
@@ -280,8 +280,25 @@ func ReportHandler(w http.ResponseWriter, r *http.Request) {
 	dateStr := now.Format("2006-01-02")
 	dateTimeStr := now.Format("02/01/2006 15:04")
 
+	// Category color map
+	categoryColors := map[string][3]int{
+		"famiglia":   {232, 115, 90},
+		"casa":       {229, 165, 73},
+		"salute":     {184, 169, 212},
+		"istruzione": {108, 155, 207},
+		"spesa":      {43, 138, 126},
+		"lavoro":     {92, 184, 92},
+		"sostegno":   {240, 158, 140},
+	}
+	defaultColor := [3]int{142, 155, 160}
+
+	pageW := 210.0
+	marginL := 15.0
+	marginR := 15.0
+	contentW := pageW - marginL - marginR
+
 	pdf := gofpdf.New("P", "mm", "A4", "")
-	pdf.SetMargins(20, 20, 20)
+	pdf.SetMargins(marginL, 15, marginR)
 	pdf.SetAutoPageBreak(true, 25)
 
 	// Footer on every page
@@ -289,138 +306,247 @@ func ReportHandler(w http.ResponseWriter, r *http.Request) {
 		pdf.SetY(-15)
 		pdf.SetFont("Helvetica", "I", 8)
 		pdf.SetTextColor(128, 128, 128)
-		pdf.CellFormat(0, 10, transliterate("Generato da Bonus360.it -- Servizio gratuito e indipendente -- "+dateStr), "", 0, "C", false, 0, "")
+		pdf.CellFormat(contentW/2, 10, transliterate("Bonus360.it -- Servizio gratuito e indipendente"), "", 0, "L", false, 0, "")
+		pdf.CellFormat(contentW/2, 10, fmt.Sprintf("Pagina %d", pdf.PageNo()), "", 0, "R", false, 0, "")
 	})
 
 	pdf.AddPage()
 
-	// Header
-	pdf.SetFont("Helvetica", "B", 22)
-	pdf.SetTextColor(0, 0, 0)
-	pdf.CellFormat(0, 12, transliterate("Bonus360 -- Report Personalizzato"), "", 1, "C", false, 0, "")
-	pdf.SetFont("Helvetica", "", 10)
-	pdf.SetTextColor(100, 100, 100)
-	pdf.CellFormat(0, 6, transliterate("Generato il "+dateTimeStr), "", 1, "C", false, 0, "")
-	pdf.Ln(3)
+	// ── 1. Header bar ──
+	pdf.SetFillColor(26, 58, 92)
+	pdf.Rect(0, 0, pageW, 20, "F")
+	pdf.SetY(3)
+	pdf.SetX(marginL)
+	pdf.SetFont("Helvetica", "B", 18)
+	pdf.SetTextColor(255, 255, 255)
+	pdf.CellFormat(contentW, 8, transliterate("Bonus360"), "", 1, "L", false, 0, "")
+	pdf.SetX(marginL)
+	pdf.SetFont("Helvetica", "", 12)
+	pdf.CellFormat(contentW, 7, transliterate("Report Personalizzato"), "", 1, "L", false, 0, "")
 
-	// Subtitle
-	pdf.SetFont("Helvetica", "I", 9)
+	// ── 2. Date and subtitle ──
+	pdf.SetY(24)
+	pdf.SetX(marginL)
+	pdf.SetFont("Helvetica", "", 9)
+	pdf.SetTextColor(128, 128, 128)
+	pdf.CellFormat(contentW, 5, transliterate("Generato il "+dateTimeStr), "", 1, "L", false, 0, "")
+	pdf.SetX(marginL)
+	pdf.SetFont("Helvetica", "I", 8)
 	pdf.SetTextColor(150, 150, 150)
-	pdf.CellFormat(0, 5, transliterate("Documento a scopo orientativo -- Verifica sui portali ufficiali"), "", 1, "C", false, 0, "")
-	pdf.Ln(5)
+	pdf.CellFormat(contentW, 5, transliterate("Documento a scopo orientativo"), "", 1, "L", false, 0, "")
+	pdf.Ln(4)
 
-	// Summary
-	pdf.SetFont("Helvetica", "B", 13)
-	pdf.SetTextColor(0, 0, 0)
-	summary := fmt.Sprintf("%d bonus trovati -- Risparmio stimato: %s", result.BonusTrovati, result.RisparmioStimato)
-	pdf.CellFormat(0, 8, transliterate(summary), "", 1, "L", false, 0, "")
-	pdf.Ln(6)
+	// ── 3. Summary box ──
+	summaryY := pdf.GetY()
+	boxH := 22.0
+	pdf.SetFillColor(232, 240, 248)
+	pdf.SetDrawColor(180, 210, 235)
+	pdf.RoundedRect(marginL, summaryY, contentW, boxH, 3, "1234", "FD")
+	pdf.SetY(summaryY + 3)
+	pdf.SetX(marginL + 5)
+	pdf.SetFont("Helvetica", "B", 11)
+	pdf.SetTextColor(26, 58, 92)
+	pdf.CellFormat(contentW-10, 6, transliterate("RIEPILOGO"), "", 1, "L", false, 0, "")
+	pdf.SetX(marginL + 5)
+	pdf.SetFont("Helvetica", "", 10)
+	pdf.SetTextColor(50, 50, 50)
+	pdf.CellFormat(contentW/2-5, 6, transliterate(fmt.Sprintf("Bonus compatibili: %d", result.BonusTrovati)), "", 0, "L", false, 0, "")
+	pdf.CellFormat(contentW/2-5, 6, transliterate(fmt.Sprintf("Risparmio stimato: %s", result.RisparmioStimato)), "", 1, "L", false, 0, "")
+	pdf.SetY(summaryY + boxH + 6)
 
-	// Separator
-	pdf.SetDrawColor(200, 200, 200)
-	pdf.Line(20, pdf.GetY(), 190, pdf.GetY())
-	pdf.Ln(6)
-
-	// Each bonus
+	// ── 4. Each bonus ──
 	for i, b := range result.Bonus {
 		if pdf.GetY() > 250 {
 			pdf.AddPage()
 		}
 
+		startY := pdf.GetY()
+
+		// Determine category color
+		cat := strings.ToLower(b.Categoria)
+		col, ok := categoryColors[cat]
+		if !ok {
+			col = defaultColor
+		}
+
+		// Colored left border (drawn after content to know height; save startY)
+		contentX := marginL + 5
+
 		// Nome
-		pdf.SetFont("Helvetica", "B", 14)
-		pdf.SetTextColor(0, 51, 102)
-		pdf.CellFormat(0, 8, transliterate(b.Nome), "", 1, "L", false, 0, "")
+		pdf.SetX(contentX)
+		pdf.SetFont("Helvetica", "B", 13)
+		pdf.SetTextColor(26, 58, 92)
+		pdf.CellFormat(contentW-5, 7, transliterate(b.Nome), "", 1, "L", false, 0, "")
 
 		// Ente
-		pdf.SetFont("Helvetica", "", 9)
+		pdf.SetX(contentX)
+		pdf.SetFont("Helvetica", "", 8)
 		pdf.SetTextColor(128, 128, 128)
-		pdf.CellFormat(0, 5, transliterate("Ente erogatore: "+b.Ente), "", 1, "L", false, 0, "")
+		pdf.CellFormat(contentW-5, 5, transliterate(b.Ente), "", 1, "L", false, 0, "")
+
+		// Compatibilita
+		pdf.SetX(contentX)
+		pdf.SetFont("Helvetica", "B", 10)
+		pdf.SetTextColor(50, 50, 50)
+		pdf.CellFormat(contentW-5, 6, transliterate(fmt.Sprintf("Compatibilita: %d%%", b.Compatibilita)), "", 1, "L", false, 0, "")
 
 		// Importo
+		pdf.SetX(contentX)
 		pdf.SetFont("Helvetica", "B", 11)
 		pdf.SetTextColor(0, 0, 0)
-		pdf.CellFormat(0, 6, transliterate("Importo: "+b.Importo), "", 1, "L", false, 0, "")
+		pdf.CellFormat(contentW-5, 6, transliterate("Importo: "+b.Importo), "", 1, "L", false, 0, "")
+
 		if b.ImportoReale != "" && b.ImportoReale != b.Importo {
+			pdf.SetX(contentX)
 			pdf.SetFont("Helvetica", "", 10)
 			pdf.SetTextColor(0, 128, 0)
-			pdf.CellFormat(0, 5, transliterate("Importo stimato per te: "+b.ImportoReale), "", 1, "L", false, 0, "")
+			pdf.CellFormat(contentW-5, 5, transliterate("Importo stimato per te: "+b.ImportoReale), "", 1, "L", false, 0, "")
 		}
 
 		// Descrizione
-		pdf.SetFont("Helvetica", "", 10)
-		pdf.SetTextColor(0, 0, 0)
-		pdf.MultiCell(0, 5, transliterate(b.Descrizione), "", "L", false)
+		pdf.SetX(contentX)
+		pdf.SetFont("Helvetica", "", 9)
+		pdf.SetTextColor(50, 50, 50)
+		pdf.MultiCell(contentW-5, 4.5, transliterate(b.Descrizione), "", "L", false)
 		pdf.Ln(2)
 
 		// Requisiti
 		if len(b.Requisiti) > 0 {
+			if pdf.GetY() > 250 {
+				pdf.AddPage()
+			}
+			pdf.SetX(contentX)
 			pdf.SetFont("Helvetica", "B", 10)
-			pdf.CellFormat(0, 5, "Requisiti:", "", 1, "L", false, 0, "")
+			pdf.SetTextColor(26, 58, 92)
+			pdf.CellFormat(contentW-5, 6, transliterate("Requisiti:"), "", 1, "L", false, 0, "")
 			pdf.SetFont("Helvetica", "", 9)
+			pdf.SetTextColor(50, 50, 50)
 			for _, req := range b.Requisiti {
 				if pdf.GetY() > 270 {
 					pdf.AddPage()
 				}
-				pdf.CellFormat(5, 5, "", "", 0, "", false, 0, "")
-				pdf.CellFormat(0, 5, transliterate("- "+req), "", 1, "L", false, 0, "")
+				pdf.SetX(contentX + 3)
+				pdf.CellFormat(contentW-8, 5, transliterate("  "+req), "", 1, "L", false, 0, "")
 			}
 			pdf.Ln(2)
 		}
 
 		// Come fare domanda
 		if len(b.ComeRichiederlo) > 0 {
+			if pdf.GetY() > 250 {
+				pdf.AddPage()
+			}
+			pdf.SetX(contentX)
 			pdf.SetFont("Helvetica", "B", 10)
-			pdf.CellFormat(0, 5, "Come fare domanda:", "", 1, "L", false, 0, "")
+			pdf.SetTextColor(26, 58, 92)
+			pdf.CellFormat(contentW-5, 6, transliterate("Come fare domanda:"), "", 1, "L", false, 0, "")
 			pdf.SetFont("Helvetica", "", 9)
-			for _, step := range b.ComeRichiederlo {
+			pdf.SetTextColor(50, 50, 50)
+			for stepIdx, step := range b.ComeRichiederlo {
 				if pdf.GetY() > 270 {
 					pdf.AddPage()
 				}
-				pdf.CellFormat(5, 5, "", "", 0, "", false, 0, "")
-				pdf.CellFormat(0, 5, transliterate("- "+step), "", 1, "L", false, 0, "")
+				pdf.SetX(contentX + 3)
+				pdf.CellFormat(contentW-8, 5, transliterate(fmt.Sprintf("%d. %s", stepIdx+1, step)), "", 1, "L", false, 0, "")
 			}
 			pdf.Ln(2)
 		}
 
 		// Documenti necessari
 		if len(b.Documenti) > 0 {
+			if pdf.GetY() > 250 {
+				pdf.AddPage()
+			}
+			pdf.SetX(contentX)
 			pdf.SetFont("Helvetica", "B", 10)
-			pdf.CellFormat(0, 5, "Documenti necessari:", "", 1, "L", false, 0, "")
+			pdf.SetTextColor(26, 58, 92)
+			pdf.CellFormat(contentW-5, 6, transliterate("Documenti necessari:"), "", 1, "L", false, 0, "")
 			pdf.SetFont("Helvetica", "", 9)
+			pdf.SetTextColor(50, 50, 50)
 			for _, doc := range b.Documenti {
 				if pdf.GetY() > 270 {
 					pdf.AddPage()
 				}
-				pdf.CellFormat(5, 5, "", "", 0, "", false, 0, "")
-				pdf.CellFormat(0, 5, transliterate("[ ] "+doc), "", 1, "L", false, 0, "")
+				cbX := contentX + 3
+				cbY := pdf.GetY() + 1
+				pdf.SetDrawColor(100, 100, 100)
+				pdf.Rect(cbX, cbY, 3, 3, "D")
+				pdf.SetX(cbX + 5)
+				pdf.CellFormat(contentW-13, 5, transliterate(doc), "", 1, "L", false, 0, "")
 			}
 			pdf.Ln(2)
 		}
 
 		// Link ufficiale
 		if b.LinkUfficiale != "" {
+			if pdf.GetY() > 270 {
+				pdf.AddPage()
+			}
+			pdf.SetX(contentX)
 			pdf.SetFont("Helvetica", "", 9)
-			pdf.SetTextColor(0, 0, 200)
-			pdf.CellFormat(0, 5, "Link: "+b.LinkUfficiale, "", 1, "L", false, 0, "")
+			pdf.SetTextColor(0, 51, 153)
+			pdf.Write(5, transliterate("Link ufficiale: "))
+			pdf.WriteLinkString(5, b.LinkUfficiale, b.LinkUfficiale)
+			pdf.Ln(6)
 		}
 
 		// Scadenza
 		if b.Scadenza != "" {
+			if pdf.GetY() > 270 {
+				pdf.AddPage()
+			}
+			pdf.SetX(contentX)
 			pdf.SetFont("Helvetica", "I", 9)
-			pdf.SetTextColor(180, 0, 0)
-			pdf.CellFormat(0, 5, transliterate("Scadenza: "+b.Scadenza), "", 1, "L", false, 0, "")
+			pdf.SetTextColor(200, 0, 0)
+			pdf.CellFormat(contentW-5, 5, transliterate("Scadenza: "+b.Scadenza), "", 1, "L", false, 0, "")
 		}
+
+		// Draw colored left border now that we know the height
+		endY := pdf.GetY()
+		borderH := endY - startY
+		if borderH < 10 {
+			borderH = 10
+		}
+		pdf.SetFillColor(col[0], col[1], col[2])
+		pdf.Rect(marginL, startY, 3, borderH, "F")
 
 		// Separator between bonuses
 		if i < len(result.Bonus)-1 {
-			pdf.Ln(4)
-			pdf.SetDrawColor(220, 220, 220)
-			pdf.Line(20, pdf.GetY(), 190, pdf.GetY())
-			pdf.Ln(6)
+			pdf.Ln(3)
+			pdf.SetDrawColor(200, 200, 200)
+			pdf.Line(marginL, pdf.GetY(), pageW-marginR, pdf.GetY())
+			pdf.Ln(5)
 		}
 	}
 
+	// ── 5. "Come procedere" box ──
+	if pdf.GetY() > 250 {
+		pdf.AddPage()
+	}
+	pdf.Ln(6)
+	boxY := pdf.GetY()
+	procBoxH := 38.0
+	pdf.SetFillColor(232, 245, 232)
+	pdf.SetDrawColor(180, 220, 180)
+	pdf.RoundedRect(marginL, boxY, contentW, procBoxH, 3, "1234", "FD")
+	pdf.SetY(boxY + 3)
+	pdf.SetX(marginL + 5)
+	pdf.SetFont("Helvetica", "B", 11)
+	pdf.SetTextColor(26, 58, 92)
+	pdf.CellFormat(contentW-10, 7, transliterate("PROSSIMI PASSI"), "", 1, "L", false, 0, "")
+	pdf.SetFont("Helvetica", "", 10)
+	pdf.SetTextColor(50, 50, 50)
+	steps := []string{
+		"1. Verifica i requisiti specifici per ogni bonus sui siti ufficiali indicati",
+		"2. Prepara la documentazione necessaria (ISEE, SPID, documenti)",
+		"3. Presenta le domande online o presso un CAF/patronato",
+	}
+	for _, step := range steps {
+		pdf.SetX(marginL + 5)
+		pdf.CellFormat(contentW-10, 7, transliterate(step), "", 1, "L", false, 0, "")
+	}
+
+	// ── Output ──
 	w.Header().Set("Content-Type", "application/pdf")
 	w.Header().Set("Content-Disposition", fmt.Sprintf(`attachment; filename="bonus360-report-%s.pdf"`, dateStr))
 
