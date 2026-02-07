@@ -97,8 +97,13 @@ func DecodeProfileHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Max length check to prevent abuse
+	if len(code) > 256 {
+		http.Error(w, "Codice troppo lungo", http.StatusBadRequest)
+		return
+	}
+
 	encoded := strings.TrimPrefix(code, codePrefix)
-	// Add padding back if needed for base64
 	data, err := base64.RawURLEncoding.DecodeString(encoded)
 	if err != nil {
 		http.Error(w, "Codice malformato", http.StatusBadRequest)
@@ -112,6 +117,12 @@ func DecodeProfileHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	profile := fromCompact(compact)
+
+	// Validate decoded profile
+	if msg, ok := validateProfile(profile); !ok {
+		http.Error(w, msg, http.StatusBadRequest)
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Cache-Control", "no-store")

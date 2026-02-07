@@ -14,6 +14,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -94,14 +95,20 @@ func main() {
 			handlers.IndexHandler(w, r)
 			return
 		}
+		// Block dotfile paths (.env, .git, etc.)
+		if strings.Contains(r.URL.Path, "/.") {
+			http.NotFound(w, r)
+			return
+		}
 		fs.ServeHTTP(w, r)
 	})
 
-	// Wrap with middleware: Recovery → Gzip (if enabled) → Rate Limiter
+	// Wrap with middleware: Recovery → SecurityHeaders → Gzip (if enabled) → Rate Limiter
 	var handler http.Handler = limiter.Middleware(mux)
 	if config.Cfg.GzipEnabled {
 		handler = middleware.Gzip(handler)
 	}
+	handler = middleware.SecurityHeaders(handler)
 	handler = middleware.Recovery(handler)
 
 	// Link check at boot (background, respects config)

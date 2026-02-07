@@ -1,8 +1,12 @@
 # Binaries
 bonusperme
+bonus360
 *.exe
+*.out
+__debug_bin*
 
 # Data files (generati a runtime)
+counter.json
 */counter.json
 analytics.csv
 emails.txt
@@ -12,6 +16,7 @@ emails.txt
 .vscode/
 *.swp
 *.swo
+*.code-workspace
 
 # Claude Code
 /.claude/
@@ -19,9 +24,15 @@ emails.txt
 # OS
 .DS_Store
 Thumbs.db
+*~
 
 # Environment
 .env
 
 # Go
 vendor/
+
+# Temp / logs
+*.log
+*.tmp
+*.bak

@@ -1,7 +1,9 @@
 package handlers
 
 import (
+	"net"
 	"net/http"
+	"strings"
 	"sync"
 	"time"
 )
@@ -82,9 +84,13 @@ func (rl *RateLimiter) allow(ip string) bool {
 func (rl *RateLimiter) Middleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ip := r.RemoteAddr
-		// Use X-Forwarded-For if behind proxy
+		// Strip port from RemoteAddr
+		if host, _, err := net.SplitHostPort(ip); err == nil {
+			ip = host
+		}
+		// Use first IP from X-Forwarded-For if behind proxy
 		if fwd := r.Header.Get("X-Forwarded-For"); fwd != "" {
-			ip = fwd
+			ip = strings.TrimSpace(strings.SplitN(fwd, ",", 2)[0])
 		}
 
 		if !rl.allow(ip) {

@@ -11,7 +11,6 @@ import (
 	"fmt"
 	"math"
 	"net/http"
-	"os"
 	"regexp"
 	"strconv"
 	"strings"
@@ -100,6 +99,28 @@ func parseEuroAmount(s string) float64 {
 
 // ---------- validateProfile ----------
 
+// Whitelists for enum fields
+var validResidenza = map[string]bool{
+	"": true, "Abruzzo": true, "Basilicata": true, "Calabria": true,
+	"Campania": true, "Emilia-Romagna": true, "Friuli-Venezia Giulia": true,
+	"Lazio": true, "Liguria": true, "Lombardia": true, "Marche": true,
+	"Molise": true, "Piemonte": true, "Puglia": true, "Sardegna": true,
+	"Sicilia": true, "Toscana": true, "Trentino-Alto Adige": true,
+	"Umbria": true, "Valle d'Aosta": true, "Veneto": true,
+}
+
+var validStatoCivile = map[string]bool{
+	"": true, "celibe/nubile": true, "coniugato/a": true,
+	"separato/a": true, "divorziato/a": true, "vedovo/a": true,
+	"unione civile": true,
+}
+
+var validOccupazione = map[string]bool{
+	"": true, "dipendente": true, "autonomo": true,
+	"disoccupato": true, "pensionato": true, "studente": true,
+	"casalinga": true, "inoccupato": true,
+}
+
 func validateProfile(p models.UserProfile) (string, bool) {
 	if p.Eta < 18 || p.Eta > 120 {
 		return "Eta non valida (18-120)", false
@@ -121,6 +142,23 @@ func validateProfile(p models.UserProfile) (string, bool) {
 	}
 	if p.Over65 < 0 || p.Over65 > 10 {
 		return "Over 65 non valido (0-10)", false
+	}
+	// Cross-field checks
+	if p.FigliMinorenni > p.NumeroFigli {
+		return "Figli minorenni non puo superare numero figli", false
+	}
+	if p.FigliUnder3 > p.FigliMinorenni {
+		return "Figli under 3 non puo superare figli minorenni", false
+	}
+	// Whitelist checks
+	if !validResidenza[p.Residenza] {
+		return "Regione non valida", false
+	}
+	if !validStatoCivile[p.StatoCivile] {
+		return "Stato civile non valido", false
+	}
+	if !validOccupazione[p.Occupazione] {
+		return "Occupazione non valida", false
 	}
 	return "", true
 }
@@ -1150,7 +1188,6 @@ func NotifySignupHandler(w http.ResponseWriter, r *http.Request) {
 
 	var body struct {
 		Email string `json:"email"`
-		Tipo  string `json:"tipo,omitempty"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		http.Error(w, "Invalid request body", http.StatusBadRequest)
@@ -1167,23 +1204,7 @@ func NotifySignupHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	f, err := os.OpenFile("emails.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	if err != nil {
-		http.Error(w, "Errore interno", http.StatusInternalServerError)
-		return
-	}
-	defer f.Close()
-
-	tipo := body.Tipo
-	if tipo == "" {
-		tipo = "user"
-	}
-	line := fmt.Sprintf("[%s] [%s] %s\n", time.Now().Format(time.RFC3339), tipo, body.Email)
-	if _, err := f.WriteString(line); err != nil {
-		http.Error(w, "Errore interno", http.StatusInternalServerError)
-		return
-	}
-
+	// Accept the request but do not persist email to disk (privacy)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]bool{"ok": true})
 }

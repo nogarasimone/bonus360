@@ -72,7 +72,13 @@ func ParseISEEHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	r.ParseMultipartForm(10 << 20) // 10MB max
+	// Limit upload to 5MB
+	r.Body = http.MaxBytesReader(w, r.Body, 5<<20)
+
+	if err := r.ParseMultipartForm(5 << 20); err != nil {
+		http.Error(w, "File troppo grande (max 5MB)", http.StatusBadRequest)
+		return
+	}
 
 	file, _, err := r.FormFile("file")
 	if err != nil {
@@ -86,6 +92,13 @@ func ParseISEEHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		sentryutil.CaptureError(err, map[string]string{"handler": "parse-isee", "phase": "read"})
 		http.Error(w, "Errore lettura file", http.StatusInternalServerError)
+		return
+	}
+
+	// MIME type check — reject non-PDF files
+	mime := http.DetectContentType(data)
+	if mime != "application/pdf" {
+		http.Error(w, "Formato non valido: solo PDF accettati", http.StatusBadRequest)
 		return
 	}
 

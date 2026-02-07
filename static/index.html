@@ -936,46 +936,46 @@
     .bonus-meta-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-15); }
     .bonus-scadenza { font-size: 0.72rem; color: var(--terra); font-weight: 600; }
     .bonus-scadenza.active { color: var(--ink-30); }
-    .bonus-importo-box { margin: 0 24px 14px 44px; background: var(--warm-cream); border-radius: var(--radius); padding: 12px 16px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-    .importo-main { font-family: 'JetBrains Mono', monospace; font-size: 1.15rem; font-weight: 700; color: var(--green); }
-    .importo-annual { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: var(--ink-50); }
-    .importo-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--green); background: #E9F5ED; padding: 2px 6px; border-radius: 3px; }
-    .importo-range { width: 100%; font-size: 0.75rem; color: var(--ink-30); margin-top: 4px; }
+    .bonus-importo-box { margin: 0 24px 12px 44px; background: var(--warm-cream); border-radius: var(--radius); padding: 10px 16px; display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; }
+    .importo-main { font-family: 'JetBrains Mono', monospace; font-size: 1.05rem; font-weight: 700; color: var(--green); }
+    .importo-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--green); background: #E9F5ED; padding: 2px 6px; border-radius: 3px; margin-left: auto; }
+    .importo-range { width: 100%; font-size: 0.75rem; color: var(--ink-30); }
     .bonus-desc { padding: 0 24px 0 44px; font-size: 0.85rem; color: var(--ink-50); line-height: 1.6; margin-bottom: 4px; }
     .bonus-toggle { display: flex; align-items: center; gap: 6px; width: 100%; padding: 12px 24px; background: none; border: none; border-top: 1px solid var(--ink-15); color: var(--blue); font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: background 0.15s; }
     .bonus-toggle:hover { background: var(--blue-light); }
     .bonus-toggle .chevron { width: 14px; height: 14px; transition: transform 0.2s; }
     .bonus-toggle.open .chevron { transform: rotate(180deg); }
-    .bonus-details { display: none; padding: 0 24px 20px 24px; }
+    .bonus-details { display: none; padding: 0 24px 0 24px; }
     .bonus-details.show { display: block; }
-    .detail-section { background: #FAFAFA; border: 1px solid var(--ink-15); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 10px; }
-    .detail-section-title { font-family: 'DM Sans', sans-serif; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-30); margin-bottom: 10px; }
+    .bonus-toggle + .bonus-details::before { content: ''; display: block; height: 1px; background: var(--ink-15); margin: 0 0 16px 0; }
+    .detail-section { background: none; border: none; border-radius: 0; padding: 0; margin-bottom: 16px; }
+    .detail-section-title { font-family: 'DM Sans', sans-serif; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-30); margin-bottom: 8px; padding: 0; }
     .req-list { list-style: none; padding: 0; margin: 0; }
-    .req-item { display: flex; align-items: start; gap: 8px; padding: 4px 0; font-size: 0.82rem; color: var(--ink-75); line-height: 1.5; }
+    .req-item { display: flex; align-items: start; gap: 10px; padding: 3px 0; font-size: 0.85rem; color: var(--ink-75); line-height: 1.5; }
     .req-item::before { content: ''; display: block; width: 16px; height: 16px; min-width: 16px; margin-top: 2px; border-radius: 50%; background: #E9F5ED url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M5 8.5l2 2 4-4' stroke='%232A6B45' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px; }
     .steps-list { list-style: none; padding: 0; margin: 0; }
-    .step-item { display: flex; align-items: start; gap: 10px; padding: 5px 0; font-size: 0.82rem; color: var(--ink-75); line-height: 1.5; }
-    .step-num { display: flex; align-items: center; justify-content: center; width: 22px; height: 22px; min-width: 22px; border-radius: 50%; background: var(--blue); color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 700; }
+    .step-item { display: flex; align-items: start; gap: 10px; padding: 3px 0; font-size: 0.85rem; color: var(--ink-75); line-height: 1.5; }
+    .step-num { display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; min-width: 20px; border-radius: 50%; background: var(--blue); color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 700; margin-top: 0; }
     .doc-list { list-style: none; padding: 0; margin: 0; }
-    .doc-item { display: flex; align-items: center; gap: 10px; padding: 6px 0; font-size: 0.82rem; color: var(--ink-75); cursor: pointer; user-select: none; transition: opacity 0.15s; }
+    .doc-item { display: flex; align-items: center; gap: 10px; padding: 4px 0; font-size: 0.85rem; color: var(--ink-75); cursor: pointer; user-select: none; transition: opacity 0.15s; }
     .doc-item:hover { opacity: 0.8; }
     .doc-checkbox { width: 18px; height: 18px; min-width: 18px; border: 1.5px solid var(--ink-15); border-radius: 4px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; background: #fff; }
     .doc-item.checked .doc-checkbox { background: var(--green); border-color: var(--green); }
     .doc-item.checked .doc-checkbox::after { content: ''; display: block; width: 10px; height: 10px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M2 5l2.5 2.5L8 3' stroke='white' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); }
     .doc-item.checked .doc-label { text-decoration: line-through; color: var(--ink-30); }
     .faq-list { list-style: none; padding: 0; margin: 0; }
-    .faq-item { border-bottom: 1px solid var(--ink-15); }
+    .faq-item { border-bottom: 1px solid var(--ink-05, #F0F0F0); }
     .faq-item:last-child { border-bottom: none; }
-    .faq-question { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 10px 0; background: none; border: none; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600; color: var(--ink-75); cursor: pointer; text-align: left; }
+    .faq-question { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 8px 0; background: none; border: none; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 600; color: var(--ink-75); cursor: pointer; text-align: left; }
     .faq-question:hover { color: var(--blue); }
     .faq-question .faq-chevron { width: 12px; height: 12px; transition: transform 0.2s; flex-shrink: 0; color: var(--ink-30); }
     .faq-question.open .faq-chevron { transform: rotate(180deg); }
-    .faq-answer { display: none; padding: 0 0 10px 0; font-size: 0.8rem; color: var(--ink-50); line-height: 1.6; }
+    .faq-answer { display: none; padding: 0 0 8px 0; font-size: 0.82rem; color: var(--ink-50); line-height: 1.6; }
     .faq-answer.show { display: block; }
-    .bonus-card-footer { display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; border-top: 1px solid var(--ink-15); flex-wrap: wrap; gap: 8px; }
-    .link-verified { display: flex; align-items: center; gap: 4px; font-size: 0.72rem; color: var(--green); }
+    .bonus-card-footer { display: flex; align-items: center; justify-content: space-between; padding: 10px 24px; border-top: 1px solid var(--ink-05, #F0F0F0); gap: 8px; }
+    .link-verified { display: flex; align-items: center; gap: 4px; font-size: 0.72rem; color: var(--green); white-space: nowrap; }
     .link-verified .icon { width: 14px; height: 14px; }
-    .link-verified-date { color: var(--ink-30); margin-left: 2px; }
+    .link-verified .date { color: var(--ink-30); }
     .link-warn-footer { display: flex; align-items: center; gap: 4px; font-size: 0.72rem; color: var(--amber); }
     .link-warn-footer .icon { width: 14px; height: 14px; }
     .btn-sito-ufficiale { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: var(--blue); color: #fff; border: none; border-radius: var(--radius); font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: background 0.15s; }
@@ -1026,7 +1026,7 @@
       .bonus-importo-box { background: #F4F3EE !important; padding: 8pt 12pt !important; margin: 4pt 14pt 8pt 14pt !important; border-radius: 3pt !important; }
       .importo-main { font-size: 11pt !important; }
       .bonus-desc { font-size: 8.5pt !important; padding: 0 14pt 6pt !important; }
-      .detail-section { background: #FAFAFA !important; border: 0.5pt solid #eee !important; padding: 8pt 10pt !important; margin: 4pt 0 6pt !important; border-radius: 3pt !important; }
+      .detail-section { background: none !important; border: none !important; padding: 0 !important; margin: 4pt 0 8pt !important; border-radius: 0 !important; }
       .detail-section-title { font-size: 7pt !important; margin-bottom: 4pt !important; }
       .req-item, .step-item, .doc-item { font-size: 8pt !important; padding: 2pt 0 !important; }
       .step-num { width: 14pt !important; height: 14pt !important; min-width: 14pt !important; font-size: 6pt !important; background: #1B3A54 !important; color: #fff !important; }
@@ -2126,13 +2126,15 @@
       }
       html += '</div>';
 
-      // Importo box
+      // Importo box — anti-duplication logic
+      var hasStimato = b.importo_reale && b.importo_reale !== b.importo;
       html += '<div class="bonus-importo-box">';
-      html += '<span class="importo-main">' + esc(b.importo || '') + '</span>';
-      if (b.importo_reale && b.importo_reale !== b.importo) {
-        html += '<span class="importo-annual">' + esc(b.importo_reale) + '</span>';
+      if (hasStimato) {
+        html += '<span class="importo-main">' + esc(b.importo_reale) + '</span>';
         html += '<span class="importo-label">Stimato per te</span>';
-        html += '<span class="importo-range">Range: ' + esc(b.importo) + '</span>';
+        html += '<div class="importo-range">Range: ' + esc(b.importo) + '</div>';
+      } else {
+        html += '<span class="importo-main">' + esc(b.importo || '') + '</span>';
       }
       html += '</div>';
 
@@ -2183,26 +2185,27 @@
 
       // Verifica manuale
       if (b.verifica_manuale_necessaria) {
-        html += '<div class="bonus-verifica"><span class="icon icon-sm"><svg><use href="#ico-alert"/></svg></span> Dato inserito manualmente. <a href="' + esc(b.link_ricerca || b.link_ufficiale || '#') + '" target="_blank" rel="noopener">Verifica sul sito della regione</a></div>';
+        html += '<div class="bonus-verifica"><span class="icon icon-sm"><svg><use href="#ico-alert"/></svg></span> Dato inserito manualmente. <a href="' + safeURL(b.link_ricerca || b.link_ufficiale) + '" target="_blank" rel="noopener">Verifica sul sito della regione</a></div>';
       }
 
       html += '</div>'; // bonus-details
 
-      // Card footer: link verification + CTA button
+      // Card footer: verification + CTA button (compact, one line)
       html += '<div class="bonus-card-footer">';
       if (b.link_verificato && b.link_ufficiale) {
-        html += '<div class="link-verified"><span class="icon"><svg><use href="#ico-check-circle"/></svg></span><span>Link verificato</span>';
-        if (b.link_verificato_al) html += '<span class="link-verified-date">' + esc(b.link_verificato_al) + '</span>';
-        if (b.fonte_nome) html += '<span class="link-verified-date">&middot; ' + esc(b.fonte_nome) + '</span>';
-        if (b.ultimo_aggiornamento) html += '<span class="link-verified-date">&middot; Agg. ' + esc(b.ultimo_aggiornamento) + '</span>';
+        var footerDate = formatDateIT(b.link_verificato_al || b.ultimo_aggiornamento);
+        var footerEnte = b.fonte_nome || b.ente || '';
+        html += '<div class="link-verified"><span class="icon"><svg><use href="#ico-check-circle"/></svg></span><span>Verificato</span>';
+        if (footerDate) html += '<span class="date">' + footerDate + '</span>';
+        if (footerEnte) html += '<span class="date">&middot; ' + esc(footerEnte) + '</span>';
         html += '</div>';
-        html += '<a href="' + esc(b.link_ufficiale) + '" target="_blank" rel="noopener" class="btn-sito-ufficiale">Vai al sito ufficiale <span class="icon"><svg><use href="#ico-external"/></svg></span></a>';
+        html += '<a href="' + safeURL(b.link_ufficiale) + '" target="_blank" rel="noopener" class="btn-sito-ufficiale">Vai al sito <span class="icon"><svg><use href="#ico-external"/></svg></span></a>';
       } else if (b.link_ricerca) {
         html += '<div class="link-warn-footer"><span class="icon"><svg><use href="#ico-alert"/></svg></span><span>Link non verificato</span></div>';
-        html += '<a href="' + esc(b.link_ricerca) + '" target="_blank" rel="noopener" class="btn-sito-ufficiale">Cerca su sito ufficiale <span class="icon"><svg><use href="#ico-external"/></svg></span></a>';
+        html += '<a href="' + safeURL(b.link_ricerca) + '" target="_blank" rel="noopener" class="btn-sito-ufficiale">Cerca su sito <span class="icon"><svg><use href="#ico-external"/></svg></span></a>';
       } else if (b.link_ufficiale) {
         html += '<div></div>';
-        html += '<a href="' + esc(b.link_ufficiale) + '" target="_blank" rel="noopener" class="btn-sito-ufficiale">Vai al sito ufficiale <span class="icon"><svg><use href="#ico-external"/></svg></span></a>';
+        html += '<a href="' + safeURL(b.link_ufficiale) + '" target="_blank" rel="noopener" class="btn-sito-ufficiale">Vai al sito <span class="icon"><svg><use href="#ico-external"/></svg></span></a>';
       }
       html += '</div>';
 
@@ -2232,6 +2235,29 @@
     var d = document.createElement('div');
     d.appendChild(document.createTextNode(s));
     return d.innerHTML;
+  }
+
+  function safeURL(url) {
+    if (!url) return '#';
+    var s = String(url).trim();
+    if (s.indexOf('https://') === 0 || s.indexOf('http://') === 0 || s.indexOf('/') === 0) {
+      return esc(s);
+    }
+    return '#';
+  }
+
+  function formatDateIT(dateStr) {
+    if (!dateStr) return '';
+    var d = new Date(dateStr);
+    if (isNaN(d.getTime())) {
+      // Try DD/MM/YYYY passthrough
+      if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) return dateStr;
+      return '';
+    }
+    var dd = String(d.getDate()).padStart(2, '0');
+    var mm = String(d.getMonth() + 1).padStart(2, '0');
+    var yyyy = d.getFullYear();
+    return dd + '/' + mm + '/' + yyyy;
   }
 
   function toggleDetails(cardId) {
