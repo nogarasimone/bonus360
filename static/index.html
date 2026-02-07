@@ -11,7 +11,7 @@
     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
     var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
     j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-XXXXXXX');}
+    })(window,document,'script','dataLayer','GTM-KQG8R7VF');}
     if(localStorage.getItem('cookie_consent')==='accepted'){loadGTM();}
   </script>
   <style>
@@ -996,6 +996,8 @@
   </style>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQG8R7VF" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- ============================================
      SVG ICON SPRITE (hidden, referenced via <use>)
@@ -1787,12 +1789,15 @@
   /* ============================================
      PAGE NAVIGATION
      ============================================ */
+  window.dataLayer = window.dataLayer || [];
+
   function startWizard() {
     document.getElementById('landingPage').style.display = 'none';
     document.getElementById('wizardPage').style.display = 'flex';
     document.getElementById('resultsPage').style.display = 'none';
     wizStep = 0; wizUpdateUI();
     window.scrollTo(0, 0);
+    dataLayer.push({ event: 'wizard_start' });
   }
   function backToLanding() {
     document.getElementById('wizardPage').style.display = 'none';
@@ -1827,7 +1832,7 @@
   }
 
   function wizNext() {
-    if (wizStep < wizTotal - 1) { wizStep++; wizUpdateUI(); }
+    if (wizStep < wizTotal - 1) { wizStep++; wizUpdateUI(); dataLayer.push({ event: 'wizard_step', step: wizStep }); }
   }
   function wizPrev() {
     if (wizStep > 0) { wizStep--; wizUpdateUI(); }
@@ -1875,6 +1880,7 @@
       lastResult = data;
       renderResults(data);
       showResults();
+      dataLayer.push({ event: 'match_complete', bonus_count: data.bonus_trovati, risparmio: data.risparmio_stimato });
     })
     .catch(function(err) {
       alert('Errore nella verifica: ' + err.message);
@@ -2061,6 +2067,7 @@
      ============================================ */
   function downloadPDF() {
     if (!lastProfile) return;
+    dataLayer.push({ event: 'pdf_download' });
     fetch('/api/report', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -2083,6 +2090,7 @@
 
   function exportCalendar() {
     if (!lastResult || !lastResult.bonus) return;
+    dataLayer.push({ event: 'calendar_export' });
     var items = lastResult.bonus.filter(function(b) { return b.scadenza; }).map(function(b) {
       return { nome: b.nome, scadenza: b.scadenza };
     });
@@ -2099,6 +2107,7 @@
 
   function shareWhatsApp() {
     if (!lastResult) return;
+    dataLayer.push({ event: 'whatsapp_share' });
     var waText = 'Ho scoperto che ho diritto a ' + lastResult.bonus_trovati + ' bonus per un risparmio di ' + (lastResult.risparmio_stimato || 'EUR 0') + '. Verifica anche tu su BonusPerMe.it!';
     window.open('https://wa.me/?text=' + encodeURIComponent(waText), '_blank');
   }
@@ -2134,10 +2143,12 @@
     localStorage.setItem('cookie_consent', 'accepted');
     document.getElementById('cookieBanner').style.display = 'none';
     loadGTM();
+    dataLayer.push({ event: 'cookie_consent', consent: 'accepted' });
   }
   function rejectCookies() {
     localStorage.setItem('cookie_consent', 'rejected');
     document.getElementById('cookieBanner').style.display = 'none';
+    dataLayer.push({ event: 'cookie_consent', consent: 'rejected' });
   }
 
   function handleISEEFile(file) {
