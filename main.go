@@ -25,6 +25,7 @@ func main() {
 	http.HandleFunc("/api/match", handlers.MatchHandler)
 	http.HandleFunc("/api/stats", handlers.StatsHandler)
 	http.HandleFunc("/api/health", handlers.HealthHandler)
+	http.HandleFunc("/api/parse-isee", handlers.ParseISEEHandler)
 
 	// Serve static files
 	fs := http.FileServer(http.Dir("static"))
