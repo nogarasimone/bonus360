@@ -3,6 +3,7 @@ package matcher
 import (
 	"bonus360/internal/models"
 	"fmt"
+	"math"
 	"sort"
 )
 
@@ -14,8 +15,14 @@ func GetAllBonus() []models.Bonus {
 			Importo: "da €57 a €199,4/mese per figlio", Scadenza: "Domanda entro il 28 febbraio per arretrati",
 			Requisiti:       []string{"Figli a carico sotto i 21 anni", "Residenza in Italia", "ISEE valido (facoltativo)"},
 			ComeRichiederlo: []string{"Portale INPS con SPID/CIE", "Sezione 'Assegno Unico'", "Compilare domanda online"},
-			LinkUfficiale:   "https://www.inps.it/it/it/schede/prestazioni-e-servizi/assegno-unico-e-universale-per-i-figli-a-carico.html",
-			Ente:            "INPS",
+			Documenti:       []string{"SPID o CIE", "ISEE in corso di validità", "Codici fiscali di tutti i figli", "Coordinate bancarie/postali (IBAN)"},
+			FAQ: []models.FAQ{
+				{Domanda: "Posso richiederlo se sono separato/a?", Risposta: "Sì, l'assegno spetta al genitore che ha i figli a carico. In caso di affido condiviso, può essere diviso al 50%."},
+				{Domanda: "Serve il commercialista?", Risposta: "No, la domanda si fa online sul portale INPS con SPID o CIE. In alternativa puoi rivolgerti a un patronato gratuitamente."},
+				{Domanda: "Quanto tempo ci vuole per ricevere i soldi?", Risposta: "Generalmente 30-60 giorni dalla domanda. Il pagamento avviene mensilmente tramite bonifico."},
+			},
+			LinkUfficiale: "https://www.inps.it/it/it/schede/prestazioni-e-servizi/assegno-unico-e-universale-per-i-figli-a-carico.html",
+			Ente:          "INPS",
 		},
 		{
 			ID: "bonus-nido", Nome: "Bonus Asilo Nido", Categoria: "famiglia",
@@ -23,8 +30,13 @@ func GetAllBonus() []models.Bonus {
 			Importo: "fino a €3.600/anno (ISEE ≤ €25.000)", Scadenza: "31 dicembre 2025",
 			Requisiti:       []string{"Figli sotto i 3 anni", "Iscrizione asilo nido", "ISEE in corso di validità"},
 			ComeRichiederlo: []string{"Portale INPS con SPID/CIE", "Sezione 'Bonus Nido'", "Allegare ricevute rette + ISEE"},
-			LinkUfficiale:   "https://www.inps.it",
-			Ente:            "INPS",
+			Documenti:       []string{"SPID o CIE", "ISEE in corso di validità", "Ricevute di pagamento rette asilo", "Iscrizione/frequenza del minore"},
+			FAQ: []models.FAQ{
+				{Domanda: "Vale anche per asili nido privati?", Risposta: "Sì, il bonus copre sia asili nido pubblici che privati autorizzati, con importi diversi in base all'ISEE."},
+				{Domanda: "Posso cumularlo con l'Assegno Unico?", Risposta: "Sì, bonus nido e Assegno Unico sono pienamente cumulabili."},
+			},
+			LinkUfficiale: "https://www.inps.it",
+			Ente:          "INPS",
 		},
 		{
 			ID: "bonus-nascita", Nome: "Carta per i Nuovi Nati", Categoria: "famiglia",
@@ -32,8 +44,13 @@ func GetAllBonus() []models.Bonus {
 			Importo: "€1.000 una tantum", Scadenza: "Entro 60 giorni dalla nascita",
 			Requisiti:       []string{"Figlio nato/adottato dal 2025", "ISEE fino a €40.000", "Residenza in Italia"},
 			ComeRichiederlo: []string{"Portale INPS con SPID/CIE", "Sezione 'Carta nuovi nati'", "Domanda online entro 60 giorni"},
-			LinkUfficiale:   "https://www.inps.it",
-			Ente:            "INPS",
+			Documenti:       []string{"SPID o CIE", "ISEE in corso di validità", "Certificato di nascita o adozione", "Coordinate bancarie (IBAN)"},
+			FAQ: []models.FAQ{
+				{Domanda: "Vale per adozioni internazionali?", Risposta: "Sì, il bonus spetta anche per adozioni nazionali e internazionali perfezionate dal 2025."},
+				{Domanda: "Entro quando devo fare domanda?", Risposta: "La domanda va presentata entro 60 giorni dalla nascita o dall'ingresso in famiglia del minore adottato."},
+			},
+			LinkUfficiale: "https://www.inps.it",
+			Ente:          "INPS",
 		},
 		{
 			ID: "bonus-mamma", Nome: "Bonus Mamme Lavoratrici", Categoria: "famiglia",
@@ -41,8 +58,13 @@ func GetAllBonus() []models.Bonus {
 			Importo: "fino a €3.000/anno", Scadenza: "In vigore",
 			Requisiti:       []string{"Madre lavoratrice dipendente", "Almeno 2 figli", "Figlio più piccolo sotto i 10 anni"},
 			ComeRichiederlo: []string{"Comunicare al datore di lavoro i CF dei figli", "Esonero automatico in busta paga"},
-			LinkUfficiale:   "https://www.inps.it",
-			Ente:            "INPS",
+			Documenti:       []string{"Codici fiscali dei figli", "Comunicazione al datore di lavoro"},
+			FAQ: []models.FAQ{
+				{Domanda: "Vale per le lavoratrici part-time?", Risposta: "Sì, l'esonero si applica anche alle lavoratrici part-time, proporzionalmente all'orario."},
+				{Domanda: "Devo fare domanda io o il datore di lavoro?", Risposta: "Basta comunicare al datore di lavoro i codici fiscali dei figli. L'esonero viene applicato automaticamente in busta paga."},
+			},
+			LinkUfficiale: "https://www.inps.it",
+			Ente:          "INPS",
 		},
 		{
 			ID: "bonus-ristrutturazione", Nome: "Bonus Ristrutturazione", Categoria: "casa",
@@ -50,8 +72,14 @@ func GetAllBonus() []models.Bonus {
 			Importo: "detrazione 50% fino a €96.000", Scadenza: "31 dicembre 2025",
 			Requisiti:       []string{"Proprietario/titolare diritto reale", "Lavori manutenzione straordinaria", "Pagamento con bonifico parlante"},
 			ComeRichiederlo: []string{"Pagare con bonifico parlante", "Conservare fatture", "Indicare in dichiarazione dei redditi"},
-			LinkUfficiale:   "https://www.agenziaentrate.gov.it/portale/ristrutturazioni-edilizie",
-			Ente:            "Agenzia delle Entrate",
+			Documenti:       []string{"Fatture e ricevute dei lavori", "Bonifici parlanti", "Titoli abilitativi (CILA/SCIA)", "Dati catastali dell'immobile"},
+			FAQ: []models.FAQ{
+				{Domanda: "Posso cedere il credito?", Risposta: "Dal 2025 la cessione del credito e lo sconto in fattura non sono più disponibili per le nuove pratiche, salvo eccezioni per il Superbonus."},
+				{Domanda: "Devo fare la pratica prima di iniziare i lavori?", Risposta: "Per la manutenzione straordinaria serve la CILA prima dell'inizio lavori. Per la manutenzione ordinaria su parti condominiali basta la delibera assembleare."},
+				{Domanda: "In quanti anni si recupera?", Risposta: "La detrazione si recupera in 10 rate annuali di pari importo nella dichiarazione dei redditi."},
+			},
+			LinkUfficiale: "https://www.agenziaentrate.gov.it/portale/ristrutturazioni-edilizie",
+			Ente:          "Agenzia delle Entrate",
 		},
 		{
 			ID: "bonus-mobili", Nome: "Bonus Mobili ed Elettrodomestici", Categoria: "casa",
@@ -59,8 +87,13 @@ func GetAllBonus() []models.Bonus {
 			Importo: "detrazione 50% fino a €5.000", Scadenza: "31 dicembre 2025",
 			Requisiti:       []string{"Lavori di ristrutturazione avviati", "Elettrodomestici classe A+ (A per forni)", "Pagamento tracciabile"},
 			ComeRichiederlo: []string{"Pagamenti tracciabili", "Conservare ricevute", "Indicare in dichiarazione dei redditi"},
-			LinkUfficiale:   "https://www.agenziaentrate.gov.it/portale/bonus-mobili",
-			Ente:            "Agenzia delle Entrate",
+			Documenti:       []string{"Fatture di acquisto mobili/elettrodomestici", "Ricevute bonifico o carta", "Documentazione ristrutturazione in corso"},
+			FAQ: []models.FAQ{
+				{Domanda: "Posso comprare mobili anche prima della fine dei lavori?", Risposta: "Sì, basta che la ristrutturazione sia iniziata. I mobili possono essere acquistati anche prima della conclusione dei lavori."},
+				{Domanda: "Quali elettrodomestici sono inclusi?", Risposta: "Grandi elettrodomestici di classe energetica A+ (A per forni): frigoriferi, lavatrici, lavastoviglie, forni, condizionatori, ecc."},
+			},
+			LinkUfficiale: "https://www.agenziaentrate.gov.it/portale/bonus-mobili",
+			Ente:          "Agenzia delle Entrate",
 		},
 		{
 			ID: "bonus-affitto-giovani", Nome: "Bonus Affitto Giovani Under 31", Categoria: "casa",
@@ -68,8 +101,13 @@ func GetAllBonus() []models.Bonus {
 			Importo: "fino a €2.000/anno per 4 anni", Scadenza: "In vigore",
 			Requisiti:       []string{"Età 20-31 anni", "Reddito ≤ €15.493,71", "Contratto di locazione registrato"},
 			ComeRichiederlo: []string{"Indicare in dichiarazione dei redditi", "Conservare contratto registrato"},
-			LinkUfficiale:   "https://www.agenziaentrate.gov.it",
-			Ente:            "Agenzia delle Entrate",
+			Documenti:       []string{"Contratto di locazione registrato", "Dichiarazione dei redditi", "Documento d'identità"},
+			FAQ: []models.FAQ{
+				{Domanda: "Vale se convivo con il mio partner?", Risposta: "Sì, purché il contratto sia intestato a te e l'immobile sia la tua abitazione principale."},
+				{Domanda: "Posso usarlo se sono studente fuori sede?", Risposta: "Sì, anche gli studenti fuori sede possono accedere al bonus se rispettano i requisiti di età e reddito."},
+			},
+			LinkUfficiale: "https://www.agenziaentrate.gov.it",
+			Ente:          "Agenzia delle Entrate",
 		},
 		{
 			ID: "prima-casa-under36", Nome: "Agevolazioni Prima Casa Under 36", Categoria: "casa",
@@ -77,8 +115,13 @@ func GetAllBonus() []models.Bonus {
 			Importo: "esenzione imposte (risparmio €2.000-€8.000)", Scadenza: "31 dicembre 2025",
 			Requisiti:       []string{"Età sotto 36 anni", "ISEE fino a €40.000", "Acquisto prima abitazione"},
 			ComeRichiederlo: []string{"Dichiarare requisiti nell'atto notarile", "Presentare ISEE valido"},
-			LinkUfficiale:   "https://www.agenziaentrate.gov.it",
-			Ente:            "Agenzia delle Entrate",
+			Documenti:       []string{"ISEE in corso di validità", "Atto notarile di acquisto", "Documento d'identità", "Autocertificazione requisiti"},
+			FAQ: []models.FAQ{
+				{Domanda: "Vale anche per mutui già in corso?", Risposta: "No, le agevolazioni si applicano solo ai nuovi acquisti con atto stipulato entro la scadenza prevista."},
+				{Domanda: "Posso comprare con il mio partner?", Risposta: "Sì, ma entrambi gli acquirenti devono avere meno di 36 anni e rispettare il limite ISEE."},
+			},
+			LinkUfficiale: "https://www.agenziaentrate.gov.it",
+			Ente:          "Agenzia delle Entrate",
 		},
 		{
 			ID: "ecobonus", Nome: "Ecobonus", Categoria: "casa",
@@ -86,8 +129,13 @@ func GetAllBonus() []models.Bonus {
 			Importo: "detrazione 50-65% fino a €100.000", Scadenza: "31 dicembre 2025",
 			Requisiti:       []string{"Immobile esistente", "Interventi di efficientamento energetico", "Asseverazione tecnica"},
 			ComeRichiederlo: []string{"Comunicazione ENEA entro 90 giorni da fine lavori", "Bonifico parlante", "Dichiarazione dei redditi"},
-			LinkUfficiale:   "https://www.agenziaentrate.gov.it",
-			Ente:            "Agenzia delle Entrate / ENEA",
+			Documenti:       []string{"Asseverazione tecnica", "APE pre e post intervento", "Fatture e bonifici parlanti", "Comunicazione ENEA"},
+			FAQ: []models.FAQ{
+				{Domanda: "Serve un tecnico per la pratica ENEA?", Risposta: "Sì, per la maggior parte degli interventi serve un tecnico abilitato per l'asseverazione e la comunicazione ENEA."},
+				{Domanda: "Posso combinare ecobonus e bonus ristrutturazione?", Risposta: "No, per lo stesso intervento non puoi cumulare le due detrazioni. Devi scegliere quella più conveniente."},
+			},
+			LinkUfficiale: "https://www.agenziaentrate.gov.it",
+			Ente:          "Agenzia delle Entrate / ENEA",
 		},
 		{
 			ID: "bonus-verde", Nome: "Bonus Verde", Categoria: "casa",
@@ -95,8 +143,13 @@ func GetAllBonus() []models.Bonus {
 			Importo: "detrazione 36% fino a €5.000", Scadenza: "31 dicembre 2025",
 			Requisiti:       []string{"Proprietario o nudo proprietario", "Interventi di sistemazione a verde", "Pagamento tracciabile"},
 			ComeRichiederlo: []string{"Pagamento tracciabile", "Conservare fatture", "Dichiarazione dei redditi"},
-			LinkUfficiale:   "https://www.agenziaentrate.gov.it",
-			Ente:            "Agenzia delle Entrate",
+			Documenti:       []string{"Fatture dei lavori", "Ricevute pagamento tracciabile", "Autocertificazione proprietà"},
+			FAQ: []models.FAQ{
+				{Domanda: "Il taglio dell'erba è incluso?", Risposta: "No, la manutenzione ordinaria come il taglio dell'erba non rientra. Sono inclusi solo interventi di sistemazione a verde straordinari."},
+				{Domanda: "Vale per i balconi?", Risposta: "Sì, rientrano anche la realizzazione di giardini pensili e coperture a verde su balconi e terrazzi."},
+			},
+			LinkUfficiale: "https://www.agenziaentrate.gov.it",
+			Ente:          "Agenzia delle Entrate",
 		},
 		{
 			ID: "bonus-psicologo", Nome: "Bonus Psicologo", Categoria: "salute",
@@ -104,8 +157,13 @@ func GetAllBonus() []models.Bonus {
 			Importo: "fino a €1.500 (ISEE ≤ €15.000)", Scadenza: "Bando annuale",
 			Requisiti:       []string{"ISEE valido", "Residenza in Italia", "Psicoterapeuta iscritto all'albo"},
 			ComeRichiederlo: []string{"Portale INPS con SPID/CIE", "Sezione 'Bonus Psicologo'", "Domanda nel periodo di apertura"},
-			LinkUfficiale:   "https://www.inps.it",
-			Ente:            "INPS",
+			Documenti:       []string{"SPID o CIE", "ISEE in corso di validità", "Dati dello psicoterapeuta (nome, cognome, codice albo)"},
+			FAQ: []models.FAQ{
+				{Domanda: "Quanto ricevo per seduta?", Risposta: "Il bonus copre fino a €50 per seduta, fino al raggiungimento dell'importo totale assegnato in base al tuo ISEE."},
+				{Domanda: "Posso scegliere qualsiasi psicologo?", Risposta: "Deve essere uno psicoterapeuta iscritto nell'elenco degli aderenti al bonus psicologo sul portale INPS."},
+			},
+			LinkUfficiale: "https://www.inps.it",
+			Ente:          "INPS",
 		},
 		{
 			ID: "carta-dedicata", Nome: "Carta Dedicata a Te", Categoria: "spesa",
@@ -113,8 +171,13 @@ func GetAllBonus() []models.Bonus {
 			Importo: "€500 su carta prepagata", Scadenza: "Erogazione automatica",
 			Requisiti:       []string{"ISEE fino a €15.000", "Nessun altro sostegno al reddito", "Nucleo ≥ 3 persone"},
 			ComeRichiederlo: []string{"Erogazione automatica dal Comune", "Ritiro presso uffici postali", "Nessuna domanda necessaria"},
-			LinkUfficiale:   "https://www.mef.gov.it",
-			Ente:            "Comune / MEF",
+			Documenti:       []string{"Documento d'identità", "Codice fiscale", "ISEE in corso di validità"},
+			FAQ: []models.FAQ{
+				{Domanda: "Come faccio a sapere se mi spetta?", Risposta: "L'erogazione è automatica: il Comune identifica i beneficiari in base all'ISEE. Riceverai una comunicazione per il ritiro."},
+				{Domanda: "Dove posso usare la carta?", Risposta: "Nei supermercati e negozi alimentari convenzionati, e per l'acquisto di carburante."},
+			},
+			LinkUfficiale: "https://www.mef.gov.it",
+			Ente:          "Comune / MEF",
 		},
 		{
 			ID: "carta-cultura", Nome: "Carta della Cultura / Merito", Categoria: "istruzione",
@@ -122,8 +185,13 @@ func GetAllBonus() []models.Bonus {
 			Importo: "€500 (fino a €1.000 cumulate)", Scadenza: "Entro 30 giugno dell'anno successivo ai 18 anni",
 			Requisiti:       []string{"18 anni compiuti nell'anno precedente", "ISEE ≤ €35.000 (Carta Cultura)", "Diploma con 100 (Carta Merito)"},
 			ComeRichiederlo: []string{"Registrarsi su cartacultura.gov.it", "Accesso con SPID", "Generare buoni per acquisti culturali"},
-			LinkUfficiale:   "https://www.cartacultura.gov.it",
-			Ente:            "Ministero della Cultura",
+			Documenti:       []string{"SPID", "Diploma di maturità (per Carta Merito)", "ISEE in corso di validità"},
+			FAQ: []models.FAQ{
+				{Domanda: "Cosa posso comprare?", Risposta: "Libri, musica, biglietti cinema/teatro/concerti/musei, corsi di formazione, abbonamenti a quotidiani digitali."},
+				{Domanda: "Posso averle entrambe?", Risposta: "Sì, se hai sia ISEE ≤ €35.000 sia diploma con 100, puoi cumulare Carta Cultura e Carta Merito per un totale di €1.000."},
+			},
+			LinkUfficiale: "https://www.cartacultura.gov.it",
+			Ente:          "Ministero della Cultura",
 		},
 		{
 			ID: "borsa-studio", Nome: "Borse di Studio Universitarie", Categoria: "istruzione",
@@ -131,8 +199,13 @@ func GetAllBonus() []models.Bonus {
 			Importo: "da €2.000 a €6.000/anno + esenzione tasse", Scadenza: "Bando regionale (luglio-settembre)",
 			Requisiti:       []string{"Iscrizione università/AFAM", "ISEE universitario ≤ €23.000-€26.000", "Requisiti di merito (CFU minimi)"},
 			ComeRichiederlo: []string{"Portale ente regionale diritto allo studio", "Domanda online nel periodo del bando", "Allegare ISEE universitario"},
-			LinkUfficiale:   "https://www.miur.gov.it",
-			Ente:            "Regione / Ente DSU",
+			Documenti:       []string{"ISEE universitario", "Iscrizione universitaria", "Piano di studi", "Certificato esami sostenuti"},
+			FAQ: []models.FAQ{
+				{Domanda: "Devo ripresentare domanda ogni anno?", Risposta: "Sì, la domanda va rinnovata ogni anno accademico, verificando il possesso dei requisiti di reddito e merito."},
+				{Domanda: "Se perdo i requisiti di merito devo restituire i soldi?", Risposta: "Non devi restituire quanto già ricevuto, ma perdi il diritto alla borsa per l'anno successivo."},
+			},
+			LinkUfficiale: "https://www.miur.gov.it",
+			Ente:          "Regione / Ente DSU",
 		},
 		{
 			ID: "bonus-decoder-tv", Nome: "Bonus TV / Decoder", Categoria: "altro",
@@ -140,8 +213,13 @@ func GetAllBonus() []models.Bonus {
 			Importo: "fino a €50 (decoder) / €100 (TV)", Scadenza: "Fino ad esaurimento fondi",
 			Requisiti:       []string{"ISEE ≤ €20.000", "Residenza in Italia", "Rottamazione vecchio apparecchio (per bonus TV)"},
 			ComeRichiederlo: []string{"Acquistare presso rivenditori aderenti", "Presentare autocertificazione ISEE", "Sconto diretto in negozio"},
-			LinkUfficiale:   "https://www.mise.gov.it",
-			Ente:            "MISE",
+			Documenti:       []string{"Documento d'identità", "Autocertificazione ISEE", "Vecchio apparecchio da rottamare"},
+			FAQ: []models.FAQ{
+				{Domanda: "Posso usarlo online?", Risposta: "No, lo sconto si applica solo in negozi fisici aderenti all'iniziativa."},
+				{Domanda: "Serve rottamare la vecchia TV?", Risposta: "Per il bonus TV sì, serve la rottamazione. Per il solo decoder non è necessario."},
+			},
+			LinkUfficiale: "https://www.mise.gov.it",
+			Ente:          "MISE",
 		},
 		{
 			ID: "adi", Nome: "Assegno di Inclusione (ADI)", Categoria: "sostegno",
@@ -149,8 +227,13 @@ func GetAllBonus() []models.Bonus {
 			Importo: "fino a €6.000/anno (+ integrazione affitto fino a €3.360)", Scadenza: "In vigore",
 			Requisiti:       []string{"ISEE ≤ €9.360", "Nucleo con minori, disabili, over 60", "Residenza in Italia da almeno 5 anni", "Patrimonio mobiliare ≤ €6.000"},
 			ComeRichiederlo: []string{"Portale INPS o patronato", "Iscrizione al SIISL", "Colloquio presso servizi sociali"},
-			LinkUfficiale:   "https://www.inps.it",
-			Ente:            "INPS",
+			Documenti:       []string{"SPID o CIE", "ISEE in corso di validità", "Documento d'identità", "Attestazione disabilità (se applicabile)"},
+			FAQ: []models.FAQ{
+				{Domanda: "È compatibile con un lavoro part-time?", Risposta: "Sì, fino a un certo reddito da lavoro. L'importo dell'ADI viene ricalcolato in base al reddito percepito."},
+				{Domanda: "Quanto dura?", Risposta: "L'ADI dura 18 mesi, rinnovabili per periodi di 12 mesi previo aggiornamento dei requisiti."},
+			},
+			LinkUfficiale: "https://www.inps.it",
+			Ente:          "INPS",
 		},
 		{
 			ID: "sfl", Nome: "Supporto Formazione e Lavoro", Categoria: "lavoro",
@@ -158,8 +241,13 @@ func GetAllBonus() []models.Bonus {
 			Importo: "€350/mese per 12 mesi", Scadenza: "In vigore",
 			Requisiti:       []string{"Età 18-59 anni", "ISEE ≤ €6.000", "Non beneficiario ADI", "Partecipazione a percorsi formativi"},
 			ComeRichiederlo: []string{"Portale INPS o patronato", "Iscrizione al SIISL", "Adesione a percorso formativo/lavorativo"},
-			LinkUfficiale:   "https://www.inps.it",
-			Ente:            "INPS",
+			Documenti:       []string{"SPID o CIE", "ISEE in corso di validità", "Curriculum vitae", "Iscrizione centro per l'impiego"},
+			FAQ: []models.FAQ{
+				{Domanda: "Devo frequentare un corso di formazione?", Risposta: "Sì, l'indennità è condizionata alla partecipazione attiva a percorsi formativi o di riqualificazione professionale."},
+				{Domanda: "Posso rifiutare offerte di lavoro?", Risposta: "Il rifiuto di un'offerta di lavoro congrua comporta la decadenza dal beneficio."},
+			},
+			LinkUfficiale: "https://www.inps.it",
+			Ente:          "INPS",
 		},
 		{
 			ID: "bonus-animali", Nome: "Bonus Animali Domestici", Categoria: "altro",
@@ -167,8 +255,13 @@ func GetAllBonus() []models.Bonus {
 			Importo: "detrazione 19% fino a €550", Scadenza: "In vigore (annuale)",
 			Requisiti:       []string{"Possesso legale di animale domestico", "Spese veterinarie documentate", "Franchigia di €129,11"},
 			ComeRichiederlo: []string{"Conservare fatture/scontrini veterinario", "Indicare in dichiarazione dei redditi"},
-			LinkUfficiale:   "https://www.agenziaentrate.gov.it",
-			Ente:            "Agenzia delle Entrate",
+			Documenti:       []string{"Fatture/scontrini veterinario", "Documentazione possesso animale"},
+			FAQ: []models.FAQ{
+				{Domanda: "Vale per tutti gli animali?", Risposta: "Solo per animali domestici legalmente detenuti (cani, gatti, ecc.). Non si applica ad animali da reddito o allevamento."},
+				{Domanda: "Come funziona la franchigia?", Risposta: "La detrazione si applica sulle spese che superano €129,11, fino a un massimo di €550."},
+			},
+			LinkUfficiale: "https://www.agenziaentrate.gov.it",
+			Ente:          "Agenzia delle Entrate",
 		},
 		{
 			ID: "bonus-colonnine", Nome: "Bonus Colonnine Ricarica Elettrica", Categoria: "casa",
@@ -176,8 +269,13 @@ func GetAllBonus() []models.Bonus {
 			Importo: "fino a €1.500 (80% delle spese)", Scadenza: "Fino ad esaurimento fondi",
 			Requisiti:       []string{"Persona fisica residente in Italia", "Installazione in ambito domestico", "Installatore qualificato"},
 			ComeRichiederlo: []string{"Portale del Ministero dell'Ambiente", "Domanda online con documentazione", "Erogazione post-installazione"},
-			LinkUfficiale:   "https://www.mase.gov.it",
-			Ente:            "MASE",
+			Documenti:       []string{"Fattura installazione", "Certificato installatore qualificato", "Documentazione immobile"},
+			FAQ: []models.FAQ{
+				{Domanda: "Serve un contatore dedicato?", Risposta: "Non è obbligatorio, ma l'installatore potrebbe consigliarlo per ottimizzare i consumi."},
+				{Domanda: "Vale per le colonnine condominiali?", Risposta: "Sì, anche le installazioni in parti comuni condominiali sono ammesse, con limiti di spesa diversi."},
+			},
+			LinkUfficiale: "https://www.mase.gov.it",
+			Ente:          "MASE",
 		},
 		{
 			ID: "bonus-acqua-potabile", Nome: "Bonus Acqua Potabile", Categoria: "casa",
@@ -185,8 +283,13 @@ func GetAllBonus() []models.Bonus {
 			Importo: "credito d'imposta 50% fino a €1.000", Scadenza: "31 dicembre 2025",
 			Requisiti:       []string{"Acquisto sistemi filtraggio/mineralizzazione", "Comunicazione spese all'Agenzia delle Entrate"},
 			ComeRichiederlo: []string{"Comunicazione spese su sito Agenzia Entrate entro febbraio anno successivo", "Indicare in dichiarazione dei redditi"},
-			LinkUfficiale:   "https://www.agenziaentrate.gov.it",
-			Ente:            "Agenzia delle Entrate",
+			Documenti:       []string{"Fattura acquisto sistema filtraggio", "Comunicazione all'Agenzia delle Entrate"},
+			FAQ: []models.FAQ{
+				{Domanda: "Quali sistemi sono ammessi?", Risposta: "Sistemi di filtraggio, mineralizzazione, raffreddamento e addizione di anidride carbonica alimentare."},
+				{Domanda: "Devo comunicare l'acquisto?", Risposta: "Sì, devi comunicare le spese sostenute tramite il sito dell'Agenzia delle Entrate entro febbraio dell'anno successivo."},
+			},
+			LinkUfficiale: "https://www.agenziaentrate.gov.it",
+			Ente:          "Agenzia delle Entrate",
 		},
 	}
 }
@@ -207,6 +310,7 @@ func MatchBonus(profile models.UserProfile, bonusList ...[]models.Bonus) models.
 		score := calcScore(b.ID, profile)
 		if score > 0 {
 			b.Compatibilita = score
+			b.ImportoReale = calcImportoReale(b.ID, profile.ISEE, profile)
 			matched = append(matched, b)
 			totalSaving += estimateSaving(b.ID, profile)
 		}
@@ -221,6 +325,61 @@ func MatchBonus(profile models.UserProfile, bonusList ...[]models.Bonus) models.
 		RisparmioStimato: fmt.Sprintf("€%.0f", totalSaving),
 		Bonus:            matched,
 	}
+}
+
+func calcImportoReale(bonusID string, isee float64, profile models.UserProfile) string {
+	switch bonusID {
+	case "assegno-unico":
+		var perFiglio float64
+		switch {
+		case isee > 0 && isee <= 17090.61:
+			perFiglio = 199.4
+		case isee > 17090.61 && isee <= 45574.96:
+			// Linear interpolation between 199.4 (at 17090.61) and 57 (at 45574.96)
+			perFiglio = 199.4 - (isee-17090.61)/(45574.96-17090.61)*(199.4-57)
+		default:
+			// ISEE > 45574.96 or ISEE == 0
+			perFiglio = 57
+		}
+
+		// Maggiorazione per figli under 3 (used as proxy for under 1 year)
+		under3Bonus := 91.40 * float64(profile.FigliUnder3)
+
+		// Maggiorazione from 3rd child onward
+		var thirdChildBonus float64
+		if profile.NumeroFigli >= 3 {
+			thirdChildBonus = 17.10 * float64(profile.NumeroFigli-2)
+		}
+
+		monthly := math.Round(perFiglio*float64(profile.NumeroFigli)*100) / 100
+		monthly += under3Bonus + thirdChildBonus
+		monthly = math.Round(monthly*100) / 100
+		yearly := math.Round(monthly*12*100) / 100
+
+		return fmt.Sprintf("€%.2f/mese (€%.2f/anno)", monthly, yearly)
+
+	case "bonus-nido":
+		switch {
+		case isee > 0 && isee <= 25000:
+			return "€3.600/anno"
+		case isee > 25000 && isee <= 40000:
+			return "€2.500/anno"
+		default:
+			return "€1.500/anno"
+		}
+
+	case "bonus-psicologo":
+		switch {
+		case isee > 0 && isee <= 15000:
+			return "fino a €1.500"
+		case isee > 15000 && isee <= 30000:
+			return "fino a €1.000"
+		case isee > 30000 && isee <= 50000:
+			return "fino a €500"
+		}
+	}
+
+	return ""
 }
 
 func calcScore(id string, p models.UserProfile) int {
