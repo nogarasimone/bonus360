@@ -4,6 +4,7 @@ import (
 	"bonus360/internal/matcher"
 	"bonus360/internal/models"
 	"bonus360/internal/scraper"
+	sentryutil "bonus360/internal/sentry"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -551,6 +552,7 @@ func ReportHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Disposition", fmt.Sprintf(`attachment; filename="bonus360-report-%s.pdf"`, dateStr))
 
 	if err := pdf.Output(w); err != nil {
+		sentryutil.CaptureError(err, map[string]string{"handler": "report", "phase": "pdf-output"})
 		http.Error(w, "Errore generazione PDF", http.StatusInternalServerError)
 		return
 	}

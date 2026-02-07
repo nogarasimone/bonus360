@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bonus360 — Scopri tutti i bonus a cui hai diritto</title>
 <meta name="description" content="Scopri gratis quali bonus statali ti spettano. Zero registrazione, zero dati salvati.">
+<meta property="og:title" content="Bonus360 — Scopri tutti i bonus a cui hai diritto">
+<meta property="og:description" content="Scopri gratis quali bonus statali ti spettano. Zero registrazione, zero dati salvati.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bonus360.it">
+<link rel="canonical" href="https://bonus360.it">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
@@ -248,6 +253,20 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
 .compat-high{background:var(--green-pale);color:var(--green)}
 .compat-med{background:var(--gold-pale);color:var(--gold)}
 .compat-low{background:var(--accent-soft);color:var(--accent)}
+.badge-regionale{display:inline-block;background:#F3E8FF;color:#6B21A8;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:var(--radius-xs);text-transform:uppercase;letter-spacing:.3px;margin-left:6px}
+.perso-box{background:#FEF2F2;border:1px solid #FECACA;border-radius:var(--radius);padding:16px 20px;margin-bottom:20px;position:relative;padding-right:36px}
+.perso-box .perso-amount{font-family:'Instrument Serif',serif;font-size:1.6rem;color:#DC2626;margin-bottom:2px}
+.perso-box .perso-text{font-size:.85rem;color:#991B1B;line-height:1.5}
+.perso-box .close-perso{position:absolute;top:8px;right:10px;background:none;border:none;font-size:1rem;cursor:pointer;color:#991B1B;opacity:.6;padding:4px}
+.perso-box .close-perso:hover{opacity:1}
+.profile-code-box{background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin-bottom:20px;text-align:center}
+.profile-code-box .code-label{font-size:.78rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.3px}
+.profile-code-box .code-value{font-family:monospace;font-size:1rem;font-weight:600;color:var(--primary);word-break:break-all;margin:8px 0}
+.profile-code-box .copy-code-btn{padding:6px 14px;border-radius:var(--radius);background:var(--primary);color:#fff;border:none;font-family:inherit;font-size:.78rem;font-weight:600;cursor:pointer}
+.profile-code-box .copy-code-btn:hover{background:var(--primary-light)}
+.hero-code-input{display:flex;gap:8px;justify-content:center;max-width:400px;margin:16px auto 0;flex-wrap:wrap}
+.hero-code-input input{flex:1;min-width:200px;padding:10px 14px;font-size:.88rem;font-family:monospace}
+.hero-code-input .btn{flex:unset;padding:10px 20px;font-size:.85rem}
 .bonus-card .desc{font-size:.85rem;color:var(--text-soft);line-height:1.6;margin-bottom:12px;padding-left:12px}
 .importo-bar{display:flex;align-items:center;padding:10px 14px;margin-left:12px;background:var(--surface-alt);border-radius:var(--radius);margin-bottom:12px}
 .importo-bar .il{font-size:.7rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.3px}
@@ -378,6 +397,11 @@ footer a{color:var(--primary);text-decoration:none;font-weight:600}footer a:hove
     </div>
   </div>
   <button class="cta-btn" onclick="startWizard()" aria-label="Scopri i tuoi bonus" data-i18n="hero.cta">Scopri i tuoi bonus</button>
+  <div class="hero-code-input">
+    <input type="text" id="profileCodeInput" placeholder="B360-..." aria-label="Codice profilo">
+    <button class="btn btn-secondary" onclick="loadProfileCode()" aria-label="Carica profilo">Carica</button>
+  </div>
+  <p style="font-size:.72rem;color:var(--text-muted);margin-top:6px">Hai già un codice? Inseriscilo per ricaricare il tuo profilo</p>
 </section>
 
 <!-- Mini Calculator Widget -->
@@ -831,6 +855,8 @@ function renderResults() {
   hero.innerHTML = '<h2 data-i18n="results.title">Buone notizie per la tua famiglia!</h2><div class="saving" id="resultSaving">' + resultData.risparmio_stimato + '</div><div class="subtitle" data-i18n="results.subtitle">di risparmio stimato con <strong id="resultCount">' + resultData.bonus_trovati + '</strong> bonus compatibili</div>';
   document.getElementById('resultsActions').style.display = '';
   document.getElementById('simulatorBox').style.display = '';
+  renderPersoFinora();
+  renderProfileCode();
   renderISEEWarning();
 
   const categories = ['tutti', ...new Set(resultData.bonus.map(b => b.categoria))];
@@ -896,10 +922,12 @@ function renderResults() {
     var waMsg = 'Ho scoperto il bonus "' + bonus.nome + '" su Bonus360! ' + (bonus.importo ? 'Vale ' + bonus.importo + '. ' : '') + 'Verifica anche tu: ' + window.location.origin;
     var waShareHTML = '<a href="https://wa.me/?text=' + encodeURIComponent(waMsg) + '" target="_blank" rel="noopener" class="wa-share-btn" aria-label="Condividi ' + bonus.nome + ' su WhatsApp" data-i18n="results.share_bonus">Condividi</a>';
 
+    var regionaleTag = (bonus.regioni_applicabili && bonus.regioni_applicabili.length > 0) ? '<span class="badge-regionale">Regionale</span>' : '';
+
     const card = document.createElement('div');
     card.className = 'bonus-card';
     card.innerHTML = '<div class="cat-stripe cat-' + bonus.categoria + '"></div>' +
-      '<div class="bonus-card-top"><div><h3>' + bonus.nome + '</h3><span class="ente-tag">' + bonus.ente + '</span></div><div class="compat-pill ' + cc + '">' + cl + ' ' + bonus.compatibilita + '%</div></div>' +
+      '<div class="bonus-card-top"><div><h3>' + bonus.nome + regionaleTag + '</h3><span class="ente-tag">' + bonus.ente + '</span></div><div class="compat-pill ' + cc + '">' + cl + ' ' + bonus.compatibilita + '%</div></div>' +
       '<div class="desc">' + bonus.descrizione + '</div>' +
       '<div class="importo-bar"><span class="il" data-i18n="results.importo">Importo</span><span class="iv">' + bonus.importo + '</span></div>' +
       importoRealeHTML +
@@ -1076,6 +1104,76 @@ function submitNotify() {
         document.getElementById('notifyForm').innerHTML = '<p style="color:var(--teal);font-weight:600" data-i18n="coming.thanks">Grazie! Ti avviseremo al lancio.</p>';
         applyTranslations();
       }
+    });
+}
+
+function renderPersoFinora() {
+  var container = document.getElementById('iseeWarning');
+  if (!resultData || !resultData.perso_finora || resultData.perso_finora === '' || resultData.perso_finora === 'EUR 0') return;
+  var persoHTML = '<div class="perso-box"><button class="close-perso" onclick="this.parentElement.remove()" aria-label="Chiudi">&times;</button><div class="perso-amount">' + resultData.perso_finora + '</div><div class="perso-text">Quanto hai <strong>già perso</strong> da inizio anno non richiedendo questi bonus. Non aspettare oltre!</div></div>';
+  container.insertAdjacentHTML('beforebegin', persoHTML);
+}
+
+function renderProfileCode() {
+  if (!lastProfile) return;
+  fetch('/api/encode-profile', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(lastProfile) })
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      if (!d.code) return;
+      var box = document.createElement('div');
+      box.className = 'profile-code-box';
+      box.innerHTML = '<div class="code-label">Il tuo codice profilo (salva per ricaricare)</div><div class="code-value" id="profileCodeValue">' + d.code + '</div><button class="copy-code-btn" onclick="copyProfileCode()">Copia codice</button>';
+      var actions = document.getElementById('resultsActions');
+      actions.parentNode.insertBefore(box, actions.nextSibling);
+    })
+    .catch(function() {});
+}
+
+function copyProfileCode() {
+  var code = document.getElementById('profileCodeValue');
+  if (!code) return;
+  navigator.clipboard.writeText(code.textContent).then(function() {
+    var btn = code.parentElement.querySelector('.copy-code-btn');
+    btn.textContent = 'Copiato!';
+    setTimeout(function() { btn.textContent = 'Copia codice'; }, 1500);
+  });
+}
+
+function loadProfileCode() {
+  var code = document.getElementById('profileCodeInput').value.trim();
+  if (!code) return;
+  fetch('/api/decode-profile?code=' + encodeURIComponent(code))
+    .then(function(r) {
+      if (!r.ok) throw new Error('Invalid code');
+      return r.json();
+    })
+    .then(function(profile) {
+      if (profile.eta) document.getElementById('eta').value = profile.eta;
+      if (profile.residenza) document.getElementById('residenza').value = profile.residenza;
+      if (profile.stato_civile) document.getElementById('stato_civile').value = profile.stato_civile;
+      if (profile.occupazione) document.getElementById('occupazione').value = profile.occupazione;
+      if (profile.numero_figli) document.getElementById('numero_figli').value = profile.numero_figli;
+      if (profile.figli_minorenni) document.getElementById('figli_minorenni').value = profile.figli_minorenni;
+      if (profile.figli_under3) document.getElementById('figli_under3').value = profile.figli_under3;
+      if (profile.over65) document.getElementById('over65').value = profile.over65;
+      if (profile.isee) document.getElementById('isee').value = profile.isee;
+      if (profile.reddito_annuo) document.getElementById('reddito_annuo').value = profile.reddito_annuo;
+      if (profile.disabilita) toggles.disabilita = true;
+      if (profile.affittuario) toggles.affittuario = true;
+      if (profile.prima_abitazione) toggles.prima_abitazione = true;
+      if (profile.ristrutturaz_casa) toggles.ristrutturazione = true;
+      if (profile.studente) toggles.studente = true;
+      if (profile.nuovo_nato_2025) toggles.nuovo_nato = true;
+      Object.keys(toggles).forEach(function(k) {
+        var el = document.getElementById('toggle-' + k);
+        if (el) el.classList.toggle('on', toggles[k]);
+        var row = el ? el.closest('.toggle-row') : null;
+        if (row) row.setAttribute('aria-checked', toggles[k] ? 'true' : 'false');
+      });
+      startWizard();
+    })
+    .catch(function() {
+      alert('Codice non valido. Controlla e riprova.');
     });
 }
 

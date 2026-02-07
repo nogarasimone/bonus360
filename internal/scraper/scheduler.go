@@ -1,9 +1,11 @@
 package scraper
 
 import (
+	"bonus360/internal/logger"
 	"bonus360/internal/matcher"
 	"bonus360/internal/models"
-	"log"
+	sentryutil "bonus360/internal/sentry"
+	"fmt"
 	"sync"
 	"time"
 )
@@ -43,7 +45,7 @@ func StartScheduler() {
 
 // RunScrape performs a full scrape cycle across all sources.
 func RunScrape() {
-	log.Println("[scraper] Starting scrape cycle...")
+	logger.Info("scraper: starting scrape cycle", nil)
 	sources := GetSources()
 	var allScraped []models.Bonus
 
@@ -52,7 +54,7 @@ func RunScrape() {
 			time.Sleep(2 * time.Second) // polite delay between sources
 		}
 
-		log.Printf("[scraper] Fetching %s (%s)...", src.Name, src.URL)
+		logger.Info("scraper: fetching source", map[string]interface{}{"source": src.Name, "url": src.URL})
 		bonuses := ParseSource(src)
 
 		status := SourceStatus{
@@ -63,6 +65,7 @@ func RunScrape() {
 
 		if len(bonuses) == 0 {
 			status.Error = "no bonuses found"
+			sentryutil.CaptureError(fmt.Errorf("scraper: 0 bonuses from %s", src.Name), map[string]string{"source": src.Name})
 		}
 
 		cache.mu.Lock()
@@ -70,7 +73,7 @@ func RunScrape() {
 		cache.mu.Unlock()
 
 		allScraped = append(allScraped, bonuses...)
-		log.Printf("[scraper] %s: found %d items", src.Name, len(bonuses))
+		logger.Info("scraper: source complete", map[string]interface{}{"source": src.Name, "found": len(bonuses)})
 	}
 
 	hardcoded := matcher.GetAllBonus()
@@ -82,7 +85,7 @@ func RunScrape() {
 	cache.updateCount++
 	cache.mu.Unlock()
 
-	log.Printf("[scraper] Cache updated: %d total bonuses (cycle #%d)", len(enriched), cache.updateCount)
+	logger.Info("scraper: cache updated", map[string]interface{}{"total": len(enriched), "cycle": cache.updateCount})
 }
 
 // GetCachedBonus returns the cached list of bonuses.

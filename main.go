@@ -3,6 +3,7 @@ package main
 import (
 	"bonus360/internal/handlers"
 	"bonus360/internal/i18n"
+	"bonus360/internal/logger"
 	"bonus360/internal/middleware"
 	"bonus360/internal/scraper"
 	sentryutil "bonus360/internal/sentry"
@@ -73,6 +74,7 @@ func main() {
 	// Wrap with middleware: Recovery → Gzip → Rate Limiter
 	handler := middleware.Recovery(middleware.Gzip(limiter.Middleware(mux)))
 
+	logger.Info("server starting", map[string]interface{}{"port": port})
 	fmt.Printf("Bonus360 running on http://localhost:%s\n", port)
 	log.Fatal(http.ListenAndServe(":"+port, handler))
 }

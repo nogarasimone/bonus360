@@ -4,6 +4,7 @@ import (
 	"bonus360/internal/matcher"
 	"bonus360/internal/models"
 	"bonus360/internal/scraper"
+	sentryutil "bonus360/internal/sentry"
 	"bytes"
 	"encoding/json"
 	"io"
@@ -23,6 +24,7 @@ func MatchHandler(w http.ResponseWriter, r *http.Request) {
 
 	var profile models.UserProfile
 	if err := json.NewDecoder(r.Body).Decode(&profile); err != nil {
+		sentryutil.CaptureError(err, map[string]string{"handler": "match", "phase": "decode"})
 		http.Error(w, "Invalid request body", http.StatusBadRequest)
 		return
 	}
@@ -80,6 +82,7 @@ func ParseISEEHandler(w http.ResponseWriter, r *http.Request) {
 	// Read the file into memory
 	data, err := io.ReadAll(file)
 	if err != nil {
+		sentryutil.CaptureError(err, map[string]string{"handler": "parse-isee", "phase": "read"})
 		http.Error(w, "Errore lettura file", http.StatusInternalServerError)
 		return
 	}
@@ -87,6 +90,7 @@ func ParseISEEHandler(w http.ResponseWriter, r *http.Request) {
 	reader := bytes.NewReader(data)
 	pdfReader, err := pdf.NewReader(reader, int64(len(data)))
 	if err != nil {
+		sentryutil.CaptureError(err, map[string]string{"handler": "parse-isee", "phase": "pdf-parse"})
 		w.Header().Set("Content-Type", "application/json")
 		w.Header().Set("Cache-Control", "no-store, no-cache, must-revalidate")
 		w.Header().Set("Pragma", "no-cache")
