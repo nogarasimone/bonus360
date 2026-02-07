@@ -17,6 +17,8 @@ header{position:sticky;top:0;z-index:100;background:rgba(255,253,251,.88);backdr
 .privacy-card{max-width:620px;margin:0 auto 44px;background:#fff;border:2px solid var(--teal-pale);border-radius:var(--radius);padding:22px 26px;display:flex;align-items:flex-start;gap:16px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}.privacy-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,var(--teal),var(--teal-light))}.privacy-card .pc-icon{width:44px;height:44px;border-radius:12px;background:var(--teal-pale);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}.privacy-card h3{font-size:.95rem;font-weight:800;color:var(--teal);margin-bottom:4px}.privacy-card p{font-size:.84rem;color:var(--text-soft);line-height:1.55}.privacy-card strong{color:var(--teal);font-weight:700}
 .cta-btn{display:inline-flex;align-items:center;gap:10px;padding:18px 36px;background:linear-gradient(135deg,var(--coral),#E06040);color:#fff;border:none;border-radius:60px;font-family:inherit;font-size:1.1rem;font-weight:700;cursor:pointer;box-shadow:var(--shadow-glow);transition:all .3s;text-decoration:none}.cta-btn:hover{transform:translateY(-3px);box-shadow:0 6px 36px rgba(232,115,90,.3)}
 .how-section{position:relative;z-index:1;max-width:800px;margin:0 auto;padding:0 24px 60px}.how-section h2{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:700;text-align:center;margin-bottom:32px}.how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}@media(max-width:650px){.how-steps{grid-template-columns:1fr}}.how-card{background:#fff;border-radius:var(--radius);padding:28px 22px;text-align:center;box-shadow:var(--shadow-sm);border:1px solid var(--border);transition:transform .3s,box-shadow .3s}.how-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}.how-card .hnum{width:48px;height:48px;margin:0 auto 14px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:1.3rem;font-weight:800;color:#fff}.how-card:nth-child(1) .hnum{background:linear-gradient(135deg,var(--coral-soft),var(--coral))}.how-card:nth-child(2) .hnum{background:linear-gradient(135deg,var(--gold),#D4943A)}.how-card:nth-child(3) .hnum{background:linear-gradient(135deg,var(--teal-light),var(--teal))}.how-card h3{font-size:1rem;font-weight:700;margin-bottom:6px}.how-card p{font-size:.85rem;color:var(--text-muted);line-height:1.5}
+/* Novita section */
+.novita-section{position:relative;z-index:1;max-width:800px;margin:0 auto;padding:0 24px 60px}.novita-section h2{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:700;text-align:center;margin-bottom:32px}.novita-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px}.novita-card{background:#fff;border-radius:var(--radius);padding:24px 20px;box-shadow:var(--shadow-sm);border:1px solid var(--border);transition:transform .3s,box-shadow .3s;position:relative}.novita-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}.novita-card h3{font-size:.98rem;font-weight:700;margin-bottom:8px;padding-right:70px}.novita-card p{font-size:.84rem;color:var(--text-soft);line-height:1.55}.novita-card .badge{position:absolute;top:14px;right:14px;font-size:.65rem;font-weight:800;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px}.novita-card .badge.nuovo{background:var(--coral);color:#fff}.novita-card .badge.modificato{background:var(--gold);color:#fff}
 .wizard{position:relative;z-index:1;max-width:640px;margin:0 auto;padding:0 24px 80px;display:none}.wizard.show{display:block}.progress-bar{display:flex;gap:6px;margin-bottom:32px}.progress-dot{flex:1;height:5px;background:var(--peach);border-radius:3px;transition:background .4s}.progress-dot.done{background:linear-gradient(90deg,var(--coral),var(--gold))}.step{display:none;background:#fff;border-radius:var(--radius);padding:36px 32px;box-shadow:var(--shadow-md);border:1px solid var(--border);animation:stepIn .4s ease}.step.active{display:block}@keyframes stepIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}.step-header{display:flex;align-items:center;gap:14px;margin-bottom:28px}.step-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem}.step-icon.s1{background:var(--peach)}.step-icon.s2{background:var(--lavender-pale)}.step-icon.s3{background:var(--gold-pale)}.step-icon.s4{background:var(--teal-pale)}.step-header h2{font-family:'Fraunces',serif;font-size:1.25rem;font-weight:700}.step-header .step-sub{font-size:.84rem;color:var(--text-muted);margin-top:2px}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:550px){.form-grid{grid-template-columns:1fr}}.form-group{display:flex;flex-direction:column;gap:6px}.form-group.full{grid-column:1/-1}label{font-size:.78rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}input,select{background:var(--cream);border:2px solid transparent;border-radius:var(--radius-xs);padding:14px 16px;color:var(--text);font-size:1rem;font-family:inherit;transition:border-color .2s,box-shadow .2s;outline:none;width:100%}input:focus,select:focus{border-color:var(--coral-soft);box-shadow:0 0 0 4px rgba(232,115,90,.1);background:#fff}input::placeholder{color:var(--text-muted)}select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238E9BA0' stroke-width='2' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
 .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--cream);border:2px solid transparent;border-radius:var(--radius-xs);cursor:pointer;transition:border-color .2s}.toggle-row:hover{border-color:var(--peach-deep)}.toggle-row span{font-size:.92rem;font-weight:600}.toggle{width:48px;height:26px;background:var(--peach);border-radius:13px;position:relative;transition:background .3s;flex-shrink:0}.toggle::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.1);transition:transform .3s}.toggle.on{background:var(--teal)}.toggle.on::after{transform:translateX(22px)}
@@ -24,10 +26,28 @@ header{position:sticky;top:0;z-index:100;background:rgba(255,253,251,.88);backdr
 .isee-upload{border:2px dashed var(--peach-deep);border-radius:var(--radius);padding:28px;text-align:center;cursor:pointer;transition:all .3s;margin-bottom:12px;background:var(--cream)}.isee-upload:hover{border-color:var(--coral);background:rgba(232,115,90,.03)}.isee-upload .upload-icon{width:56px;height:56px;margin:0 auto 12px;border-radius:16px;background:var(--peach);display:flex;align-items:center;justify-content:center;font-size:1.5rem}.isee-upload h4{font-size:.95rem;font-weight:700;margin-bottom:4px}.isee-upload p{font-size:.8rem;color:var(--text-muted)}.isee-upload.uploaded{border-color:var(--teal);border-style:solid;background:var(--teal-pale)}.isee-upload.uploaded h4{color:var(--teal)}.isee-upload.drag-over{border-color:var(--coral);background:rgba(232,115,90,.08);transform:scale(1.02)}.isee-upload.isee-success{border-color:var(--green);border-style:solid;background:var(--green-pale)}.isee-upload.isee-success h4{color:var(--green)}.isee-upload.isee-error{border-color:var(--gold);border-style:solid;background:var(--gold-pale)}.isee-upload.isee-error h4{color:#B8860B}.or-divider{text-align:center;color:var(--text-muted);font-size:.82rem;font-weight:600;margin:14px 0;display:flex;align-items:center;gap:12px}.or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:var(--peach)}
 .loading-overlay{display:none;position:fixed;inset:0;background:rgba(255,249,240,.92);backdrop-filter:blur(12px);z-index:200;align-items:center;justify-content:center;flex-direction:column;gap:20px}.loading-overlay.show{display:flex}.loader{width:64px;height:64px;position:relative}.loader-ring{width:64px;height:64px;border:4px solid var(--peach);border-top-color:var(--coral);border-radius:50%;animation:spin .9s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.loader-emoji{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.5rem;animation:bounce .9s ease-in-out infinite}@keyframes bounce{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.15)}}.loading-overlay p{color:var(--text-soft);font-size:1.05rem;font-weight:600}.loading-overlay .substep{font-size:.85rem;color:var(--text-muted)}
 .results{display:none;position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 24px 80px;animation:stepIn .5s ease}.results.show{display:block}.results-hero{text-align:center;background:#fff;border-radius:var(--radius);padding:44px 32px;margin-bottom:32px;box-shadow:var(--shadow-md);border:1px solid var(--border);position:relative;overflow:hidden}.results-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--coral),var(--gold),var(--teal))}.results-hero .confetti{font-size:2.5rem;margin-bottom:12px;display:inline-block}.results-hero h2{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:700;margin-bottom:8px}.results-hero .saving{font-family:'Fraunces',serif;font-size:3.2rem;font-weight:800;background:linear-gradient(135deg,var(--coral),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:8px 0}.results-hero .subtitle{color:var(--text-soft);font-size:1rem}.results-hero .subtitle strong{color:var(--coral)}
+/* Results actions bar */
+.results-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}.action-btn{padding:10px 18px;border-radius:30px;background:var(--cream);border:2px solid var(--border);color:var(--text-soft);font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:6px}.action-btn:hover{border-color:var(--coral-soft);color:var(--coral);transform:translateY(-1px)}
+/* Share dropdown */
+.share-dropdown{display:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:8px;background:#fff;border-radius:var(--radius-xs);box-shadow:var(--shadow-md);border:1px solid var(--border);z-index:150;min-width:180px;padding:8px 0;text-align:left}.share-dropdown a,.share-dropdown button{display:block;width:100%;padding:10px 18px;font-family:inherit;font-size:.88rem;font-weight:600;color:var(--text);background:none;border:none;text-decoration:none;text-align:left;cursor:pointer;transition:background .2s}.share-dropdown a:hover,.share-dropdown button:hover{background:var(--cream)}
+/* ISEE warning */
+.isee-warning{padding:16px 20px;border-radius:var(--radius-xs);margin-bottom:20px;position:relative;padding-right:40px;font-size:.9rem;line-height:1.6;border-left:4px solid}.isee-warning.warn{background:var(--gold-pale);color:#8B6914;border-left-color:var(--gold)}.isee-warning.info{background:var(--teal-pale);color:var(--teal);border-left-color:var(--teal)}.isee-warning .close-warn{position:absolute;top:10px;right:12px;background:none;border:none;font-size:1.1rem;cursor:pointer;color:inherit;opacity:.6;padding:4px}.isee-warning .close-warn:hover{opacity:1}
+/* Simulator box */
+.simulator-box{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:24px 28px;margin-bottom:24px;box-shadow:var(--shadow-sm)}.simulator-box h3{font-size:1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;user-select:none}.simulator-box h3 .arrow{transition:transform .3s;display:inline-block}.simulator-box .sim-content{display:none;margin-top:18px;padding-top:16px;border-top:1px solid var(--border)}.simulator-box .sim-content.open{display:block}.simulator-box .sim-row{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;margin-bottom:12px}.simulator-box .sim-row input{max-width:220px;padding:12px 14px;font-size:.95rem}.simulator-box .sim-row .btn{flex:unset;padding:12px 24px;font-size:.9rem}.simulator-result{display:none;padding:14px 18px;background:var(--teal-pale);border-radius:var(--radius-xs);font-size:.9rem;color:var(--teal);line-height:1.6}
+/* Importo reale bar */
+.importo-reale-bar{display:flex;align-items:center;padding:12px 16px;margin-left:12px;background:var(--green-pale);border-radius:var(--radius-xs);margin-bottom:14px;border:1px solid rgba(92,184,92,.15)}.importo-reale-bar .il{font-size:.75rem;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:.5px}.importo-reale-bar .iv{margin-left:auto;font-family:'Fraunces',serif;font-size:1.1rem;font-weight:800;color:var(--green)}
+/* Document checklist */
+.doc-checklist{margin-top:12px}.doc-item{display:flex;align-items:center;gap:10px;padding:6px 0;cursor:pointer;font-size:.88rem;color:var(--text-soft);user-select:none;transition:color .2s}.doc-item .doc-check{width:18px;height:18px;border:2px solid var(--border);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;font-size:.7rem;color:transparent}.doc-item.checked .doc-check{background:var(--teal);border-color:var(--teal);color:#fff}.doc-item.checked .doc-label{text-decoration:line-through;color:var(--text-muted)}
+/* FAQ accordion */
+.faq-section{margin-top:14px}.faq-item{border-bottom:1px solid var(--border)}.faq-item:last-child{border-bottom:none}.faq-question{padding:10px 0;font-size:.88rem;font-weight:700;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none}.faq-question::after{content:'▾';font-size:.8rem;color:var(--text-muted);transition:transform .3s}.faq-item.open .faq-question::after{transform:rotate(180deg)}.faq-answer{display:none;padding:0 0 10px;font-size:.84rem;color:var(--text-soft);line-height:1.6}.faq-item.open .faq-answer{display:block}
+/* Coming soon */
+.coming-soon{margin-top:24px;padding:24px;background:#fff;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow-sm);text-align:center}.coming-soon h3{font-size:1rem;font-weight:700;margin-bottom:12px}.coming-soon .cs-pills{display:flex;gap:8px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}.coming-soon .cs-pill{padding:8px 16px;border-radius:30px;font-size:.82rem;font-weight:700;background:var(--cream);color:var(--text-muted);border:1px solid var(--border);cursor:default;opacity:.6}.coming-soon .notify-form{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;max-width:400px;margin:0 auto}.coming-soon .notify-form input{flex:1;min-width:200px;padding:12px 16px;font-size:.9rem}.coming-soon .notify-form .btn{flex:unset;padding:12px 24px;font-size:.9rem}
 .category-filter{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:24px}.filter-btn{padding:8px 16px;border-radius:30px;background:#fff;border:2px solid var(--border);color:var(--text-soft);font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s}.filter-btn:hover{border-color:var(--coral-soft);color:var(--coral)}.filter-btn.active{border-color:var(--coral);background:var(--coral);color:#fff}
 .bonus-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:14px;transition:all .3s;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}.bonus-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}.bonus-card .cat-stripe{position:absolute;top:0;left:0;width:4px;height:100%}.cat-famiglia{background:var(--coral)}.cat-casa{background:var(--gold)}.cat-salute{background:var(--lavender)}.cat-istruzione{background:var(--blue-soft)}.cat-spesa{background:var(--teal)}.cat-lavoro{background:var(--green)}.cat-sostegno{background:var(--coral-soft)}.cat-altro{background:var(--text-muted)}.bonus-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;padding-left:12px}.bonus-card h3{font-size:1.08rem;font-weight:700;line-height:1.3}.bonus-card .ente-tag{display:inline-block;font-size:.72rem;font-weight:700;color:var(--text-muted);background:var(--cream);padding:3px 10px;border-radius:20px;margin-top:5px}.compat-pill{display:flex;align-items:center;gap:5px;padding:6px 14px;border-radius:30px;font-size:.78rem;font-weight:700;white-space:nowrap;flex-shrink:0}.compat-high{background:var(--green-pale);color:var(--green)}.compat-med{background:var(--gold-pale);color:#B8860B}.compat-low{background:var(--peach);color:var(--coral)}.bonus-card .desc{font-size:.9rem;color:var(--text-soft);line-height:1.6;margin-bottom:14px;padding-left:12px}.importo-bar{display:flex;align-items:center;padding:12px 16px;margin-left:12px;background:var(--cream);border-radius:var(--radius-xs);margin-bottom:14px}.importo-bar .il{font-size:.75rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px}.importo-bar .iv{margin-left:auto;font-family:'Fraunces',serif;font-size:1.05rem;font-weight:700;color:var(--coral)}.expand-btn{background:none;border:none;color:var(--teal);font-family:inherit;font-size:.85rem;font-weight:700;cursor:pointer;padding:6px 0;margin-left:12px;transition:color .2s}.expand-btn:hover{color:var(--coral)}.bonus-details{display:none;margin-top:16px;padding-left:12px;border-top:1px solid var(--border);padding-top:16px}.bonus-details.open{display:block}.detail-section{margin-bottom:14px}.detail-section h4{font-size:.78rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}.detail-section ul{list-style:none}.detail-section li{padding:5px 0 5px 22px;position:relative;font-size:.88rem;color:var(--text-soft);line-height:1.5}.detail-section li::before{content:'';position:absolute;left:0;top:13px;width:8px;height:8px;border-radius:50%}.detail-section.req li::before{background:var(--peach)}.detail-section.how li::before{background:var(--teal-pale);border:2px solid var(--teal);width:6px;height:6px}.bonus-link{display:inline-flex;align-items:center;gap:6px;color:var(--teal);font-size:.88rem;font-weight:700;text-decoration:none;transition:color .2s}.bonus-link:hover{color:var(--coral)}.scadenza-tag{display:inline-flex;align-items:center;gap:4px;margin-left:16px;font-size:.8rem;color:var(--text-muted);background:var(--cream);padding:4px 10px;border-radius:20px}.restart-section{text-align:center;margin-top:40px;padding-top:28px;border-top:2px solid var(--peach)}.restart-section .privacy-note{display:inline-flex;align-items:center;gap:8px;background:var(--teal-pale);padding:10px 20px;border-radius:30px;font-size:.84rem;font-weight:600;color:var(--teal);margin-bottom:16px}
 .field-error{font-size:.78rem;color:var(--coral);margin-top:4px;display:none}.field-error.show{display:block}input.invalid,select.invalid{border-color:var(--coral)!important;box-shadow:0 0 0 3px rgba(232,115,90,.15)!important}
 footer{position:relative;z-index:1;background:#fff;border-top:1px solid var(--border);padding:40px 24px;text-align:center}.footer-badges{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:16px}.footer-badge{font-size:.78rem;font-weight:700;color:var(--text-muted);background:var(--cream);padding:6px 14px;border-radius:20px}footer .disclaimer{font-size:.75rem;color:var(--text-muted);line-height:1.7;max-width:600px;margin:0 auto}footer a{color:var(--teal);text-decoration:none;font-weight:700}footer a:hover{color:var(--coral)}
+/* Print styles */
+@media print{header,footer,.bg-shapes,.cta-btn,.action-btn,.results-actions,.nav-buttons,.expand-btn,.filter-btn,.category-filter,.restart-section,.share-dropdown,.simulator-box,.coming-soon{display:none!important}.results{padding:0!important}.results-hero{box-shadow:none!important;border:1px solid #ccc!important}.bonus-details{display:block!important}.bonus-card{break-inside:avoid;box-shadow:none!important;border:1px solid #ccc!important;page-break-inside:avoid}.doc-item .doc-check{border:2px solid #333!important;background:transparent!important;color:transparent!important}.doc-item.checked .doc-check{background:transparent!important;color:transparent!important}.doc-item.checked .doc-label{text-decoration:none!important;color:var(--text-soft)!important}.faq-item .faq-answer{display:block!important}.bonus-details.open,.bonus-details{display:block!important}body{background:#fff!important}}
 </style>
 </head>
 <body>
@@ -64,6 +84,36 @@ footer{position:relative;z-index:1;background:#fff;border-top:1px solid var(--bo
     <div class="how-card"><div class="hnum">1</div><h3>Rispondi a 4 domande</h3><p>Età, famiglia, ISEE e casa. Solo l'essenziale, niente di più.</p></div>
     <div class="how-card"><div class="hnum">2</div><h3>Analisi istantanea</h3><p>Confrontiamo la tua situazione con 20+ bonus attivi in Italia.</p></div>
     <div class="how-card"><div class="hnum">3</div><h3>Risultati personalizzati</h3><p>Vedi quanto puoi risparmiare e come fare domanda, passo per passo.</p></div>
+  </div>
+</section>
+
+<section class="novita-section" id="novitaSection">
+  <h2>Novità bonus 2025</h2>
+  <div class="novita-grid">
+    <div class="novita-card">
+      <span class="badge nuovo">NUOVO</span>
+      <h3>Carta Nuovi Nati</h3>
+      <p>€1.000 per ogni figlio nato dal 2025 (ISEE ≤ €40.000). Novità assoluta introdotta dalla Legge di Bilancio 2025.</p>
+    </div>
+    <div class="novita-card">
+      <span class="badge modificato">MODIFICATO</span>
+      <h3>Bonus Ristrutturazione scende al 36%</h3>
+      <p>Per le seconde case, la detrazione passa dal 50% al 36%. Per la prima casa resta al 50%.</p>
+    </div>
+    <div class="novita-card">
+      <span class="badge modificato">MODIFICATO</span>
+      <h3>Assegno Unico aggiornato</h3>
+      <p>Importi rivalutati all'inflazione. Maggiorazioni confermate per famiglie numerose.</p>
+    </div>
+    <div class="novita-card">
+      <h3>Bonus Psicologo confermato</h3>
+      <p>Rifinanziato per il 2025 con le stesse modalità. Fino a €1.500 per percorsi di psicoterapia.</p>
+    </div>
+    <div class="novita-card">
+      <span class="badge modificato">MODIFICATO</span>
+      <h3>Superbonus al 65%</h3>
+      <p>Solo per lavori già avviati su condomini. Fine dello sconto in fattura per nuove pratiche.</p>
+    </div>
   </div>
 </section>
 
@@ -124,11 +174,43 @@ footer{position:relative;z-index:1;background:#fff;border-top:1px solid var(--bo
 
 <section class="results" id="results">
   <div class="results-hero" id="resultsHero"></div>
+  <div id="iseeWarning"></div>
+  <div class="results-actions" id="resultsActions">
+    <button class="action-btn" onclick="downloadCalendar()">📅 Scarica scadenze</button>
+    <button class="action-btn" onclick="downloadPDF()">📄 Scarica PDF</button>
+    <button class="action-btn" onclick="printResults()">🖨️ Stampa per il CAF</button>
+    <button class="action-btn" onclick="expandAll()">📖 Espandi tutto</button>
+    <div style="position:relative"><button class="action-btn" onclick="toggleShareMenu()">📤 Condividi</button><div class="share-dropdown" id="shareDropdown"></div></div>
+  </div>
+  <div class="simulator-box" id="simulatorBox">
+    <h3 onclick="toggleSimulator()">🧮 Simulatore ISEE <span class="arrow">▾</span></h3>
+    <div class="sim-content" id="simContent">
+      <p style="font-size:.88rem;color:var(--text-soft);margin-bottom:14px">Inserisci un valore ISEE ipotetico per scoprire se avresti diritto a bonus aggiuntivi.</p>
+      <div class="sim-row">
+        <div class="form-group"><label>ISEE simulato (€)</label><input type="number" id="iseeSimulato" placeholder="es. 15000" min="0" max="500000" step="100"></div>
+        <button class="btn btn-primary" onclick="runSimulation()">Simula</button>
+      </div>
+      <div class="simulator-result" id="simResult"></div>
+    </div>
+  </div>
   <div class="category-filter" id="categoryFilter"></div>
   <div id="bonusList"></div>
   <div class="restart-section">
     <div class="privacy-note">🔒 I tuoi dati verranno cancellati al refresh</div><br>
+    <button class="btn btn-secondary" onclick="findCAF()" style="max-width:320px;margin:0 auto 12px;display:flex">📍 Trova CAF vicino a te</button>
     <button class="btn btn-secondary" onclick="resetAll()" style="max-width:320px;margin:0 auto">🗑️ Cancella dati e ricomincia</button>
+    <div class="coming-soon" id="comingSoon">
+      <h3>Prossimamente su Bonus360</h3>
+      <div class="cs-pills">
+        <span class="cs-pill">🔔 Notifiche Telegram</span>
+        <span class="cs-pill">💬 Aggiornamenti WhatsApp</span>
+      </div>
+      <p style="font-size:.88rem;color:var(--text-soft);margin-bottom:14px">Lascia la tua email per essere avvisato al lancio</p>
+      <div class="notify-form" id="notifyForm">
+        <input type="email" id="notifyEmail" placeholder="La tua email...">
+        <button class="btn btn-primary" onclick="submitNotify()">Avvisami</button>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -145,59 +227,503 @@ footer{position:relative;z-index:1;background:#fff;border-top:1px solid var(--bo
 </footer>
 
 <script>
-let currentStep=0;const totalSteps=4;const toggles={disabilita:false,nuovo_nato:false,affittuario:false,prima_abitazione:false,ristrutturazione:false,studente:false};let resultData=null;let activeFilter='tutti';
-async function updateCounter(){try{const r=await fetch('/api/stats');const d=await r.json();document.getElementById('counter').textContent=d.scansioni.toLocaleString('it-IT')}catch(e){}}
-updateCounter();setInterval(updateCounter,30000);
-function startWizard(){currentStep=1;document.getElementById('heroSection').style.display='none';document.getElementById('howSection').style.display='none';document.getElementById('wizardSection').classList.add('show');renderStep();document.getElementById('wizardSection').scrollIntoView({behavior:'smooth',block:'start'})}
-function renderStep(){document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));const a=document.querySelector(`[data-step="${currentStep}"]`);if(a)a.classList.add('active');const bar=document.getElementById('progressBar');bar.innerHTML='';for(let i=1;i<=totalSteps;i++){const d=document.createElement('div');d.className='progress-dot'+(i<=currentStep?' done':'');bar.appendChild(d)}}
-function nextStep(){if(!validateStep(currentStep))return;if(currentStep<totalSteps){currentStep++;renderStep()}}
-function prevStep(){if(currentStep>1){currentStep--;renderStep()}}
-function toggleSwitch(n){toggles[n]=!toggles[n];document.getElementById('toggle-'+n).classList.toggle('on',toggles[n])}
-function handleISEEUpload(input){if(input.files.length>0){uploadISEEFile(input.files[0])}}
-function uploadISEEFile(file){const u=document.getElementById('iseeUpload');u.classList.remove('uploaded','isee-success','isee-error','drag-over');u.classList.add('uploaded');u.querySelector('h4').textContent='⏳ Analisi in corso...';u.querySelector('p').textContent=file.name;
-const fd=new FormData();fd.append('file',file);
-fetch('/api/parse-isee',{method:'POST',body:fd}).then(r=>r.json()).then(d=>{u.classList.remove('uploaded');if(d.found){u.classList.add('isee-success');u.querySelector('h4').textContent='✓ ISEE rilevato: €'+d.isee.toLocaleString('it-IT');u.querySelector('p').textContent=file.name;document.getElementById('isee').value=d.isee}else{u.classList.add('isee-error');u.querySelector('h4').textContent='⚠️ ISEE non trovato nel PDF';u.querySelector('p').textContent='Inseriscilo manualmente'}}).catch(()=>{u.classList.remove('uploaded');u.classList.add('isee-error');u.querySelector('h4').textContent='⚠️ Errore elaborazione PDF';u.querySelector('p').textContent='Inserisci l\'ISEE manualmente'})}
-document.addEventListener('DOMContentLoaded',function(){const u=document.getElementById('iseeUpload');u.addEventListener('dragover',function(e){e.preventDefault();u.classList.add('drag-over')});u.addEventListener('dragenter',function(e){e.preventDefault();u.classList.add('drag-over')});u.addEventListener('dragleave',function(e){e.preventDefault();u.classList.remove('drag-over')});u.addEventListener('drop',function(e){e.preventDefault();u.classList.remove('drag-over');if(e.dataTransfer.files.length>0){const f=e.dataTransfer.files[0];if(f.type==='application/pdf'){uploadISEEFile(f)}else{u.classList.add('isee-error');u.querySelector('h4').textContent='⚠️ Solo file PDF';u.querySelector('p').textContent='Carica un file PDF dell\'attestazione ISEE'}}})})
-async function submitScan(){if(!validateStep(4))return;const eta=parseInt(document.getElementById('eta').value);if(!eta||eta<=0){showError('eta','L\'età è obbligatoria per procedere');return;}const loading=document.getElementById('loading');loading.classList.add('show');const steps=['Analisi dati anagrafici...','Verifica requisiti familiari...','Calcolo compatibilità ISEE...','Ricerca bonus attivi...','Preparazione risultati 🎉'];let i=0;const si=setInterval(()=>{if(i<steps.length){document.getElementById('loadingStep').textContent=steps[i];i++}},400);
-const profile={eta:parseInt(document.getElementById('eta').value)||0,residenza:document.getElementById('residenza').value,comune:'',stato_civile:document.getElementById('stato_civile').value,occupazione:document.getElementById('occupazione').value,numero_figli:parseInt(document.getElementById('numero_figli').value)||0,figli_minorenni:parseInt(document.getElementById('figli_minorenni').value)||0,figli_under3:parseInt(document.getElementById('figli_under3').value)||0,over65:parseInt(document.getElementById('over65').value)||0,disabilita:toggles.disabilita,isee:parseFloat(document.getElementById('isee').value)||0,reddito_annuo:parseFloat(document.getElementById('reddito_annuo').value)||0,affittuario:toggles.affittuario,prima_abitazione:toggles.prima_abitazione,ristrutturaz_casa:toggles.ristrutturazione,studente:toggles.studente||document.getElementById('occupazione').value==='studente',nuovo_nato_2025:toggles.nuovo_nato};
-try{const r=await fetch('/api/match',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(profile)});resultData=await r.json()}catch(e){resultData={bonus_trovati:0,risparmio_stimato:'€0',bonus:[]}}
-setTimeout(()=>{clearInterval(si);loading.classList.remove('show');document.getElementById('wizardSection').classList.remove('show');document.getElementById('results').classList.add('show');renderResults();window.scrollTo({top:0,behavior:'smooth'})},2200)}
-function renderResults(){if(!resultData)return;
-const hero=document.getElementById('resultsHero');
-if(resultData.bonus_trovati===0){hero.innerHTML='<div class="confetti">😔</div><h2>Nessun bonus trovato</h2><p class="subtitle">Con i dati che hai inserito non risultano bonus compatibili. Prova a modificare i parametri o verifica di aver inserito l\'ISEE.</p><button class="btn btn-primary" style="margin-top:20px;display:inline-flex" onclick="resetAll()">🔄 Modifica i dati</button>';document.getElementById('categoryFilter').innerHTML='';document.getElementById('bonusList').innerHTML='';return;}
-hero.innerHTML='<div class="confetti">🎉</div><h2>Buone notizie per la tua famiglia!</h2><div class="saving" id="resultSaving">'+resultData.risparmio_stimato+'</div><div class="subtitle">di risparmio stimato con <strong id="resultCount">'+resultData.bonus_trovati+'</strong> bonus compatibili</div>';
-const categories=['tutti',...new Set(resultData.bonus.map(b=>b.categoria))];const catLabels={tutti:'🎯 Tutti',famiglia:'👨‍👩‍👧 Famiglia',casa:'🏠 Casa',salute:'🧠 Salute',istruzione:'📚 Istruzione',spesa:'🛒 Spesa',trasporti:'🚌 Trasporti',lavoro:'💼 Lavoro',sostegno:'🤝 Sostegno',altro:'📋 Altro'};
-const fe=document.getElementById('categoryFilter');fe.innerHTML='';categories.forEach(cat=>{const b=document.createElement('button');b.className='filter-btn'+(cat===activeFilter?' active':'');b.textContent=catLabels[cat]||cat;b.onclick=()=>{activeFilter=cat;renderResults()};fe.appendChild(b)});
-const list=document.getElementById('bonusList');list.innerHTML='';const filtered=activeFilter==='tutti'?resultData.bonus:resultData.bonus.filter(b=>b.categoria===activeFilter);const ce={famiglia:'👨‍👩‍👧',casa:'🏠',salute:'🧠',istruzione:'📚',spesa:'🛒',trasporti:'🚌',lavoro:'💼',sostegno:'🤝',altro:'📋'};
-filtered.forEach(bonus=>{const cc=bonus.compatibilita>=80?'compat-high':bonus.compatibilita>=50?'compat-med':'compat-low';const cl=bonus.compatibilita>=80?'✓ Alta':bonus.compatibilita>=50?'~ Media':'? Da verificare';
-const card=document.createElement('div');card.className='bonus-card';card.innerHTML=`<div class="cat-stripe cat-${bonus.categoria}"></div><div class="bonus-card-top"><div><h3>${ce[bonus.categoria]||'📋'} ${bonus.nome}</h3><span class="ente-tag">${bonus.ente}</span></div><div class="compat-pill ${cc}">${cl} · ${bonus.compatibilita}%</div></div><div class="desc">${bonus.descrizione}</div><div class="importo-bar"><span class="il">Importo</span><span class="iv">${bonus.importo}</span></div><button class="expand-btn" onclick="toggleDetails('${bonus.id}')">Vedi come richiederlo ▾</button><div class="bonus-details" id="details-${bonus.id}"><div class="detail-section req"><h4>📋 Requisiti</h4><ul>${bonus.requisiti.map(r=>'<li>'+r+'</li>').join('')}</ul></div><div class="detail-section how"><h4>📝 Come fare domanda</h4><ul>${bonus.come_richiederlo.map(r=>'<li>'+r+'</li>').join('')}</ul></div><div style="margin-top:14px;display:flex;align-items:center;flex-wrap:wrap;gap:8px"><a href="${bonus.link_ufficiale}" target="_blank" rel="noopener" class="bonus-link">🔗 Sito ufficiale →</a>${bonus.scadenza?'<span class="scadenza-tag">⏰ '+bonus.scadenza+'</span>':''}</div></div>`;list.appendChild(card)})}
-function toggleDetails(id){const el=document.getElementById('details-'+id);el.classList.toggle('open');const btn=el.previousElementSibling;btn.textContent=el.classList.contains('open')?'Nascondi dettagli ▴':'Vedi come richiederlo ▾'}
-function resetAll(){document.querySelectorAll('input').forEach(i=>{i.value=''});document.querySelectorAll('select').forEach(s=>{s.selectedIndex=0});Object.keys(toggles).forEach(k=>{toggles[k]=false});document.querySelectorAll('.toggle').forEach(t=>t.classList.remove('on'));resultData=null;currentStep=0;activeFilter='tutti';document.getElementById('results').classList.remove('show');document.getElementById('wizardSection').classList.remove('show');document.getElementById('heroSection').style.display='';document.getElementById('howSection').style.display='';const u=document.getElementById('iseeUpload');u.classList.remove('uploaded');u.querySelector('h4').textContent='Carica attestazione ISEE (PDF)';u.querySelector('p').textContent='Elaborato localmente, poi cancellato';document.getElementById('iseeFile').value='';window.scrollTo({top:0,behavior:'smooth'})}
+let currentStep = 0;
+const totalSteps = 4;
+const toggles = { disabilita: false, nuovo_nato: false, affittuario: false, prima_abitazione: false, ristrutturazione: false, studente: false };
+let resultData = null;
+let activeFilter = 'tutti';
+let lastProfile = null;
+
+async function updateCounter() {
+  try {
+    const r = await fetch('/api/stats');
+    const d = await r.json();
+    document.getElementById('counter').textContent = d.scansioni.toLocaleString('it-IT');
+  } catch (e) {}
+}
+updateCounter();
+setInterval(updateCounter, 30000);
+
+function startWizard() {
+  currentStep = 1;
+  document.getElementById('heroSection').style.display = 'none';
+  document.getElementById('howSection').style.display = 'none';
+  document.getElementById('novitaSection').style.display = 'none';
+  document.getElementById('wizardSection').classList.add('show');
+  renderStep();
+  document.getElementById('wizardSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function renderStep() {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  const a = document.querySelector(`[data-step="${currentStep}"]`);
+  if (a) a.classList.add('active');
+  const bar = document.getElementById('progressBar');
+  bar.innerHTML = '';
+  for (let i = 1; i <= totalSteps; i++) {
+    const d = document.createElement('div');
+    d.className = 'progress-dot' + (i <= currentStep ? ' done' : '');
+    bar.appendChild(d);
+  }
+}
+
+function nextStep() {
+  if (!validateStep(currentStep)) return;
+  if (currentStep < totalSteps) { currentStep++; renderStep(); }
+}
+
+function prevStep() {
+  if (currentStep > 1) { currentStep--; renderStep(); }
+}
+
+function toggleSwitch(n) {
+  toggles[n] = !toggles[n];
+  document.getElementById('toggle-' + n).classList.toggle('on', toggles[n]);
+}
+
+function handleISEEUpload(input) {
+  if (input.files.length > 0) { uploadISEEFile(input.files[0]); }
+}
+
+function uploadISEEFile(file) {
+  const u = document.getElementById('iseeUpload');
+  u.classList.remove('uploaded', 'isee-success', 'isee-error', 'drag-over');
+  u.classList.add('uploaded');
+  u.querySelector('h4').textContent = '⏳ Analisi in corso...';
+  u.querySelector('p').textContent = file.name;
+  const fd = new FormData();
+  fd.append('file', file);
+  fetch('/api/parse-isee', { method: 'POST', body: fd })
+    .then(r => r.json())
+    .then(d => {
+      u.classList.remove('uploaded');
+      if (d.found) {
+        u.classList.add('isee-success');
+        u.querySelector('h4').textContent = '✓ ISEE rilevato: €' + d.isee.toLocaleString('it-IT');
+        u.querySelector('p').textContent = file.name;
+        document.getElementById('isee').value = d.isee;
+      } else {
+        u.classList.add('isee-error');
+        u.querySelector('h4').textContent = '⚠️ ISEE non trovato nel PDF';
+        u.querySelector('p').textContent = 'Inseriscilo manualmente';
+      }
+    })
+    .catch(() => {
+      u.classList.remove('uploaded');
+      u.classList.add('isee-error');
+      u.querySelector('h4').textContent = '⚠️ Errore elaborazione PDF';
+      u.querySelector('p').textContent = 'Inserisci l\'ISEE manualmente';
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const u = document.getElementById('iseeUpload');
+  u.addEventListener('dragover', function(e) { e.preventDefault(); u.classList.add('drag-over'); });
+  u.addEventListener('dragenter', function(e) { e.preventDefault(); u.classList.add('drag-over'); });
+  u.addEventListener('dragleave', function(e) { e.preventDefault(); u.classList.remove('drag-over'); });
+  u.addEventListener('drop', function(e) {
+    e.preventDefault();
+    u.classList.remove('drag-over');
+    if (e.dataTransfer.files.length > 0) {
+      const f = e.dataTransfer.files[0];
+      if (f.type === 'application/pdf') {
+        uploadISEEFile(f);
+      } else {
+        u.classList.add('isee-error');
+        u.querySelector('h4').textContent = '⚠️ Solo file PDF';
+        u.querySelector('p').textContent = 'Carica un file PDF dell\'attestazione ISEE';
+      }
+    }
+  });
+});
+
+async function submitScan() {
+  if (!validateStep(4)) return;
+  const eta = parseInt(document.getElementById('eta').value);
+  if (!eta || eta <= 0) { showError('eta', 'L\'età è obbligatoria per procedere'); return; }
+  const loading = document.getElementById('loading');
+  loading.classList.add('show');
+  const steps = ['Analisi dati anagrafici...', 'Verifica requisiti familiari...', 'Calcolo compatibilità ISEE...', 'Ricerca bonus attivi...', 'Preparazione risultati 🎉'];
+  let i = 0;
+  const si = setInterval(() => { if (i < steps.length) { document.getElementById('loadingStep').textContent = steps[i]; i++; } }, 400);
+
+  const profile = {
+    eta: parseInt(document.getElementById('eta').value) || 0,
+    residenza: document.getElementById('residenza').value,
+    comune: '',
+    stato_civile: document.getElementById('stato_civile').value,
+    occupazione: document.getElementById('occupazione').value,
+    numero_figli: parseInt(document.getElementById('numero_figli').value) || 0,
+    figli_minorenni: parseInt(document.getElementById('figli_minorenni').value) || 0,
+    figli_under3: parseInt(document.getElementById('figli_under3').value) || 0,
+    over65: parseInt(document.getElementById('over65').value) || 0,
+    disabilita: toggles.disabilita,
+    isee: parseFloat(document.getElementById('isee').value) || 0,
+    reddito_annuo: parseFloat(document.getElementById('reddito_annuo').value) || 0,
+    affittuario: toggles.affittuario,
+    prima_abitazione: toggles.prima_abitazione,
+    ristrutturaz_casa: toggles.ristrutturazione,
+    studente: toggles.studente || document.getElementById('occupazione').value === 'studente',
+    nuovo_nato_2025: toggles.nuovo_nato
+  };
+
+  lastProfile = profile;
+
+  try {
+    const r = await fetch('/api/match', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(profile) });
+    resultData = await r.json();
+  } catch (e) {
+    resultData = { bonus_trovati: 0, risparmio_stimato: '€0', bonus: [] };
+  }
+
+  setTimeout(() => {
+    clearInterval(si);
+    loading.classList.remove('show');
+    document.getElementById('wizardSection').classList.remove('show');
+    document.getElementById('results').classList.add('show');
+    renderResults();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, 2200);
+}
+
+function renderResults() {
+  if (!resultData) return;
+
+  const hero = document.getElementById('resultsHero');
+  if (resultData.bonus_trovati === 0) {
+    hero.innerHTML = '<div class="confetti">😔</div><h2>Nessun bonus trovato</h2><p class="subtitle">Con i dati che hai inserito non risultano bonus compatibili. Prova a modificare i parametri o verifica di aver inserito l\'ISEE.</p><button class="btn btn-primary" style="margin-top:20px;display:inline-flex" onclick="resetAll()">🔄 Modifica i dati</button>';
+    document.getElementById('categoryFilter').innerHTML = '';
+    document.getElementById('bonusList').innerHTML = '';
+    document.getElementById('resultsActions').style.display = 'none';
+    document.getElementById('simulatorBox').style.display = 'none';
+    document.getElementById('iseeWarning').innerHTML = '';
+    return;
+  }
+
+  hero.innerHTML = '<div class="confetti">🎉</div><h2>Buone notizie per la tua famiglia!</h2><div class="saving" id="resultSaving">' + resultData.risparmio_stimato + '</div><div class="subtitle">di risparmio stimato con <strong id="resultCount">' + resultData.bonus_trovati + '</strong> bonus compatibili</div>';
+
+  // Show results actions
+  document.getElementById('resultsActions').style.display = '';
+  document.getElementById('simulatorBox').style.display = '';
+
+  // Render ISEE warning
+  renderISEEWarning();
+
+  const categories = ['tutti', ...new Set(resultData.bonus.map(b => b.categoria))];
+  const catLabels = { tutti: '🎯 Tutti', famiglia: '👨‍👩‍👧 Famiglia', casa: '🏠 Casa', salute: '🧠 Salute', istruzione: '📚 Istruzione', spesa: '🛒 Spesa', trasporti: '🚌 Trasporti', lavoro: '💼 Lavoro', sostegno: '🤝 Sostegno', altro: '📋 Altro' };
+  const fe = document.getElementById('categoryFilter');
+  fe.innerHTML = '';
+  categories.forEach(cat => {
+    const b = document.createElement('button');
+    b.className = 'filter-btn' + (cat === activeFilter ? ' active' : '');
+    b.textContent = catLabels[cat] || cat;
+    b.onclick = () => { activeFilter = cat; renderResults(); };
+    fe.appendChild(b);
+  });
+
+  const list = document.getElementById('bonusList');
+  list.innerHTML = '';
+  const filtered = activeFilter === 'tutti' ? resultData.bonus : resultData.bonus.filter(b => b.categoria === activeFilter);
+  const ce = { famiglia: '👨‍👩‍👧', casa: '🏠', salute: '🧠', istruzione: '📚', spesa: '🛒', trasporti: '🚌', lavoro: '💼', sostegno: '🤝', altro: '📋' };
+
+  filtered.forEach(bonus => {
+    const cc = bonus.compatibilita >= 80 ? 'compat-high' : bonus.compatibilita >= 50 ? 'compat-med' : 'compat-low';
+    const cl = bonus.compatibilita >= 80 ? '✓ Alta' : bonus.compatibilita >= 50 ? '~ Media' : '? Da verificare';
+
+    // Build importo reale bar if different
+    let importoRealeHTML = '';
+    if (bonus.importo_reale && bonus.importo_reale !== bonus.importo) {
+      importoRealeHTML = '<div class="importo-reale-bar"><span class="il">Importo stimato per te</span><span class="iv">' + bonus.importo_reale + '</span></div>';
+    }
+
+    // Build documents checklist
+    let docsHTML = '';
+    if (bonus.documenti && bonus.documenti.length > 0) {
+      docsHTML = '<div class="detail-section"><h4>📎 Documenti necessari</h4><div class="doc-checklist">' +
+        bonus.documenti.map(doc => '<div class="doc-item" onclick="toggleDoc(this)"><span class="doc-check">✓</span><span class="doc-label">' + doc + '</span></div>').join('') +
+        '</div></div>';
+    }
+
+    // Build FAQ accordion
+    let faqHTML = '';
+    if (bonus.faq && bonus.faq.length > 0) {
+      faqHTML = '<div class="detail-section faq-section"><h4>❓ Domande frequenti</h4>' +
+        bonus.faq.map(f => '<div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">' + f.domanda + '</div><div class="faq-answer">' + f.risposta + '</div></div>').join('') +
+        '</div>';
+    }
+
+    const card = document.createElement('div');
+    card.className = 'bonus-card';
+    card.innerHTML = '<div class="cat-stripe cat-' + bonus.categoria + '"></div>' +
+      '<div class="bonus-card-top"><div><h3>' + (ce[bonus.categoria] || '📋') + ' ' + bonus.nome + '</h3><span class="ente-tag">' + bonus.ente + '</span></div><div class="compat-pill ' + cc + '">' + cl + ' · ' + bonus.compatibilita + '%</div></div>' +
+      '<div class="desc">' + bonus.descrizione + '</div>' +
+      '<div class="importo-bar"><span class="il">Importo</span><span class="iv">' + bonus.importo + '</span></div>' +
+      importoRealeHTML +
+      '<button class="expand-btn" onclick="toggleDetails(\'' + bonus.id + '\')">Vedi come richiederlo ▾</button>' +
+      '<div class="bonus-details" id="details-' + bonus.id + '">' +
+        '<div class="detail-section req"><h4>📋 Requisiti</h4><ul>' + bonus.requisiti.map(r => '<li>' + r + '</li>').join('') + '</ul></div>' +
+        '<div class="detail-section how"><h4>📝 Come fare domanda</h4><ul>' + bonus.come_richiederlo.map(r => '<li>' + r + '</li>').join('') + '</ul></div>' +
+        docsHTML +
+        faqHTML +
+        '<div style="margin-top:14px;display:flex;align-items:center;flex-wrap:wrap;gap:8px"><a href="' + bonus.link_ufficiale + '" target="_blank" rel="noopener" class="bonus-link">🔗 Sito ufficiale →</a>' + (bonus.scadenza ? '<span class="scadenza-tag">⏰ ' + bonus.scadenza + '</span>' : '') + '</div>' +
+      '</div>';
+    list.appendChild(card);
+  });
+}
+
+function renderISEEWarning() {
+  const box = document.getElementById('iseeWarning');
+  const isee = lastProfile ? lastProfile.isee : 0;
+  if (isee > 0) {
+    box.innerHTML = '<div class="isee-warning warn">' +
+      '<button class="close-warn" onclick="this.parentElement.remove()">&times;</button>' +
+      '⚠️ <strong>Ricorda:</strong> l\'attestazione ISEE ha validità fino al 31 dicembre dell\'anno in corso. ' +
+      'Se il tuo ISEE è scaduto o sta per scadere, rinnovala presso un CAF per non perdere l\'accesso ai bonus.' +
+      '</div>';
+  } else {
+    box.innerHTML = '<div class="isee-warning info">' +
+      '<button class="close-warn" onclick="this.parentElement.remove()">&times;</button>' +
+      '💡 <strong>Non hai inserito l\'ISEE.</strong> Con un ISEE valido potresti sbloccare fino a <strong>12 bonus aggiuntivi</strong> ' +
+      'legati al reddito familiare. Puoi ottenere l\'ISEE gratuitamente presso qualsiasi CAF o sul sito INPS.' +
+      '</div>';
+  }
+}
+
+function toggleDetails(id) {
+  const el = document.getElementById('details-' + id);
+  el.classList.toggle('open');
+  const btn = el.previousElementSibling;
+  btn.textContent = el.classList.contains('open') ? 'Nascondi dettagli ▴' : 'Vedi come richiederlo ▾';
+}
+
+function downloadCalendar() {
+  if (!resultData || !resultData.bonus) return;
+  const bonuses = resultData.bonus.map(b => ({ nome: b.nome, scadenza: b.scadenza }));
+  const url = '/api/calendar?bonuses=' + encodeURIComponent(JSON.stringify(bonuses));
+  window.location.href = url;
+}
+
+function downloadPDF() {
+  if (!lastProfile) return;
+  fetch('/api/report', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(lastProfile) })
+    .then(r => r.blob())
+    .then(blob => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'bonus360-report.pdf';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+}
+
+function printResults() {
+  window.print();
+}
+
+function expandAll() {
+  document.querySelectorAll('.bonus-details').forEach(d => d.classList.add('open'));
+  document.querySelectorAll('.expand-btn').forEach(b => b.textContent = 'Nascondi dettagli ▴');
+}
+
+function toggleShareMenu() {
+  const dd = document.getElementById('shareDropdown');
+  if (dd.style.display === 'block') { dd.style.display = 'none'; return; }
+  const msg = 'Ho scoperto che la mia famiglia ha diritto a ' + resultData.bonus_trovati + ' bonus per un risparmio di ' + resultData.risparmio_stimato + ' all\'anno! Verifica anche tu gratis: ' + window.location.href;
+  const isMobile = /Android|iPhone|iPad/.test(navigator.userAgent);
+  if (isMobile) {
+    window.open('https://wa.me/?text=' + encodeURIComponent(msg));
+    return;
+  }
+  dd.style.display = 'block';
+  dd.innerHTML = '<a href="https://wa.me/?text=' + encodeURIComponent(msg) + '" target="_blank">WhatsApp Web</a>' +
+    '<button onclick="navigator.clipboard.writeText(\'' + window.location.href + '\');this.textContent=\'Copiato!\';setTimeout(()=>document.getElementById(\'shareDropdown\').style.display=\'none\',1000)">Copia link</button>';
+  setTimeout(() => document.addEventListener('click', function closeShare(e) {
+    if (!dd.contains(e.target)) { dd.style.display = 'none'; document.removeEventListener('click', closeShare); }
+  }, true), 0);
+}
+
+function toggleSimulator() {
+  const content = document.getElementById('simContent');
+  content.classList.toggle('open');
+  const arrow = document.querySelector('.simulator-box .arrow');
+  arrow.textContent = content.classList.contains('open') ? '▴' : '▾';
+}
+
+function runSimulation() {
+  if (!lastProfile) return;
+  const iseeSimulato = parseFloat(document.getElementById('iseeSimulato').value) || 0;
+  const body = Object.assign({}, lastProfile, { isee_simulato: iseeSimulato });
+  fetch('/api/simulate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+    .then(r => r.json())
+    .then(d => {
+      const el = document.getElementById('simResult');
+      if (d.bonus_extra > 0) {
+        el.innerHTML = 'Con un ISEE di €' + iseeSimulato.toLocaleString('it-IT') + ', avresti <strong>' + d.bonus_extra + '</strong> bonus in più per un risparmio extra di <strong>' + d.risparmio_extra + '</strong>/anno';
+      } else {
+        el.innerHTML = 'Con un ISEE di €' + iseeSimulato.toLocaleString('it-IT') + ', i tuoi bonus resterebbero gli stessi';
+      }
+      el.style.display = 'block';
+    });
+}
+
+function toggleFaq(el) {
+  el.parentElement.classList.toggle('open');
+}
+
+function toggleDoc(el) {
+  el.classList.toggle('checked');
+}
+
+function findCAF() {
+  const regione = lastProfile ? lastProfile.residenza : '';
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      pos => window.open('https://www.google.com/maps/search/CAF+patronato/@' + pos.coords.latitude + ',' + pos.coords.longitude + ',13z', '_blank'),
+      () => {
+        if (regione) window.open('https://www.google.com/maps/search/CAF+patronato+' + encodeURIComponent(regione), '_blank');
+        else window.open('https://www.google.com/maps/search/CAF+patronato+vicino+a+me', '_blank');
+      }
+    );
+  } else if (regione) {
+    window.open('https://www.google.com/maps/search/CAF+patronato+' + encodeURIComponent(regione), '_blank');
+  } else {
+    window.open('https://www.google.com/maps/search/CAF+patronato+vicino+a+me', '_blank');
+  }
+}
+
+function submitNotify() {
+  const email = document.getElementById('notifyEmail').value;
+  if (!email) return;
+  fetch('/api/notify-signup', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email }) })
+    .then(r => r.json())
+    .then(d => {
+      if (d.ok) {
+        document.getElementById('notifyForm').innerHTML = '<p style="color:var(--teal);font-weight:700">Grazie! Ti avviseremo al lancio.</p>';
+      }
+    });
+}
+
+function resetAll() {
+  document.querySelectorAll('input').forEach(i => { i.value = ''; });
+  document.querySelectorAll('select').forEach(s => { s.selectedIndex = 0; });
+  Object.keys(toggles).forEach(k => { toggles[k] = false; });
+  document.querySelectorAll('.toggle').forEach(t => t.classList.remove('on'));
+  resultData = null;
+  lastProfile = null;
+  currentStep = 0;
+  activeFilter = 'tutti';
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('wizardSection').classList.remove('show');
+  document.getElementById('heroSection').style.display = '';
+  document.getElementById('howSection').style.display = '';
+  document.getElementById('novitaSection').style.display = '';
+  document.getElementById('iseeWarning').innerHTML = '';
+  document.getElementById('simulatorBox').style.display = '';
+  document.getElementById('shareDropdown').style.display = 'none';
+  const simContent = document.getElementById('simContent');
+  if (simContent) simContent.classList.remove('open');
+  const simResult = document.getElementById('simResult');
+  if (simResult) { simResult.style.display = 'none'; simResult.innerHTML = ''; }
+  const u = document.getElementById('iseeUpload');
+  u.classList.remove('uploaded', 'isee-success', 'isee-error');
+  u.querySelector('h4').textContent = 'Carica attestazione ISEE (PDF)';
+  u.querySelector('p').textContent = 'Elaborato localmente, poi cancellato';
+  document.getElementById('iseeFile').value = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 // Validation
-const fieldLimits={eta:{min:0,max:120},numero_figli:{min:0,max:20},figli_minorenni:{min:0,max:20},figli_under3:{min:0,max:10},over65:{min:0,max:10},isee:{min:0,max:500000},reddito_annuo:{min:0,max:1000000}};
-function showError(id,msg){const el=document.getElementById('err-'+id);if(el){el.textContent=msg;el.classList.add('show')}const inp=document.getElementById(id);if(inp)inp.classList.add('invalid')}
-function clearError(id){const el=document.getElementById('err-'+id);if(el){el.textContent='';el.classList.remove('show')}const inp=document.getElementById(id);if(inp)inp.classList.remove('invalid')}
-function clearAllErrors(){Object.keys(fieldLimits).forEach(clearError)}
-function validateStep(step){clearAllErrors();let valid=true;
-if(step===1){const eta=document.getElementById('eta').value;if(eta===''||isNaN(parseInt(eta))){showError('eta','L\'età è obbligatoria');valid=false}else{const v=parseInt(eta);if(v<0||v>120){showError('eta','L\'età deve essere tra 0 e 120');valid=false}}}
-if(step===2){const nf=parseInt(document.getElementById('numero_figli').value)||0;const fm=parseInt(document.getElementById('figli_minorenni').value)||0;const fu=parseInt(document.getElementById('figli_under3').value)||0;const o65=parseInt(document.getElementById('over65').value)||0;
-if(nf<0||nf>20){showError('numero_figli','Valore tra 0 e 20');valid=false}
-if(fm<0||fm>nf){showError('figli_minorenni','Non può superare il numero di figli ('+nf+')');valid=false}
-if(fu<0||fu>fm){showError('figli_under3','Non può superare i figli minorenni ('+fm+')');valid=false}
-if(o65<0||o65>10){showError('over65','Valore tra 0 e 10');valid=false}}
-if(step===3){const isee=parseFloat(document.getElementById('isee').value);const reddito=parseFloat(document.getElementById('reddito_annuo').value);
-if(document.getElementById('isee').value!==''&&(isNaN(isee)||isee<0||isee>500000)){showError('isee','Valore tra 0 e 500.000');valid=false}
-if(document.getElementById('reddito_annuo').value!==''&&(isNaN(reddito)||reddito<0||reddito>1000000)){showError('reddito_annuo','Valore tra 0 e 1.000.000');valid=false}}
-return valid}
+const fieldLimits = { eta: { min: 0, max: 120 }, numero_figli: { min: 0, max: 20 }, figli_minorenni: { min: 0, max: 20 }, figli_under3: { min: 0, max: 10 }, over65: { min: 0, max: 10 }, isee: { min: 0, max: 500000 }, reddito_annuo: { min: 0, max: 1000000 } };
+
+function showError(id, msg) {
+  const el = document.getElementById('err-' + id);
+  if (el) { el.textContent = msg; el.classList.add('show'); }
+  const inp = document.getElementById(id);
+  if (inp) inp.classList.add('invalid');
+}
+
+function clearError(id) {
+  const el = document.getElementById('err-' + id);
+  if (el) { el.textContent = ''; el.classList.remove('show'); }
+  const inp = document.getElementById(id);
+  if (inp) inp.classList.remove('invalid');
+}
+
+function clearAllErrors() {
+  Object.keys(fieldLimits).forEach(clearError);
+}
+
+function validateStep(step) {
+  clearAllErrors();
+  let valid = true;
+  if (step === 1) {
+    const eta = document.getElementById('eta').value;
+    if (eta === '' || isNaN(parseInt(eta))) { showError('eta', 'L\'età è obbligatoria'); valid = false; }
+    else { const v = parseInt(eta); if (v < 0 || v > 120) { showError('eta', 'L\'età deve essere tra 0 e 120'); valid = false; } }
+  }
+  if (step === 2) {
+    const nf = parseInt(document.getElementById('numero_figli').value) || 0;
+    const fm = parseInt(document.getElementById('figli_minorenni').value) || 0;
+    const fu = parseInt(document.getElementById('figli_under3').value) || 0;
+    const o65 = parseInt(document.getElementById('over65').value) || 0;
+    if (nf < 0 || nf > 20) { showError('numero_figli', 'Valore tra 0 e 20'); valid = false; }
+    if (fm < 0 || fm > nf) { showError('figli_minorenni', 'Non può superare il numero di figli (' + nf + ')'); valid = false; }
+    if (fu < 0 || fu > fm) { showError('figli_under3', 'Non può superare i figli minorenni (' + fm + ')'); valid = false; }
+    if (o65 < 0 || o65 > 10) { showError('over65', 'Valore tra 0 e 10'); valid = false; }
+  }
+  if (step === 3) {
+    const isee = parseFloat(document.getElementById('isee').value);
+    const reddito = parseFloat(document.getElementById('reddito_annuo').value);
+    if (document.getElementById('isee').value !== '' && (isNaN(isee) || isee < 0 || isee > 500000)) { showError('isee', 'Valore tra 0 e 500.000'); valid = false; }
+    if (document.getElementById('reddito_annuo').value !== '' && (isNaN(reddito) || reddito < 0 || reddito > 1000000)) { showError('reddito_annuo', 'Valore tra 0 e 1.000.000'); valid = false; }
+  }
+  return valid;
+}
+
 // Clamp on blur
-function clampField(id){const el=document.getElementById(id);if(!el)return;const limits=fieldLimits[id];if(!limits)return;let v=parseFloat(el.value);if(isNaN(v))return;if(v<limits.min)v=limits.min;if(v>limits.max)v=limits.max;el.value=v;clearError(id)}
-Object.keys(fieldLimits).forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener('blur',()=>clampField(id));el.addEventListener('input',()=>clearError(id))}});
+function clampField(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const limits = fieldLimits[id];
+  if (!limits) return;
+  let v = parseFloat(el.value);
+  if (isNaN(v)) return;
+  if (v < limits.min) v = limits.min;
+  if (v > limits.max) v = limits.max;
+  el.value = v;
+  clearError(id);
+}
+
+Object.keys(fieldLimits).forEach(id => {
+  const el = document.getElementById(id);
+  if (el) {
+    el.addEventListener('blur', () => clampField(id));
+    el.addEventListener('input', () => clearError(id));
+  }
+});
+
 // Cross-field: figli_minorenni <= numero_figli
-document.getElementById('numero_figli').addEventListener('input',function(){const nf=parseInt(this.value)||0;const fm=document.getElementById('figli_minorenni');if(parseInt(fm.value)>nf)fm.value=nf;const fu=document.getElementById('figli_under3');if(parseInt(fu.value)>parseInt(fm.value))fu.value=fm.value});
-document.getElementById('figli_minorenni').addEventListener('input',function(){const fm=parseInt(this.value)||0;const fu=document.getElementById('figli_under3');if(parseInt(fu.value)>fm)fu.value=fm});
+document.getElementById('numero_figli').addEventListener('input', function() {
+  const nf = parseInt(this.value) || 0;
+  const fm = document.getElementById('figli_minorenni');
+  if (parseInt(fm.value) > nf) fm.value = nf;
+  const fu = document.getElementById('figli_under3');
+  if (parseInt(fu.value) > parseInt(fm.value)) fu.value = fm.value;
+});
+
+document.getElementById('figli_minorenni').addEventListener('input', function() {
+  const fm = parseInt(this.value) || 0;
+  const fu = document.getElementById('figli_under3');
+  if (parseInt(fu.value) > fm) fu.value = fm;
+});
+
 // Auto-enable studente toggle if occupation=studente
-document.getElementById('occupazione').addEventListener('change',function(){if(this.value==='studente'&&!toggles.studente){toggleSwitch('studente')}});
-window.addEventListener('beforeunload',resetAll);
+document.getElementById('occupazione').addEventListener('change', function() {
+  if (this.value === 'studente' && !toggles.studente) { toggleSwitch('studente'); }
+});
+
+window.addEventListener('beforeunload', resetAll);
 </script>
 </body>
 </html>
