@@ -14,6 +14,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 )
@@ -100,7 +101,12 @@ func main() {
 		}
 		// Block dotfile paths (.env, .git, etc.)
 		if strings.Contains(r.URL.Path, "/.") {
-			http.NotFound(w, r)
+			handlers.NotFoundHandler(w, r)
+			return
+		}
+		// Check if static file exists, otherwise serve 404
+		if _, err := os.Stat("static" + r.URL.Path); err != nil {
+			handlers.NotFoundHandler(w, r)
 			return
 		}
 		fs.ServeHTTP(w, r)

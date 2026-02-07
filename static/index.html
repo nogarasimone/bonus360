@@ -3,7 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BonusPerMe — Scopri i bonus a cui hai diritto</title>
+  <title>BonusPerMe — Scopri tutti i bonus e agevolazioni a cui hai diritto</title>
+  <meta name="description" content="Calcola gratis quali bonus, agevolazioni e detrazioni fiscali spettano alla tua famiglia. Assegno Unico, Bonus Nido, ADI e altri 40+ bonus italiani. Nessuna registrazione.">
+  <meta name="keywords" content="bonus famiglia 2026, agevolazioni fiscali, assegno unico, bonus nido, ISEE, detrazioni, bonus italia, calcolo bonus">
+  <meta name="author" content="BonusPerMe — Simone Nogara">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://bonusperme.it/">
+  <meta http-equiv="Content-Language" content="it">
+  <link rel="alternate" hreflang="it" href="https://bonusperme.it/">
+  <link rel="alternate" hreflang="en" href="https://bonusperme.it/?lang=en">
+  <link rel="alternate" hreflang="fr" href="https://bonusperme.it/?lang=fr">
+  <link rel="alternate" hreflang="es" href="https://bonusperme.it/?lang=es">
+  <link rel="alternate" hreflang="ro" href="https://bonusperme.it/?lang=ro">
+  <link rel="alternate" hreflang="ar" href="https://bonusperme.it/?lang=ar">
+  <link rel="alternate" hreflang="sq" href="https://bonusperme.it/?lang=sq">
+  <link rel="alternate" hreflang="x-default" href="https://bonusperme.it/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://bonusperme.it/">
+  <meta property="og:title" content="BonusPerMe — Scopri i bonus per la tua famiglia">
+  <meta property="og:description" content="Calcola gratis quali bonus e agevolazioni spettano alla tua famiglia. 40+ bonus italiani, 7 lingue, nessuna registrazione.">
+  <meta property="og:image" content="https://bonusperme.it/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="BonusPerMe — Calcola i tuoi bonus">
+  <meta property="og:locale" content="it_IT">
+  <meta property="og:site_name" content="BonusPerMe">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="BonusPerMe — Scopri i bonus per la tua famiglia">
+  <meta name="twitter:description" content="Calcola gratis quali bonus e agevolazioni spettano alla tua famiglia.">
+  <meta name="twitter:image" content="https://bonusperme.it/og-image.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#1B3A54">
+  <meta name="msapplication-TileColor" content="#1B3A54">
   <link rel="stylesheet" href="/fonts/fonts.css">
   {{if .TurnstileSiteKey}}<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>{{end}}
   <!-- Google Tag Manager (loads only after cookie consent) -->
@@ -28,7 +62,7 @@
       --ink: #1C1C1F;
       --ink-75: #404045;
       --ink-50: #76767C;
-      --ink-30: #A8A8AD;
+      --ink-30: #757575;
       --ink-15: #D4D4D7;
       --ink-05: #F0F0F1;
 
@@ -62,6 +96,12 @@
       --max-w: 1040px;
       --gutter: 24px;
     }
+
+    /* Skip link */
+    .skip-link{position:absolute;top:-100%;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;padding:12px 24px;z-index:9999;border-radius:0 0 var(--radius) var(--radius);font-weight:600;text-decoration:none;font-size:.9rem;transition:top .2s}
+    .skip-link:focus{top:0}
+    /* Screen reader only */
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
     html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
 
@@ -1067,13 +1107,14 @@
   </style>
 </head>
 <body>
+<a href="#main-content" class="skip-link">Vai al contenuto principale</a>
 <!-- Google Tag Manager (noscript) -->
 {{if .GTMID}}<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{.GTMID}}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>{{end}}
 
 <!-- ============================================
      SVG ICON SPRITE (hidden, referenced via <use>)
      ============================================ -->
-<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
   <symbol id="ico-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
   </symbol>
@@ -1225,7 +1266,7 @@
 <div id="landingPage">
 
 <!-- HERO -->
-<section class="hero">
+<section class="hero" id="main-content">
   <div class="container hero-grid">
     <div class="hero-content">
       <div class="label hero-pretitle">
@@ -1516,7 +1557,7 @@
 </section>
 
 <!-- FOOTER -->
-<footer class="footer">
+<footer class="footer" role="contentinfo">
   <div class="container footer-inner">
     <div class="footer-left">
       <a href="/" class="logo">
@@ -1558,8 +1599,8 @@
 <!-- WIZARD PAGE -->
 <div id="wizardPage" class="wizard-page" style="display:none">
   <div class="wizard-container">
-    <div class="wizard-card">
-      <div class="wizard-steps">
+    <div class="wizard-card" role="form" aria-label="Verifica bonus">
+      <div class="wizard-steps" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="4" aria-label="Progresso: step 1 di 4" id="wizProgress">
         <div class="wizard-step-dot active" data-step="0"></div>
         <div class="wizard-step-dot" data-step="1"></div>
         <div class="wizard-step-dot" data-step="2"></div>
@@ -1574,7 +1615,7 @@
         {{if .TurnstileSiteKey}}<div class="cf-turnstile" data-sitekey="{{.TurnstileSiteKey}}" data-callback="onTurnstileSuccess" data-theme="light" style="margin-bottom:16px"></div>{{end}}
           <div class="wiz-field">
             <label for="wiz-eta" data-i18n="label.eta">Età</label>
-            <input type="number" id="wiz-eta" min="18" max="120" value="35" placeholder="Es. 35">
+            <input type="number" id="wiz-eta" min="18" max="120" value="35" placeholder="Es. 35" aria-required="true">
           </div>
           <div class="wiz-field">
             <label for="wiz-stato-civile" data-i18n="label.stato_civile">Stato civile</label>
@@ -1958,6 +1999,18 @@
       if (i < wizStep) d.classList.add('done');
       if (i === wizStep) d.classList.add('active');
     });
+    // Update progress bar ARIA
+    var prog = document.getElementById('wizProgress');
+    if (prog) {
+      prog.setAttribute('aria-valuenow', wizStep + 1);
+      prog.setAttribute('aria-label', 'Progresso: step ' + (wizStep + 1) + ' di 4');
+    }
+    // Focus management: move focus to step title
+    var activePanel = document.querySelector('.wizard-panel.active');
+    if (activePanel) {
+      var title = activePanel.querySelector('.wizard-step-title');
+      if (title) { title.setAttribute('tabindex', '-1'); title.focus(); }
+    }
   }
 
   function wizNext() {
@@ -2178,7 +2231,7 @@
 
       // Accordion toggle
       var lExpand = (currentTranslations && currentTranslations['results.expand']) || 'Vedi dettagli';
-      html += '<button class="bonus-toggle" onclick="toggleDetails(\'' + cardId + '\')"><span>' + esc(lExpand) + '</span><svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>';
+      html += '<button class="bonus-toggle" onclick="toggleDetails(\'' + cardId + '\')" aria-expanded="false" aria-controls="' + cardId + '-details"><span>' + esc(lExpand) + '</span><svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>';
 
       // Details
       html += '<div class="bonus-details" id="' + cardId + '-details">';
@@ -2217,7 +2270,7 @@
       if (b.faq && b.faq.length > 0) {
         html += '<div class="detail-section"><div class="detail-section-title">' + esc(lFaq) + '</div><ul class="faq-list">';
         b.faq.forEach(function(f) {
-          html += '<li class="faq-item"><button class="faq-question" onclick="toggleFaq(this)"><span>' + esc(f.domanda) + '</span><svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button><div class="faq-answer">' + esc(f.risposta) + '</div></li>';
+          html += '<li class="faq-item"><button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false"><span>' + esc(f.domanda) + '</span><svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button><div class="faq-answer" role="region">' + esc(f.risposta) + '</div></li>';
         });
         html += '</ul></div>';
       }
@@ -2305,7 +2358,10 @@
     var btn = det.previousElementSibling;
     var isOpen = det.classList.toggle('show');
     btn.classList.toggle('open', isOpen);
-    btn.querySelector('span').textContent = isOpen ? 'Nascondi dettagli' : 'Vedi dettagli';
+    btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    var lExpand = (currentTranslations && currentTranslations['results.expand']) || 'Vedi dettagli';
+    var lCollapse = (currentTranslations && currentTranslations['results.collapse']) || 'Nascondi dettagli';
+    btn.querySelector('span').textContent = isOpen ? lCollapse : lExpand;
   }
 
   function toggleFaq(btn) {
@@ -2316,11 +2372,13 @@
     if (section) {
       section.querySelectorAll('.faq-question.open').forEach(function(q) {
         q.classList.remove('open');
+        q.setAttribute('aria-expanded', 'false');
         q.nextElementSibling.classList.remove('show');
       });
     }
     if (!isOpen) {
       btn.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
       answer.classList.add('show');
     }
   }
@@ -2501,6 +2559,33 @@
 
   initSocialProof();
 
+  /* Keyboard navigation */
+  document.addEventListener('keydown', function(e) {
+    // Escape closes accordion details
+    if (e.key === 'Escape') {
+      var openDetails = document.querySelectorAll('.bonus-details.show');
+      openDetails.forEach(function(det) {
+        det.classList.remove('show');
+        var btn = det.previousElementSibling;
+        if (btn) { btn.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
+      });
+      var openFaq = document.querySelectorAll('.faq-question.open');
+      openFaq.forEach(function(q) {
+        q.classList.remove('open');
+        q.setAttribute('aria-expanded', 'false');
+        q.nextElementSibling.classList.remove('show');
+      });
+    }
+  });
+
+  /* Update lang and dir on language change */
+  var origSelectLang = selectLang;
+  selectLang = function(lang) {
+    origSelectLang(lang);
+    document.documentElement.setAttribute('lang', lang);
+    document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  };
+
   function handleISEEFile(file) {
     var status = document.getElementById('iseeUploadStatus');
     status.style.display = 'block';
@@ -2542,8 +2627,81 @@
 <div class="social-proof" id="socialProofToast">
   <span class="sp-dot"></span>
   <span class="sp-text"></span>
-  <button class="sp-close" onclick="closeSocialProof()">&times;</button>
+  <button class="sp-close" onclick="closeSocialProof()" aria-label="Chiudi notifica">&times;</button>
 </div>
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "BonusPerMe",
+  "url": "https://bonusperme.it",
+  "description": "Calcola gratis quali bonus, agevolazioni e detrazioni fiscali spettano alla tua famiglia. 40+ bonus italiani, 7 lingue.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "EUR"
+  },
+  "inLanguage": ["it","en","fr","es","ro","ar","sq"],
+  "author": {
+    "@type": "Organization",
+    "name": "BonusPerMe",
+    "url": "https://bonusperme.it"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Come funziona BonusPerMe?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Inserisci i dati della tua famiglia (età, ISEE, figli, occupazione) e il sistema calcola automaticamente quali bonus e agevolazioni ti spettano tra oltre 40 misure nazionali e regionali."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "È gratuito?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sì, BonusPerMe è completamente gratuito. Non richiede registrazione e non salva dati personali."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quali bonus sono inclusi?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oltre 40 bonus tra cui Assegno Unico, Bonus Nido, ADI, Bonus Bollette, Carta Dedicata a Te, detrazioni fiscali e bonus regionali."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "In quali lingue è disponibile?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BonusPerMe è disponibile in 7 lingue: Italiano, English, Français, Español, Română, العربية e Shqip."
+      }
+    }
+  ]
+}
+</script>
+
+<!-- Service Worker Registration -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js').catch(function() {});
+  });
+}
+</script>
 
 </body>
 </html>

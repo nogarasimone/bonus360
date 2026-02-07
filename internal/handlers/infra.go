@@ -354,6 +354,9 @@ func SitemapHandler(w http.ResponseWriter, r *http.Request) {
 	urls := []siteURL{
 		{Loc: baseURL + "/", ChangeFreq: "daily", Priority: "1.0"},
 		{Loc: baseURL + "/per-caf", ChangeFreq: "monthly", Priority: "0.7"},
+		{Loc: baseURL + "/contatti", ChangeFreq: "monthly", Priority: "0.5"},
+		{Loc: baseURL + "/privacy", ChangeFreq: "yearly", Priority: "0.3"},
+		{Loc: baseURL + "/cookie-policy", ChangeFreq: "yearly", Priority: "0.3"},
 	}
 
 	allBonuses := matcher.GetAllBonusWithRegional()
@@ -380,7 +383,7 @@ func SitemapHandler(w http.ResponseWriter, r *http.Request) {
 // RobotsTxtHandler serves robots.txt with sitemap link.
 func RobotsTxtHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
-	w.Write([]byte("User-agent: *\nAllow: /\n\nSitemap: " + config.Cfg.BaseURL + "/sitemap.xml\n"))
+	w.Write([]byte("User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /.env\nDisallow: /.git\n\nSitemap: " + config.Cfg.BaseURL + "/sitemap.xml\n"))
 }
 
 // ---------- Translations ----------
