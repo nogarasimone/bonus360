@@ -312,9 +312,10 @@ func SitemapHandler(w http.ResponseWriter, r *http.Request) {
 
 	urls := []siteURL{
 		{Loc: baseURL + "/", ChangeFreq: "daily", Priority: "1.0"},
+		{Loc: baseURL + "/per-caf", ChangeFreq: "monthly", Priority: "0.7"},
 	}
 
-	allBonuses := matcher.GetAllBonus()
+	allBonuses := matcher.GetAllBonusWithRegional()
 	for _, b := range allBonuses {
 		urls = append(urls, siteURL{
 			Loc:        baseURL + "/bonus/" + b.ID,
@@ -333,6 +334,12 @@ func SitemapHandler(w http.ResponseWriter, r *http.Request) {
 	enc := xml.NewEncoder(w)
 	enc.Indent("", "  ")
 	enc.Encode(sitemap)
+}
+
+// RobotsTxtHandler serves robots.txt with sitemap link.
+func RobotsTxtHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+	w.Write([]byte("User-agent: *\nAllow: /\n\nSitemap: https://bonus360.it/sitemap.xml\n"))
 }
 
 // ---------- Translations ----------

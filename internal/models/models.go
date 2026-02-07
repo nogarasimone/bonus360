@@ -54,12 +54,15 @@ type Bonus struct {
 	FonteURL             string               `json:"fonte_url,omitempty"`
 	FonteNome            string               `json:"fonte_nome,omitempty"`
 	RiferimentiNormativi []string             `json:"riferimenti_normativi,omitempty"`
+	RegioniApplicabili   []string             `json:"regioni,omitempty"`
+	SogliaISEE           float64              `json:"soglia_isee,omitempty"`
 	Traduzioni           map[string]BonusTrad `json:"traduzioni,omitempty"`
 }
 
 type MatchResult struct {
 	BonusTrovati     int     `json:"bonus_trovati"`
 	RisparmioStimato string  `json:"risparmio_stimato"`
+	PersoFinora      string  `json:"perso_finora,omitempty"`
 	Bonus            []Bonus `json:"bonus"`
 }
 

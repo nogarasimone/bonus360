@@ -568,6 +568,7 @@ func NotifySignupHandler(w http.ResponseWriter, r *http.Request) {
 
 	var body struct {
 		Email string `json:"email"`
+		Tipo  string `json:"tipo,omitempty"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		http.Error(w, "Invalid request body", http.StatusBadRequest)
@@ -591,7 +592,11 @@ func NotifySignupHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer f.Close()
 
-	line := fmt.Sprintf("[%s] %s\n", time.Now().Format(time.RFC3339), body.Email)
+	tipo := body.Tipo
+	if tipo == "" {
+		tipo = "user"
+	}
+	line := fmt.Sprintf("[%s] [%s] %s\n", time.Now().Format(time.RFC3339), tipo, body.Email)
 	if _, err := f.WriteString(line); err != nil {
 		http.Error(w, "Errore interno", http.StatusInternalServerError)
 		return

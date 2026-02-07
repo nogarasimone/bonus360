@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"math"
 	"sort"
+	"strings"
+	"time"
 )
 
 func GetAllBonus() []models.Bonus {
@@ -394,25 +396,59 @@ func GetAllBonus() []models.Bonus {
 	}
 }
 
+// GetAllBonusWithRegional returns national + regional bonuses combined.
+func GetAllBonusWithRegional() []models.Bonus {
+	all := GetAllBonus()
+	all = append(all, GetRegionalBonus()...)
+	return all
+}
+
 // MatchBonus matches user profile against available bonuses.
-// If bonusList is provided, uses that; otherwise falls back to GetAllBonus().
+// If bonusList is provided, uses that; otherwise falls back to GetAllBonusWithRegional().
 func MatchBonus(profile models.UserProfile, bonusList ...[]models.Bonus) models.MatchResult {
 	var allBonus []models.Bonus
 	if len(bonusList) > 0 && len(bonusList[0]) > 0 {
 		allBonus = bonusList[0]
 	} else {
-		allBonus = GetAllBonus()
+		allBonus = GetAllBonusWithRegional()
 	}
 	var matched []models.Bonus
 	totalSaving := 0.0
 
+	userRegion := strings.ToLower(strings.TrimSpace(profile.Residenza))
+
 	for _, b := range allBonus {
+		// Regional filter: if bonus has RegioniApplicabili, user must match
+		if len(b.RegioniApplicabili) > 0 {
+			if userRegion == "" {
+				continue
+			}
+			found := false
+			for _, r := range b.RegioniApplicabili {
+				if strings.ToLower(r) == userRegion {
+					found = true
+					break
+				}
+			}
+			if !found {
+				continue
+			}
+		}
+
 		score := calcScore(b.ID, profile)
+		// For regional bonuses not in calcScore, use generic ISEE-based scoring
+		if score == 0 && len(b.RegioniApplicabili) > 0 {
+			score = calcRegionalScore(b, profile)
+		}
 		if score > 0 {
 			b.Compatibilita = score
 			b.ImportoReale = calcImportoReale(b.ID, profile.ISEE, profile)
 			matched = append(matched, b)
-			totalSaving += estimateSaving(b.ID, profile)
+			saving := estimateSaving(b.ID, profile)
+			if saving == 0 && len(b.RegioniApplicabili) > 0 {
+				saving = estimateRegionalSaving(b)
+			}
+			totalSaving += saving
 		}
 	}
 
@@ -420,11 +456,82 @@ func MatchBonus(profile models.UserProfile, bonusList ...[]models.Bonus) models.
 		return matched[i].Compatibilita > matched[j].Compatibilita
 	})
 
+	// Calculate "perso finora" — monthly bonuses × months elapsed since January
+	perso := calcPersoFinora(totalSaving)
+
 	return models.MatchResult{
 		BonusTrovati:     len(matched),
 		RisparmioStimato: fmt.Sprintf("€%.0f", totalSaving),
+		PersoFinora:      perso,
 		Bonus:            matched,
 	}
+}
+
+// calcRegionalScore scores regional bonuses based on ISEE threshold and category match.
+func calcRegionalScore(b models.Bonus, p models.UserProfile) int {
+	if b.SogliaISEE > 0 && p.ISEE > 0 && p.ISEE > b.SogliaISEE {
+		return 0
+	}
+	cat := strings.ToLower(b.Categoria)
+	switch cat {
+	case "famiglia":
+		if p.NumeroFigli > 0 || p.FigliMinorenni > 0 || p.FigliUnder3 > 0 {
+			if b.SogliaISEE == 0 || p.ISEE == 0 || p.ISEE <= b.SogliaISEE {
+				return 75
+			}
+		}
+		return 0
+	case "istruzione":
+		if p.Studente || p.FigliMinorenni > 0 || p.NumeroFigli > 0 {
+			return 70
+		}
+		return 0
+	case "casa":
+		if p.Affittuario || p.PrimaAbitazione {
+			return 70
+		}
+		return 0
+	case "trasporti":
+		// Show to students, young people, over 65
+		if p.Studente || p.Eta < 26 || p.Over65 > 0 || (p.ISEE > 0 && p.ISEE <= 30000) {
+			return 65
+		}
+		return 0
+	}
+	return 50
+}
+
+// estimateRegionalSaving estimates annual savings for regional bonuses.
+func estimateRegionalSaving(b models.Bonus) float64 {
+	cat := strings.ToLower(b.Categoria)
+	switch cat {
+	case "famiglia":
+		return 800
+	case "istruzione":
+		return 200
+	case "casa":
+		return 2000
+	case "trasporti":
+		return 400
+	}
+	return 300
+}
+
+// calcPersoFinora calculates the estimated amount lost since January.
+func calcPersoFinora(annualSaving float64) string {
+	if annualSaving <= 0 {
+		return ""
+	}
+	monthsElapsed := float64(time.Now().Month() - 1)
+	if monthsElapsed <= 0 {
+		return ""
+	}
+	monthlySaving := annualSaving / 12
+	perso := monthlySaving * monthsElapsed
+	if perso < 10 {
+		return ""
+	}
+	return fmt.Sprintf("€%.0f", perso)
 }
 
 func calcImportoReale(bonusID string, isee float64, profile models.UserProfile) string {

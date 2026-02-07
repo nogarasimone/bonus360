@@ -3,7 +3,9 @@ package main
 import (
 	"bonus360/internal/handlers"
 	"bonus360/internal/i18n"
+	"bonus360/internal/middleware"
 	"bonus360/internal/scraper"
+	sentryutil "bonus360/internal/sentry"
 	"fmt"
 	"log"
 	"net/http"
@@ -12,6 +14,10 @@ import (
 )
 
 func main() {
+	// Initialize Sentry (non-blocking if SENTRY_DSN is empty)
+	sentryutil.Init()
+	defer sentryutil.Flush()
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
@@ -46,16 +52,26 @@ func main() {
 	mux.HandleFunc("/api/scraper-status", handlers.ScraperStatusHandler)
 	mux.HandleFunc("/api/translations", handlers.TranslationsHandler)
 
+	// New API routes
+	mux.HandleFunc("/api/encode-profile", handlers.EncodeProfileHandler)
+	mux.HandleFunc("/api/decode-profile", handlers.DecodeProfileHandler)
+	mux.HandleFunc("/api/bonus", handlers.BonusListHandler)
+	mux.HandleFunc("/api/bonus/", handlers.BonusDetailHandler)
+
+	// Pages
+	mux.HandleFunc("/per-caf", handlers.PerCAFHandler)
+
 	// SEO routes
 	mux.HandleFunc("/bonus/", handlers.BonusPageHandler)
 	mux.HandleFunc("/sitemap.xml", handlers.SitemapHandler)
+	mux.HandleFunc("/robots.txt", handlers.RobotsTxtHandler)
 
 	// Serve static files
 	fs := http.FileServer(http.Dir("static"))
 	mux.Handle("/", fs)
 
-	// Wrap with rate limiter
-	handler := limiter.Middleware(mux)
+	// Wrap with middleware: Recovery → Gzip → Rate Limiter
+	handler := middleware.Recovery(middleware.Gzip(limiter.Middleware(mux)))
 
 	fmt.Printf("Bonus360 running on http://localhost:%s\n", port)
 	log.Fatal(http.ListenAndServe(":"+port, handler))
