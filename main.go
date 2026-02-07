@@ -28,6 +28,11 @@ func main() {
 	// Initialize persistent counter
 	handlers.InitCounter()
 
+	// Wire scraper callback to track last update time
+	scraper.OnScrapeComplete = func(t time.Time) {
+		handlers.SetLastScrape(t)
+	}
+
 	// Start scraper scheduler (respects SCRAPER_ENABLED config)
 	scraper.StartScheduler()
 
@@ -56,6 +61,7 @@ func main() {
 	mux.HandleFunc("/api/analytics", handlers.AnalyticsHandler)
 	mux.HandleFunc("/api/analytics-summary", handlers.AnalyticsSummaryHandler)
 	mux.HandleFunc("/api/scraper-status", handlers.ScraperStatusHandler)
+	mux.HandleFunc("/api/status", handlers.StatusHandler)
 	mux.HandleFunc("/api/translations", handlers.TranslationsHandler)
 
 	// New API routes
@@ -111,6 +117,7 @@ func main() {
 			if broken > 0 {
 				logger.Warn("link check: broken links found at boot", map[string]interface{}{"broken": broken})
 			}
+			handlers.SetLastScrape(time.Now())
 		}()
 
 		// Periodic link check
@@ -124,6 +131,7 @@ func main() {
 					ptrs[i] = &allBonus[i]
 				}
 				linkcheck.CheckAllLinks(ptrs)
+				handlers.SetLastScrape(time.Now())
 			}
 		}()
 	}

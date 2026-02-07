@@ -1143,7 +1143,7 @@
 
 <!-- TOPBAR -->
 <div class="topbar">
-  <span data-i18n="topbar.free">Servizio gratuito</span> <span>·</span> <span data-i18n="topbar.nodata">Nessun dato salvato</span> <span>·</span> <span id="topbar-date">Dati aggiornati</span>
+  <span data-i18n="topbar.free">Servizio gratuito</span> <span>·</span> <span data-i18n="topbar.nodata">Nessun dato salvato</span> <span>·</span> <span id="lastUpdate" data-i18n="topbar.updated">Dati aggiornati al ...</span>
 </div>
 
 <!-- HEADER -->
@@ -1864,18 +1864,27 @@
   updateEstimate();
 
   /* Load last scraping date */
-  fetch('/api/scraper-status')
-    .then(function(r) { return r.json(); })
-    .then(function(d) {
-      if (d.last_run) {
-        var dt = new Date(d.last_run);
-        var dd = ('0' + dt.getDate()).slice(-2);
-        var mm = ('0' + (dt.getMonth() + 1)).slice(-2);
-        var yyyy = dt.getFullYear();
-        document.getElementById('topbar-date').textContent = 'Dati aggiornati al ' + dd + '/' + mm + '/' + yyyy;
-      }
-    })
-    .catch(function() {});
+  function updateLastScrapeDate() {
+    fetch('/api/status')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.last_update_display) {
+          var el = document.getElementById('lastUpdate');
+          if (el) el.textContent = 'Dati aggiornati al ' + data.last_update_display;
+        }
+      })
+      .catch(function() {
+        var now = new Date();
+        var dd = String(now.getDate()).padStart(2, '0');
+        var mm = String(now.getMonth() + 1).padStart(2, '0');
+        var yyyy = now.getFullYear();
+        var hh = String(now.getHours()).padStart(2, '0');
+        var min = String(now.getMinutes()).padStart(2, '0');
+        var el = document.getElementById('lastUpdate');
+        if (el) el.textContent = 'Dati aggiornati al ' + dd + '/' + mm + '/' + yyyy + ' alle ' + hh + ':' + min;
+      });
+  }
+  updateLastScrapeDate();
 
   /* ============================================
      PAGE NAVIGATION

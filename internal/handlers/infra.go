@@ -18,6 +18,46 @@ import (
 
 var startTime = time.Now()
 
+// ---------- Last scrape time tracking ----------
+
+var (
+	lastScrapeTime time.Time
+	lastScrapeMu   sync.RWMutex
+)
+
+// SetLastScrape records the time of the most recent data update.
+func SetLastScrape(t time.Time) {
+	lastScrapeMu.Lock()
+	lastScrapeTime = t
+	lastScrapeMu.Unlock()
+}
+
+// getLastScrape returns the last scrape time, falling back to server start time.
+func getLastScrape() time.Time {
+	lastScrapeMu.RLock()
+	defer lastScrapeMu.RUnlock()
+	if lastScrapeTime.IsZero() {
+		return startTime
+	}
+	return lastScrapeTime
+}
+
+// StatusHandler returns the last data update time in Italian timezone.
+func StatusHandler(w http.ResponseWriter, r *http.Request) {
+	t := getLastScrape()
+
+	loc, err := time.LoadLocation("Europe/Rome")
+	if err == nil {
+		t = t.In(loc)
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"last_update":         t.Format(time.RFC3339),
+		"last_update_display": t.Format("02/01/2006 alle 15:04"),
+	})
+}
+
 // ---------- Privacy-first analytics ----------
 
 type analyticsStore struct {

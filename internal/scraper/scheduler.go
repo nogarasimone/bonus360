@@ -33,6 +33,10 @@ var cache = &BonusCache{
 	sourcesStatus: make(map[string]SourceStatus),
 }
 
+// OnScrapeComplete is called at the end of each scrape cycle.
+// Set from main.go to propagate last-update time.
+var OnScrapeComplete func(time.Time)
+
 // StartScheduler runs an initial scrape and then re-scrapes at the configured interval.
 func StartScheduler() {
 	if !config.Cfg.ScraperEnabled {
@@ -102,6 +106,10 @@ func RunScrape() {
 	cache.mu.Unlock()
 
 	logger.Info("scraper: cache updated", map[string]interface{}{"total": len(enriched), "cycle": cache.updateCount})
+
+	if OnScrapeComplete != nil {
+		OnScrapeComplete(time.Now())
+	}
 }
 
 // GetCachedBonus returns the cached list of bonuses.
