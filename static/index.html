@@ -895,105 +895,158 @@
        RESULTS PAGE
        ============================================ */
     .results-page { min-height: calc(100vh - 54px); padding: 60px 0; background: var(--warm-cream); }
-    .results-hero-card { max-width: 600px; margin: 0 auto 40px; background: #fff; border: 1px solid var(--ink-15); border-radius: var(--radius-lg); padding: 36px; text-align: center; box-shadow: var(--shadow-card); border-top: 4px solid; border-image: linear-gradient(90deg, var(--terra), var(--blue-mid)) 1; }
-    .results-hero-card h2 { margin-bottom: 8px; }
-    .results-saving { font-family: 'JetBrains Mono', monospace; font-size: 2.2rem; font-weight: 600; color: var(--green); margin-bottom: 8px; }
-    .results-count-pill { display: inline-block; font-size: 0.78rem; font-weight: 600; color: var(--blue); background: var(--blue-light); padding: 4px 14px; border-radius: 20px; }
-    .results-action-bar { display: flex; gap: 10px; justify-content: center; margin-bottom: 32px; flex-wrap: wrap; }
-    .btn-action { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border: 1.5px solid var(--ink-15); border-radius: var(--radius); background: #fff; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 600; color: var(--ink-75); cursor: pointer; transition: all 0.15s; }
-    .btn-action:hover { border-color: var(--ink-30); background: var(--ink-05); color: var(--ink); }
-    .btn-action .icon { width: 15px; height: 15px; }
-    .results-tabs { display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; margin-bottom: 28px; max-width: 800px; margin-left: auto; margin-right: auto; scrollbar-width: none; }
+    .results-hero { max-width: 600px; margin: 0 auto 24px; text-align: center; background: #fff; border: 1px solid var(--ink-15); border-radius: var(--radius-lg); padding: 40px 32px; position: relative; overflow: hidden; box-shadow: var(--shadow-card); }
+    .results-hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--blue), var(--terra), var(--green)); }
+    .results-hero h2 { margin-bottom: 8px; }
+    .saving-amount { font-family: 'JetBrains Mono', monospace; font-size: 2.8rem; font-weight: 600; color: var(--green); line-height: 1; margin: 12px 0; }
+    .bonus-count { display: inline-flex; align-items: center; gap: 6px; padding: 4px 14px; background: var(--green-light); border-radius: 20px; font-size: 0.85rem; font-weight: 600; color: var(--green); margin-top: 8px; }
+    .results-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; max-width: 800px; margin-left: auto; margin-right: auto; }
+    .action-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border: 1px solid var(--ink-15); border-radius: var(--radius); background: #fff; color: var(--ink-75); font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+    .action-btn:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-light); }
+    .action-btn .icon { width: 14px; height: 14px; }
+    .results-tabs { display: flex; gap: 2px; background: var(--ink-05); border-radius: var(--radius-lg); padding: 3px; margin-bottom: 24px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; max-width: 800px; margin-left: auto; margin-right: auto; }
     .results-tabs::-webkit-scrollbar { display: none; }
-    .results-tab { display: flex; align-items: center; gap: 6px; padding: 8px 16px; border: 1px solid var(--ink-15); border-radius: var(--radius); background: #fff; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 600; color: var(--ink-50); cursor: pointer; transition: all 0.15s; white-space: nowrap; flex-shrink: 0; }
-    .results-tab:hover { border-color: var(--ink-30); }
-    .results-tab.active { background: var(--blue); color: #fff; border-color: var(--blue); }
-    .results-tab .icon { width: 14px; height: 14px; }
-    .results-tab.active .icon { color: #fff; }
-    .tab-count { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; background: rgba(0,0,0,0.08); padding: 1px 6px; border-radius: 10px; }
-    .results-tab.active .tab-count { background: rgba(255,255,255,0.25); }
-    .bonus-grid { display: grid; gap: 16px; max-width: 800px; margin: 0 auto; }
+    .tab-btn { display: flex; align-items: center; gap: 6px; padding: 8px 16px; border: none; border-radius: var(--radius); background: transparent; color: var(--ink-50); font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+    .tab-btn:hover { color: var(--ink-75); background: rgba(255,255,255,0.5); }
+    .tab-btn.active { background: #fff; color: var(--blue); font-weight: 600; box-shadow: var(--shadow-subtle); }
+    .tab-btn .tab-icon { width: 16px; height: 16px; }
+    .tab-btn .tab-count { display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; font-size: 0.68rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; background: var(--ink-05); color: var(--ink-50); }
+    .tab-btn.active .tab-count { background: var(--blue-light); color: var(--blue); }
+    .bonus-grid { display: grid; gap: 12px; max-width: 800px; margin: 0 auto; }
 
-    /* Bonus card */
-    .bonus-card { background: #fff; border: 1px solid var(--ink-15); border-radius: var(--radius-lg); padding: 28px; position: relative; overflow: hidden; transition: box-shadow 0.2s; }
-    .bonus-card:hover { box-shadow: var(--shadow-hover); }
-    .bonus-card-stripe { position: absolute; top: 0; left: 0; width: 4px; height: 100%; }
-    .bonus-card-stripe.famiglia { background: var(--terra); }
-    .bonus-card-stripe.casa { background: var(--amber); }
-    .bonus-card-stripe.salute { background: #7B68AE; }
-    .bonus-card-stripe.istruzione { background: var(--blue-mid); }
-    .bonus-card-stripe.spesa { background: var(--green); }
-    .bonus-card-stripe.lavoro { background: #5cb85c; }
-    .bonus-card-stripe.sostegno { background: var(--terra); }
-    .bonus-card-stripe.altro { background: var(--ink-30); }
-    .bonus-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 10px; padding-left: 12px; }
-    .bonus-card-top h3 { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 1rem; line-height: 1.3; }
-    .bonus-ente { font-size: 0.72rem; color: var(--ink-50); margin-top: 2px; }
-    .badge-regionale { display: inline-block; background: #F3E8FF; color: #6B21A8; font-size: 0.62rem; font-weight: 700; padding: 2px 6px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.03em; margin-left: 6px; vertical-align: middle; }
-    .compat-pill { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 600; padding: 4px 10px; border-radius: var(--radius); white-space: nowrap; flex-shrink: 0; }
-    .compat-high { background: var(--green-light); color: var(--green); }
-    .compat-med { background: var(--amber-light); color: var(--amber); }
-    .compat-low { background: var(--ink-05); color: var(--ink-50); }
-    .compat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+    /* === BONUS CARD === */
+    .bonus-card { background: #fff; border: 1px solid var(--ink-15); border-radius: var(--radius-lg); overflow: hidden; transition: box-shadow 0.2s; }
+    .bonus-card:hover { box-shadow: var(--shadow-card); }
+    .bonus-card-header { padding: 20px 24px 16px; }
+    .bonus-title-row { display: flex; align-items: center; gap: 10px; margin-bottom: 2px; }
+    .bonus-title-row .compat-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
     .compat-dot.high { background: var(--green); }
     .compat-dot.med { background: var(--amber); }
     .compat-dot.low { background: var(--ink-30); }
-    .bonus-desc { font-size: 0.85rem; color: var(--ink-75); line-height: 1.6; padding-left: 12px; margin-bottom: 12px; }
-    .bonus-importo { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; margin-left: 12px; background: var(--ink-05); border-radius: var(--radius); margin-bottom: 8px; }
-    .bonus-importo .lbl { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-50); }
-    .bonus-importo .val { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 0.95rem; color: var(--ink); }
-    .bonus-importo-reale { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; margin-left: 12px; background: var(--green-light); border-radius: var(--radius); margin-bottom: 8px; }
-    .bonus-importo-reale .lbl { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--green); }
-    .bonus-importo-reale .val { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 0.95rem; color: var(--green); }
-    .bonus-expand { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 10px; margin-left: 12px; margin-top: 4px; border: none; background: none; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600; color: var(--blue-mid); cursor: pointer; text-align: left; border-radius: var(--radius); }
-    .bonus-expand:hover { background: var(--blue-light); }
-    .expand-chevron { width: 16px; height: 16px; transition: transform 0.2s; flex-shrink: 0; }
-    .bonus-expand.open .expand-chevron { transform: rotate(180deg); }
-    .bonus-details { display: none; padding: 16px 0 0 12px; }
-    .bonus-details.open { display: block; }
-    .detail-sect { margin-bottom: 16px; }
-    .detail-sect h4 { font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 700; color: var(--blue); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.04em; }
-    .detail-sect ul { list-style: none; padding: 0; }
-    .detail-sect li { position: relative; padding-left: 18px; font-size: 0.85rem; color: var(--ink-75); line-height: 1.65; margin-bottom: 4px; }
-    .detail-sect li::before { content: ''; position: absolute; left: 0; top: 9px; width: 6px; height: 6px; border-radius: 50%; background: var(--ink-15); }
-    .bonus-link-row { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--ink-15); }
-    .bonus-link { display: inline-flex; align-items: center; gap: 4px; font-size: 0.82rem; font-weight: 600; }
-    .link-ok { color: var(--green); }
-    .link-warn { color: var(--amber); }
-    .link-note { font-size: 0.72rem; color: var(--ink-50); }
-    .bonus-verifica { margin-top: 12px; padding: 10px 14px; background: var(--amber-light); border-left: 3px solid var(--amber); border-radius: 0 var(--radius) var(--radius) 0; font-size: 0.78rem; color: var(--ink-75); display: flex; gap: 8px; align-items: flex-start; }
+    .bonus-title-row .bonus-name { flex: 1; font-family: 'DM Sans', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--ink); line-height: 1.3; }
+    .bonus-title-row .compat-badge { padding: 3px 10px; border-radius: 12px; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; }
+    .compat-badge.high { background: #E9F5ED; color: var(--green); }
+    .compat-badge.med { background: #FAF4E6; color: var(--amber); }
+    .compat-badge.low { background: var(--ink-05); color: var(--ink-30); }
+    .badge-regionale { display: inline-block; background: #F3E8FF; color: #6B21A8; font-size: 0.62rem; font-weight: 700; padding: 2px 6px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.03em; margin-left: 6px; vertical-align: middle; }
+    .badge-scaduto { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; background: #FEE2E2; color: #DC2626; font-family: 'DM Sans', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 3px; line-height: 1; margin-left: 6px; vertical-align: middle; }
+    .bonus-meta-row { display: flex; align-items: center; gap: 8px; padding-left: 20px; margin-bottom: 14px; }
+    .bonus-ente { font-size: 0.78rem; color: var(--ink-30); }
+    .bonus-meta-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-15); }
+    .bonus-scadenza { font-size: 0.72rem; color: var(--terra); font-weight: 600; }
+    .bonus-scadenza.active { color: var(--ink-30); }
+    .bonus-importo-box { margin: 0 24px 14px 44px; background: var(--warm-cream); border-radius: var(--radius); padding: 12px 16px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .importo-main { font-family: 'JetBrains Mono', monospace; font-size: 1.15rem; font-weight: 700; color: var(--green); }
+    .importo-annual { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: var(--ink-50); }
+    .importo-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--green); background: #E9F5ED; padding: 2px 6px; border-radius: 3px; }
+    .importo-range { width: 100%; font-size: 0.75rem; color: var(--ink-30); margin-top: 4px; }
+    .bonus-desc { padding: 0 24px 0 44px; font-size: 0.85rem; color: var(--ink-50); line-height: 1.6; margin-bottom: 4px; }
+    .bonus-toggle { display: flex; align-items: center; gap: 6px; width: 100%; padding: 12px 24px; background: none; border: none; border-top: 1px solid var(--ink-15); color: var(--blue); font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+    .bonus-toggle:hover { background: var(--blue-light); }
+    .bonus-toggle .chevron { width: 14px; height: 14px; transition: transform 0.2s; }
+    .bonus-toggle.open .chevron { transform: rotate(180deg); }
+    .bonus-details { display: none; padding: 0 24px 20px 24px; }
+    .bonus-details.show { display: block; }
+    .detail-section { background: #FAFAFA; border: 1px solid var(--ink-15); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 10px; }
+    .detail-section-title { font-family: 'DM Sans', sans-serif; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-30); margin-bottom: 10px; }
+    .req-list { list-style: none; padding: 0; margin: 0; }
+    .req-item { display: flex; align-items: start; gap: 8px; padding: 4px 0; font-size: 0.82rem; color: var(--ink-75); line-height: 1.5; }
+    .req-item::before { content: ''; display: block; width: 16px; height: 16px; min-width: 16px; margin-top: 2px; border-radius: 50%; background: #E9F5ED url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M5 8.5l2 2 4-4' stroke='%232A6B45' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px; }
+    .steps-list { list-style: none; padding: 0; margin: 0; }
+    .step-item { display: flex; align-items: start; gap: 10px; padding: 5px 0; font-size: 0.82rem; color: var(--ink-75); line-height: 1.5; }
+    .step-num { display: flex; align-items: center; justify-content: center; width: 22px; height: 22px; min-width: 22px; border-radius: 50%; background: var(--blue); color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 700; }
+    .doc-list { list-style: none; padding: 0; margin: 0; }
+    .doc-item { display: flex; align-items: center; gap: 10px; padding: 6px 0; font-size: 0.82rem; color: var(--ink-75); cursor: pointer; user-select: none; transition: opacity 0.15s; }
+    .doc-item:hover { opacity: 0.8; }
+    .doc-checkbox { width: 18px; height: 18px; min-width: 18px; border: 1.5px solid var(--ink-15); border-radius: 4px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; background: #fff; }
+    .doc-item.checked .doc-checkbox { background: var(--green); border-color: var(--green); }
+    .doc-item.checked .doc-checkbox::after { content: ''; display: block; width: 10px; height: 10px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M2 5l2.5 2.5L8 3' stroke='white' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); }
+    .doc-item.checked .doc-label { text-decoration: line-through; color: var(--ink-30); }
+    .faq-list { list-style: none; padding: 0; margin: 0; }
+    .faq-item { border-bottom: 1px solid var(--ink-15); }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-question { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 10px 0; background: none; border: none; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600; color: var(--ink-75); cursor: pointer; text-align: left; }
+    .faq-question:hover { color: var(--blue); }
+    .faq-question .faq-chevron { width: 12px; height: 12px; transition: transform 0.2s; flex-shrink: 0; color: var(--ink-30); }
+    .faq-question.open .faq-chevron { transform: rotate(180deg); }
+    .faq-answer { display: none; padding: 0 0 10px 0; font-size: 0.8rem; color: var(--ink-50); line-height: 1.6; }
+    .faq-answer.show { display: block; }
+    .bonus-card-footer { display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; border-top: 1px solid var(--ink-15); flex-wrap: wrap; gap: 8px; }
+    .link-verified { display: flex; align-items: center; gap: 4px; font-size: 0.72rem; color: var(--green); }
+    .link-verified .icon { width: 14px; height: 14px; }
+    .link-verified-date { color: var(--ink-30); margin-left: 2px; }
+    .link-warn-footer { display: flex; align-items: center; gap: 4px; font-size: 0.72rem; color: var(--amber); }
+    .link-warn-footer .icon { width: 14px; height: 14px; }
+    .btn-sito-ufficiale { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: var(--blue); color: #fff; border: none; border-radius: var(--radius); font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: background 0.15s; }
+    .btn-sito-ufficiale:hover { background: var(--blue-mid); text-decoration: none; }
+    .btn-sito-ufficiale .icon { width: 14px; height: 14px; }
+    .bonus-verifica { margin-bottom: 10px; padding: 10px 14px; background: var(--amber-light); border-left: 3px solid var(--amber); border-radius: 0 var(--radius) var(--radius) 0; font-size: 0.78rem; color: var(--ink-75); display: flex; gap: 8px; align-items: flex-start; }
     .bonus-verifica a { color: var(--blue-mid); text-decoration: underline; }
-    .scadenza-tag { font-size: 0.72rem; font-weight: 600; color: #c00; background: #FFF0F0; padding: 3px 8px; border-radius: 3px; }
-    .wa-share { font-size: 0.78rem; font-weight: 600; color: #25d366; padding: 4px 10px; border-radius: var(--radius); border: 1px solid #25d366; text-decoration: none; }
-    .wa-share:hover { background: #25d366; color: #fff; text-decoration: none; }
-    .doc-item { display: flex; align-items: center; gap: 8px; padding: 6px 0; cursor: pointer; font-size: 0.85rem; color: var(--ink-75); }
-    .doc-item .doc-check { width: 18px; height: 18px; border: 2px solid var(--ink-15); border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: transparent; transition: all 0.15s; flex-shrink: 0; }
-    .doc-item.checked .doc-check { background: var(--green); border-color: var(--green); color: #fff; }
-    .faq-q { padding: 8px 0; font-size: 0.85rem; font-weight: 600; color: var(--ink); cursor: pointer; }
-    .faq-q:hover { color: var(--blue-mid); }
-    .faq-a { display: none; font-size: 0.82rem; color: var(--ink-75); line-height: 1.6; padding-bottom: 8px; }
-    .faq-a.open { display: block; }
-    .source-ref { margin-top: 12px; padding: 12px; border-left: 3px solid var(--blue-mid); background: var(--blue-light); border-radius: 0 var(--radius) var(--radius) 0; font-size: 0.78rem; }
-    .source-ref h4 { margin-bottom: 6px; font-size: 0.72rem; }
-    .sr-row { margin-bottom: 2px; color: var(--ink-75); }
-    .sr-label { font-weight: 600; color: var(--ink-50); }
     .results-modify { text-align: center; margin-top: 32px; }
 
     /* Expired bonus */
     .bonus-card--expired { opacity: 0.65; border-color: var(--ink-15); }
     .bonus-card--expired:hover { opacity: 0.8; }
-    .badge-scaduto { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; background: #FEE2E2; color: #DC2626; font-family: 'DM Sans', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 3px; line-height: 1; margin-left: 6px; vertical-align: middle; }
     .bonus-card--expired .compat-dot { background: var(--ink-30) !important; }
-    .bonus-card--expired .bonus-importo .val { color: var(--ink-30); text-decoration: line-through; }
-    .bonus-card--expired .bonus-importo-reale { display: none; }
-    .expired-note { display: none; padding: 8px 16px; font-size: 0.78rem; color: var(--ink-30); text-align: center; font-style: italic; border-top: 1px solid var(--ink-15); background: var(--ink-05); border-radius: 0 0 var(--radius-lg) var(--radius-lg); margin-top: 8px; }
-    .bonus-card--expired .expired-note { display: block; }
-    .expired-separator { display: flex; align-items: center; gap: 12px; margin: 24px 0 16px; }
+    .bonus-card--expired .importo-main { color: var(--ink-30); text-decoration: line-through; }
+    .bonus-card--expired .importo-label { display: none; }
+    .expired-note { display: none; padding: 10px 24px; font-size: 0.78rem; color: var(--ink-30); text-align: center; font-style: italic; border-top: 1px solid var(--ink-15); background: var(--ink-05); }
+    .bonus-card--expired .expired-note { display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .expired-separator { display: flex; align-items: center; gap: 12px; margin: 24px 0 16px; max-width: 800px; margin-left: auto; margin-right: auto; }
     .expired-separator-line { flex: 1; height: 1px; background: var(--ink-15); }
     .expired-separator-text { display: flex; align-items: center; gap: 4px; font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 600; color: var(--ink-30); text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
     .expired-separator-text .icon { width: 14px; height: 14px; }
     .bonus-count-expired { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; background: var(--ink-05); border-radius: 12px; font-size: 0.75rem; color: var(--ink-30); margin-top: 4px; }
-    .tab-count--expired { background: #FEE2E2; color: #DC2626; }
+    .tab-count--expired { background: #FEE2E2 !important; color: #DC2626 !important; }
+
+    /* Print only elements */
+    .print-only { display: none; }
+
+    /* ============================================
+       PRINT STYLESHEET
+       ============================================ */
+    @media print {
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+      body { background: #fff !important; font-size: 10pt; line-height: 1.5; color: #333; }
+      .site-header, .topbar, .results-actions, .results-tabs, .cookie-banner, .bonus-toggle, .btn-sito-ufficiale, .doc-checkbox, .faq-chevron, .wizard-footer-note, footer, .language-switcher, #landingPage, #wizardPage, .header { display: none !important; }
+      .bonus-details { display: block !important; }
+      .faq-answer { display: block !important; }
+      .print-only { display: block !important; }
+      .results-page, #resultsPage { display: block !important; max-width: 100% !important; padding: 0 !important; margin: 0 !important; min-height: auto !important; }
+      .results-hero { border: 1.5pt solid #1B3A54 !important; border-radius: 6pt !important; padding: 16pt !important; margin-bottom: 16pt !important; page-break-after: avoid; text-align: center; max-width: 100% !important; }
+      .results-hero::before { height: 2pt !important; background: #1B3A54 !important; }
+      .saving-amount { font-size: 22pt !important; color: #2A6B45 !important; }
+      .bonus-count { font-size: 9pt !important; }
+      .bonus-grid { max-width: 100% !important; }
+      .bonus-card { border: 1pt solid #ddd !important; border-radius: 4pt !important; margin-bottom: 10pt !important; page-break-inside: avoid; box-shadow: none !important; }
+      .bonus-card-header { padding: 12pt 14pt 8pt !important; }
+      .bonus-title-row .bonus-name { font-size: 11pt !important; }
+      .compat-badge { border: 1pt solid currentColor !important; font-size: 7pt !important; padding: 1pt 6pt !important; }
+      .bonus-importo-box { background: #F4F3EE !important; padding: 8pt 12pt !important; margin: 4pt 14pt 8pt 14pt !important; border-radius: 3pt !important; }
+      .importo-main { font-size: 11pt !important; }
+      .bonus-desc { font-size: 8.5pt !important; padding: 0 14pt 6pt !important; }
+      .detail-section { background: #FAFAFA !important; border: 0.5pt solid #eee !important; padding: 8pt 10pt !important; margin: 4pt 0 6pt !important; border-radius: 3pt !important; }
+      .detail-section-title { font-size: 7pt !important; margin-bottom: 4pt !important; }
+      .req-item, .step-item, .doc-item { font-size: 8pt !important; padding: 2pt 0 !important; }
+      .step-num { width: 14pt !important; height: 14pt !important; min-width: 14pt !important; font-size: 6pt !important; background: #1B3A54 !important; color: #fff !important; }
+      .faq-question { font-size: 8.5pt !important; font-weight: 600; padding: 4pt 0 2pt !important; }
+      .faq-answer { font-size: 8pt !important; padding: 0 0 4pt !important; }
+      .bonus-card-footer { padding: 6pt 14pt !important; font-size: 7pt !important; }
+      .bonus-card-footer a::after { content: " (" attr(href) ")"; font-size: 6pt; color: #999; word-break: break-all; }
+      .bonus-scadenza { font-size: 7pt !important; border: 0.5pt solid #C0522E; padding: 1pt 4pt; border-radius: 2pt; }
+      .bonus-card--expired { opacity: 0.5 !important; }
+      .badge-scaduto { border: 1pt solid #DC2626 !important; background: #FEE2E2 !important; }
+      .expired-separator { margin: 12pt 0 8pt !important; }
+      .expired-note { display: flex !important; }
+      .doc-item::before { content: '·'; display: inline; margin-right: 4pt; font-weight: bold; }
+      .doc-checkbox { display: none !important; }
+      .doc-item.checked .doc-label { text-decoration: none !important; color: inherit !important; }
+      a { color: #2C5F7C !important; }
+      h1, h2, h3, .results-hero { page-break-after: avoid; }
+      .bonus-card, .detail-section { page-break-inside: avoid; }
+      @page { margin: 15mm 12mm; size: A4; }
+      @page :first { margin-top: 10mm; }
+    }
 
     /* ============================================
        COOKIE BANNER
@@ -1436,8 +1489,8 @@
       </div>
       <div class="privacy-item">
         <div class="privacy-icon"><span class="icon"><svg><use href="#ico-eye-off"/></svg></span></div>
-        <h4 data-i18n="privacy.track_title">Zero tracking</h4>
-        <p data-i18n="privacy.track_desc">Nessun cookie, nessun pixel di tracciamento, nessuna profilazione. Mai. Punto.</p>
+        <h4 data-i18n="privacy.track_title">Privacy first</h4>
+        <p data-i18n="privacy.track_desc">Usiamo solo Google Analytics anonimo, e solo con il tuo consenso. Nessun cookie di profilazione.</p>
       </div>
       <div class="privacy-item">
         <div class="privacy-icon"><span class="icon"><svg><use href="#ico-code"/></svg></span></div>
@@ -1686,22 +1739,36 @@
 <!-- RESULTS PAGE -->
 <div id="resultsPage" class="results-page" style="display:none">
   <div class="container">
-    <div class="results-hero-card">
-      <h2 id="results-title">I tuoi bonus</h2>
-      <div class="results-saving" id="results-saving"></div>
-      <span class="results-count-pill" id="results-count-pill"></span>
+    <!-- Print header (hidden on screen, visible in print) -->
+    <div class="print-only" style="display:none;padding:0 0 12pt 0;border-bottom:2pt solid #1B3A54;margin-bottom:16pt;">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="font-family:'DM Serif Display',serif;font-size:16pt;font-weight:700;color:#1B3A54;">BonusPerMe</div>
+          <div style="font-size:8pt;color:#666;">Report Personalizzato</div>
+        </div>
+        <div style="font-size:8pt;color:#999;text-align:right;">
+          Generato il <span id="printDate"></span><br>
+          bonusperme.it &middot; Documento a scopo orientativo
+        </div>
+      </div>
     </div>
-    <div class="results-action-bar">
-      <button class="btn-action" onclick="window.print()">
+
+    <div class="results-hero" id="resultsHero">
+      <h2 id="results-title">I tuoi bonus</h2>
+      <div class="saving-amount" id="results-saving"></div>
+      <div class="bonus-count" id="results-count"></div>
+    </div>
+    <div class="results-actions">
+      <button class="action-btn" onclick="window.print()">
         <span class="icon"><svg><use href="#ico-printer"/></svg></span> Stampa
       </button>
-      <button class="btn-action" onclick="downloadPDF()">
+      <button class="action-btn" onclick="downloadPDF()">
         <span class="icon"><svg><use href="#ico-file-text"/></svg></span> PDF
       </button>
-      <button class="btn-action" onclick="exportCalendar()">
-        <span class="icon"><svg><use href="#ico-clock"/></svg></span> Calendario
+      <button class="action-btn" onclick="exportCalendar()">
+        <span class="icon"><svg><use href="#ico-clock"/></svg></span> Scadenze
       </button>
-      <button class="btn-action" onclick="shareWhatsApp()">
+      <button class="action-btn" onclick="shareWhatsApp()">
         <span class="icon"><svg><use href="#ico-external"/></svg></span> Condividi
       </button>
     </div>
@@ -1712,6 +1779,13 @@
         <span class="icon icon-sm"><svg><use href="#ico-edit"/></svg></span>
         Modifica dati
       </button>
+    </div>
+
+    <!-- Print footer (hidden on screen, visible in print) -->
+    <div class="print-only" style="display:none;margin-top:20pt;padding-top:10pt;border-top:1pt solid #ddd;font-size:7pt;color:#999;text-align:center;">
+      BonusPerMe &middot; bonusperme.it &middot; info@bonusperme.it<br>
+      Simone Nogara &middot; P.IVA 03817020138 &middot; Via Morazzone 4, 22100 Como (CO)<br>
+      Questo documento a scopo orientativo e non sostituisce la consulenza professionale.
     </div>
   </div>
 </div><!-- /resultsPage -->
@@ -1910,22 +1984,27 @@
   /* ============================================
      RESULTS RENDERING
      ============================================ */
-  var catIcons = {
-    'famiglia': 'ico-users', 'casa': 'ico-home', 'salute': 'ico-shield',
-    'istruzione': 'ico-edit', 'spesa': 'ico-wallet', 'lavoro': 'ico-zap',
-    'sostegno': 'ico-users', 'altro': 'ico-list'
+  var tabIcons = {
+    'tutti': 'ico-list', 'famiglia': 'ico-users', 'casa': 'ico-home',
+    'salute': 'ico-shield', 'istruzione': 'ico-edit', 'spesa': 'ico-wallet',
+    'lavoro': 'ico-zap', 'sostegno': 'ico-users', 'trasporti': 'ico-home', 'altro': 'ico-zap'
   };
+  var tabLabels = {
+    'tutti': 'Tutti', 'famiglia': 'Famiglia', 'casa': 'Casa', 'salute': 'Salute',
+    'istruzione': 'Istruzione', 'spesa': 'Spesa', 'lavoro': 'Lavoro',
+    'sostegno': 'Sostegno', 'trasporti': 'Trasporti', 'altro': 'Altro'
+  };
+  var activeFilter = 'tutti';
 
   function renderResults(data) {
     var attivi = data.bonus_attivi || data.bonus.filter(function(b){return !b.scaduto;}).length;
     var scaduti = data.bonus_scaduti || data.bonus.filter(function(b){return b.scaduto;}).length;
 
     document.getElementById('results-saving').textContent = data.risparmio_stimato || 'EUR 0';
-    var countText = attivi + ' bonus disponibil' + (attivi === 1 ? 'e' : 'i');
-    document.getElementById('results-count-pill').textContent = countText;
+    var countEl = document.getElementById('results-count');
+    countEl.textContent = attivi + ' bonus disponibil' + (attivi === 1 ? 'e' : 'i');
 
-    // Expired count pill
-    var heroCard = document.querySelector('.results-hero-card');
+    // Expired count
     var oldExpPill = document.getElementById('results-expired-pill');
     if (oldExpPill) oldExpPill.remove();
     if (scaduti > 0) {
@@ -1933,39 +2012,58 @@
       expPill.id = 'results-expired-pill';
       expPill.className = 'bonus-count-expired';
       expPill.textContent = '+ ' + scaduti + ' scadut' + (scaduti === 1 ? 'o' : 'i');
-      heroCard.appendChild(expPill);
+      document.getElementById('resultsHero').appendChild(expPill);
+    }
+
+    // Set print date
+    var printDateEl = document.getElementById('printDate');
+    if (printDateEl) {
+      printDateEl.textContent = new Date().toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' });
     }
 
     // Build tab bar
-    var cats = {};
+    var counts = { tutti: data.bonus.length };
     data.bonus.forEach(function(b) {
       if (!b.scaduto) {
         var c = b.categoria || 'altro';
-        cats[c] = (cats[c] || 0) + 1;
+        counts[c] = (counts[c] || 0) + 1;
       }
     });
+    var categories = ['tutti'];
+    data.bonus.forEach(function(b) {
+      if (!b.scaduto) {
+        var c = b.categoria || 'altro';
+        if (categories.indexOf(c) === -1) categories.push(c);
+      }
+    });
+
+    activeFilter = 'tutti';
     var tabs = document.getElementById('resultsTabs');
-    tabs.innerHTML = '<button class="results-tab active" data-cat="all" onclick="filterBonus(\'all\')"><span class="icon"><svg><use href="#ico-list"/></svg></span> Tutti <span class="tab-count">' + data.bonus.length + '</span></button>';
-    Object.keys(cats).forEach(function(c) {
-      var icon = catIcons[c] || 'ico-list';
-      tabs.innerHTML += '<button class="results-tab" data-cat="' + c + '" onclick="filterBonus(\'' + c + '\')"><span class="icon"><svg><use href="#' + icon + '"/></svg></span> ' + capitalize(c) + ' <span class="tab-count">' + cats[c] + '</span></button>';
+    tabs.innerHTML = '';
+    categories.forEach(function(cat) {
+      var icon = tabIcons[cat] || 'ico-zap';
+      var label = tabLabels[cat] || cat.charAt(0).toUpperCase() + cat.slice(1);
+      var count = counts[cat] || 0;
+      tabs.innerHTML += '<button class="tab-btn' + (cat === 'tutti' ? ' active' : '') + '" data-cat="' + cat + '" onclick="filterBonus(\'' + cat + '\')">' +
+        '<svg class="tab-icon"><use href="#' + icon + '"/></svg>' +
+        '<span>' + label + '</span>' +
+        '<span class="tab-count">' + count + '</span></button>';
     });
     // Expired tab
     if (scaduti > 0) {
-      tabs.innerHTML += '<button class="results-tab" data-cat="scaduti" onclick="filterBonus(\'scaduti\')"><span class="icon"><svg><use href="#ico-clock"/></svg></span> Scaduti <span class="tab-count tab-count--expired">' + scaduti + '</span></button>';
+      tabs.innerHTML += '<button class="tab-btn" data-cat="scaduti" onclick="filterBonus(\'scaduti\')"><svg class="tab-icon"><use href="#ico-clock"/></svg><span>Scaduti</span><span class="tab-count tab-count--expired">' + scaduti + '</span></button>';
     }
 
-    renderBonusCards(data.bonus, 'all');
+    renderBonusCards(data.bonus, 'tutti');
   }
 
-  function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
-
   function filterBonus(cat) {
-    document.querySelectorAll('.results-tab').forEach(function(b) {
+    activeFilter = cat;
+    document.querySelectorAll('.tab-btn').forEach(function(b) {
       b.classList.toggle('active', b.dataset.cat === cat);
     });
     var filtered;
-    if (cat === 'all') {
+    if (cat === 'tutti') {
       filtered = lastResult.bonus;
     } else if (cat === 'scaduti') {
       filtered = lastResult.bonus.filter(function(b) { return b.scaduto; });
@@ -1981,125 +2079,141 @@
     var shownExpiredSep = false;
 
     bonuses.forEach(function(b, idx) {
-      var cat = (b.categoria || 'altro').toLowerCase();
       var cardId = 'bonus-card-' + idx;
 
       // Expired separator
       if (b.scaduto && !shownExpiredSep && activeCat !== 'scaduti') {
         shownExpiredSep = true;
-        grid.innerHTML += '<div class="expired-separator"><div class="expired-separator-line"></div><span class="expired-separator-text"><span class="icon"><svg><use href="#ico-clock"/></svg></span> Bonus scaduti</span><div class="expired-separator-line"></div></div>';
+        grid.innerHTML += '<div class="expired-separator"><div class="expired-separator-line"></div><span class="expired-separator-text"><svg class="tab-icon" style="width:14px;height:14px"><use href="#ico-clock"/></svg> Bonus scaduti</span><div class="expired-separator-line"></div></div>';
       }
 
-      var html = '<div class="bonus-card' + (b.scaduto ? ' bonus-card--expired' : '') + '" id="' + cardId + '">';
-      html += '<div class="bonus-card-stripe ' + cat + '"></div>';
+      var compatClass = b.compatibilita >= 80 ? 'high' : (b.compatibilita >= 50 ? 'med' : 'low');
+      var html = '<div class="bonus-card' + (b.scaduto ? ' bonus-card--expired' : '') + '" id="' + cardId + '" data-bonus-id="' + esc(b.id || '') + '">';
 
-      // Top: name + badges + compat
-      html += '<div class="bonus-card-top">';
-      html += '<div><h3>' + esc(b.nome);
+      // Card header
+      html += '<div class="bonus-card-header">';
+
+      // Title row: dot + name + badges + compat badge
+      html += '<div class="bonus-title-row">';
+      html += '<span class="compat-dot ' + compatClass + '"></span>';
+      html += '<span class="bonus-name">' + esc(b.nome);
       if (b.regioni && b.regioni.length > 0) {
         html += ' <span class="badge-regionale">' + esc(b.regioni[0]) + '</span>';
       }
       if (b.scaduto) {
         html += ' <span class="badge-scaduto">SCADUTO</span>';
       }
-      html += '</h3>';
-      html += '<div class="bonus-ente">' + esc(b.ente || '') + '</div></div>';
-      var dotClass = b.compatibilita >= 80 ? 'high' : (b.compatibilita >= 50 ? 'med' : 'low');
-      html += '<span class="compat-dot ' + dotClass + '" title="' + b.compatibilita + '% compatibile"></span>';
+      html += '</span>';
+      html += '<span class="compat-badge ' + compatClass + '">' + b.compatibilita + '%</span>';
+      html += '</div>';
+
+      // Meta row: ente + scadenza
+      html += '<div class="bonus-meta-row">';
+      html += '<span class="bonus-ente">' + esc(b.ente || '') + '</span>';
+      if (b.scadenza) {
+        html += '<span class="bonus-meta-sep"></span>';
+        html += '<span class="bonus-scadenza' + (b.scaduto ? '' : ' active') + '">' + esc(b.scadenza) + '</span>';
+      }
+      html += '</div>';
+
+      // Importo box
+      html += '<div class="bonus-importo-box">';
+      html += '<span class="importo-main">' + esc(b.importo || '') + '</span>';
+      if (b.importo_reale && b.importo_reale !== b.importo) {
+        html += '<span class="importo-annual">' + esc(b.importo_reale) + '</span>';
+        html += '<span class="importo-label">Stimato per te</span>';
+        html += '<span class="importo-range">Range: ' + esc(b.importo) + '</span>';
+      }
       html += '</div>';
 
       // Description
       html += '<p class="bonus-desc">' + esc(b.descrizione || '') + '</p>';
 
-      // Importo
-      html += '<div class="bonus-importo"><span class="lbl">Importo</span><span class="val">' + esc(b.importo || '') + '</span></div>';
-      if (b.importo_reale && b.importo_reale !== b.importo) {
-        html += '<div class="bonus-importo-reale"><span class="lbl">Stimato per te</span><span class="val">' + esc(b.importo_reale) + '</span></div>';
-      }
+      html += '</div>'; // bonus-card-header
 
-      // Scadenza
-      if (b.scadenza) {
-        html += '<div style="padding-left:12px;margin-bottom:8px"><span class="scadenza-tag">' + esc(b.scadenza) + '</span></div>';
-      }
+      // Accordion toggle
+      html += '<button class="bonus-toggle" onclick="toggleDetails(\'' + cardId + '\')"><span>Vedi dettagli</span><svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>';
 
-      // Expand toggle
-      html += '<button class="bonus-expand" onclick="toggleDetails(\'' + cardId + '\')"><span>Mostra dettagli</span><svg class="expand-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>';
-
-      // Details (hidden)
+      // Details
       html += '<div class="bonus-details" id="' + cardId + '-details">';
 
       // Requisiti
       if (b.requisiti && b.requisiti.length > 0) {
-        html += '<div class="detail-sect"><h4>Requisiti</h4><ul>';
-        b.requisiti.forEach(function(r) { html += '<li>' + esc(r) + '</li>'; });
+        html += '<div class="detail-section"><div class="detail-section-title">Requisiti</div><ul class="req-list">';
+        b.requisiti.forEach(function(r) { html += '<li class="req-item">' + esc(r) + '</li>'; });
         html += '</ul></div>';
       }
 
-      // Come richiederlo
+      // Come fare domanda
       if (b.come_richiederlo && b.come_richiederlo.length > 0) {
-        html += '<div class="detail-sect"><h4>Come fare domanda</h4><ul>';
-        b.come_richiederlo.forEach(function(s, si) { html += '<li>' + (si+1) + '. ' + esc(s) + '</li>'; });
+        html += '<div class="detail-section"><div class="detail-section-title">Come fare domanda</div><ul class="steps-list">';
+        b.come_richiederlo.forEach(function(s, si) {
+          html += '<li class="step-item"><span class="step-num">' + (si+1) + '</span><span>' + esc(s) + '</span></li>';
+        });
         html += '</ul></div>';
       }
 
       // Documenti
       if (b.documenti && b.documenti.length > 0) {
-        html += '<div class="detail-sect"><h4>Documenti necessari</h4>';
-        b.documenti.forEach(function(d) {
-          html += '<div class="doc-item" onclick="this.classList.toggle(\'checked\')"><span class="doc-check">&#10003;</span> ' + esc(d) + '</div>';
+        html += '<div class="detail-section"><div class="detail-section-title">Documenti necessari</div><ul class="doc-list">';
+        b.documenti.forEach(function(d, di) {
+          html += '<li class="doc-item" data-doc-idx="' + di + '" onclick="toggleDoc(this)"><span class="doc-checkbox"></span><span class="doc-label">' + esc(d) + '</span></li>';
         });
-        html += '</div>';
+        html += '</ul></div>';
       }
 
       // FAQ
       if (b.faq && b.faq.length > 0) {
-        html += '<div class="detail-sect"><h4>Domande frequenti</h4>';
-        b.faq.forEach(function(f, fi) {
-          var faqId = cardId + '-faq-' + fi;
-          html += '<div class="faq-q" onclick="toggleFaq(\'' + faqId + '\')">' + esc(f.domanda) + '</div>';
-          html += '<div class="faq-a" id="' + faqId + '">' + esc(f.risposta) + '</div>';
+        html += '<div class="detail-section"><div class="detail-section-title">Domande frequenti</div><ul class="faq-list">';
+        b.faq.forEach(function(f) {
+          html += '<li class="faq-item"><button class="faq-question" onclick="toggleFaq(this)"><span>' + esc(f.domanda) + '</span><svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button><div class="faq-answer">' + esc(f.risposta) + '</div></li>';
         });
-        html += '</div>';
+        html += '</ul></div>';
       }
 
-      // Link row
-      html += '<div class="bonus-link-row">';
-      if (b.link_verificato && b.link_ufficiale) {
-        html += '<a class="bonus-link link-ok" href="' + esc(b.link_ufficiale) + '" target="_blank" rel="noopener"><span class="icon icon-sm"><svg><use href="#ico-check-circle"/></svg></span> Link verificato</a>';
-      } else if (b.link_ricerca) {
-        html += '<a class="bonus-link link-warn" href="' + esc(b.link_ricerca) + '" target="_blank" rel="noopener"><span class="icon icon-sm"><svg><use href="#ico-alert"/></svg></span> Cerca su sito ufficiale</a>';
-      } else if (b.link_ufficiale) {
-        html += '<a class="bonus-link" href="' + esc(b.link_ufficiale) + '" target="_blank" rel="noopener"><span class="icon icon-sm"><svg><use href="#ico-external"/></svg></span> Sito ufficiale</a>';
-      }
-      if (b.link_verificato_al) {
-        html += '<span class="link-note">Verificato il ' + esc(b.link_verificato_al) + '</span>';
-      }
-      html += '</div>';
-
-      // Verifica manuale notice
+      // Verifica manuale
       if (b.verifica_manuale_necessaria) {
         html += '<div class="bonus-verifica"><span class="icon icon-sm"><svg><use href="#ico-alert"/></svg></span> Dato inserito manualmente. <a href="' + esc(b.link_ricerca || b.link_ufficiale || '#') + '" target="_blank" rel="noopener">Verifica sul sito della regione</a></div>';
       }
 
-      // Source reference
-      if (b.fonte || b.fonte_nome) {
-        html += '<div class="source-ref"><h4>Fonte</h4>';
-        if (b.fonte_nome) html += '<div class="sr-row"><span class="sr-label">Ente:</span> ' + esc(b.fonte_nome) + '</div>';
-        if (b.fonte) html += '<div class="sr-row"><span class="sr-label">Rif:</span> ' + esc(b.fonte) + '</div>';
-        if (b.ultimo_aggiornamento) html += '<div class="sr-row"><span class="sr-label">Aggiornato:</span> ' + esc(b.ultimo_aggiornamento) + '</div>';
-        html += '</div>';
-      }
-
       html += '</div>'; // bonus-details
+
+      // Card footer: link verification + CTA button
+      html += '<div class="bonus-card-footer">';
+      if (b.link_verificato && b.link_ufficiale) {
+        html += '<div class="link-verified"><span class="icon"><svg><use href="#ico-check-circle"/></svg></span><span>Link verificato</span>';
+        if (b.link_verificato_al) html += '<span class="link-verified-date">' + esc(b.link_verificato_al) + '</span>';
+        if (b.fonte_nome) html += '<span class="link-verified-date">&middot; ' + esc(b.fonte_nome) + '</span>';
+        if (b.ultimo_aggiornamento) html += '<span class="link-verified-date">&middot; Agg. ' + esc(b.ultimo_aggiornamento) + '</span>';
+        html += '</div>';
+        html += '<a href="' + esc(b.link_ufficiale) + '" target="_blank" rel="noopener" class="btn-sito-ufficiale">Vai al sito ufficiale <span class="icon"><svg><use href="#ico-external"/></svg></span></a>';
+      } else if (b.link_ricerca) {
+        html += '<div class="link-warn-footer"><span class="icon"><svg><use href="#ico-alert"/></svg></span><span>Link non verificato</span></div>';
+        html += '<a href="' + esc(b.link_ricerca) + '" target="_blank" rel="noopener" class="btn-sito-ufficiale">Cerca su sito ufficiale <span class="icon"><svg><use href="#ico-external"/></svg></span></a>';
+      } else if (b.link_ufficiale) {
+        html += '<div></div>';
+        html += '<a href="' + esc(b.link_ufficiale) + '" target="_blank" rel="noopener" class="btn-sito-ufficiale">Vai al sito ufficiale <span class="icon"><svg><use href="#ico-external"/></svg></span></a>';
+      }
+      html += '</div>';
 
       // Expired note
       if (b.scaduto) {
-        html += '<div class="expired-note"><span class="icon icon-sm"><svg><use href="#ico-clock"/></svg></span> Questo bonus non è più disponibile. Lasciamo i dettagli per riferimento.</div>';
+        html += '<div class="expired-note"><span class="icon icon-sm"><svg><use href="#ico-clock"/></svg></span> Questo bonus non è più disponibile</div>';
       }
 
       html += '</div>'; // bonus-card
 
       grid.innerHTML += html;
+    });
+
+    // Restore document check states from sessionStorage
+    document.querySelectorAll('.doc-item').forEach(function(el) {
+      var card = el.closest('.bonus-card');
+      if (!card) return;
+      var bonusId = card.dataset.bonusId;
+      var docIdx = el.dataset.docIdx;
+      var key = 'bpm_doc_' + bonusId + '_' + docIdx;
+      if (sessionStorage.getItem(key)) el.classList.add('checked');
     });
   }
 
@@ -2113,13 +2227,40 @@
   function toggleDetails(cardId) {
     var det = document.getElementById(cardId + '-details');
     var btn = det.previousElementSibling;
-    var isOpen = det.classList.toggle('open');
+    var isOpen = det.classList.toggle('show');
     btn.classList.toggle('open', isOpen);
-    btn.querySelector('span').textContent = isOpen ? 'Nascondi dettagli' : 'Mostra dettagli';
+    btn.querySelector('span').textContent = isOpen ? 'Nascondi dettagli' : 'Vedi dettagli';
   }
 
-  function toggleFaq(faqId) {
-    document.getElementById(faqId).classList.toggle('open');
+  function toggleFaq(btn) {
+    var answer = btn.nextElementSibling;
+    var isOpen = btn.classList.contains('open');
+    // Close all in same section
+    var section = btn.closest('.detail-section');
+    if (section) {
+      section.querySelectorAll('.faq-question.open').forEach(function(q) {
+        q.classList.remove('open');
+        q.nextElementSibling.classList.remove('show');
+      });
+    }
+    if (!isOpen) {
+      btn.classList.add('open');
+      answer.classList.add('show');
+    }
+  }
+
+  function toggleDoc(el) {
+    el.classList.toggle('checked');
+    var card = el.closest('.bonus-card');
+    if (!card) return;
+    var bonusId = card.dataset.bonusId;
+    var docIdx = el.dataset.docIdx;
+    var key = 'bpm_doc_' + bonusId + '_' + docIdx;
+    if (el.classList.contains('checked')) {
+      sessionStorage.setItem(key, '1');
+    } else {
+      sessionStorage.removeItem(key);
+    }
   }
 
   /* ============================================
