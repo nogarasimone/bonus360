@@ -64,6 +64,12 @@ func main() {
 
 	// Pages
 	mux.HandleFunc("/per-caf", handlers.PerCAFHandler)
+	mux.HandleFunc("/privacy", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "static/privacy.html")
+	})
+	mux.HandleFunc("/cookie-policy", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "static/cookie-policy.html")
+	})
 
 	// SEO routes
 	mux.HandleFunc("/bonus/", handlers.BonusPageHandler)

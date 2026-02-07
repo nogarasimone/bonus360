@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BonusPerMe — Scopri i bonus a cui hai diritto</title>
   <link rel="stylesheet" href="/fonts/fonts.css">
+  <!-- Google Tag Manager (loads only after cookie consent) -->
+  <script>
+    function loadGTM(){if(window._gtmLoaded)return;window._gtmLoaded=true;
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+    var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+    j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-XXXXXXX');}
+    if(localStorage.getItem('cookie_consent')==='accepted'){loadGTM();}
+  </script>
   <style>
     /* ============================================
        BONUSPERME — DESIGN SYSTEM v2
@@ -850,10 +859,13 @@
     .proof-card { animation: fadeUp 0.5s ease 0.2s both; }
 
     /* ============================================
-       WIZARD
+       WIZARD PAGE (full-page view)
        ============================================ */
-    .wizard-section { padding: 80px 0; background: #fff; border-bottom: 1px solid var(--ink-15); }
-    .wizard-card { max-width: 640px; margin: 0 auto; background: var(--warm-cream); border: 1px solid var(--warm-sand); border-radius: var(--radius-lg); padding: 40px; box-shadow: var(--shadow-card); }
+    .wizard-page { min-height: calc(100vh - 54px); background: var(--warm-cream); align-items: flex-start; justify-content: center; padding: 60px var(--gutter); }
+    .wizard-container { width: 100%; max-width: 640px; }
+    .wizard-card { background: #fff; border: 1px solid var(--ink-15); border-radius: var(--radius-lg); padding: 40px; box-shadow: var(--shadow-card); }
+    .wizard-footer-note { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 16px; font-size: 0.78rem; color: var(--ink-50); }
+    .wizard-footer-note .icon { width: 14px; height: 14px; color: var(--ink-30); }
     .wizard-steps { display: flex; gap: 4px; margin-bottom: 32px; }
     .wizard-step-dot { flex: 1; height: 4px; border-radius: 2px; background: var(--ink-15); transition: background 0.2s; }
     .wizard-step-dot.active { background: var(--terra); }
@@ -877,22 +889,29 @@
     .wiz-isee-upload { margin-top: 12px; padding: 16px; border: 2px dashed var(--ink-15); border-radius: var(--radius); text-align: center; font-size: 0.82rem; color: var(--ink-50); cursor: pointer; transition: all 0.15s; }
     .wiz-isee-upload:hover { border-color: var(--blue-mid); background: var(--blue-light); color: var(--blue); }
     .wiz-isee-upload input { display: none; }
-    @media(max-width:640px) { .wiz-row { grid-template-columns: 1fr; } .wizard-card { padding: 28px 20px; } }
+    @media(max-width:640px) { .wiz-row { grid-template-columns: 1fr; } .wizard-card { padding: 28px 20px; } .wizard-page { padding: 32px var(--gutter); } }
 
     /* ============================================
-       RESULTS
+       RESULTS PAGE
        ============================================ */
-    .results-section { display: none; padding: 60px 0; background: var(--warm-cream); border-bottom: 1px solid var(--warm-sand); }
-    .results-hero { text-align: center; margin-bottom: 40px; }
-    .results-hero h2 { margin-bottom: 8px; }
-    .results-saving { font-family: 'JetBrains Mono', monospace; font-size: 2.2rem; font-weight: 600; color: var(--green); margin-bottom: 4px; }
-    .results-sub { font-size: 0.92rem; color: var(--ink-50); }
-    .results-actions { display: flex; gap: 10px; justify-content: center; margin-bottom: 32px; flex-wrap: wrap; }
-    .results-actions .btn { font-size: 0.82rem; padding: 10px 18px; }
-    .filter-bar { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-bottom: 28px; }
-    .filter-btn { padding: 6px 14px; border: 1px solid var(--ink-15); border-radius: var(--radius); background: #fff; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 600; color: var(--ink-50); cursor: pointer; transition: all 0.15s; }
-    .filter-btn:hover { border-color: var(--ink-30); }
-    .filter-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+    .results-page { min-height: calc(100vh - 54px); padding: 60px 0; background: var(--warm-cream); }
+    .results-hero-card { max-width: 600px; margin: 0 auto 40px; background: #fff; border: 1px solid var(--ink-15); border-radius: var(--radius-lg); padding: 36px; text-align: center; box-shadow: var(--shadow-card); border-top: 4px solid; border-image: linear-gradient(90deg, var(--terra), var(--blue-mid)) 1; }
+    .results-hero-card h2 { margin-bottom: 8px; }
+    .results-saving { font-family: 'JetBrains Mono', monospace; font-size: 2.2rem; font-weight: 600; color: var(--green); margin-bottom: 8px; }
+    .results-count-pill { display: inline-block; font-size: 0.78rem; font-weight: 600; color: var(--blue); background: var(--blue-light); padding: 4px 14px; border-radius: 20px; }
+    .results-action-bar { display: flex; gap: 10px; justify-content: center; margin-bottom: 32px; flex-wrap: wrap; }
+    .btn-action { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border: 1.5px solid var(--ink-15); border-radius: var(--radius); background: #fff; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 600; color: var(--ink-75); cursor: pointer; transition: all 0.15s; }
+    .btn-action:hover { border-color: var(--ink-30); background: var(--ink-05); color: var(--ink); }
+    .btn-action .icon { width: 15px; height: 15px; }
+    .results-tabs { display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; margin-bottom: 28px; max-width: 800px; margin-left: auto; margin-right: auto; scrollbar-width: none; }
+    .results-tabs::-webkit-scrollbar { display: none; }
+    .results-tab { display: flex; align-items: center; gap: 6px; padding: 8px 16px; border: 1px solid var(--ink-15); border-radius: var(--radius); background: #fff; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 600; color: var(--ink-50); cursor: pointer; transition: all 0.15s; white-space: nowrap; flex-shrink: 0; }
+    .results-tab:hover { border-color: var(--ink-30); }
+    .results-tab.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+    .results-tab .icon { width: 14px; height: 14px; }
+    .results-tab.active .icon { color: #fff; }
+    .tab-count { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; background: rgba(0,0,0,0.08); padding: 1px 6px; border-radius: 10px; }
+    .results-tab.active .tab-count { background: rgba(255,255,255,0.25); }
     .bonus-grid { display: grid; gap: 16px; max-width: 800px; margin: 0 auto; }
 
     /* Bonus card */
@@ -915,6 +934,10 @@
     .compat-high { background: var(--green-light); color: var(--green); }
     .compat-med { background: var(--amber-light); color: var(--amber); }
     .compat-low { background: var(--ink-05); color: var(--ink-50); }
+    .compat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+    .compat-dot.high { background: var(--green); }
+    .compat-dot.med { background: var(--amber); }
+    .compat-dot.low { background: var(--ink-30); }
     .bonus-desc { font-size: 0.85rem; color: var(--ink-75); line-height: 1.6; padding-left: 12px; margin-bottom: 12px; }
     .bonus-importo { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; margin-left: 12px; background: var(--ink-05); border-radius: var(--radius); margin-bottom: 8px; }
     .bonus-importo .lbl { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-50); }
@@ -922,8 +945,10 @@
     .bonus-importo-reale { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; margin-left: 12px; background: var(--green-light); border-radius: var(--radius); margin-bottom: 8px; }
     .bonus-importo-reale .lbl { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--green); }
     .bonus-importo-reale .val { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 0.95rem; color: var(--green); }
-    .bonus-expand { display: block; width: 100%; padding: 10px; margin-left: 12px; margin-top: 4px; border: none; background: none; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600; color: var(--blue-mid); cursor: pointer; text-align: left; border-radius: var(--radius); }
+    .bonus-expand { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 10px; margin-left: 12px; margin-top: 4px; border: none; background: none; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600; color: var(--blue-mid); cursor: pointer; text-align: left; border-radius: var(--radius); }
     .bonus-expand:hover { background: var(--blue-light); }
+    .expand-chevron { width: 16px; height: 16px; transition: transform 0.2s; flex-shrink: 0; }
+    .bonus-expand.open .expand-chevron { transform: rotate(180deg); }
     .bonus-details { display: none; padding: 16px 0 0 12px; }
     .bonus-details.open { display: block; }
     .detail-sect { margin-bottom: 16px; }
@@ -953,6 +978,21 @@
     .sr-row { margin-bottom: 2px; color: var(--ink-75); }
     .sr-label { font-weight: 600; color: var(--ink-50); }
     .results-modify { text-align: center; margin-top: 32px; }
+
+    /* ============================================
+       COOKIE BANNER
+       ============================================ */
+    .cookie-banner { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid var(--ink-15); box-shadow: 0 -4px 20px rgba(0,0,0,0.08); padding: 20px var(--gutter); z-index: 1000; }
+    .cookie-inner { max-width: var(--max-w); margin: 0 auto; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .cookie-text { flex: 1; min-width: 260px; font-size: 0.82rem; color: var(--ink-75); line-height: 1.55; }
+    .cookie-text a { color: var(--blue-mid); text-decoration: underline; }
+    .cookie-btns { display: flex; gap: 8px; flex-shrink: 0; }
+    .cookie-btn { padding: 9px 20px; border-radius: var(--radius); font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; }
+    .cookie-btn-accept { background: var(--blue); color: #fff; }
+    .cookie-btn-accept:hover { background: var(--blue-mid); }
+    .cookie-btn-reject { background: var(--ink-05); color: var(--ink-75); }
+    .cookie-btn-reject:hover { background: var(--ink-15); }
+    @media(max-width:640px) { .cookie-inner { flex-direction: column; text-align: center; } .cookie-btns { width: 100%; justify-content: center; } }
   </style>
 </head>
 <body>
@@ -1047,7 +1087,7 @@
                     <span class="icon"><svg><use href="#ico-shield"/></svg></span> GDPR
                 </span>
         <span class="header-badge">
-                    <span class="icon"><svg><use href="#ico-eye-off"/></svg></span> Zero tracking
+                    <span class="icon"><svg><use href="#ico-eye-off"/></svg></span> Privacy First
                 </span>
       </div>
     </div>
@@ -1094,6 +1134,23 @@
   </div>
 </header>
 
+<!-- COOKIE BANNER -->
+<div id="cookieBanner" class="cookie-banner" style="display:none">
+  <div class="cookie-inner">
+    <div class="cookie-text">
+      Utilizziamo cookie tecnici e, con il tuo consenso, cookie analitici (Google Analytics) per migliorare il servizio.
+      <a href="/cookie-policy">Cookie Policy</a> · <a href="/privacy">Privacy Policy</a>
+    </div>
+    <div class="cookie-btns">
+      <button class="cookie-btn cookie-btn-accept" onclick="acceptCookies()">Accetta</button>
+      <button class="cookie-btn cookie-btn-reject" onclick="rejectCookies()">Rifiuta</button>
+    </div>
+  </div>
+</div>
+
+<!-- LANDING PAGE -->
+<div id="landingPage">
+
 <!-- HERO -->
 <section class="hero">
   <div class="container hero-grid">
@@ -1108,10 +1165,10 @@
         Gratis, anonimo, senza registrazione.
       </p>
       <div class="hero-cta-row">
-        <a href="#wizard" class="btn btn-primary">
+        <button class="btn btn-primary" onclick="startWizard()">
           <span data-i18n="hero.cta">Inizia la verifica</span>
           <span class="icon icon-sm"><svg><use href="#ico-arrow-right"/></svg></span>
-        </a>
+        </button>
       </div>
       <div class="hero-meta">
                 <span class="hero-meta-item">
@@ -1378,16 +1435,53 @@
   <div class="container">
     <h2 data-i18n="cta.title">Scopri quanto potresti risparmiare</h2>
     <p data-i18n="cta.subtitle">In 2 minuti sai esattamente a quali bonus hai diritto e come fare domanda.</p>
-    <a href="#wizard" class="btn btn-primary">
+    <button class="btn btn-primary" onclick="startWizard()">
       <span data-i18n="hero.cta">Inizia la verifica gratuita</span>
       <span class="icon icon-sm"><svg><use href="#ico-arrow-right"/></svg></span>
-    </a>
+    </button>
   </div>
 </section>
 
-<!-- WIZARD -->
-<section class="wizard-section" id="wizard">
-  <div class="container">
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-left">
+      <a href="/" class="logo">
+        <div class="logo-mark">B</div>
+        <span class="logo-text">BonusPerMe</span>
+      </a>
+      <p data-i18n="footer.disclaimer">Progetto gratuito e open source. Non siamo un CAF né un patronato. Le informazioni sono a scopo orientativo.</p>
+    </div>
+    <div class="footer-right">
+      <div class="footer-links">
+        <a href="https://github.com/nicospa/bonusperme">
+          <span class="icon"><svg><use href="#ico-github"/></svg></span> GitHub
+        </a>
+        <a href="/privacy">
+          <span class="icon"><svg><use href="#ico-shield"/></svg></span> Privacy Policy
+        </a>
+        <a href="/cookie-policy">
+          <span class="icon"><svg><use href="#ico-file-text"/></svg></span> Cookie Policy
+        </a>
+        <a href="/per-caf">
+          <span class="icon"><svg><use href="#ico-home"/></svg></span> Per i CAF
+        </a>
+      </div>
+      <div class="footer-badges">
+        Simone Nogara · P.IVA 03817020138 <span>·</span> info@bonusperme.it
+      </div>
+      <div class="footer-badges" style="margin-top:4px">
+        GDPR <span>·</span> Privacy First <span>·</span> Server EU <span>·</span> Open Source
+      </div>
+    </div>
+  </div>
+</footer>
+
+</div><!-- /landingPage -->
+
+<!-- WIZARD PAGE -->
+<div id="wizardPage" class="wizard-page" style="display:none">
+  <div class="wizard-container">
     <div class="wizard-card">
       <div class="wizard-steps">
         <div class="wizard-step-dot active" data-step="0"></div>
@@ -1438,7 +1532,7 @@
           </div>
         </div>
         <div class="wiz-nav">
-          <span></span>
+          <button class="btn-ghost" onclick="backToLanding()">Indietro</button>
           <button class="btn btn-primary" onclick="wizNext()">
             Avanti
             <span class="icon icon-sm"><svg><use href="#ico-arrow-right"/></svg></span>
@@ -1564,31 +1658,36 @@
         </div>
       </div>
     </div>
+    <p class="wizard-footer-note">
+      <span class="icon"><svg><use href="#ico-shield"/></svg></span>
+      I tuoi dati non vengono salvati
+    </p>
   </div>
-</section>
+</div><!-- /wizardPage -->
 
-<!-- RESULTS -->
-<section class="results-section" id="results">
+<!-- RESULTS PAGE -->
+<div id="resultsPage" class="results-page" style="display:none">
   <div class="container">
-    <div class="results-hero">
+    <div class="results-hero-card">
       <h2 id="results-title">I tuoi bonus</h2>
       <div class="results-saving" id="results-saving"></div>
-      <p class="results-sub" id="results-sub"></p>
+      <span class="results-count-pill" id="results-count-pill"></span>
     </div>
-    <div class="results-actions" id="results-actions">
-      <button class="btn btn-primary" onclick="downloadPDF()">
-        <span class="icon icon-sm"><svg><use href="#ico-printer"/></svg></span>
-        Scarica PDF
+    <div class="results-action-bar">
+      <button class="btn-action" onclick="window.print()">
+        <span class="icon"><svg><use href="#ico-printer"/></svg></span> Stampa
       </button>
-      <button class="btn btn-outline" onclick="exportCalendar()">
-        <span class="icon icon-sm"><svg><use href="#ico-clock"/></svg></span>
-        Aggiungi scadenze
+      <button class="btn-action" onclick="downloadPDF()">
+        <span class="icon"><svg><use href="#ico-file-text"/></svg></span> PDF
       </button>
-      <a class="wa-share" id="waShareBtn" href="#" target="_blank" rel="noopener">
-        WhatsApp
-      </a>
+      <button class="btn-action" onclick="exportCalendar()">
+        <span class="icon"><svg><use href="#ico-clock"/></svg></span> Calendario
+      </button>
+      <button class="btn-action" onclick="shareWhatsApp()">
+        <span class="icon"><svg><use href="#ico-external"/></svg></span> Condividi
+      </button>
     </div>
-    <div class="filter-bar" id="filterBar"></div>
+    <div class="results-tabs" id="resultsTabs"></div>
     <div class="bonus-grid" id="bonusGrid"></div>
     <div class="results-modify">
       <button class="btn btn-outline" onclick="backToWizard()">
@@ -1597,39 +1696,7 @@
       </button>
     </div>
   </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="container footer-inner">
-    <div class="footer-left">
-      <a href="/" class="logo">
-        <div class="logo-mark">B</div>
-        <span class="logo-text">BonusPerMe</span>
-      </a>
-      <p data-i18n="footer.disclaimer">Progetto gratuito e open source. Non siamo un CAF né un patronato. Le informazioni sono a scopo orientativo.</p>
-    </div>
-    <div class="footer-right">
-      <div class="footer-links">
-        <a href="#">
-          <span class="icon"><svg><use href="#ico-github"/></svg></span> GitHub
-        </a>
-        <a href="#">
-          <span class="icon"><svg><use href="#ico-alert"/></svg></span> Segnala errore
-        </a>
-        <a href="#">
-          <span class="icon"><svg><use href="#ico-shield"/></svg></span> Privacy
-        </a>
-        <a href="/per-caf">
-          <span class="icon"><svg><use href="#ico-home"/></svg></span> Per i CAF
-        </a>
-      </div>
-      <div class="footer-badges">
-        GDPR <span>·</span> Zero Cookie <span>·</span> Server EU <span>·</span> Open Source
-      </div>
-    </div>
-  </div>
-</footer>
+</div><!-- /resultsPage -->
 
 <script>
   /* Language dropdown */
@@ -1718,6 +1785,29 @@
     .catch(function() {});
 
   /* ============================================
+     PAGE NAVIGATION
+     ============================================ */
+  function startWizard() {
+    document.getElementById('landingPage').style.display = 'none';
+    document.getElementById('wizardPage').style.display = 'flex';
+    document.getElementById('resultsPage').style.display = 'none';
+    wizStep = 0; wizUpdateUI();
+    window.scrollTo(0, 0);
+  }
+  function backToLanding() {
+    document.getElementById('wizardPage').style.display = 'none';
+    document.getElementById('resultsPage').style.display = 'none';
+    document.getElementById('landingPage').style.display = 'block';
+    window.scrollTo(0, 0);
+  }
+  function showResults() {
+    document.getElementById('landingPage').style.display = 'none';
+    document.getElementById('wizardPage').style.display = 'none';
+    document.getElementById('resultsPage').style.display = 'block';
+    window.scrollTo(0, 0);
+  }
+
+  /* ============================================
      WIZARD LOGIC
      ============================================ */
   var wizStep = 0;
@@ -1784,9 +1874,7 @@
     .then(function(data) {
       lastResult = data;
       renderResults(data);
-      document.getElementById('wizard').style.display = 'none';
-      document.getElementById('results').style.display = 'block';
-      document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+      showResults();
     })
     .catch(function(err) {
       alert('Errore nella verifica: ' + err.message);
@@ -1800,34 +1888,36 @@
   /* ============================================
      RESULTS RENDERING
      ============================================ */
+  var catIcons = {
+    'famiglia': 'ico-users', 'casa': 'ico-home', 'salute': 'ico-shield',
+    'istruzione': 'ico-edit', 'spesa': 'ico-wallet', 'lavoro': 'ico-zap',
+    'sostegno': 'ico-users', 'altro': 'ico-list'
+  };
+
   function renderResults(data) {
     document.getElementById('results-saving').textContent = data.risparmio_stimato || 'EUR 0';
-    document.getElementById('results-sub').textContent = data.bonus_trovati + ' bonus compatibili con il tuo profilo';
+    document.getElementById('results-count-pill').textContent = data.bonus_trovati + ' bonus compatibili';
 
-    // WhatsApp share
-    var waText = 'Ho scoperto che ho diritto a ' + data.bonus_trovati + ' bonus per un risparmio di ' + (data.risparmio_stimato || 'EUR 0') + '. Verifica anche tu su BonusPerMe.it!';
-    document.getElementById('waShareBtn').href = 'https://wa.me/?text=' + encodeURIComponent(waText);
-
-    // Build filter bar
+    // Build tab bar
     var cats = {};
     data.bonus.forEach(function(b) {
       var c = b.categoria || 'altro';
       cats[c] = (cats[c] || 0) + 1;
     });
-    var filterBar = document.getElementById('filterBar');
-    filterBar.innerHTML = '<button class="filter-btn active" data-cat="all" onclick="filterBonus(\'all\')">Tutti (' + data.bonus.length + ')</button>';
+    var tabs = document.getElementById('resultsTabs');
+    tabs.innerHTML = '<button class="results-tab active" data-cat="all" onclick="filterBonus(\'all\')"><span class="icon"><svg><use href="#ico-list"/></svg></span> Tutti <span class="tab-count">' + data.bonus.length + '</span></button>';
     Object.keys(cats).forEach(function(c) {
-      filterBar.innerHTML += '<button class="filter-btn" data-cat="' + c + '" onclick="filterBonus(\'' + c + '\')">' + capitalize(c) + ' (' + cats[c] + ')</button>';
+      var icon = catIcons[c] || 'ico-list';
+      tabs.innerHTML += '<button class="results-tab" data-cat="' + c + '" onclick="filterBonus(\'' + c + '\')"><span class="icon"><svg><use href="#' + icon + '"/></svg></span> ' + capitalize(c) + ' <span class="tab-count">' + cats[c] + '</span></button>';
     });
 
-    // Render bonus cards
     renderBonusCards(data.bonus, 'all');
   }
 
   function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
   function filterBonus(cat) {
-    document.querySelectorAll('.filter-btn').forEach(function(b) {
+    document.querySelectorAll('.results-tab').forEach(function(b) {
       b.classList.toggle('active', b.dataset.cat === cat);
     });
     var filtered = cat === 'all' ? lastResult.bonus : lastResult.bonus.filter(function(b) { return (b.categoria || 'altro') === cat; });
@@ -1854,7 +1944,8 @@
       }
       html += '</h3>';
       html += '<div class="bonus-ente">' + esc(b.ente || '') + '</div></div>';
-      html += '<span class="compat-pill ' + compatClass + '">' + b.compatibilita + '%</span>';
+      var dotClass = b.compatibilita >= 80 ? 'high' : (b.compatibilita >= 50 ? 'med' : 'low');
+      html += '<span class="compat-dot ' + dotClass + '" title="' + b.compatibilita + '% compatibile"></span>';
       html += '</div>';
 
       // Description
@@ -1872,7 +1963,7 @@
       }
 
       // Expand toggle
-      html += '<button class="bonus-expand" onclick="toggleDetails(\'' + cardId + '\')">Mostra dettagli</button>';
+      html += '<button class="bonus-expand" onclick="toggleDetails(\'' + cardId + '\')"><span>Mostra dettagli</span><svg class="expand-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>';
 
       // Details (hidden)
       html += '<div class="bonus-details" id="' + cardId + '-details">';
@@ -1956,8 +2047,9 @@
   function toggleDetails(cardId) {
     var det = document.getElementById(cardId + '-details');
     var btn = det.previousElementSibling;
-    det.classList.toggle('open');
-    btn.textContent = det.classList.contains('open') ? 'Nascondi dettagli' : 'Mostra dettagli';
+    var isOpen = det.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+    btn.querySelector('span').textContent = isOpen ? 'Nascondi dettagli' : 'Mostra dettagli';
   }
 
   function toggleFaq(faqId) {
@@ -2000,9 +2092,15 @@
   }
 
   function backToWizard() {
-    document.getElementById('results').style.display = 'none';
-    document.getElementById('wizard').style.display = 'block';
-    document.getElementById('wizard').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('resultsPage').style.display = 'none';
+    document.getElementById('wizardPage').style.display = 'flex';
+    window.scrollTo(0, 0);
+  }
+
+  function shareWhatsApp() {
+    if (!lastResult) return;
+    var waText = 'Ho scoperto che ho diritto a ' + lastResult.bonus_trovati + ' bonus per un risparmio di ' + (lastResult.risparmio_stimato || 'EUR 0') + '. Verifica anche tu su BonusPerMe.it!';
+    window.open('https://wa.me/?text=' + encodeURIComponent(waText), '_blank');
   }
 
   /* ============================================
@@ -2022,6 +2120,25 @@
   iseeFileInput.addEventListener('change', function() {
     if (iseeFileInput.files.length > 0) handleISEEFile(iseeFileInput.files[0]);
   });
+
+  /* ============================================
+     COOKIE CONSENT
+     ============================================ */
+  (function() {
+    var consent = localStorage.getItem('cookie_consent');
+    if (!consent) {
+      document.getElementById('cookieBanner').style.display = 'block';
+    }
+  })();
+  function acceptCookies() {
+    localStorage.setItem('cookie_consent', 'accepted');
+    document.getElementById('cookieBanner').style.display = 'none';
+    loadGTM();
+  }
+  function rejectCookies() {
+    localStorage.setItem('cookie_consent', 'rejected');
+    document.getElementById('cookieBanner').style.display = 'none';
+  }
 
   function handleISEEFile(file) {
     var status = document.getElementById('iseeUploadStatus');
