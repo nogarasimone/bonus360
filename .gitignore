@@ -1,1 +1,24 @@
+# Binaries
+bonus360
+*.exe
+
+# Data files (generati a runtime)
+counter.json
+analytics.csv
+emails.txt
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Claude Code
 /.claude/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Go
+vendor/
