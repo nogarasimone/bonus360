@@ -2,6 +2,7 @@ package main
 
 import (
 	"bonus360/internal/handlers"
+	"bonus360/internal/scraper"
 	"fmt"
 	"log"
 	"net/http"
@@ -13,6 +14,9 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
+
+	// Start scraper scheduler (refreshes bonus data every 24h)
+	scraper.StartScheduler()
 
 	// API routes
 	http.HandleFunc("/api/match", handlers.MatchHandler)

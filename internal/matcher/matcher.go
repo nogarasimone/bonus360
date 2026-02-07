@@ -191,9 +191,15 @@ func GetAllBonus() []models.Bonus {
 	}
 }
 
-// MatchBonus matches user profile against available bonuses
-func MatchBonus(profile models.UserProfile) models.MatchResult {
-	allBonus := GetAllBonus()
+// MatchBonus matches user profile against available bonuses.
+// If bonusList is provided, uses that; otherwise falls back to GetAllBonus().
+func MatchBonus(profile models.UserProfile, bonusList ...[]models.Bonus) models.MatchResult {
+	var allBonus []models.Bonus
+	if len(bonusList) > 0 && len(bonusList[0]) > 0 {
+		allBonus = bonusList[0]
+	} else {
+		allBonus = GetAllBonus()
+	}
 	var matched []models.Bonus
 	totalSaving := 0.0
 

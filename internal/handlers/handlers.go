@@ -3,6 +3,7 @@ package handlers
 import (
 	"bonus360/internal/matcher"
 	"bonus360/internal/models"
+	"bonus360/internal/scraper"
 	"encoding/json"
 	"net/http"
 	"sync/atomic"
@@ -26,7 +27,8 @@ func MatchHandler(w http.ResponseWriter, r *http.Request) {
 	// Increment visitor count
 	atomic.AddInt64(&visitorCount, 1)
 
-	result := matcher.MatchBonus(profile)
+	cachedBonus := scraper.GetCachedBonus()
+	result := matcher.MatchBonus(profile, cachedBonus)
 
 	w.Header().Set("Content-Type", "application/json")
 	// No caching - data is ephemeral
