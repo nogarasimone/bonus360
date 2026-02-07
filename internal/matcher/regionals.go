@@ -1,6 +1,6 @@
 package matcher
 
-import "bonus360/internal/models"
+import "bonusperme/internal/models"
 
 // GetRegionalBonus returns all regional bonuses for Italian regions.
 func GetRegionalBonus() []models.Bonus {

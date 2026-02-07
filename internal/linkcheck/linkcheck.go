@@ -1,14 +1,35 @@
 package linkcheck
 
 import (
-	"bonus360/internal/logger"
-	"bonus360/internal/models"
-	sentryutil "bonus360/internal/sentry"
+	"bonusperme/internal/logger"
+	"bonusperme/internal/models"
+	sentryutil "bonusperme/internal/sentry"
 	"fmt"
 	"net/http"
 	"sync"
 	"time"
 )
+
+// linkStatus stores verification results by bonus ID.
+type linkStatus struct {
+	Verified   bool
+	VerifiedAt string
+}
+
+var (
+	statusCache sync.Map // map[string]linkStatus
+)
+
+// ApplyStatus applies cached link verification results to a bonus slice.
+func ApplyStatus(bonuses []models.Bonus) {
+	for i := range bonuses {
+		if v, ok := statusCache.Load(bonuses[i].ID); ok {
+			s := v.(linkStatus)
+			bonuses[i].LinkVerificato = s.Verified
+			bonuses[i].LinkVerificatoAl = s.VerifiedAt
+		}
+	}
+}
 
 var client = &http.Client{
 	Timeout: 10 * time.Second,
@@ -26,7 +47,7 @@ func CheckLink(url string) (ok bool, statusCode int) {
 	if err != nil {
 		return false, 0
 	}
-	req.Header.Set("User-Agent", "Mozilla/5.0 (compatible; Bonus360/1.0; +https://bonus360.it)")
+	req.Header.Set("User-Agent", "Mozilla/5.0 (compatible; BonusPerMe/1.0; +https://bonusperme.it)")
 	req.Header.Set("Accept-Language", "it-IT,it;q=0.9")
 
 	resp, err := client.Do(req)
@@ -63,11 +84,13 @@ func CheckAllLinks(bonusList []*models.Bonus) int {
 
 			if ok {
 				bonus.LinkVerificato = true
+				statusCache.Store(bonus.ID, linkStatus{Verified: true, VerifiedAt: today})
 				logger.Info("linkcheck: OK", map[string]interface{}{
 					"bonus_id": bonus.ID, "url": bonus.LinkUfficiale,
 				})
 			} else {
 				bonus.LinkVerificato = false
+				statusCache.Store(bonus.ID, linkStatus{Verified: false, VerifiedAt: today})
 				mu.Lock()
 				broken++
 				mu.Unlock()

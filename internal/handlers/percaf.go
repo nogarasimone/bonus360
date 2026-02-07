@@ -20,9 +20,9 @@ func PerCAFHandler(w http.ResponseWriter, r *http.Request) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bonus360 per i CAF — Centro di Assistenza Fiscale</title>
-<meta name="description" content="Bonus360 per i Centri di Assistenza Fiscale. I tuoi clienti arrivano con il report gia pronto.">
-<meta property="og:title" content="Bonus360 per i CAF">
+<title>BonusPerMe per i CAF — Centro di Assistenza Fiscale</title>
+<meta name="description" content="BonusPerMe per i Centri di Assistenza Fiscale. I tuoi clienti arrivano con il report gia pronto.">
+<meta property="og:title" content="BonusPerMe per i CAF">
 <meta property="og:description" content="I tuoi clienti arrivano con il report gia pronto.">
 <link rel="canonical" href="/per-caf">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -67,18 +67,18 @@ footer a{color:var(--primary);text-decoration:none}
 </style>
 </head>
 <body>
-<div class="topbar">Bonus360 per i Centri di Assistenza Fiscale</div>
-<header><a href="/" class="logo"><div class="logo-mark">B</div> Bonus360</a></header>
+<div class="topbar">BonusPerMe per i Centri di Assistenza Fiscale</div>
+<header><a href="/" class="logo"><div class="logo-mark">B</div> BonusPerMe</a></header>
 
 <div class="container">
 <section class="hero-caf">
 <div class="badge">Per i CAF</div>
 <h1>I tuoi clienti arrivano con il report pronto</h1>
-<p>Bonus360 aiuta le famiglie a scoprire i bonus a cui hanno diritto. Il risultato? Clienti che arrivano al CAF sapendo esattamente cosa chiedere, con tutta la documentazione.</p>
+<p>BonusPerMe aiuta le famiglie a scoprire i bonus a cui hanno diritto. Il risultato? Clienti che arrivano al CAF sapendo esattamente cosa chiedere, con tutta la documentazione.</p>
 </section>
 
 <section class="steps">
-<div class="step"><div class="num">1</div><h3>Il cliente usa Bonus360</h3><p>Risponde a 4 domande — eta, famiglia, ISEE, situazione abitativa — e scopre i bonus compatibili.</p></div>
+<div class="step"><div class="num">1</div><h3>Il cliente usa BonusPerMe</h3><p>Risponde a 4 domande — eta, famiglia, ISEE, situazione abitativa — e scopre i bonus compatibili.</p></div>
 <div class="step"><div class="num">2</div><h3>Scarica il report PDF</h3><p>Un report professionale con elenco bonus, requisiti, documenti necessari e link ufficiali.</p></div>
 <div class="step"><div class="num">3</div><h3>Viene al CAF preparato</h3><p>Il cliente arriva con documenti pronti. Meno tempo per la consulenza, piu pratiche evase.</p></div>
 </section>
@@ -89,7 +89,7 @@ footer a{color:var(--primary);text-decoration:none}
 <div class="adv"><h4>Clienti informati</h4><p>Arrivano sapendo cosa chiedere, con report e documenti.</p></div>
 <div class="adv"><h4>Meno consulenza base</h4><p>Le domande generiche ("a cosa ho diritto?") vengono filtrate prima.</p></div>
 <div class="adv"><h4>Piu pratiche/giorno</h4><p>Clienti preparati = consulenze piu rapide = piu appuntamenti.</p></div>
-<div class="adv"><h4>Zero costi</h4><p>Bonus360 e gratuito, open source e senza pubblicita.</p></div>
+<div class="adv"><h4>Zero costi</h4><p>BonusPerMe e gratuito, open source e senza pubblicita.</p></div>
 </div>
 </section>
 
@@ -115,8 +115,8 @@ footer a{color:var(--primary);text-decoration:none}
 
 <footer>
 <div class="container">
-<p>Bonus360 — Progetto gratuito e open source. Non siamo un CAF o un patronato.</p>
-<p><a href="/">Torna a Bonus360</a></p>
+<p>BonusPerMe — Progetto gratuito e open source. Non siamo un CAF o un patronato.</p>
+<p><a href="/">Torna a BonusPerMe</a></p>
 </div>
 </footer>
 

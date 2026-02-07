@@ -16,7 +16,7 @@ Es. "Assegno Unico Universale", "Bonus Nido", ecc.
 - [ ] Requisiti non aggiornati
 - [ ] Scadenza cambiata
 - [ ] Bonus non più attivo
-- [ ] Bonus mancante (non presente in Bonus360)
+- [ ] Bonus mancante (non presente in BonusPerMe)
 - [ ] Altro
 
 ## Dettaglio dell'errore

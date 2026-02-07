@@ -1,10 +1,10 @@
 package scraper
 
 import (
-	"bonus360/internal/logger"
-	"bonus360/internal/matcher"
-	"bonus360/internal/models"
-	sentryutil "bonus360/internal/sentry"
+	"bonusperme/internal/logger"
+	"bonusperme/internal/matcher"
+	"bonusperme/internal/models"
+	sentryutil "bonusperme/internal/sentry"
 	"fmt"
 	"io"
 	"net/http"
@@ -92,7 +92,7 @@ func tryRegionalSource(src RegionalSource, regione string) ([]models.Bonus, erro
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Set("User-Agent", "Mozilla/5.0 (compatible; Bonus360/1.0)")
+	req.Header.Set("User-Agent", "Mozilla/5.0 (compatible; BonusPerMe/1.0)")
 	req.Header.Set("Accept-Language", "it-IT,it;q=0.9")
 
 	resp, err := regionalClient.Do(req)

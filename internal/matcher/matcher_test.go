@@ -1,7 +1,7 @@
 package matcher
 
 import (
-	"bonus360/internal/models"
+	"bonusperme/internal/models"
 	"testing"
 )
 

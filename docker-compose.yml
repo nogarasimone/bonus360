@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  bonus360:
+  bonusperme:
     build: .
     ports:
       - "8080:8080"
@@ -8,7 +8,7 @@ services:
       - PORT=8080
       - SENTRY_DSN=${SENTRY_DSN:-}
       - SENTRY_ENVIRONMENT=${SENTRY_ENVIRONMENT:-production}
-      - SENTRY_RELEASE=${SENTRY_RELEASE:-bonus360@1.0.0}
+      - SENTRY_RELEASE=${SENTRY_RELEASE:-bonusperme@1.0.0}
     volumes:
       - ./data:/app/data
     restart: unless-stopped

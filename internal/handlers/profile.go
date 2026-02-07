@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"bonus360/internal/models"
+	"bonusperme/internal/models"
 	"encoding/base64"
 	"encoding/json"
 	"net/http"
@@ -50,7 +50,7 @@ func fromCompact(c compactProfile) models.UserProfile {
 	}
 }
 
-const codePrefix = "B360-"
+const codePrefix = "BPM-"
 
 // EncodeProfileHandler encodes a profile into a shareable code.
 func EncodeProfileHandler(w http.ResponseWriter, r *http.Request) {

@@ -1,4 +1,4 @@
-module bonus360
+module bonusperme
 
 go 1.25.6
 

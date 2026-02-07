@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"bonus360/internal/matcher"
-	"bonus360/internal/scraper"
+	"bonusperme/internal/matcher"
+	"bonusperme/internal/scraper"
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
@@ -178,9 +178,9 @@ func serveBonusPage(w http.ResponseWriter, b interface{}) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>` + htmlEscape(bonus.Nome) + ` - Bonus360</title>
+<title>` + htmlEscape(bonus.Nome) + ` - BonusPerMe</title>
 <meta name="description" content="` + htmlEscape(truncate(bonus.Descrizione, 160)) + `">
-<meta property="og:title" content="` + htmlEscape(bonus.Nome) + ` - Bonus360">
+<meta property="og:title" content="` + htmlEscape(bonus.Nome) + ` - BonusPerMe">
 <meta property="og:description" content="` + htmlEscape(truncate(bonus.Descrizione, 160)) + `">
 <link rel="canonical" href="/bonus/` + htmlEscape(bonus.ID) + `">
 <style>
@@ -200,7 +200,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid #ddd;color:#999;fon
 </style>
 </head>
 <body>
-<a href="/" class="back">← Torna a Bonus360</a>
+<a href="/" class="back">← Torna a BonusPerMe</a>
 <h1>` + htmlEscape(bonus.Nome) + `</h1>
 <div class="meta">`)
 
@@ -269,7 +269,7 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid #ddd;color:#999;fon
 
 	sb.WriteString(`
 <footer>
-<p>Bonus360 — Servizio gratuito e indipendente. Le informazioni sono a scopo orientativo.</p>
+<p>BonusPerMe — Servizio gratuito e indipendente. Le informazioni sono a scopo orientativo.</p>
 <p><a href="/">Verifica i tuoi bonus →</a></p>
 </footer>
 </body>
@@ -308,7 +308,7 @@ type siteURL struct {
 }
 
 func SitemapHandler(w http.ResponseWriter, r *http.Request) {
-	baseURL := "https://bonus360.it"
+	baseURL := "https://bonusperme.it"
 
 	urls := []siteURL{
 		{Loc: baseURL + "/", ChangeFreq: "daily", Priority: "1.0"},
@@ -339,7 +339,7 @@ func SitemapHandler(w http.ResponseWriter, r *http.Request) {
 // RobotsTxtHandler serves robots.txt with sitemap link.
 func RobotsTxtHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
-	w.Write([]byte("User-agent: *\nAllow: /\n\nSitemap: https://bonus360.it/sitemap.xml\n"))
+	w.Write([]byte("User-agent: *\nAllow: /\n\nSitemap: https://bonusperme.it/sitemap.xml\n"))
 }
 
 // ---------- Translations ----------

@@ -1,8 +1,8 @@
 package scraper
 
 import (
-	"bonus360/internal/matcher"
-	"bonus360/internal/models"
+	"bonusperme/internal/matcher"
+	"bonusperme/internal/models"
 	"log"
 	"strings"
 	"time"

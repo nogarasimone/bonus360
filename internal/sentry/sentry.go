@@ -13,7 +13,7 @@ func Init() {
 	err := sentry.Init(sentry.ClientOptions{
 		Dsn:              dsn,
 		Environment:      getEnv("SENTRY_ENVIRONMENT", "production"),
-		Release:          getEnv("SENTRY_RELEASE", "bonus360@1.0.0"),
+		Release:          getEnv("SENTRY_RELEASE", "bonusperme@1.0.0"),
 		TracesSampleRate: 0.2,
 		EnableTracing:    dsn != "",
 		BeforeSend: func(event *sentry.Event, hint *sentry.EventHint) *sentry.Event {

@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Segnala un bug per aiutarci a migliorare Bonus360
+about: Segnala un bug per aiutarci a migliorare BonusPerMe
 title: 'Bug: [descrizione breve]'
 labels: bug
 assignees: ''

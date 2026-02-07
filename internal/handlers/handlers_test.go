@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"bonus360/internal/i18n"
+	"bonusperme/internal/i18n"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
@@ -102,8 +102,8 @@ func TestEncodeDecodeProfile(t *testing.T) {
 	var encResult map[string]string
 	json.Unmarshal(w.Body.Bytes(), &encResult)
 	code := encResult["code"]
-	if code == "" || !strings.HasPrefix(code, "B360-") {
-		t.Fatalf("Expected code with B360- prefix, got: %s", code)
+	if code == "" || !strings.HasPrefix(code, "BPM-") {
+		t.Fatalf("Expected code with BPM- prefix, got: %s", code)
 	}
 
 	// Decode

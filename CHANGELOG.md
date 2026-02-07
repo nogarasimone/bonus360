@@ -8,7 +8,7 @@ e il progetto segue [Semantic Versioning](https://semver.org/lang/it/).
 ## [1.0.0] — 2025-02-07
 
 ### Aggiunto
-- Lancio iniziale di Bonus360
+- Lancio iniziale di BonusPerMe
 - Database di 20+ bonus italiani attivi nel 2025
 - Wizard a 4 step per la raccolta dati anonima
 - Engine di matching con scoring 0-100 per compatibilità
@@ -49,7 +49,7 @@ e il progetto segue [Semantic Versioning](https://semver.org/lang/it/).
 ## [Unreleased]
 
 ### In sviluppo
-- Bot Telegram @bonus360italia
+- Bot Telegram @bonuspermeitalia
 - Notifiche nuovi bonus via Telegram e WhatsApp
 - Bonus regionali (Lombardia, Lazio, Campania, Sicilia)
 - Progressive Web App (PWA) per uso offline

@@ -1,10 +1,11 @@
 package handlers
 
 import (
-	"bonus360/internal/matcher"
-	"bonus360/internal/models"
-	"bonus360/internal/scraper"
-	sentryutil "bonus360/internal/sentry"
+	"bonusperme/internal/linkcheck"
+	"bonusperme/internal/matcher"
+	"bonusperme/internal/models"
+	"bonusperme/internal/scraper"
+	sentryutil "bonusperme/internal/sentry"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -156,7 +157,7 @@ func CalendarHandler(w http.ResponseWriter, r *http.Request) {
 	var sb strings.Builder
 	sb.WriteString("BEGIN:VCALENDAR\r\n")
 	sb.WriteString("VERSION:2.0\r\n")
-	sb.WriteString("PRODID:-//Bonus360//IT\r\n")
+	sb.WriteString("PRODID:-//BonusPerMe//IT\r\n")
 	sb.WriteString("CALSCALE:GREGORIAN\r\n")
 	sb.WriteString("METHOD:PUBLISH\r\n")
 
@@ -168,7 +169,7 @@ func CalendarHandler(w http.ResponseWriter, r *http.Request) {
 		validCount++
 		dt := parseItalianDate(item.Scadenza)
 		dtStr := dt.Format("20060102")
-		uid := slugifyName(item.Nome) + "@bonus360.it"
+		uid := slugifyName(item.Nome) + "@bonusperme.it"
 
 		sb.WriteString("BEGIN:VEVENT\r\n")
 		sb.WriteString("UID:" + uid + "\r\n")
@@ -176,7 +177,7 @@ func CalendarHandler(w http.ResponseWriter, r *http.Request) {
 		sb.WriteString("DTSTART;VALUE=DATE:" + dtStr + "\r\n")
 		sb.WriteString("DTEND;VALUE=DATE:" + dtStr + "\r\n")
 		sb.WriteString("SUMMARY:Scadenza: " + item.Nome + "\r\n")
-		sb.WriteString("DESCRIPTION:Ricorda di presentare domanda per " + item.Nome + " prima della scadenza. Verifica requisiti su Bonus360.\r\n")
+		sb.WriteString("DESCRIPTION:Ricorda di presentare domanda per " + item.Nome + " prima della scadenza. Verifica requisiti su BonusPerMe.\r\n")
 		sb.WriteString("BEGIN:VALARM\r\n")
 		sb.WriteString("TRIGGER:-P7D\r\n")
 		sb.WriteString("ACTION:DISPLAY\r\n")
@@ -198,7 +199,7 @@ func CalendarHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/calendar; charset=utf-8")
-	w.Header().Set("Content-Disposition", `attachment; filename="bonus360-scadenze.ics"`)
+	w.Header().Set("Content-Disposition", `attachment; filename="bonusperme-scadenze.ics"`)
 	w.Write([]byte(sb.String()))
 }
 
@@ -225,10 +226,12 @@ func SimulateHandler(w http.ResponseWriter, r *http.Request) {
 	cachedBonus := scraper.GetCachedBonus()
 
 	reale := matcher.MatchBonus(profile, cachedBonus)
+	linkcheck.ApplyStatus(reale.Bonus)
 
 	simProfile := profile
 	simProfile.ISEE = profile.ISEESimulato
 	simulato := matcher.MatchBonus(simProfile, cachedBonus)
+	linkcheck.ApplyStatus(simulato.Bonus)
 
 	bonusExtra := simulato.BonusTrovati - reale.BonusTrovati
 	if bonusExtra < 0 {
@@ -276,6 +279,7 @@ func ReportHandler(w http.ResponseWriter, r *http.Request) {
 
 	cachedBonus := scraper.GetCachedBonus()
 	result := matcher.MatchBonus(profile, cachedBonus)
+	linkcheck.ApplyStatus(result.Bonus)
 
 	now := time.Now()
 	dateStr := now.Format("2006-01-02")
@@ -307,7 +311,7 @@ func ReportHandler(w http.ResponseWriter, r *http.Request) {
 		pdf.SetY(-15)
 		pdf.SetFont("Helvetica", "I", 8)
 		pdf.SetTextColor(128, 128, 128)
-		pdf.CellFormat(contentW/2, 10, transliterate("Bonus360.it -- Servizio gratuito e indipendente"), "", 0, "L", false, 0, "")
+		pdf.CellFormat(contentW/2, 10, transliterate("BonusPerMe.it -- Servizio gratuito e indipendente"), "", 0, "L", false, 0, "")
 		pdf.CellFormat(contentW/2, 10, fmt.Sprintf("Pagina %d", pdf.PageNo()), "", 0, "R", false, 0, "")
 	})
 
@@ -320,7 +324,7 @@ func ReportHandler(w http.ResponseWriter, r *http.Request) {
 	pdf.SetX(marginL)
 	pdf.SetFont("Helvetica", "B", 18)
 	pdf.SetTextColor(255, 255, 255)
-	pdf.CellFormat(contentW, 8, transliterate("Bonus360"), "", 1, "L", false, 0, "")
+	pdf.CellFormat(contentW, 8, transliterate("BonusPerMe"), "", 1, "L", false, 0, "")
 	pdf.SetX(marginL)
 	pdf.SetFont("Helvetica", "", 12)
 	pdf.CellFormat(contentW, 7, transliterate("Report Personalizzato"), "", 1, "L", false, 0, "")
@@ -478,17 +482,47 @@ func ReportHandler(w http.ResponseWriter, r *http.Request) {
 			pdf.Ln(2)
 		}
 
-		// Link ufficiale
+		// Link ufficiale — smart rendering based on verification
 		if b.LinkUfficiale != "" {
 			if pdf.GetY() > 270 {
 				pdf.AddPage()
 			}
 			pdf.SetX(contentX)
 			pdf.SetFont("Helvetica", "", 9)
-			pdf.SetTextColor(0, 51, 153)
-			pdf.Write(5, transliterate("Link ufficiale: "))
-			pdf.WriteLinkString(5, b.LinkUfficiale, b.LinkUfficiale)
+			if b.LinkVerificato {
+				// Verified: blue link
+				pdf.SetTextColor(0, 51, 153)
+				pdf.Write(5, transliterate("Link ufficiale: "))
+				pdf.WriteLinkString(5, b.LinkUfficiale, b.LinkUfficiale)
+			} else if b.LinkRicerca != "" {
+				// Broken: warning color with search fallback
+				pdf.SetTextColor(184, 134, 11)
+				pdf.Write(5, transliterate("Cerca su sito ufficiale: "))
+				pdf.WriteLinkString(5, b.LinkRicerca, b.LinkRicerca)
+			} else {
+				// Not verified, no search: show as-is
+				pdf.SetTextColor(0, 51, 153)
+				pdf.Write(5, transliterate("Link ufficiale: "))
+				pdf.WriteLinkString(5, b.LinkUfficiale, b.LinkUfficiale)
+			}
 			pdf.Ln(6)
+		}
+
+		// Verifica manuale disclaimer for regional bonuses
+		if b.VerificaManualeNecessaria {
+			if pdf.GetY() > 270 {
+				pdf.AddPage()
+			}
+			pdf.SetX(contentX)
+			pdf.SetFillColor(255, 251, 235)
+			pdf.SetDrawColor(184, 134, 11)
+			noteW := contentW - 5
+			noteY := pdf.GetY()
+			pdf.Rect(contentX, noteY, noteW, 12, "FD")
+			pdf.SetX(contentX + 3)
+			pdf.SetFont("Helvetica", "I", 8)
+			pdf.SetTextColor(130, 100, 0)
+			pdf.CellFormat(noteW-6, 12, transliterate("Dato inserito manualmente -- potrebbe non essere aggiornato. Verificare sul sito della regione."), "", 1, "L", false, 0, "")
 		}
 
 		// Scadenza
@@ -549,7 +583,7 @@ func ReportHandler(w http.ResponseWriter, r *http.Request) {
 
 	// ── Output ──
 	w.Header().Set("Content-Type", "application/pdf")
-	w.Header().Set("Content-Disposition", fmt.Sprintf(`attachment; filename="bonus360-report-%s.pdf"`, dateStr))
+	w.Header().Set("Content-Disposition", fmt.Sprintf(`attachment; filename="bonusperme-report-%s.pdf"`, dateStr))
 
 	if err := pdf.Output(w); err != nil {
 		sentryutil.CaptureError(err, map[string]string{"handler": "report", "phase": "pdf-output"})

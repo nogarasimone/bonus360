@@ -1,24 +1,24 @@
-# Contribuire a Bonus360
+# Contribuire a BonusPerMe
 
-Grazie per il tuo interesse nel contribuire a Bonus360! Ogni contribuzione — dalla segnalazione di un bug alla traduzione di un bonus — aiuta migliaia di famiglie a scoprire agevolazioni che altrimenti perderebbero.
+Grazie per il tuo interesse nel contribuire a BonusPerMe! Ogni contribuzione — dalla segnalazione di un bug alla traduzione di un bonus — aiuta migliaia di famiglie a scoprire agevolazioni che altrimenti perderebbero.
 
 ## Come segnalare un bug
 
-1. Apri una [nuova issue](https://github.com/bonus360/bonus360/issues/new?template=bug_report.md) usando il template "Bug report"
+1. Apri una [nuova issue](https://github.com/bonusperme/bonusperme/issues/new?template=bug_report.md) usando il template "Bug report"
 2. Descrivi il problema nel modo più dettagliato possibile
 3. Includi i passaggi per riprodurlo
 4. Se possibile, aggiungi uno screenshot
 
 ## Come proporre una feature
 
-1. Apri una [nuova issue](https://github.com/bonus360/bonus360/issues/new?template=feature_request.md) usando il template "Feature request"
+1. Apri una [nuova issue](https://github.com/bonusperme/bonusperme/issues/new?template=feature_request.md) usando il template "Feature request"
 2. Spiega il problema che la feature risolverebbe
 3. Descrivi la soluzione che proponi
 4. Indica eventuali alternative che hai considerato
 
 ## Come segnalare un bonus errato o mancante
 
-1. Apri una [nuova issue](https://github.com/bonus360/bonus360/issues/new?template=bonus_errato.md) usando il template "Bonus errato"
+1. Apri una [nuova issue](https://github.com/bonusperme/bonusperme/issues/new?template=bonus_errato.md) usando il template "Bonus errato"
 2. Indica il nome del bonus e cosa è impreciso
 3. Fornisci la fonte ufficiale con il link
 
@@ -28,8 +28,8 @@ Grazie per il tuo interesse nel contribuire a Bonus360! Ogni contribuzione — d
 
 ```bash
 # Fork il repository su GitHub, poi:
-git clone https://github.com/TUO-USERNAME/bonus360.git
-cd bonus360
+git clone https://github.com/TUO-USERNAME/bonusperme.git
+cd bonusperme
 go mod download
 go build .
 ```
@@ -110,7 +110,7 @@ Questo progetto adotta il [Contributor Covenant](https://www.contributor-covenan
 
 ## For International Contributors
 
-Bonus360 welcomes contributions from developers worldwide. The codebase is in Go with a single-file vanilla HTML/CSS/JS frontend.
+BonusPerMe welcomes contributions from developers worldwide. The codebase is in Go with a single-file vanilla HTML/CSS/JS frontend.
 
 **Quick guide:**
 

@@ -1,10 +1,10 @@
 package scraper
 
 import (
-	"bonus360/internal/logger"
-	"bonus360/internal/matcher"
-	"bonus360/internal/models"
-	sentryutil "bonus360/internal/sentry"
+	"bonusperme/internal/logger"
+	"bonusperme/internal/matcher"
+	"bonusperme/internal/models"
+	sentryutil "bonusperme/internal/sentry"
 	"fmt"
 	"sync"
 	"time"

@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Proponi una nuova funzionalità per Bonus360
+about: Proponi una nuova funzionalità per BonusPerMe
 title: 'Feature: [descrizione breve]'
 labels: enhancement
 assignees: ''

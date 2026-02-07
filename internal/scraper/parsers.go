@@ -1,7 +1,7 @@
 package scraper
 
 import (
-	"bonus360/internal/models"
+	"bonusperme/internal/models"
 	"fmt"
 	"io"
 	"log"
@@ -23,7 +23,7 @@ var httpClient = &http.Client{
 	},
 }
 
-const userAgent = "Mozilla/5.0 (compatible; Bonus360Bot/1.0; +https://bonus360.it)"
+const userAgent = "Mozilla/5.0 (compatible; BonusPerMeBot/1.0; +https://bonusperme.it)"
 
 var bonusKeywords = []string{"bonus", "assegno", "detrazione", "agevolazione", "contributo", "carta", "esonero"}
 

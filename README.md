@@ -1,8 +1,8 @@
-# Bonus360
+# BonusPerMe
 
 **Scopri in 2 minuti quali bonus e agevolazioni ti spettano — gratuito, anonimo, open source.**
 
-![Build](https://img.shields.io/github/actions/workflow/status/bonus360/bonus360/ci.yml?branch=main&style=flat-square&label=build)
+![Build](https://img.shields.io/github/actions/workflow/status/bonusperme/bonusperme/ci.yml?branch=main&style=flat-square&label=build)
 ![Go](https://img.shields.io/badge/Go-1.21+-00ADD8?style=flat-square&logo=go&logoColor=white)
 ![License](https://img.shields.io/badge/license-AGPL--3.0-blue?style=flat-square)
 ![Updated](https://img.shields.io/badge/bonus_aggiornati-Febbraio_2025-green?style=flat-square)
@@ -12,16 +12,16 @@
 
 ---
 
-> **[Prova Bonus360 →](https://bonus360.it)** (nessuna registrazione richiesta)
+> **[Prova BonusPerMe →](https://bonusperme.it)** (nessuna registrazione richiesta)
 
 <!-- ![Screenshot](docs/screenshot.png) -->
 <!-- Aggiungi screenshot quando il sito è live -->
 
 ---
 
-## Perché Bonus360
+## Perché BonusPerMe
 
-Ogni anno in Italia miliardi di euro in bonus e agevolazioni restano non richiesti. Le informazioni sono frammentate tra INPS, Agenzia delle Entrate, MEF, Regioni e Comuni — e capire a cosa si ha diritto richiede ore di ricerca. Bonus360 centralizza tutto in un'unica verifica anonima di 2 minuti: rispondi a poche domande sulla tua situazione e ricevi la lista completa dei bonus compatibili, con importi, requisiti e istruzioni. Nessun dato viene salvato — mai.
+Ogni anno in Italia miliardi di euro in bonus e agevolazioni restano non richiesti. Le informazioni sono frammentate tra INPS, Agenzia delle Entrate, MEF, Regioni e Comuni — e capire a cosa si ha diritto richiede ore di ricerca. BonusPerMe centralizza tutto in un'unica verifica anonima di 2 minuti: rispondi a poche domande sulla tua situazione e ricevi la lista completa dei bonus compatibili, con importi, requisiti e istruzioni. Nessun dato viene salvato — mai.
 
 ## Funzionalità principali
 
@@ -62,12 +62,12 @@ Ogni anno in Italia miliardi di euro in bonus e agevolazioni restano non richies
 
 ```bash
 # Clona il repository
-git clone https://github.com/bonus360/bonus360.git
-cd bonus360
+git clone https://github.com/bonusperme/bonusperme.git
+cd bonusperme
 
 # Build e avvia
-go build -o bonus360 .
-./bonus360
+go build -o bonusperme .
+./bonusperme
 
 # Oppure con go run
 go run main.go
@@ -82,7 +82,7 @@ go run main.go
 ## Struttura del progetto
 
 ```
-bonus360/
+bonusperme/
 ├── main.go                       # Entry point, server HTTP, routing
 ├── internal/
 │   ├── handlers/
@@ -140,7 +140,7 @@ bonus360/
 
 ## Fonti dati
 
-Bonus360 raccoglie informazioni da fonti istituzionali e giornalistiche verificate:
+BonusPerMe raccoglie informazioni da fonti istituzionali e giornalistiche verificate:
 
 - **INPS** — [inps.it](https://www.inps.it) (bonus famiglia, assegno unico, nido, ADI)
 - **Agenzia delle Entrate** — [agenziaentrate.gov.it](https://www.agenziaentrate.gov.it) (detrazioni casa, bonus edilizi)
@@ -152,15 +152,15 @@ I dati vengono aggiornati automaticamente ogni 24 ore. Se una fonte non è raggi
 
 ## Privacy
 
-Bonus360 non raccoglie, salva o trasmette **nessun dato personale**. Non esistono database, cookie, sistemi di tracking o profilazione. I dati inseriti dall'utente esistono solo nella sessione corrente e vengono cancellati al refresh della pagina. Il codice è open source e verificabile da chiunque. I server sono in Unione Europea. Il progetto è conforme al GDPR.
+BonusPerMe non raccoglie, salva o trasmette **nessun dato personale**. Non esistono database, cookie, sistemi di tracking o profilazione. I dati inseriti dall'utente esistono solo nella sessione corrente e vengono cancellati al refresh della pagina. Il codice è open source e verificabile da chiunque. I server sono in Unione Europea. Il progetto è conforme al GDPR.
 
 ## Deploy
 
 ### Docker
 
 ```bash
-docker build -t bonus360 .
-docker run -p 8080:8080 bonus360
+docker build -t bonusperme .
+docker run -p 8080:8080 bonusperme
 ```
 
 ### Docker Compose
@@ -172,8 +172,8 @@ docker-compose up -d
 ### Manuale
 
 ```bash
-go build -o bonus360 .
-./bonus360
+go build -o bonusperme .
+./bonusperme
 
 # Variabili d'ambiente opzionali:
 # PORT=8080 (default)
@@ -211,16 +211,16 @@ Le contribuzioni sono benvenute! Leggi [CONTRIBUTING.md](CONTRIBUTING.md) per le
 
 Questo progetto è rilasciato sotto licenza [AGPL-3.0](LICENSE). Puoi usarlo, modificarlo e ridistribuirlo liberamente, a patto che il codice derivato rimanga open source.
 
-**Perché AGPL e non MIT:** abbiamo scelto AGPL-3.0 per garantire che qualsiasi versione modificata di Bonus360 resti accessibile come software libero. Se usi Bonus360 come servizio web, devi rendere disponibile il codice sorgente.
+**Perché AGPL e non MIT:** abbiamo scelto AGPL-3.0 per garantire che qualsiasi versione modificata di BonusPerMe resti accessibile come software libero. Se usi BonusPerMe come servizio web, devi rendere disponibile il codice sorgente.
 
 ---
 
 ## For International Contributors
 
-Bonus360 is a free, open-source tool that helps families in Italy discover government benefits they're entitled to. The interface supports 5 languages (Italian, English, French, Spanish, Romanian). We welcome contributions from developers worldwide — see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. The codebase is in Go with a single-file vanilla HTML/CSS/JS frontend.
+BonusPerMe is a free, open-source tool that helps families in Italy discover government benefits they're entitled to. The interface supports 5 languages (Italian, English, French, Spanish, Romanian). We welcome contributions from developers worldwide — see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. The codebase is in Go with a single-file vanilla HTML/CSS/JS frontend.
 
 ---
 
 Fatto con cura per le famiglie italiane.
 
-[Segnala un problema](https://github.com/bonus360/bonus360/issues/new?template=bug_report.md) · [Richiedi una feature](https://github.com/bonus360/bonus360/issues/new?template=feature_request.md) · [Segnala un bonus errato](https://github.com/bonus360/bonus360/issues/new?template=bonus_errato.md)
+[Segnala un problema](https://github.com/bonusperme/bonusperme/issues/new?template=bug_report.md) · [Richiedi una feature](https://github.com/bonusperme/bonusperme/issues/new?template=feature_request.md) · [Segnala un bonus errato](https://github.com/bonusperme/bonusperme/issues/new?template=bonus_errato.md)
