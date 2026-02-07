@@ -33,9 +33,24 @@ func PerCAFHandler(w http.ResponseWriter, r *http.Request) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BonusPerMe per i CAF — Centro di Assistenza Fiscale</title>
 <meta name="description" content="BonusPerMe per i Centri di Assistenza Fiscale. I tuoi clienti arrivano con il report già pronto.">
-<meta property="og:title" content="BonusPerMe per i CAF">
-<meta property="og:description" content="I tuoi clienti arrivano con il report già pronto.">
-<link rel="canonical" href="/per-caf">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:url" content="` + config.Cfg.BaseURL + `/per-caf">
+<meta property="og:title" content="BonusPerMe per i CAF — Centro di Assistenza Fiscale">
+<meta property="og:description" content="I tuoi clienti arrivano con il report già pronto. 40+ bonus, report PDF automatico.">
+<meta property="og:image" content="` + config.Cfg.BaseURL + `/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="BonusPerMe">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="BonusPerMe per i CAF">
+<meta name="twitter:description" content="I tuoi clienti arrivano con il report già pronto.">
+<meta name="twitter:image" content="` + config.Cfg.BaseURL + `/og-image.png">
+<link rel="canonical" href="` + config.Cfg.BaseURL + `/per-caf">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#1B3A54">
 <link rel="stylesheet" href="/fonts/fonts.css">
 ` + turnstileScript + `
 <style>
