@@ -4,7 +4,7 @@ import "bonusperme/internal/models"
 
 // GetRegionalBonus returns all regional bonuses for Italian regions.
 func GetRegionalBonus() []models.Bonus {
-	return []models.Bonus{
+	bonuses := []models.Bonus{
 		// ========== PIEMONTE ==========
 		{
 			ID:          "buono-vesta",
@@ -835,4 +835,6 @@ func GetRegionalBonus() []models.Bonus {
 			UltimoAggiornamento: "15 gennaio 2025",
 		},
 	}
+	populateValidity(bonuses)
+	return bonuses
 }

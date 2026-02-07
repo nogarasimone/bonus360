@@ -67,10 +67,10 @@ func ContattiHandler(w http.ResponseWriter, r *http.Request) {
 
 <div class="contact-grid">
 <div class="contact-form-wrap">
-<div class="field"><label>Nome *</label><input type="text" id="ct-nome" placeholder="Il tuo nome"></div>
-<div class="field"><label>Email *</label><input type="email" id="ct-email" placeholder="La tua email"></div>
+<div class="field"><label>Nome <span class="required-mark">*</span></label><input type="text" id="ct-nome" placeholder="Il tuo nome"></div>
+<div class="field"><label>Email <span class="required-mark">*</span></label><input type="email" id="ct-email" placeholder="La tua email"></div>
 <div class="field">
-<label>Oggetto</label>
+<label>Oggetto <span class="optional-label">(opzionale)</span></label>
 <select id="ct-oggetto">
 <option value="info">Informazioni generali</option>
 <option value="bug">Segnalazione errore</option>
@@ -78,9 +78,10 @@ func ContattiHandler(w http.ResponseWriter, r *http.Request) {
 <option value="altro">Altro</option>
 </select>
 </div>
-<div class="field"><label>Messaggio *</label><textarea id="ct-messaggio" placeholder="Scrivi il tuo messaggio..."></textarea></div>
+<div class="field"><label>Messaggio <span class="required-mark">*</span></label><textarea id="ct-messaggio" placeholder="Scrivi il tuo messaggio..."></textarea></div>
 <label class="privacy-check"><input type="checkbox" id="ct-privacy"> Ho letto e accetto la <a href="/privacy" target="_blank">Privacy Policy</a></label>
 ` + turnstileWidget + `
+<p class="required-note">I campi contrassegnati con <span class="required-mark">*</span> sono obbligatori.</p>
 <button class="btn-contact" onclick="submitContact()">Invia messaggio</button>
 <div id="contactResult"></div>
 </div>
@@ -114,25 +115,20 @@ var contactTurnstileToken='';
 function onContactTurnstile(t){contactTurnstileToken=t;}
 
 function submitContact(){
+  clearAllErrors();
   var nome=document.getElementById('ct-nome').value.trim();
   var email=document.getElementById('ct-email').value.trim();
   var oggetto=document.getElementById('ct-oggetto').value;
   var messaggio=document.getElementById('ct-messaggio').value.trim();
   var privacy=document.getElementById('ct-privacy').checked;
-  var result=document.getElementById('contactResult');
+  var hasErr=false;
 
-  if(!nome||!email||!messaggio){
-    result.style.display='block';result.style.background='var(--terra-light)';result.style.color='var(--terra)';
-    result.textContent='Compila tutti i campi obbligatori (*).';return;
-  }
-  if(!email.includes('@')){
-    result.style.display='block';result.style.background='var(--terra-light)';result.style.color='var(--terra)';
-    result.textContent='Inserisci un indirizzo email valido.';return;
-  }
-  if(!privacy){
-    result.style.display='block';result.style.background='var(--terra-light)';result.style.color='var(--terra)';
-    result.textContent='Devi accettare la Privacy Policy.';return;
-  }
+  if(!nome){markFieldError('ct-nome','Il nome è obbligatorio');hasErr=true}
+  if(!email){markFieldError('ct-email','L\'email è obbligatoria');hasErr=true}
+  else if(!email.includes('@')){markFieldError('ct-email','Inserisci un indirizzo email valido');hasErr=true}
+  if(!messaggio){markFieldError('ct-messaggio','Il messaggio è obbligatorio');hasErr=true}
+  if(hasErr){showToast('error','Campi mancanti','Compila tutti i campi obbligatori.');return}
+  if(!privacy){showToast('error','Privacy Policy','Devi accettare la Privacy Policy.');return}
 
   var headers={'Content-Type':'application/json'};
   if(contactTurnstileToken)headers['X-Turnstile-Token']=contactTurnstileToken;
@@ -140,24 +136,21 @@ function submitContact(){
   fetch('/api/contact',{method:'POST',headers:headers,body:JSON.stringify({nome:nome,email:email,oggetto:oggetto,messaggio:messaggio})})
   .then(function(r){return r.json();})
   .then(function(data){
-    result.style.display='block';
     if(data.ok){
-      result.style.background='var(--green-light)';result.style.color='var(--green)';
-      result.textContent='Grazie! Il tuo messaggio è stato inviato.';
+      showToast('success','Inviato','Il tuo messaggio è stato inviato con successo.');
       document.getElementById('ct-nome').value='';
       document.getElementById('ct-email').value='';
       document.getElementById('ct-messaggio').value='';
       document.getElementById('ct-privacy').checked=false;
     } else {
-      result.style.background='var(--terra-light)';result.style.color='var(--terra)';
-      result.textContent=data.error||'Errore. Riprova.';
+      showToast('error','Errore',data.error||'Errore nell\'invio. Riprova.');
     }
   })
   .catch(function(){
-    result.style.display='block';result.style.background='var(--terra-light)';result.style.color='var(--terra)';
-    result.textContent='Errore di rete. Riprova.';
+    showToast('error','Errore di rete','Controlla la connessione e riprova.');
   });
 }
+['ct-nome','ct-email','ct-messaggio'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',function(){clearFieldError(id)})});
 </script>
 ` + SharedScripts() + `
 </body>

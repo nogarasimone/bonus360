@@ -11,6 +11,7 @@ import (
 	"bonusperme/internal/models"
 	"bonusperme/internal/scraper"
 	sentryutil "bonusperme/internal/sentry"
+	"bonusperme/internal/validity"
 	"fmt"
 	"log"
 	"net/http"
@@ -71,6 +72,10 @@ func main() {
 	mux.HandleFunc("/api/decode-profile", handlers.DecodeProfileHandler)
 	mux.HandleFunc("/api/bonus", handlers.BonusListHandler)
 	mux.HandleFunc("/api/bonus/", handlers.BonusDetailHandler)
+
+	// Admin routes (protected by ADMIN_API_KEY)
+	mux.HandleFunc("/api/admin/alerts", validity.AdminAlertsHandler)
+	mux.HandleFunc("/api/admin/bonus-status", validity.AdminBonusStatusHandler)
 
 	// Pages
 	mux.HandleFunc("/per-caf", handlers.PerCAFHandler)
@@ -148,6 +153,44 @@ func main() {
 				}
 				linkcheck.CheckAllLinks(ptrs)
 				handlers.SetLastScrape(time.Now())
+			}
+		}()
+	}
+
+	// Validity check at boot + daily (respects config)
+	if config.Cfg.ValidityCheckEnabled {
+		go func() {
+			time.Sleep(10 * time.Second)
+			allBonus := matcher.GetAllBonusWithRegional()
+			validity.RunCheck(allBonus)
+		}()
+
+		// Daily midnight validity check
+		go func() {
+			for {
+				now := time.Now()
+				next := time.Date(now.Year(), now.Month(), now.Day()+1, 0, 0, 0, 0, now.Location())
+				time.Sleep(time.Until(next))
+				allBonus := matcher.GetAllBonusWithRegional()
+				validity.RunCheck(allBonus)
+			}
+		}()
+	}
+
+	// News check (respects config, off by default)
+	if config.Cfg.NewsCheckEnabled {
+		go func() {
+			time.Sleep(30 * time.Second)
+			allBonus := matcher.GetAllBonusWithRegional()
+			validity.RunNewsCheck(allBonus)
+		}()
+
+		go func() {
+			ticker := time.NewTicker(config.Cfg.NewsCheckInterval)
+			defer ticker.Stop()
+			for range ticker.C {
+				allBonus := matcher.GetAllBonusWithRegional()
+				validity.RunNewsCheck(allBonus)
 			}
 		}()
 	}

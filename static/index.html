@@ -908,6 +908,33 @@
     .cookie-btn-reject { background: var(--ink-05); color: var(--ink-75); }
     .cookie-btn-reject:hover { background: var(--ink-15); }
     @media(max-width:640px) { .cookie-inner { flex-direction: column; text-align: center; } .cookie-btns { width: 100%; justify-content: center; } }
+
+    /* Toast notifications */
+    .toast-container{position:fixed;top:20px;right:20px;z-index:10000;display:flex;flex-direction:column;gap:10px;pointer-events:none}
+    .toast{pointer-events:auto;display:flex;align-items:flex-start;gap:10px;background:#fff;border-radius:var(--radius-lg);padding:14px 16px;box-shadow:0 4px 20px rgba(0,0,0,0.12);border-left:4px solid var(--ink-30);max-width:380px;animation:toastIn .3s ease;position:relative}
+    .toast--error{border-left-color:#dc2626}.toast--success{border-left-color:var(--green)}.toast--warning{border-left-color:#d97706}.toast--info{border-left-color:var(--blue-mid)}
+    .toast-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px}
+    .toast-content{flex:1;min-width:0}
+    .toast-title{font-weight:600;font-size:.88rem;margin-bottom:2px}
+    .toast-msg{font-size:.82rem;color:var(--ink-75)}
+    .toast-close{background:none;border:none;font-size:1.1rem;color:var(--ink-30);cursor:pointer;padding:0;line-height:1;flex-shrink:0}
+    .toast-close:hover{color:var(--ink)}
+    .toast.hiding{animation:toastOut .3s ease forwards}
+    @keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+    @keyframes toastOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(40px)}}
+    @media(max-width:640px){.toast-container{top:auto;bottom:20px;right:10px;left:10px}.toast{max-width:100%}}
+
+    /* Required/optional field indicators */
+    .required-mark{color:#dc2626;font-weight:700}
+    .optional-label{color:var(--ink-30);font-weight:400;font-size:.78rem;margin-left:4px}
+    .field-invalid{border-color:#dc2626!important;box-shadow:0 0 0 2px rgba(220,38,38,0.15)!important}
+    .field-error{color:#dc2626;font-size:.78rem;margin-top:3px;display:block}
+
+    /* Validity banners on bonus cards */
+    .bonus-alert{padding:8px 14px;border-radius:var(--radius);font-size:.82rem;font-weight:600;margin:8px 0 4px;display:flex;align-items:center;gap:8px}
+    .bonus-alert--warning{background:#fef3c7;color:#92400e;border:1px solid #fde68a}
+    .bonus-alert--info{background:var(--blue-light);color:var(--blue);border:1px solid #bfdbfe}
+    .bonus-alert--danger{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
   </style>
 </head>
 <body>
@@ -1374,11 +1401,11 @@
         <div class="wiz-row">
         {{if .TurnstileSiteKey}}<div class="cf-turnstile" data-sitekey="{{.TurnstileSiteKey}}" data-callback="onTurnstileSuccess" data-theme="light" style="margin-bottom:16px"></div>{{end}}
           <div class="wiz-field">
-            <label for="wiz-eta" data-i18n="label.eta">Età</label>
+            <label for="wiz-eta" data-i18n="label.eta">Età <span class="required-mark">*</span></label>
             <input type="number" id="wiz-eta" min="18" max="120" value="35" placeholder="Es. 35" aria-required="true">
           </div>
           <div class="wiz-field">
-            <label for="wiz-stato-civile" data-i18n="label.stato_civile">Stato civile</label>
+            <label for="wiz-stato-civile" data-i18n="label.stato_civile">Stato civile <span class="required-mark">*</span></label>
             <select id="wiz-stato-civile">
               <option value="" data-i18n="opt.select">— Seleziona —</option>
               <option value="celibe/nubile" data-i18n="opt.single">Celibe / Nubile</option>
@@ -1392,7 +1419,7 @@
         </div>
         <div class="wiz-row">
           <div class="wiz-field">
-            <label for="wiz-occupazione" data-i18n="label.occupazione">Occupazione</label>
+            <label for="wiz-occupazione" data-i18n="label.occupazione">Occupazione <span class="required-mark">*</span></label>
             <select id="wiz-occupazione">
               <option value="" data-i18n="opt.select">— Seleziona —</option>
               <option value="dipendente" data-i18n="opt.employee">Dipendente</option>
@@ -1424,21 +1451,21 @@
         <p class="wizard-step-sub" data-i18n="step2.subtitle">Composizione della tua famiglia.</p>
         <div class="wiz-row">
           <div class="wiz-field">
-            <label for="wiz-figli" data-i18n="label.numero_figli">Numero figli</label>
+            <label for="wiz-figli" data-i18n="label.numero_figli">Numero figli <span class="required-mark">*</span></label>
             <input type="number" id="wiz-figli" min="0" max="20" value="0">
           </div>
           <div class="wiz-field">
-            <label for="wiz-figli-min" data-i18n="label.figli_minorenni">Figli minorenni</label>
+            <label for="wiz-figli-min" data-i18n="label.figli_minorenni">Figli minorenni <span class="optional-label">(opzionale)</span></label>
             <input type="number" id="wiz-figli-min" min="0" max="20" value="0">
           </div>
         </div>
         <div class="wiz-row">
           <div class="wiz-field">
-            <label for="wiz-figli-u3" data-i18n="label.figli_under3">Figli under 3 anni</label>
+            <label for="wiz-figli-u3" data-i18n="label.figli_under3">Figli under 3 anni <span class="optional-label">(opzionale)</span></label>
             <input type="number" id="wiz-figli-u3" min="0" max="20" value="0">
           </div>
           <div class="wiz-field">
-            <label for="wiz-over65" data-i18n="label.over65">Over 65 nel nucleo</label>
+            <label for="wiz-over65" data-i18n="label.over65">Over 65 nel nucleo <span class="optional-label">(opzionale)</span></label>
             <input type="number" id="wiz-over65" min="0" max="10" value="0">
           </div>
         </div>
@@ -1463,7 +1490,7 @@
         <p class="wizard-step-sub" data-i18n="step4.subtitle">Residenza e condizione casa.</p>
         <div class="wiz-row full">
           <div class="wiz-field">
-            <label for="wiz-residenza" data-i18n="label.regione">Regione di residenza</label>
+            <label for="wiz-residenza" data-i18n="label.regione">Regione di residenza <span class="required-mark">*</span></label>
             <select id="wiz-residenza">
               <option value="">— Seleziona regione —</option>
               <option value="Piemonte">Piemonte</option>
@@ -1513,11 +1540,11 @@
         <p class="wizard-step-sub" data-i18n="step3.subtitle">ISEE e reddito. Se non hai l'ISEE lascia 0.</p>
         <div class="wiz-row">
           <div class="wiz-field">
-            <label for="wiz-isee" data-i18n="label.isee">ISEE annuo (EUR)</label>
+            <label for="wiz-isee" data-i18n="label.isee">ISEE annuo (EUR) <span class="optional-label">(opzionale)</span></label>
             <input type="number" id="wiz-isee" min="0" max="500000" value="0" step="100" placeholder="Es. 15000">
           </div>
           <div class="wiz-field">
-            <label for="wiz-reddito" data-i18n="label.reddito">Reddito annuo (EUR)</label>
+            <label for="wiz-reddito" data-i18n="label.reddito">Reddito annuo (EUR) <span class="optional-label">(opzionale)</span></label>
             <input type="number" id="wiz-reddito" min="0" max="1000000" value="0" step="100" placeholder="Es. 25000">
           </div>
         </div>
@@ -1690,6 +1717,42 @@
   updateLastScrapeDate();
 
   /* ============================================
+     TOAST NOTIFICATION SYSTEM
+     ============================================ */
+  (function(){if(!document.getElementById('toastContainer')){var c=document.createElement('div');c.id='toastContainer';c.className='toast-container';c.setAttribute('aria-live','polite');document.body.appendChild(c)}})();
+  function escHtml(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
+  function showToast(type,title,message,duration){
+    duration=duration||5000;
+    var container=document.getElementById('toastContainer');if(!container)return;
+    var icons={error:'&#x26A0;',success:'&#x2713;',warning:'&#x26A0;',info:'&#x2139;'};
+    var toast=document.createElement('div');toast.className='toast toast--'+type;
+    toast.innerHTML='<span class="toast-icon">'+(icons[type]||icons.info)+'</span><div class="toast-content"><div class="toast-title">'+escHtml(title)+'</div><div class="toast-msg">'+escHtml(message)+'</div></div><button class="toast-close" aria-label="Chiudi">&times;</button>';
+    var timer,remaining=duration,start=Date.now();
+    function startTimer(){start=Date.now();timer=setTimeout(function(){dismiss()},remaining)}
+    function dismiss(){toast.classList.add('hiding');setTimeout(function(){if(toast.parentNode)toast.parentNode.removeChild(toast)},300)}
+    toast.querySelector('.toast-close').onclick=dismiss;
+    toast.onmouseenter=function(){clearTimeout(timer);remaining-=Date.now()-start};
+    toast.onmouseleave=function(){startTimer()};
+    var toasts=container.querySelectorAll('.toast');if(toasts.length>=3){toasts[0].classList.add('hiding');setTimeout(function(){if(toasts[0].parentNode)toasts[0].parentNode.removeChild(toasts[0])},300)}
+    container.appendChild(toast);startTimer();
+  }
+  function markFieldError(fieldId,msg){
+    var el=document.getElementById(fieldId);if(!el)return;
+    el.classList.add('field-invalid');
+    var existing=el.parentNode.querySelector('.field-error');if(existing)existing.remove();
+    var span=document.createElement('span');span.className='field-error';span.textContent=msg;
+    el.parentNode.appendChild(span);
+  }
+  function clearFieldError(fieldId){
+    var el=document.getElementById(fieldId);if(!el)return;
+    el.classList.remove('field-invalid');
+    var existing=el.parentNode.querySelector('.field-error');if(existing)existing.remove();
+  }
+  function clearAllErrors(){document.querySelectorAll('.field-invalid').forEach(function(el){el.classList.remove('field-invalid')});document.querySelectorAll('.field-error').forEach(function(el){el.remove()})}
+  window.addEventListener('offline',function(){showToast('warning','Offline','Connessione internet persa. Alcune funzionalità potrebbero non essere disponibili.')});
+  window.addEventListener('online',function(){showToast('success','Online','Connessione ripristinata.')});
+
+  /* ============================================
      PAGE NAVIGATION
      ============================================ */
   window.dataLayer = window.dataLayer || [];
@@ -1746,7 +1809,34 @@
     }
   }
 
+  function validateWizardStep(stepNum) {
+    clearAllErrors();
+    var valid = true;
+    if (stepNum === 0) {
+      var eta = parseInt(document.getElementById('wiz-eta').value);
+      if (isNaN(eta) || eta < 18 || eta > 120) { markFieldError('wiz-eta', 'Inserisci un\'età valida (18-120)'); valid = false; }
+      if (!document.getElementById('wiz-stato-civile').value) { markFieldError('wiz-stato-civile', 'Seleziona lo stato civile'); valid = false; }
+      if (!document.getElementById('wiz-occupazione').value) { markFieldError('wiz-occupazione', 'Seleziona l\'occupazione'); valid = false; }
+    } else if (stepNum === 1) {
+      var figli = parseInt(document.getElementById('wiz-figli').value);
+      var figliMin = parseInt(document.getElementById('wiz-figli-min').value) || 0;
+      var figliU3 = parseInt(document.getElementById('wiz-figli-u3').value) || 0;
+      if (isNaN(figli) || figli < 0) { markFieldError('wiz-figli', 'Valore non valido'); valid = false; }
+      if (figliMin > figli) { markFieldError('wiz-figli-min', 'Non può superare il numero di figli'); valid = false; }
+      if (figliU3 > figliMin) { markFieldError('wiz-figli-u3', 'Non può superare i figli minorenni'); valid = false; }
+    } else if (stepNum === 2) {
+      if (!document.getElementById('wiz-residenza').value) { markFieldError('wiz-residenza', 'Seleziona la regione'); valid = false; }
+    }
+    if (!valid) { showToast('error', 'Dati incompleti', 'Correggi i campi evidenziati.'); }
+    return valid;
+  }
+  // Auto-clear errors on input
+  ['wiz-eta','wiz-stato-civile','wiz-occupazione','wiz-figli','wiz-figli-min','wiz-figli-u3','wiz-residenza','wiz-isee','wiz-reddito'].forEach(function(id){
+    var el=document.getElementById(id);if(el){el.addEventListener('input',function(){clearFieldError(id)});el.addEventListener('change',function(){clearFieldError(id)})}
+  });
+
   function wizNext() {
+    if (!validateWizardStep(wizStep)) return;
     if (wizStep < wizTotal - 1) { wizStep++; wizUpdateUI(); dataLayer.push({ event: 'wizard_step', step: wizStep }); }
   }
   function wizPrev() {
@@ -1776,6 +1866,7 @@
   }
 
   function wizSubmit() {
+    if (!validateWizardStep(wizStep)) return;
     var btn = document.getElementById('wizSubmitBtn');
     btn.disabled = true;
     btn.textContent = 'Analisi in corso...';
@@ -1791,17 +1882,32 @@
       body: JSON.stringify(lastProfile)
     })
     .then(function(r) {
-      if (!r.ok) throw new Error('Errore ' + r.status);
+      if (r.status === 429) throw { type: 'rate_limit', message: 'Troppe richieste. Attendi qualche secondo.' };
+      if (r.status === 403) throw { type: 'turnstile', message: 'Verifica di sicurezza non superata. Ricarica la pagina.' };
+      if (!r.ok) throw { type: 'server', message: 'Errore del server (' + r.status + '). Riprova.' };
       return r.json();
     })
     .then(function(data) {
       lastResult = data;
       renderResults(data);
       showResults();
+      showToast('success', 'Analisi completata', 'Trovati ' + data.bonus_trovati + ' bonus per te.');
+      // Show avvisi toasts
+      if (data.avvisi && data.avvisi.length > 0) {
+        data.avvisi.slice(0, 3).forEach(function(a) {
+          var t = a.tipo === 'danger' ? 'error' : a.tipo;
+          showToast(t, 'Avviso bonus', a.messaggio);
+        });
+      }
       dataLayer.push({ event: 'match_complete', bonus_count: data.bonus_trovati, risparmio: data.risparmio_stimato });
     })
     .catch(function(err) {
-      alert('Errore nella verifica: ' + err.message);
+      var type = (err && err.type) || 'error';
+      var msg = (err && err.message) || 'Errore sconosciuto. Riprova.';
+      if (type === 'rate_limit') showToast('warning', 'Troppe richieste', msg);
+      else if (type === 'turnstile') showToast('error', 'Verifica fallita', msg);
+      else if (!navigator.onLine) showToast('warning', 'Offline', 'Connessione internet assente.');
+      else showToast('error', 'Errore', msg);
     })
     .finally(function() {
       btn.disabled = false;
@@ -1943,6 +2049,17 @@
         html += '<span class="bonus-scadenza' + (b.scaduto ? '' : ' active') + '">' + esc(b.scadenza) + '</span>';
       }
       html += '</div>';
+
+      // Validity banner
+      if (!b.scaduto && b.stato_validita) {
+        if (b.stato_validita === 'in_scadenza') {
+          html += '<div class="bonus-alert bonus-alert--warning">&#x26A0; Scade a breve — Fai domanda subito</div>';
+        } else if (b.stato_validita === 'da_verificare') {
+          html += '<div class="bonus-alert bonus-alert--info">&#x2139; Verifica disponibilità sul sito ufficiale</div>';
+        } else if (b.stato_validita === 'potenzialmente_scaduto') {
+          html += '<div class="bonus-alert bonus-alert--danger">&#x26A0; Questo bonus potrebbe non essere più disponibile</div>';
+        }
+      }
 
       // Importo box — anti-duplication logic
       var lStimato = (currentTranslations && currentTranslations['results.importo_reale']) || 'Stimato per te';
@@ -2157,7 +2274,7 @@
     var items = lastResult.bonus.filter(function(b) { return b.scadenza; }).map(function(b) {
       return { nome: b.nome, scadenza: b.scadenza };
     });
-    if (items.length === 0) { alert('Nessuna scadenza da esportare'); return; }
+    if (items.length === 0) { showToast('info', 'Nessuna scadenza', 'Nessuna scadenza da esportare per i bonus trovati.'); return; }
     var url = '/api/calendar?bonuses=' + encodeURIComponent(JSON.stringify(items));
     window.location.href = url;
   }
@@ -2430,6 +2547,6 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
-
+<div id="toastContainer" class="toast-container" aria-live="polite"></div>
 </body>
 </html>

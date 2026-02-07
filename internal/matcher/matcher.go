@@ -78,7 +78,7 @@ func isScaduto(scadenza string) bool {
 }
 
 func GetAllBonus() []models.Bonus {
-	return []models.Bonus{
+	bonuses := []models.Bonus{
 		{
 			ID: "assegno-unico", Nome: "Assegno Unico Universale", Categoria: "famiglia",
 			Descrizione: "Assegno mensile per ogni figlio a carico fino a 21 anni. Importo da €57 a €199,4/mese per figlio in base all'ISEE, con maggiorazioni per famiglie numerose e figli piccoli.",
@@ -482,6 +482,8 @@ func GetAllBonus() []models.Bonus {
 			Stato:               "attivo",
 		},
 	}
+	populateValidity(bonuses)
+	return bonuses
 }
 
 // GetAllBonusWithRegional returns national + regional bonuses combined.
@@ -857,4 +859,57 @@ func estimateSaving(id string, p models.UserProfile) float64 {
 		return 500
 	}
 	return 0
+}
+
+// populateValidity auto-derives TipoScadenza, ScadenzaDomanda, AnnoConferma, UltimaVerifica
+// from existing Scadenza text for each bonus.
+func populateValidity(bonuses []models.Bonus) {
+	now := time.Now()
+	for i := range bonuses {
+		b := &bonuses[i]
+		lower := strings.ToLower(strings.TrimSpace(b.Scadenza))
+
+		// Derive TipoScadenza from Scadenza text
+		switch {
+		case strings.Contains(lower, "in vigore"):
+			b.TipoScadenza = "permanente"
+		case strings.Contains(lower, "erogazione automatica"):
+			b.TipoScadenza = "permanente"
+		case strings.Contains(lower, "entro 60 giorni"):
+			b.TipoScadenza = "permanente"
+		case strings.Contains(lower, "per arretrati"):
+			b.TipoScadenza = "permanente"
+		case strings.Contains(lower, "entro 30 giugno"):
+			b.TipoScadenza = "permanente"
+		case strings.Contains(lower, "esaurimento fondi"):
+			b.TipoScadenza = "esaurimento_fondi"
+		case strings.Contains(lower, "bando"):
+			b.TipoScadenza = "bando_annuale"
+		default:
+			// Try to parse Italian date
+			if m := itDateRe.FindStringSubmatch(lower); len(m) == 4 {
+				day, _ := strconv.Atoi(m[1])
+				month := italianMonthsMap[m[2]]
+				year, _ := strconv.Atoi(m[3])
+				b.TipoScadenza = "data_fissa"
+				b.ScadenzaDomanda = time.Date(year, month, day, 23, 59, 59, 0, time.UTC)
+			} else {
+				b.TipoScadenza = "permanente"
+			}
+		}
+
+		// AnnoConferma: derive from UltimoAggiornamento text
+		if b.UltimoAggiornamento != "" {
+			if m := yearOnlyRe.FindStringSubmatch(b.UltimoAggiornamento); len(m) == 2 {
+				y, _ := strconv.Atoi(m[1])
+				b.AnnoConferma = y
+			}
+		}
+		if b.AnnoConferma == 0 {
+			b.AnnoConferma = 2025
+		}
+
+		// UltimaVerifica: set to now (data is loaded from code)
+		b.UltimaVerifica = now
+	}
 }

@@ -75,6 +75,24 @@ a{color:var(--blue-mid);text-decoration:none}a:hover{text-decoration:underline}
 .cookie-btn-accept{background:var(--blue);color:#fff}
 .cookie-btn-reject{background:var(--ink-05);color:var(--ink-75)}
 @media(max-width:640px){.topbar-inner{justify-content:center;text-align:center}.topbar-right{margin-left:0;margin-top:4px;width:100%;text-align:center}.main-nav{gap:12px}.nav-link{font-size:.78rem}.cookie-inner{flex-direction:column;text-align:center}.cookie-btns{width:100%;justify-content:center}.site-footer .footer-inner{text-align:center}}
+.toast-container{position:fixed;top:20px;right:20px;z-index:10000;display:flex;flex-direction:column;gap:10px;pointer-events:none}
+.toast{pointer-events:auto;display:flex;align-items:flex-start;gap:10px;background:#fff;border-radius:var(--radius-lg);padding:14px 16px;box-shadow:0 4px 20px rgba(0,0,0,0.12);border-left:4px solid var(--ink-30);max-width:380px;animation:toastIn .3s ease;position:relative}
+.toast--error{border-left-color:#dc2626}.toast--success{border-left-color:var(--green)}.toast--warning{border-left-color:#d97706}.toast--info{border-left-color:var(--blue-mid)}
+.toast-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px}
+.toast-content{flex:1;min-width:0}
+.toast-title{font-weight:600;font-size:.88rem;margin-bottom:2px}
+.toast-msg{font-size:.82rem;color:var(--ink-75)}
+.toast-close{background:none;border:none;font-size:1.1rem;color:var(--ink-30);cursor:pointer;padding:0;line-height:1;flex-shrink:0}
+.toast-close:hover{color:var(--ink)}
+.toast.hiding{animation:toastOut .3s ease forwards}
+@keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes toastOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(40px)}}
+@media(max-width:640px){.toast-container{top:auto;bottom:20px;right:10px;left:10px}.toast{max-width:100%}}
+.required-mark{color:#dc2626;font-weight:700}
+.optional-label{color:var(--ink-30);font-weight:400;font-size:.78rem;margin-left:4px}
+.field-invalid{border-color:#dc2626!important;box-shadow:0 0 0 2px rgba(220,38,38,0.15)!important}
+.field-error{color:#dc2626;font-size:.78rem;margin-top:3px;display:block}
+.required-note{font-size:.78rem;color:var(--ink-50);margin:12px 0 4px}
 `
 }
 
@@ -154,7 +172,40 @@ func SharedCookieBanner() string {
 // SharedScripts returns common JS for language switcher, counter, last update, and cookie banner.
 // This is the baseline version for subpages. index.html has its own more sophisticated version.
 func SharedScripts() string {
-	return `<script>
+	return `<div id="toastContainer" class="toast-container" aria-live="polite"></div>
+<script>
+(function(){if(!document.getElementById('toastContainer')){var c=document.createElement('div');c.id='toastContainer';c.className='toast-container';c.setAttribute('aria-live','polite');document.body.appendChild(c)}})();
+function escHtml(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
+function showToast(type,title,message,duration){
+  duration=duration||5000;
+  var container=document.getElementById('toastContainer');if(!container)return;
+  var icons={error:'&#x26A0;',success:'&#x2713;',warning:'&#x26A0;',info:'&#x2139;'};
+  var toast=document.createElement('div');toast.className='toast toast--'+type;
+  toast.innerHTML='<span class="toast-icon">'+( icons[type]||icons.info)+'</span><div class="toast-content"><div class="toast-title">'+escHtml(title)+'</div><div class="toast-msg">'+escHtml(message)+'</div></div><button class="toast-close" aria-label="Chiudi">&times;</button>';
+  var timer,remaining=duration,start=Date.now();
+  function startTimer(){start=Date.now();timer=setTimeout(function(){dismiss()},remaining)}
+  function dismiss(){toast.classList.add('hiding');setTimeout(function(){if(toast.parentNode)toast.parentNode.removeChild(toast)},300)}
+  toast.querySelector('.toast-close').onclick=dismiss;
+  toast.onmouseenter=function(){clearTimeout(timer);remaining-=Date.now()-start};
+  toast.onmouseleave=function(){startTimer()};
+  var toasts=container.querySelectorAll('.toast');if(toasts.length>=3){toasts[0].classList.add('hiding');setTimeout(function(){if(toasts[0].parentNode)toasts[0].parentNode.removeChild(toasts[0])},300)}
+  container.appendChild(toast);startTimer();
+}
+function markFieldError(fieldId,msg){
+  var el=document.getElementById(fieldId);if(!el)return;
+  el.classList.add('field-invalid');
+  var existing=el.parentNode.querySelector('.field-error');if(existing)existing.remove();
+  var span=document.createElement('span');span.className='field-error';span.textContent=msg;
+  el.parentNode.appendChild(span);
+}
+function clearFieldError(fieldId){
+  var el=document.getElementById(fieldId);if(!el)return;
+  el.classList.remove('field-invalid');
+  var existing=el.parentNode.querySelector('.field-error');if(existing)existing.remove();
+}
+function clearAllErrors(){document.querySelectorAll('.field-invalid').forEach(function(el){el.classList.remove('field-invalid')});document.querySelectorAll('.field-error').forEach(function(el){el.remove()})}
+window.addEventListener('offline',function(){showToast('warning','Offline','Connessione internet persa. Alcune funzionalità potrebbero non essere disponibili.')});
+window.addEventListener('online',function(){showToast('success','Online','Connessione ripristinata.')});
 var currentLang='it';var currentTranslations={};
 function selectLang(lang){currentLang=lang;var sel=document.getElementById('langSelect');if(sel)sel.value=lang;document.documentElement.setAttribute('lang',lang);document.documentElement.setAttribute('dir',lang==='ar'?'rtl':'ltr');fetch('/api/translations?lang='+lang).then(function(r){return r.json()}).then(function(t){currentTranslations=t;document.querySelectorAll('[data-i18n]').forEach(function(el){var key=el.dataset.i18n;if(t[key])el.textContent=t[key]})})}
 fetch('/api/status').then(function(r){return r.json()}).then(function(d){var el=document.getElementById('lastUpdate');if(el&&d.last_update_display)el.textContent='Dati aggiornati al '+d.last_update_display}).catch(function(){});

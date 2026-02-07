@@ -6,6 +6,7 @@ import (
 	"bonusperme/internal/models"
 	"bonusperme/internal/scraper"
 	sentryutil "bonusperme/internal/sentry"
+	"bonusperme/internal/validity"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
@@ -266,11 +267,15 @@ func SimulateHandler(w http.ResponseWriter, r *http.Request) {
 
 	reale := matcher.MatchBonus(profile, cachedBonus)
 	linkcheck.ApplyStatus(reale.Bonus)
+	validity.ApplyStatus(reale.Bonus)
+	reale.Avvisi = validity.GenerateAvvisi(reale.Bonus)
 
 	simProfile := profile
 	simProfile.ISEE = profile.ISEESimulato
 	simulato := matcher.MatchBonus(simProfile, cachedBonus)
 	linkcheck.ApplyStatus(simulato.Bonus)
+	validity.ApplyStatus(simulato.Bonus)
+	simulato.Avvisi = validity.GenerateAvvisi(simulato.Bonus)
 
 	bonusExtra := simulato.BonusTrovati - reale.BonusTrovati
 	if bonusExtra < 0 {
@@ -485,6 +490,8 @@ func ReportHandler(w http.ResponseWriter, r *http.Request) {
 	cachedBonus := scraper.GetCachedBonus()
 	result := matcher.MatchBonus(profile, cachedBonus)
 	linkcheck.ApplyStatus(result.Bonus)
+	validity.ApplyStatus(result.Bonus)
+	result.Avvisi = validity.GenerateAvvisi(result.Bonus)
 
 	// Generate profile code for footer
 	profileCode := "BPM-..."

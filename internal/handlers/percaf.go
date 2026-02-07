@@ -110,11 +110,12 @@ func PerCAFHandler(w http.ResponseWriter, r *http.Request) {
 <h2>Registra il tuo CAF</h2>
 <p>Ricevi aggiornamenti e accesso anticipato al widget embeddabile.</p>
 <div class="caf-form">
-<div class="field"><label>Nome CAF *</label><input type="text" id="caf-nome" placeholder="Es. CAF CISL Milano"></div>
-<div class="field"><label>Email referente *</label><input type="email" id="caf-email" placeholder="referente@caf.it"></div>
-<div class="field"><label>Telefono</label><input type="tel" id="caf-telefono" placeholder="Es. 02 1234567"></div>
-<div class="field"><label>Provincia *</label><input type="text" id="caf-provincia" placeholder="Es. Milano"></div>
+<div class="field"><label>Nome CAF <span class="required-mark">*</span></label><input type="text" id="caf-nome" placeholder="Es. CAF CISL Milano"></div>
+<div class="field"><label>Email referente <span class="required-mark">*</span></label><input type="email" id="caf-email" placeholder="referente@caf.it"></div>
+<div class="field"><label>Telefono <span class="optional-label">(opzionale)</span></label><input type="tel" id="caf-telefono" placeholder="Es. 02 1234567"></div>
+<div class="field"><label>Provincia <span class="required-mark">*</span></label><input type="text" id="caf-provincia" placeholder="Es. Milano"></div>
 ` + turnstileWidget + `
+<p class="required-note">I campi contrassegnati con <span class="required-mark">*</span> sono obbligatori.</p>
 <button class="btn-caf" onclick="submitCAFSignup()">Registra il CAF</button>
 <div id="cafResult"></div>
 </div>
@@ -137,20 +138,18 @@ var cafTurnstileToken='';
 function onCafTurnstile(t){cafTurnstileToken=t;}
 
 function submitCAFSignup(){
+  clearAllErrors();
   var nome=document.getElementById('caf-nome').value.trim();
   var email=document.getElementById('caf-email').value.trim();
   var telefono=document.getElementById('caf-telefono').value.trim();
   var provincia=document.getElementById('caf-provincia').value.trim();
-  var result=document.getElementById('cafResult');
+  var hasErr=false;
 
-  if(!nome||!email||!provincia){
-    result.style.display='block';result.style.background='var(--terra-light)';result.style.color='var(--terra)';
-    result.textContent='Compila tutti i campi obbligatori (*).';return;
-  }
-  if(!email.includes('@')){
-    result.style.display='block';result.style.background='var(--terra-light)';result.style.color='var(--terra)';
-    result.textContent='Inserisci un indirizzo email valido.';return;
-  }
+  if(!nome){markFieldError('caf-nome','Il nome CAF è obbligatorio');hasErr=true}
+  if(!email){markFieldError('caf-email','L\'email è obbligatoria');hasErr=true}
+  else if(!email.includes('@')){markFieldError('caf-email','Inserisci un indirizzo email valido');hasErr=true}
+  if(!provincia){markFieldError('caf-provincia','La provincia è obbligatoria');hasErr=true}
+  if(hasErr){showToast('error','Campi mancanti','Compila tutti i campi obbligatori.');return}
 
   var headers={'Content-Type':'application/json'};
   if(cafTurnstileToken)headers['X-Turnstile-Token']=cafTurnstileToken;
@@ -158,21 +157,18 @@ function submitCAFSignup(){
   fetch('/api/caf-signup',{method:'POST',headers:headers,body:JSON.stringify({nome:nome,email:email,telefono:telefono,provincia:provincia})})
   .then(function(r){return r.json();})
   .then(function(data){
-    result.style.display='block';
     if(data.ok){
-      result.style.background='var(--green-light)';result.style.color='var(--green)';
-      result.textContent='Grazie! Ti contatteremo presto.';
+      showToast('success','Registrato','Grazie! Ti contatteremo presto.');
       document.querySelector('.caf-form').querySelectorAll('input').forEach(function(i){i.value='';});
     } else {
-      result.style.background='var(--terra-light)';result.style.color='var(--terra)';
-      result.textContent=data.error||'Errore. Riprova.';
+      showToast('error','Errore',data.error||'Errore nella registrazione. Riprova.');
     }
   })
   .catch(function(){
-    result.style.display='block';result.style.background='var(--terra-light)';result.style.color='var(--terra)';
-    result.textContent='Errore di rete. Riprova.';
+    showToast('error','Errore di rete','Controlla la connessione e riprova.');
   });
 }
+['caf-nome','caf-email','caf-provincia'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',function(){clearFieldError(id)})});
 </script>
 ` + SharedScripts() + `
 </body>

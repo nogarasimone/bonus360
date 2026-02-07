@@ -55,6 +55,12 @@ type Config struct {
 	// Turnstile
 	TurnstileSiteKey   string
 	TurnstileSecretKey string
+
+	// Validity checker
+	ValidityCheckEnabled bool
+	NewsCheckEnabled     bool
+	NewsCheckInterval    time.Duration
+	AdminAPIKey          string
 }
 
 // Load reads .env (if present) and populates Cfg from environment variables.
@@ -95,6 +101,11 @@ func Load() {
 
 		TurnstileSiteKey:   os.Getenv("TURNSTILE_SITE_KEY"),
 		TurnstileSecretKey: os.Getenv("TURNSTILE_SECRET_KEY"),
+
+		ValidityCheckEnabled: envBool("VALIDITY_CHECK_ENABLED", true),
+		NewsCheckEnabled:     envBool("NEWS_CHECK_ENABLED", false),
+		NewsCheckInterval:    envDuration("NEWS_CHECK_INTERVAL", 6*time.Hour),
+		AdminAPIKey:          os.Getenv("ADMIN_API_KEY"),
 	}
 
 	log.Printf("config: loaded (port=%s, scraper=%v, linkcheck=%v, gtm=%s)",

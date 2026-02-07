@@ -15,7 +15,7 @@ func init() {
 }
 
 func TestMatchHandler_Valid(t *testing.T) {
-	body := `{"eta":30,"residenza":"Lazio","stato_civile":"married","occupazione":"dipendente","numero_figli":2,"figli_minorenni":2,"figli_under3":1,"isee":15000,"reddito_annuo":25000}`
+	body := `{"eta":30,"residenza":"Lazio","stato_civile":"coniugato/a","occupazione":"dipendente","numero_figli":2,"figli_minorenni":2,"figli_under3":1,"isee":15000,"reddito_annuo":25000}`
 	req := httptest.NewRequest(http.MethodPost, "/api/match", strings.NewReader(body))
 	req.Header.Set("Content-Type", "application/json")
 	w := httptest.NewRecorder()

@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type UserProfile struct {
 	Eta              int     `json:"eta"`
 	Residenza        string  `json:"residenza"`
@@ -63,6 +65,12 @@ type Bonus struct {
 	FonteAggiornamento        string               `json:"fonte_aggiornamento,omitempty"`
 	VerificaManualeNecessaria bool                  `json:"verifica_manuale_necessaria,omitempty"`
 	NotaVerifica              string               `json:"nota_verifica,omitempty"`
+	ScadenzaDomanda           time.Time            `json:"scadenza_domanda,omitempty"`
+	TipoScadenza              string               `json:"tipo_scadenza,omitempty"`
+	AnnoConferma              int                  `json:"anno_conferma,omitempty"`
+	UltimaVerifica            time.Time            `json:"ultima_verifica,omitempty"`
+	StatoValidita             string               `json:"stato_validita,omitempty"`
+	MotivoStato               string               `json:"motivo_stato,omitempty"`
 	Traduzioni                map[string]BonusTrad `json:"traduzioni,omitempty"`
 }
 
@@ -72,7 +80,14 @@ type MatchResult struct {
 	BonusScaduti     int     `json:"bonus_scaduti"`
 	RisparmioStimato string  `json:"risparmio_stimato"`
 	PersoFinora      string  `json:"perso_finora,omitempty"`
-	Bonus            []Bonus `json:"bonus"`
+	Bonus            []Bonus   `json:"bonus"`
+	Avvisi           []Avviso  `json:"avvisi,omitempty"`
+}
+
+type Avviso struct {
+	BonusID   string `json:"bonus_id"`
+	Tipo      string `json:"tipo"`
+	Messaggio string `json:"messaggio"`
 }
 
 type SimulateResult struct {

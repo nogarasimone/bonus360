@@ -4,6 +4,7 @@ import (
 	"bonusperme/internal/linkcheck"
 	"bonusperme/internal/matcher"
 	"bonusperme/internal/scraper"
+	"bonusperme/internal/validity"
 	"encoding/json"
 	"net/http"
 	"strings"
@@ -40,6 +41,7 @@ func BonusListHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	linkcheck.ApplyStatus(allBonus)
+	validity.ApplyStatus(allBonus)
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Cache-Control", "public, max-age=3600")
@@ -69,6 +71,7 @@ func BonusDetailHandler(w http.ResponseWriter, r *http.Request) {
 
 	allBonus := matcher.GetAllBonusWithRegional()
 	linkcheck.ApplyStatus(allBonus)
+	validity.ApplyStatus(allBonus)
 	for _, b := range allBonus {
 		if b.ID == bonusID {
 			w.Header().Set("Content-Type", "application/json")

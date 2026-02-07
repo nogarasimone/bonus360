@@ -6,6 +6,7 @@ import (
 	"bonusperme/internal/models"
 	"bonusperme/internal/scraper"
 	sentryutil "bonusperme/internal/sentry"
+	"bonusperme/internal/validity"
 	"bytes"
 	"encoding/json"
 	"io"
@@ -48,6 +49,8 @@ func MatchHandler(w http.ResponseWriter, r *http.Request) {
 	cachedBonus := scraper.GetCachedBonus()
 	result := matcher.MatchBonus(profile, cachedBonus)
 	linkcheck.ApplyStatus(result.Bonus)
+	validity.ApplyStatus(result.Bonus)
+	result.Avvisi = validity.GenerateAvvisi(result.Bonus)
 
 	w.Header().Set("Content-Type", "application/json")
 	// No caching - data is ephemeral
