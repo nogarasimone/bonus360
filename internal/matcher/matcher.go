@@ -283,8 +283,8 @@ func GetAllBonus() []models.Bonus {
 		},
 		{
 			ID: "bonus-psicologo", Nome: "Bonus Psicologo", Categoria: "salute",
-			Descrizione: "Contributo fino a €1.500 per sessioni di psicoterapia con professionisti iscritti all'albo. Importo variabile in base all'ISEE.",
-			Importo: "fino a €1.500 (ISEE ≤ €15.000)", Scadenza: "Bando annuale",
+			Descrizione: "Contributo per sessioni di psicoterapia con professionisti iscritti all'albo. Importo variabile in base all'ISEE: fino a €1.500 (ISEE ≤ €15.000), €1.000 (ISEE ≤ €30.000), €500 (ISEE ≤ €50.000).",
+			Importo: "da €500 a €1.500 in base all'ISEE", Scadenza: "Bando annuale",
 			Requisiti:       []string{"ISEE valido", "Residenza in Italia", "Psicoterapeuta iscritto all'albo"},
 			ComeRichiederlo: []string{"Portale INPS con SPID/CIE", "Sezione 'Bonus Psicologo'", "Domanda nel periodo di apertura"},
 			Documenti:       []string{"SPID o CIE", "ISEE in corso di validità", "Dati dello psicoterapeuta (nome, cognome, codice albo)"},
@@ -363,8 +363,8 @@ func GetAllBonus() []models.Bonus {
 		},
 		{
 			ID: "bonus-decoder-tv", Nome: "Bonus TV / Decoder", Categoria: "altro",
-			Descrizione: "Contributo per acquisto TV e decoder compatibili con il nuovo digitale terrestre DVB-T2 per famiglie con ISEE fino a €20.000.",
-			Importo: "fino a €50 (decoder) / €100 (TV)", Scadenza: "Fino ad esaurimento fondi",
+			Descrizione: "Contributo per acquisto TV e decoder compatibili con il nuovo digitale terrestre DVB-T2 per famiglie con ISEE fino a €20.000. Fondi esauriti nel 2024.",
+			Importo: "fino a €50 (decoder) / €100 (TV)", Scadenza: "Fondi esauriti (2024)",
 			Requisiti:       []string{"ISEE ≤ €20.000", "Residenza in Italia", "Rottamazione vecchio apparecchio (per bonus TV)"},
 			ComeRichiederlo: []string{"Acquistare presso rivenditori aderenti", "Presentare autocertificazione ISEE", "Sconto diretto in negozio"},
 			Documenti:       []string{"Documento d'identità", "Autocertificazione ISEE", "Vecchio apparecchio da rottamare"},
@@ -379,7 +379,8 @@ func GetAllBonus() []models.Bonus {
 			FonteNome:           "Ministero delle Imprese e del Made in Italy",
 			RiferimentiNormativi: []string{"DM 18 ottobre 2021"},
 			UltimoAggiornamento: "15 gennaio 2025",
-			Stato:               "attivo",
+			Stato:               "scaduto",
+			Scaduto:             true,
 		},
 		{
 			ID: "adi", Nome: "Assegno di Inclusione (ADI)", Categoria: "sostegno",
@@ -838,7 +839,16 @@ func estimateSaving(id string, p models.UserProfile) float64 {
 	case "bonus-verde":
 		return 900
 	case "bonus-psicologo":
-		return 600
+		switch {
+		case p.ISEE > 0 && p.ISEE <= 15000:
+			return 1500
+		case p.ISEE > 15000 && p.ISEE <= 30000:
+			return 1000
+		case p.ISEE > 30000 && p.ISEE <= 50000:
+			return 500
+		default:
+			return 600
+		}
 	case "carta-dedicata":
 		return 500
 	case "carta-cultura":

@@ -737,6 +737,8 @@
     .wiz-field select:focus, .wiz-field input:focus { outline: none; border-color: var(--blue-mid); box-shadow: 0 0 0 3px var(--blue-glow); }
     .wiz-check { display: flex; align-items: center; gap: 10px; padding: 10px 0; cursor: pointer; font-size: 0.88rem; }
     .wiz-check input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--blue); cursor: pointer; }
+    .turnstile-wrapper{display:flex;justify-content:center;margin:12px 0 8px 0}
+    .turnstile-wrapper .cf-turnstile{transform:scale(0.9);transform-origin:center}
     .wiz-nav { display: flex; justify-content: space-between; margin-top: 28px; }
     .wiz-nav .btn { min-width: 140px; justify-content: center; }
     .btn-ghost { background: none; border: none; color: var(--ink-50); font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 600; cursor: pointer; padding: 13px 20px; border-radius: var(--radius); }
@@ -1408,7 +1410,6 @@
         <h2 class="wizard-step-title" data-i18n="step1.title">Dati personali</h2>
         <p class="wizard-step-sub" data-i18n="step1.subtitle">Informazioni di base per la verifica.</p>
         <div class="wiz-row">
-        {{if .TurnstileSiteKey}}<div class="cf-turnstile" data-sitekey="{{.TurnstileSiteKey}}" data-callback="onTurnstileSuccess" data-theme="light" style="margin-bottom:16px"></div>{{end}}
           <div class="wiz-field">
             <label for="wiz-eta" data-i18n="label.eta">Età <span class="required-mark">*</span></label>
             <input type="number" id="wiz-eta" min="18" max="120" value="35" placeholder="Es. 35" aria-required="true">
@@ -1445,6 +1446,7 @@
             </label>
           </div>
         </div>
+        {{if .TurnstileSiteKey}}<div class="turnstile-wrapper"><div class="cf-turnstile" data-sitekey="{{.TurnstileSiteKey}}" data-callback="onTurnstileSuccess" data-theme="light" data-size="compact"></div></div>{{end}}
         <div class="wiz-nav">
           <button class="btn-ghost" onclick="backToLanding()" data-i18n="btn.prev">Indietro</button>
           <button class="btn btn-primary" onclick="wizNext()">
@@ -1502,26 +1504,26 @@
             <label for="wiz-residenza" data-i18n="label.regione">Regione di residenza <span class="required-mark">*</span></label>
             <select id="wiz-residenza">
               <option value="">— Seleziona regione —</option>
-              <option value="Piemonte">Piemonte</option>
-              <option value="Valle d'Aosta">Valle d'Aosta</option>
-              <option value="Lombardia">Lombardia</option>
-              <option value="Trentino-Alto Adige">Trentino-Alto Adige</option>
-              <option value="Veneto">Veneto</option>
-              <option value="Friuli Venezia Giulia">Friuli Venezia Giulia</option>
-              <option value="Liguria">Liguria</option>
-              <option value="Emilia-Romagna">Emilia-Romagna</option>
-              <option value="Toscana">Toscana</option>
-              <option value="Umbria">Umbria</option>
-              <option value="Marche">Marche</option>
-              <option value="Lazio">Lazio</option>
               <option value="Abruzzo">Abruzzo</option>
-              <option value="Molise">Molise</option>
-              <option value="Campania">Campania</option>
-              <option value="Puglia">Puglia</option>
               <option value="Basilicata">Basilicata</option>
               <option value="Calabria">Calabria</option>
-              <option value="Sicilia">Sicilia</option>
+              <option value="Campania">Campania</option>
+              <option value="Emilia-Romagna">Emilia-Romagna</option>
+              <option value="Friuli Venezia Giulia">Friuli Venezia Giulia</option>
+              <option value="Lazio">Lazio</option>
+              <option value="Liguria">Liguria</option>
+              <option value="Lombardia">Lombardia</option>
+              <option value="Marche">Marche</option>
+              <option value="Molise">Molise</option>
+              <option value="Piemonte">Piemonte</option>
+              <option value="Puglia">Puglia</option>
               <option value="Sardegna">Sardegna</option>
+              <option value="Sicilia">Sicilia</option>
+              <option value="Toscana">Toscana</option>
+              <option value="Trentino-Alto Adige">Trentino-Alto Adige</option>
+              <option value="Umbria">Umbria</option>
+              <option value="Valle d'Aosta">Valle d'Aosta</option>
+              <option value="Veneto">Veneto</option>
             </select>
           </div>
         </div>
