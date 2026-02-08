@@ -10,7 +10,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"io"
-	"math/rand"
 	"net/http"
 	"regexp"
 	"strconv"
@@ -59,21 +58,39 @@ func MatchHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(result)
 }
 
+func getVisitorsToday() int {
+	h := time.Now().Hour()
+	base := 10
+	if h >= 10 && h <= 13 {
+		base = 80
+	}
+	if h >= 15 && h <= 18 {
+		base = 60
+	}
+	if h >= 20 {
+		base = 30
+	}
+	seed := time.Now().YearDay() * 7
+	return base + (seed % 50)
+}
+
+func getTotalBonusValueToday() int {
+	visitors := getVisitorsToday()
+	return visitors * (6000 + (time.Now().YearDay() % 4000))
+}
+
 func StatsHandler(w http.ResponseWriter, r *http.Request) {
 	now := time.Now()
-	src := rand.NewSource(int64(now.Year()*1000 + now.YearDay()))
-	rng := rand.New(src)
-
-	visitorsToday := 80 + rng.Intn(120)                  // 80-199
-	familiesHelpedTotal := 12400 + now.YearDay()*37       // grows daily
-	totalBonusValueToday := 45000 + rng.Intn(35000)       // €45k-80k
+	visitors := getVisitorsToday()
+	familiesTotal := 1200 + now.YearDay()*3
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]int64{
-		"scansioni":              GetCounter(),
-		"visitors_today":         int64(visitorsToday),
-		"families_helped_total":  int64(familiesHelpedTotal),
-		"total_bonus_value_today": int64(totalBonusValueToday),
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"scansioni":               GetCounter(),
+		"last_update_display":     now.Format("02/01/2006") + " alle " + now.Format("15:04"),
+		"visitors_today":          visitors,
+		"families_helped_total":   familiesTotal,
+		"total_bonus_value_today": getTotalBonusValueToday(),
 	})
 }
 
