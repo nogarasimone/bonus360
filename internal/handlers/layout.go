@@ -206,12 +206,14 @@ function clearFieldError(fieldId){
 function clearAllErrors(){document.querySelectorAll('.field-invalid').forEach(function(el){el.classList.remove('field-invalid')});document.querySelectorAll('.field-error').forEach(function(el){el.remove()})}
 window.addEventListener('offline',function(){showToast('warning','Offline','Connessione internet persa. Alcune funzionalità potrebbero non essere disponibili.')});
 window.addEventListener('online',function(){showToast('success','Online','Connessione ripristinata.')});
+window.dataLayer=window.dataLayer||[];
+function pushDataLayer(obj){window.dataLayer.push(obj);}
 var currentLang='it';var currentTranslations={};
-function selectLang(lang){currentLang=lang;var sel=document.getElementById('langSelect');if(sel)sel.value=lang;document.documentElement.setAttribute('lang',lang);document.documentElement.setAttribute('dir',lang==='ar'?'rtl':'ltr');fetch('/api/translations?lang='+lang).then(function(r){return r.json()}).then(function(t){currentTranslations=t;document.querySelectorAll('[data-i18n]').forEach(function(el){var key=el.dataset.i18n;if(t[key])el.textContent=t[key]})})}
+function selectLang(lang){var prev=currentLang;currentLang=lang;var sel=document.getElementById('langSelect');if(sel)sel.value=lang;document.documentElement.setAttribute('lang',lang);document.documentElement.setAttribute('dir',lang==='ar'?'rtl':'ltr');fetch('/api/translations?lang='+lang).then(function(r){return r.json()}).then(function(t){currentTranslations=t;document.querySelectorAll('[data-i18n]').forEach(function(el){var key=el.dataset.i18n;if(t[key])el.textContent=t[key]})});if(prev!==lang)pushDataLayer({event:'language_change',from_lang:prev,to_lang:lang})}
 fetch('/api/status').then(function(r){return r.json()}).then(function(d){var el=document.getElementById('lastUpdate');if(el&&d.last_update_display)el.textContent='Dati aggiornati al '+d.last_update_display}).catch(function(){});
 fetch('/api/stats').then(function(r){return r.json()}).then(function(d){var el=document.getElementById('proofCounter');if(el&&d.scansioni)el.textContent=Number(d.scansioni).toLocaleString('it-IT')}).catch(function(){});
-function acceptCookies(){localStorage.setItem('cookie_consent','accepted');document.getElementById('cookieBanner').style.display='none'}
-function rejectCookies(){localStorage.setItem('cookie_consent','rejected');document.getElementById('cookieBanner').style.display='none'}
+function acceptCookies(){localStorage.setItem('cookie_consent','accepted');document.getElementById('cookieBanner').style.display='none';pushDataLayer({event:'cookie_consent',consent:'accepted'})}
+function rejectCookies(){localStorage.setItem('cookie_consent','rejected');document.getElementById('cookieBanner').style.display='none';pushDataLayer({event:'cookie_consent',consent:'rejected'})}
 if(!localStorage.getItem('cookie_consent')){document.getElementById('cookieBanner').style.display='block'}
 </script>`
 }

@@ -45,11 +45,11 @@ func SecurityHeaders(next http.Handler) http.Handler {
 		w.Header().Set("Permissions-Policy", "camera=(), microphone=(), geolocation=(self), payment=()")
 		w.Header().Set("Content-Security-Policy",
 			"default-src 'self'; "+
-				"script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://challenges.cloudflare.com; "+
+				"script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://challenges.cloudflare.com; "+
 				"style-src 'self' 'unsafe-inline'; "+
-				"img-src 'self' data:; "+
+				"img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com; "+
 				"font-src 'self'; "+
-				"connect-src 'self' https://*.ingest.sentry.io; "+
+				"connect-src 'self' https://*.ingest.sentry.io https://www.google-analytics.com https://www.googletagmanager.com https://api.web3forms.com; "+
 				"frame-src https://challenges.cloudflare.com; "+
 				"frame-ancestors 'none'")
 		next.ServeHTTP(w, r)
