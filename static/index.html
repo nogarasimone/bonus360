@@ -43,11 +43,14 @@
   <!-- Google Tag Manager (loads only after cookie consent) -->
   <script>
     var __GTM_ID__='{{.GTMID}}';
+    window.dataLayer=window.dataLayer||[];
+    function pushDataLayer(obj){window.dataLayer.push(obj);}
     function loadGTM(){if(!__GTM_ID__||window._gtmLoaded)return;window._gtmLoaded=true;
     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
     var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
     j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer',__GTM_ID__);}
+    })(window,document,'script','dataLayer',__GTM_ID__);
+    pushDataLayer({event:'cookie_consent_granted'});}
     if(localStorage.getItem('cookie_consent')==='accepted'){loadGTM();}
   </script>
   <style>
@@ -1648,6 +1651,7 @@
   var currentLang = 'it';
 
   function selectLang(lang) {
+    var prevLang = currentLang;
     currentLang = lang;
     var sel = document.getElementById('langSelect');
     if (sel) sel.value = lang;
@@ -1656,6 +1660,7 @@
     fetch('/api/translations?lang=' + lang)
       .then(function(r) { return r.json(); })
       .then(function(t) { applyTranslations(t); });
+    if (prevLang !== lang) { pushDataLayer({ event: 'language_change', from_lang: prevLang, to_lang: lang }); }
   }
 
   var currentTranslations = {};
@@ -1808,15 +1813,13 @@
   /* ============================================
      PAGE NAVIGATION
      ============================================ */
-  window.dataLayer = window.dataLayer || [];
-
   function startWizard() {
     document.getElementById('landingPage').style.display = 'none';
     document.getElementById('wizardPage').style.display = 'flex';
     document.getElementById('resultsPage').style.display = 'none';
     wizStep = 0; wizUpdateUI();
     window.scrollTo(0, 0);
-    dataLayer.push({ event: 'wizard_start' });
+    pushDataLayer({ event: 'wizard_start' });
   }
   function backToLanding() {
     document.getElementById('wizardPage').style.display = 'none';
@@ -1890,7 +1893,7 @@
 
   function wizNext() {
     if (!validateWizardStep(wizStep)) return;
-    if (wizStep < wizTotal - 1) { wizStep++; wizUpdateUI(); dataLayer.push({ event: 'wizard_step', step: wizStep }); }
+    if (wizStep < wizTotal - 1) { wizStep++; wizUpdateUI(); pushDataLayer({ event: 'wizard_step', step: wizStep, step_name: ['dati_personali','famiglia','residenza','situazione_economica'][wizStep] }); }
   }
   function wizPrev() {
     if (wizStep > 0) { wizStep--; wizUpdateUI(); }
@@ -1952,7 +1955,7 @@
           showToast(t, 'Avviso bonus', a.messaggio);
         });
       }
-      dataLayer.push({ event: 'match_complete', bonus_count: data.bonus_trovati, risparmio: data.risparmio_stimato });
+      pushDataLayer({ event: 'bonus_search', regione: lastProfile.residenza, bonus_count: data.bonus_trovati, has_isee: lastProfile.isee > 0, risparmio: data.risparmio_stimato });
     })
     .catch(function(err) {
       var type = (err && err.type) || 'error';
@@ -2305,7 +2308,7 @@
      ============================================ */
   function downloadReport(mode) {
     if (!lastProfile) return;
-    dataLayer.push({ event: mode === 'print' ? 'pdf_print' : 'pdf_download' });
+    pushDataLayer({ event: mode === 'print' ? 'pdf_print' : 'pdf_download' });
     var url = '/api/report' + (mode === 'print' ? '?mode=inline' : '');
     var form = document.createElement('form');
     form.method = 'POST';
@@ -2323,7 +2326,7 @@
 
   function exportCalendar() {
     if (!lastResult || !lastResult.bonus) return;
-    dataLayer.push({ event: 'calendar_export' });
+    pushDataLayer({ event: 'calendar_export' });
     var items = lastResult.bonus.filter(function(b) { return b.scadenza; }).map(function(b) {
       return { nome: b.nome, scadenza: b.scadenza };
     });
@@ -2340,7 +2343,7 @@
 
   function shareWhatsApp() {
     if (!lastResult) return;
-    dataLayer.push({ event: 'whatsapp_share' });
+    pushDataLayer({ event: 'share_profile', method: 'whatsapp', bonus_count: lastResult.bonus_trovati });
     var waText = 'Ho scoperto che ho diritto a ' + lastResult.bonus_trovati + ' bonus per un risparmio di ' + (lastResult.risparmio_stimato || 'EUR 0') + '. Verifica anche tu su BonusPerMe.it!';
     window.open('https://wa.me/?text=' + encodeURIComponent(waText), '_blank');
   }
@@ -2376,12 +2379,12 @@
     localStorage.setItem('cookie_consent', 'accepted');
     document.getElementById('cookieBanner').style.display = 'none';
     loadGTM();
-    dataLayer.push({ event: 'cookie_consent', consent: 'accepted' });
+    pushDataLayer({ event: 'cookie_consent', consent: 'accepted' });
   }
   function rejectCookies() {
     localStorage.setItem('cookie_consent', 'rejected');
     document.getElementById('cookieBanner').style.display = 'none';
-    dataLayer.push({ event: 'cookie_consent', consent: 'rejected' });
+    pushDataLayer({ event: 'cookie_consent', consent: 'rejected' });
   }
 
   /* ============================================

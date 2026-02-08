@@ -157,6 +157,7 @@ function submitContact(){
   .then(function(result){
     if(result.success){
       showToast('success','Messaggio inviato!','Ti risponderemo entro 24-48 ore lavorative.');
+      if(typeof pushDataLayer==='function')pushDataLayer({event:'contact_form_submit',oggetto:oggetto});
       document.getElementById('ct-nome').value='';
       document.getElementById('ct-email').value='';
       document.getElementById('ct-messaggio').value='';

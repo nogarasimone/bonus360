@@ -178,6 +178,7 @@ function submitCAFSignup(){
   .then(function(result){
     if(result.success){
       showToast('success','CAF registrato!','Riceverai aggiornamenti e accesso anticipato al widget.');
+      if(typeof pushDataLayer==='function')pushDataLayer({event:'caf_signup',provincia:provincia});
       document.querySelector('.caf-form').querySelectorAll('input[type="text"],input[type="email"],input[type="tel"]').forEach(function(i){i.value='';});
       if(typeof turnstile!=='undefined')turnstile.reset();
     } else {
