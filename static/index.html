@@ -665,6 +665,15 @@
     .footer-disclaimer { font-size: 0.7rem; color: var(--ink-30); line-height: 1.5; font-style: italic; }
     .footer-disclaimer p { margin: 2px 0; }
 
+    /* === DISCLAIMER BOX === */
+    .disclaimer-box{display:flex;align-items:flex-start;gap:10px;margin:16px 0 8px 0;padding:12px 16px;background:#FFFBEB;border:1px solid #F59E0B;border-left:4px solid #F59E0B;border-radius:6px}
+    .disclaimer-icon{flex-shrink:0;font-size:1rem;line-height:1.5}
+    .disclaimer-text{font-family:'DM Sans',sans-serif;font-size:.78rem;color:#92400E;line-height:1.5;margin:0}
+    .disclaimer-text a{color:#B45309;text-decoration:underline;font-weight:600}
+    .disclaimer-text a:hover{color:#92400E}
+    .disclaimer-box--results{margin:0 0 20px 0}
+    @media print{.disclaimer-box{border:1px solid #999!important;background:#f9f9f9!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+
     /* ============================================
        RESPONSIVE
        ============================================ */
@@ -1561,6 +1570,10 @@
             <span data-i18n="btn.submit">Verifica bonus</span>
           </button>
         </div>
+        <div class="disclaimer-box" data-i18n-html="disclaimer_form">
+          <span class="disclaimer-icon" aria-hidden="true">⚠️</span>
+          <p class="disclaimer-text">BonusPerMe è uno strumento orientativo e potrebbe contenere errori o informazioni non aggiornate. Non sostituisce la consulenza di un CAF, patronato o professionista. Verifica sempre le informazioni sui <a href="https://www.inps.it" target="_blank" rel="noopener">siti ufficiali</a> prima di presentare domanda.</p>
+        </div>
       </div>
     </div>
     <p class="wizard-footer-note">
@@ -1606,6 +1619,10 @@
         <span class="icon"><svg><use href="#ico-external"/></svg></span> <span data-i18n="results.share">Condividi</span>
       </button>
     </div>
+    <div class="disclaimer-box disclaimer-box--results" data-i18n-html="disclaimer_results">
+      <span class="disclaimer-icon" aria-hidden="true">⚠️</span>
+      <p class="disclaimer-text">Questi risultati sono orientativi. Importi, requisiti e scadenze potrebbero essere cambiati. Verifica sempre sui siti ufficiali (<a href="https://www.inps.it" target="_blank" rel="noopener">INPS</a>, <a href="https://www.agenziaentrate.gov.it" target="_blank" rel="noopener">Agenzia delle Entrate</a>, Regione) prima di fare domanda.</p>
+    </div>
     <div class="results-tabs" id="resultsTabs"></div>
     <div class="bonus-grid" id="bonusGrid"></div>
     <div class="results-modify">
@@ -1641,6 +1658,38 @@
 
   var currentTranslations = {};
 
+  var disclaimerTexts = {
+    form: {
+      it: '\u26A0\uFE0F BonusPerMe è uno strumento orientativo e potrebbe contenere errori o informazioni non aggiornate. Non sostituisce la consulenza di un CAF, patronato o professionista. Verifica sempre le informazioni sui siti ufficiali prima di presentare domanda.',
+      en: '\u26A0\uFE0F BonusPerMe is an informational tool and may contain errors or outdated information. It does not replace advice from a tax assistance center or professional. Always verify information on official websites before applying.',
+      fr: '\u26A0\uFE0F BonusPerMe est un outil indicatif et peut contenir des erreurs ou des informations obsolètes. Il ne remplace pas les conseils d\'un centre d\'aide fiscale ou d\'un professionnel. Vérifiez toujours les informations sur les sites officiels avant de faire une demande.',
+      es: '\u26A0\uFE0F BonusPerMe es una herramienta orientativa y puede contener errores o información desactualizada. No sustituye el asesoramiento de un centro de asistencia fiscal o profesional. Verifica siempre la información en los sitios oficiales antes de solicitar.',
+      ro: '\u26A0\uFE0F BonusPerMe este un instrument orientativ și poate conține erori sau informații neactualizate. Nu înlocuiește consilierea unui centru de asistență fiscală sau a unui profesionist. Verificați întotdeauna informațiile pe site-urile oficiale înainte de a depune cererea.',
+      ar: '\u26A0\uFE0F BonusPerMe أداة إرشادية وقد تحتوي على أخطاء أو معلومات غير محدّثة. لا تحلّ محلّ استشارة مركز المساعدة الضريبية أو المتخصصين. تحقق دائمًا من المعلومات على المواقع الرسمية قبل تقديم الطلب.',
+      sq: '\u26A0\uFE0F BonusPerMe është një mjet orientues dhe mund të përmbajë gabime ose informacione të vjetruara. Nuk zëvendëson këshillimin e një qendre ndihme fiskale ose profesionisti. Verifikoni gjithmonë informacionet në faqet zyrtare përpara se të aplikoni.'
+    },
+    results: {
+      it: '\u26A0\uFE0F Questi risultati sono orientativi. Importi, requisiti e scadenze potrebbero essere cambiati. Verifica sempre sui siti ufficiali (INPS, Agenzia delle Entrate, Regione) prima di fare domanda.',
+      en: '\u26A0\uFE0F These results are indicative. Amounts, requirements, and deadlines may have changed. Always verify on official websites (INPS, Revenue Agency, Region) before applying.',
+      fr: '\u26A0\uFE0F Ces résultats sont indicatifs. Les montants, conditions et délais peuvent avoir changé. Vérifiez toujours sur les sites officiels avant de faire une demande.',
+      es: '\u26A0\uFE0F Estos resultados son orientativos. Los importes, requisitos y plazos pueden haber cambiado. Verifica siempre en los sitios oficiales antes de solicitar.',
+      ro: '\u26A0\uFE0F Aceste rezultate sunt orientative. Sumele, cerințele și termenele s-ar fi putut schimba. Verificați întotdeauna pe site-urile oficiale înainte de a depune cererea.',
+      ar: '\u26A0\uFE0F هذه النتائج إرشادية. قد تكون المبالغ والمتطلبات والمواعيد قد تغيرت. تحقق دائمًا من المواقع الرسمية قبل تقديم الطلب.',
+      sq: '\u26A0\uFE0F Këto rezultate janë orientuese. Shumat, kërkesat dhe afatet mund të kenë ndryshuar. Verifikoni gjithmonë në faqet zyrtare përpara se të aplikoni.'
+    }
+  };
+
+  function updateDisclaimers(lang) {
+    var formBox = document.querySelector('[data-i18n-html="disclaimer_form"] .disclaimer-text');
+    if (formBox && disclaimerTexts.form[lang]) {
+      formBox.textContent = disclaimerTexts.form[lang];
+    }
+    var resBox = document.querySelector('[data-i18n-html="disclaimer_results"] .disclaimer-text');
+    if (resBox && disclaimerTexts.results[lang]) {
+      resBox.textContent = disclaimerTexts.results[lang];
+    }
+  }
+
   function applyTranslations(t) {
     currentTranslations = t;
     document.querySelectorAll('[data-i18n]').forEach(function(el) {
@@ -1668,6 +1717,8 @@
     if (lastResult && document.getElementById('resultsPage').style.display !== 'none') {
       renderBonusCards(lastResult.bonus, activeFilter);
     }
+    // Update disclaimers
+    updateDisclaimers(currentLang);
   }
 
   /* Quick estimate calculator */

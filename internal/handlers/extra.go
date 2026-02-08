@@ -796,6 +796,20 @@ func ReportHandler(w http.ResponseWriter, r *http.Request) {
 	// PAGES 2+ — BONUS CARDS
 	// ═══════════════════════════════════════════════════
 
+	// Disclaimer before bonus cards
+	y := ensureSpace(pdf, 18)
+	pdf.SetY(y)
+	pdf.SetX(marginL)
+	pdf.SetFillColor(255, 251, 235) // #FFFBEB
+	pdf.SetDrawColor(245, 158, 11)  // #F59E0B
+	pdf.RoundedRect(marginL, pdf.GetY(), contentW, 14, 2, "1234", "FD")
+	pdf.SetX(marginL + 4)
+	pdf.SetFont("Helvetica", "I", 7)
+	pdf.SetTextColor(146, 64, 14) // #92400E
+	pdf.MultiCell(contentW-8, 3.5, transliterate("Questi risultati sono orientativi. Importi, requisiti e scadenze potrebbero essere cambiati. "+"Verifica sempre sui siti ufficiali (INPS, Agenzia delle Entrate, Regione) prima di fare domanda."), "", "L", false)
+	pdf.Ln(4)
+	pdf.SetDrawColor(0, 0, 0)
+
 	// Active bonus cards
 	for _, b := range activeBonuses {
 		needed := estimateBonusH(b)
@@ -897,9 +911,10 @@ func ReportHandler(w http.ResponseWriter, r *http.Request) {
 	pdf.Ln(4)
 
 	pdf.SetFont("Helvetica", "I", 7)
-	setText(pdf, cInk30)
-	pdf.CellFormat(contentW, 4, "Questo documento e a scopo orientativo.", "", 1, "C", false, 0, "")
-	pdf.CellFormat(contentW, 4, "Non sostituisce la consulenza di un professionista, CAF o patronato.", "", 1, "C", false, 0, "")
+	pdf.SetTextColor(146, 64, 14)
+	pdf.CellFormat(contentW, 4, transliterate("Questi risultati sono orientativi e potrebbero contenere errori."), "", 1, "C", false, 0, "")
+	pdf.CellFormat(contentW, 4, transliterate("Verifica sempre sui siti ufficiali prima di presentare domanda."), "", 1, "C", false, 0, "")
+	pdf.CellFormat(contentW, 4, transliterate("BonusPerMe non e un CAF ne un patronato."), "", 1, "C", false, 0, "")
 
 	// ═══════════════════════════════════════════════════
 	// OUTPUT
