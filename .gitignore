@@ -28,6 +28,9 @@ Thumbs.db
 
 # Environment
 .env
+.env.local
+.env.production
+!.env.example
 
 # Go
 vendor/

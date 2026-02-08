@@ -56,6 +56,9 @@ type Config struct {
 	TurnstileSiteKey   string
 	TurnstileSecretKey string
 
+	// Web3Forms
+	Web3FormsAccessKey string
+
 	// Validity checker
 	ValidityCheckEnabled bool
 	NewsCheckEnabled     bool
@@ -101,6 +104,8 @@ func Load() {
 
 		TurnstileSiteKey:   os.Getenv("TURNSTILE_SITE_KEY"),
 		TurnstileSecretKey: os.Getenv("TURNSTILE_SECRET_KEY"),
+
+		Web3FormsAccessKey: os.Getenv("WEB3FORMS_ACCESS_KEY"),
 
 		ValidityCheckEnabled: envBool("VALIDITY_CHECK_ENABLED", true),
 		NewsCheckEnabled:     envBool("NEWS_CHECK_ENABLED", false),

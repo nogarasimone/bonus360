@@ -79,10 +79,11 @@ func ContattiHandler(w http.ResponseWriter, r *http.Request) {
 </select>
 </div>
 <div class="field"><label>Messaggio <span class="required-mark">*</span></label><textarea id="ct-messaggio" placeholder="Scrivi il tuo messaggio..."></textarea></div>
+<input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
 <label class="privacy-check"><input type="checkbox" id="ct-privacy"> Ho letto e accetto la <a href="/privacy" target="_blank">Privacy Policy</a></label>
 ` + turnstileWidget + `
 <p class="required-note">I campi contrassegnati con <span class="required-mark">*</span> sono obbligatori.</p>
-<button class="btn-contact" onclick="submitContact()">Invia messaggio</button>
+<button class="btn-contact" id="contactSubmitBtn" onclick="submitContact()">Invia messaggio</button>
 <div id="contactResult"></div>
 </div>
 
@@ -130,25 +131,54 @@ function submitContact(){
   if(hasErr){showToast('error','Campi mancanti','Compila tutti i campi obbligatori.');return}
   if(!privacy){showToast('error','Privacy Policy','Devi accettare la Privacy Policy.');return}
 
-  var headers={'Content-Type':'application/json'};
-  if(contactTurnstileToken)headers['X-Turnstile-Token']=contactTurnstileToken;
+  var btn=document.getElementById('contactSubmitBtn');
+  var originalText=btn.textContent;
+  btn.disabled=true;
+  btn.textContent='Invio in corso...';
 
-  fetch('/api/contact',{method:'POST',headers:headers,body:JSON.stringify({nome:nome,email:email,oggetto:oggetto,messaggio:messaggio})})
+  var w3data={
+    access_key:'` + config.Cfg.Web3FormsAccessKey + `',
+    subject:'BonusPerMe — Nuovo messaggio contatti',
+    from_name:'BonusPerMe Contatti',
+    name:nome,
+    email:email,
+    oggetto:oggetto,
+    message:messaggio,
+    source:'bonusperme.it/contatti',
+    timestamp:new Date().toISOString()
+  };
+
+  fetch('https://api.web3forms.com/submit',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify(w3data)
+  })
   .then(function(r){return r.json();})
-  .then(function(data){
-    if(data.ok){
-      showToast('success','Inviato','Il tuo messaggio è stato inviato con successo.');
+  .then(function(result){
+    if(result.success){
+      showToast('success','Messaggio inviato!','Ti risponderemo entro 24-48 ore lavorative.');
       document.getElementById('ct-nome').value='';
       document.getElementById('ct-email').value='';
       document.getElementById('ct-messaggio').value='';
       document.getElementById('ct-privacy').checked=false;
+      if(typeof turnstile!=='undefined')turnstile.reset();
     } else {
-      showToast('error','Errore',data.error||'Errore nell\'invio. Riprova.');
+      showToast('error','Errore invio',result.message||'Riprova tra qualche minuto.');
     }
   })
-  .catch(function(){
-    showToast('error','Errore di rete','Controlla la connessione e riprova.');
+  .catch(function(err){
+    console.error('Web3Forms error:',err);
+    showToast('error','Errore di connessione','Verifica la connessione internet e riprova.');
+  })
+  .finally(function(){
+    btn.disabled=false;
+    btn.textContent=originalText;
   });
+
+  // Backend logging (non-blocking)
+  var headers={'Content-Type':'application/json'};
+  if(contactTurnstileToken)headers['X-Turnstile-Token']=contactTurnstileToken;
+  fetch('/api/contact',{method:'POST',headers:headers,body:JSON.stringify({nome:nome,email:email,oggetto:oggetto,messaggio:messaggio})}).catch(function(){});
 }
 ['ct-nome','ct-email','ct-messaggio'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',function(){clearFieldError(id)})});
 </script>
