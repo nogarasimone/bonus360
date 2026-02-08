@@ -17,20 +17,11 @@ func ContattiHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
-	siteKey := config.Cfg.TurnstileSiteKey
-	turnstileScript := ""
-	turnstileWidget := ""
-	if siteKey != "" {
-		turnstileScript = `<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>`
-		turnstileWidget = `<div class="cf-turnstile" data-sitekey="` + siteKey + `" data-callback="onContactTurnstile" data-theme="light" style="margin-bottom:16px"></div>`
-	}
-
 	var sb strings.Builder
 	sb.WriteString(`<!DOCTYPE html>
 <html lang="it">
 <head>
 ` + SharedMetaTags("Contatti — BonusPerMe", "Contattaci per informazioni, segnalazioni o partnership. BonusPerMe — servizio gratuito per le famiglie italiane.", "/contatti") + `
-` + turnstileScript + `
 <style>` + SharedCSS() + `
 .page-hero{padding:48px 0 32px;text-align:center}
 .page-hero h1{font-size:clamp(1.5rem,3.5vw,2rem);margin-bottom:10px}
@@ -81,7 +72,6 @@ func ContattiHandler(w http.ResponseWriter, r *http.Request) {
 <div class="field"><label>Messaggio <span class="required-mark">*</span></label><textarea id="ct-messaggio" placeholder="Scrivi il tuo messaggio..."></textarea></div>
 <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
 <label class="privacy-check"><input type="checkbox" id="ct-privacy"> Ho letto e accetto la <a href="/privacy" target="_blank">Privacy Policy</a></label>
-` + turnstileWidget + `
 <p class="required-note">I campi contrassegnati con <span class="required-mark">*</span> sono obbligatori.</p>
 <button class="btn-contact" id="contactSubmitBtn" onclick="submitContact()">Invia messaggio</button>
 <div id="contactResult"></div>
@@ -112,9 +102,6 @@ func ContattiHandler(w http.ResponseWriter, r *http.Request) {
 ` + SharedCookieBanner() + `
 
 <script>
-var contactTurnstileToken='';
-function onContactTurnstile(t){contactTurnstileToken=t;}
-
 function submitContact(){
   clearAllErrors();
   var nome=document.getElementById('ct-nome').value.trim();
@@ -162,7 +149,6 @@ function submitContact(){
       document.getElementById('ct-email').value='';
       document.getElementById('ct-messaggio').value='';
       document.getElementById('ct-privacy').checked=false;
-      if(typeof turnstile!=='undefined')turnstile.reset();
     } else {
       showToast('error','Errore invio',result.message||'Riprova tra qualche minuto.');
     }
@@ -177,9 +163,7 @@ function submitContact(){
   });
 
   // Backend logging (non-blocking)
-  var headers={'Content-Type':'application/json'};
-  if(contactTurnstileToken)headers['X-Turnstile-Token']=contactTurnstileToken;
-  fetch('/api/contact',{method:'POST',headers:headers,body:JSON.stringify({nome:nome,email:email,oggetto:oggetto,messaggio:messaggio})}).catch(function(){});
+  fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nome:nome,email:email,oggetto:oggetto,messaggio:messaggio})}).catch(function(){});
 }
 ['ct-nome','ct-email','ct-messaggio'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',function(){clearFieldError(id)})});
 </script>
@@ -201,12 +185,6 @@ type contactRequest struct {
 func ContactHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
-
-	if !verifyTurnstile(getTurnstileToken(r)) {
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(map[string]interface{}{"ok": false, "error": "Verifica di sicurezza non superata"})
 		return
 	}
 

@@ -740,10 +740,13 @@
     .wiz-field select:focus, .wiz-field input:focus { outline: none; border-color: var(--blue-mid); box-shadow: 0 0 0 3px var(--blue-glow); }
     .wiz-check { display: flex; align-items: center; gap: 10px; padding: 10px 0; cursor: pointer; font-size: 0.88rem; }
     .wiz-check input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--blue); cursor: pointer; }
-    .turnstile-wrapper{display:flex;justify-content:center;margin:12px 0 8px 0}
-    .turnstile-wrapper .cf-turnstile{transform:scale(0.9);transform-origin:center}
-    .wiz-nav { display: flex; justify-content: space-between; margin-top: 28px; }
+    .wiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 28px; }
     .wiz-nav .btn { min-width: 140px; justify-content: center; }
+    .wizard-nav-right{display:flex;align-items:center;gap:12px}
+    .turnstile-inline{display:flex;align-items:center}
+    .turnstile-inline .cf-turnstile{transform:scale(0.85);transform-origin:right center}
+    .turnstile-inline .cf-turnstile:empty{display:none}
+    @media(max-width:600px){.wizard-nav-right{flex-direction:column;align-items:stretch}.turnstile-inline{justify-content:center}.turnstile-inline .cf-turnstile{transform:scale(1);transform-origin:center}}
     .btn-ghost { background: none; border: none; color: var(--ink-50); font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 600; cursor: pointer; padding: 13px 20px; border-radius: var(--radius); }
     .btn-ghost:hover { color: var(--ink); background: var(--ink-05); }
     .wiz-isee-upload { margin-top: 12px; padding: 16px; border: 2px dashed var(--ink-15); border-radius: var(--radius); text-align: center; font-size: 0.82rem; color: var(--ink-50); cursor: pointer; transition: all 0.15s; }
@@ -1449,7 +1452,6 @@
             </label>
           </div>
         </div>
-        {{if .TurnstileSiteKey}}<div class="turnstile-wrapper"><div class="cf-turnstile" data-sitekey="{{.TurnstileSiteKey}}" data-callback="onTurnstileSuccess" data-theme="light" data-size="compact"></div></div>{{end}}
         <div class="wiz-nav">
           <button class="btn-ghost" onclick="backToLanding()" data-i18n="btn.prev">Indietro</button>
           <button class="btn btn-primary" onclick="wizNext()">
@@ -1570,10 +1572,13 @@
         </div>
         <div class="wiz-nav">
           <button class="btn-ghost" onclick="wizPrev()" data-i18n="btn.prev">Indietro</button>
-          <button class="btn btn-primary" onclick="wizSubmit()" id="wizSubmitBtn">
-            <span class="icon icon-sm"><svg><use href="#ico-zap"/></svg></span>
-            <span data-i18n="btn.submit">Verifica bonus</span>
-          </button>
+          <div class="wizard-nav-right">
+            {{if .TurnstileSiteKey}}<div class="turnstile-inline"><div class="cf-turnstile" data-sitekey="{{.TurnstileSiteKey}}" data-callback="onTurnstileSuccess" data-theme="light" data-size="compact" data-appearance="interaction-only"></div></div>{{end}}
+            <button class="btn btn-primary" onclick="wizSubmit()" id="wizSubmitBtn">
+              <span class="icon icon-sm"><svg><use href="#ico-zap"/></svg></span>
+              <span data-i18n="btn.submit">Verifica bonus</span>
+            </button>
+          </div>
         </div>
         <div class="disclaimer-box" data-i18n-html="disclaimer_form">
           <span class="disclaimer-icon" aria-hidden="true">⚠️</span>

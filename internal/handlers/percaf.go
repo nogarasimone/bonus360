@@ -17,20 +17,11 @@ func PerCAFHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
-	siteKey := config.Cfg.TurnstileSiteKey
-	turnstileScript := ""
-	turnstileWidget := ""
-	if siteKey != "" {
-		turnstileScript = `<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>`
-		turnstileWidget = `<div class="cf-turnstile" data-sitekey="` + siteKey + `" data-callback="onCafTurnstile" data-theme="light" style="margin-bottom:16px"></div>`
-	}
-
 	var sb strings.Builder
 	sb.WriteString(`<!DOCTYPE html>
 <html lang="it">
 <head>
 ` + SharedMetaTags("BonusPerMe per i CAF — Centro di Assistenza Fiscale", "BonusPerMe per i Centri di Assistenza Fiscale. I tuoi clienti arrivano con il report già pronto.", "/per-caf") + `
-` + turnstileScript + `
 <style>` + SharedCSS() + `
 .hero-caf{padding:56px 0 40px;text-align:center}
 .badge{display:inline-block;padding:5px 14px;background:var(--green-light);color:var(--green);font-size:.72rem;font-weight:700;border-radius:var(--radius);margin-bottom:14px;text-transform:uppercase;letter-spacing:.8px}
@@ -115,7 +106,6 @@ func PerCAFHandler(w http.ResponseWriter, r *http.Request) {
 <div class="field"><label>Telefono <span class="optional-label">(opzionale)</span></label><input type="tel" id="caf-telefono" placeholder="Es. 02 1234567"></div>
 <div class="field"><label>Provincia <span class="required-mark">*</span></label><input type="text" id="caf-provincia" placeholder="Es. Milano"></div>
 <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
-` + turnstileWidget + `
 <p class="required-note">I campi contrassegnati con <span class="required-mark">*</span> sono obbligatori.</p>
 <button class="btn-caf" id="cafSubmitBtn" onclick="submitCAFSignup()">Registra il CAF</button>
 <div id="cafResult"></div>
@@ -135,9 +125,6 @@ func PerCAFHandler(w http.ResponseWriter, r *http.Request) {
 ` + SharedCookieBanner() + `
 
 <script>
-var cafTurnstileToken='';
-function onCafTurnstile(t){cafTurnstileToken=t;}
-
 function submitCAFSignup(){
   clearAllErrors();
   var nome=document.getElementById('caf-nome').value.trim();
@@ -180,7 +167,6 @@ function submitCAFSignup(){
       showToast('success','CAF registrato!','Riceverai aggiornamenti e accesso anticipato al widget.');
       if(typeof pushDataLayer==='function')pushDataLayer({event:'caf_signup',provincia:provincia});
       document.querySelector('.caf-form').querySelectorAll('input[type="text"],input[type="email"],input[type="tel"]').forEach(function(i){i.value='';});
-      if(typeof turnstile!=='undefined')turnstile.reset();
     } else {
       showToast('error','Errore registrazione',result.message||'Riprova.');
     }
@@ -194,9 +180,7 @@ function submitCAFSignup(){
   });
 
   // Backend logging (non-blocking)
-  var headers={'Content-Type':'application/json'};
-  if(cafTurnstileToken)headers['X-Turnstile-Token']=cafTurnstileToken;
-  fetch('/api/caf-signup',{method:'POST',headers:headers,body:JSON.stringify({nome:nome,email:email,telefono:telefono,provincia:provincia})}).catch(function(){});
+  fetch('/api/caf-signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nome:nome,email:email,telefono:telefono,provincia:provincia})}).catch(function(){});
 }
 ['caf-nome','caf-email','caf-provincia'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',function(){clearFieldError(id)})});
 </script>
@@ -218,12 +202,6 @@ type cafSignupRequest struct {
 func CAFSignupHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
-
-	if !verifyTurnstile(getTurnstileToken(r)) {
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(map[string]interface{}{"ok": false, "error": "Verifica di sicurezza non superata"})
 		return
 	}
 
