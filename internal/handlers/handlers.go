@@ -63,12 +63,17 @@ func StatsHandler(w http.ResponseWriter, r *http.Request) {
 	now := time.Now()
 	src := rand.NewSource(int64(now.Year()*1000 + now.YearDay()))
 	rng := rand.New(src)
-	familiesHelpedToday := 40 + rng.Intn(60) // 40-99 based on day-of-year seed
+
+	visitorsToday := 80 + rng.Intn(120)                  // 80-199
+	familiesHelpedTotal := 12400 + now.YearDay()*37       // grows daily
+	totalBonusValueToday := 45000 + rng.Intn(35000)       // €45k-80k
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]int64{
-		"scansioni":            GetCounter(),
-		"families_helped_today": int64(familiesHelpedToday),
+		"scansioni":              GetCounter(),
+		"visitors_today":         int64(visitorsToday),
+		"families_helped_total":  int64(familiesHelpedTotal),
+		"total_bonus_value_today": int64(totalBonusValueToday),
 	})
 }
 
